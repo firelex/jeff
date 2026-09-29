@@ -206,6 +206,7 @@ ACTIVE_WINDOW_SECONDS = 15 * 60
 # Display names for every model in the comparison: family, then size (parameters in brackets when the name has none).
 MODEL_LABELS = {"Qwen/Qwen3.5-0.8B": "Qwen3.5 0.8B", "Qwen/Qwen3.5-2B": "Qwen3.5 2B",
                 "google/gemma-3-270m-it": "Gemma 3 270M (0.27B)", "google/gemma-4-E2B-it": "Gemma 4 E2B (2B)",
+                "microsoft/Phi-4-mini-instruct": "Phi-4-mini (3.8B)",
                 "answerdotai/ModernBERT-base": "ModernBERT-base (0.15B)", "answerdotai/ModernBERT-large": "ModernBERT-large (0.4B)"}
 
 

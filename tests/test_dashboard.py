@@ -161,6 +161,7 @@ def test_model_labels_name_family_and_size_or_fail() -> None:
     assert dashboard.model_size("Qwen/Qwen3.5-0.8B") == "Qwen3.5 0.8B" and dashboard.model_size("Qwen/Qwen3.5-2B") == "Qwen3.5 2B"
     assert dashboard.model_size("answerdotai/ModernBERT-large") == "ModernBERT-large (0.4B)"
     assert dashboard.model_size("google/gemma-4-E2B-it") == "Gemma 4 E2B (2B)"
+    assert dashboard.model_size("microsoft/Phi-4-mini-instruct") == "Phi-4-mini (3.8B)"
     with pytest.raises(ValueError, match="display name"):
         dashboard.model_size("some/model")
 

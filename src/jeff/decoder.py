@@ -1,4 +1,5 @@
-"""A text-only decision model for any chat decoder that transformers can load (used here for Gemma 3 and Gemma 4).
+"""A text-only decision model for any chat decoder that transformers can load (used here for Gemma 3, Gemma 4 and
+Phi-4-mini).
 
 It mirrors the Qwen DecisionModel: the same decision prompt through the model's own chat template, and a readout over
 single-token answer codes initialised from the model's output embedding rows, so training, calibration, evaluation
@@ -22,6 +23,7 @@ from jeff.types import DecisionInput, JSONValue
 DECODER_MODELS: dict[str, tuple[str, tuple[str, ...]]] = {
     "google/gemma-3-270m-it": ("ac82b4e820549b854eebf28ce6dedaf9fdfa17b3", ()),
     "google/gemma-4-E2B-it": ("3e22461f65e89153144f8adb70e3b8c2cc9845a7", ("embed_tokens_per_layer",)),
+    "microsoft/Phi-4-mini-instruct": ("cfbefacb99257ffa30c83adab238a50856ac3083", ()),
 }
 
 

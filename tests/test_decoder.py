@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 import torch
-from transformers import AutoTokenizer, Gemma3ForCausalLM, Gemma3TextConfig
+from transformers import AutoTokenizer, Gemma3ForCausalLM, Gemma3TextConfig, Phi3Config, Phi3ForCausalLM
 
 from jeff import decoder
 from jeff.decoder import DECODER_MODELS, GenericDecoderDecisionModel
@@ -64,6 +64,25 @@ def test_save_load_round_trip_through_the_factory(tiny_base: Path, tmp_path: Pat
     assert all(abs(a - b) < 1e-5 for pa, pb in zip(before, after) for a, b in zip(pa, pb))
 
 
-def test_factory_routes_gemma_names_and_keeps_qwen() -> None:
+def test_factory_routes_gemma_and_phi_names_and_keeps_qwen() -> None:
     assert architecture(None, "google/gemma-4-E2B-it") == "decoder-generic"
+    assert architecture(None, "microsoft/Phi-4-mini-instruct") == "decoder-generic"
     assert architecture(None, "Qwen/Qwen3.5-0.8B") == "qwen"
+
+
+def test_phi4_mini_tokenizer_and_chat_template_give_a_readout(tmp_path: Path) -> None:
+    """A tiny random Phi-3 architecture model with the real Phi-4-mini tokenizer and chat template."""
+    base = "microsoft/Phi-4-mini-instruct"
+    revision = DECODER_MODELS[base][0]
+    tokenizer = AutoTokenizer.from_pretrained(base, revision=revision)
+    config = Phi3Config(vocab_size=len(tokenizer), hidden_size=32, intermediate_size=64, num_hidden_layers=2,
+                        num_attention_heads=2, num_key_value_heads=1, pad_token_id=tokenizer.pad_token_id,
+                        tie_word_embeddings=True)
+    config.architectures = ["Phi3ForCausalLM"]
+    torch.manual_seed(0)
+    Phi3ForCausalLM(config).save_pretrained(tmp_path)
+    tokenizer.save_pretrained(tmp_path)
+    m = GenericDecoderDecisionModel(base_model=str(tmp_path), revision=revision, device="cpu")
+    assert m.codes[:3] == ["A", "B", "C"] and len(m.codes) == 255
+    probabilities = m.predict(ROWS)
+    assert [len(p) for p in probabilities] == [3, 2] and all(abs(sum(p) - 1) < 1e-5 for p in probabilities)

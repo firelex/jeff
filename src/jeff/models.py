@@ -1,5 +1,5 @@
 """Choose the decision model architecture: the Qwen decoder (DecisionModel), any other chat decoder
-(GenericDecoderDecisionModel, e.g. Gemma) or the ModernBERT encoder."""
+(GenericDecoderDecisionModel, e.g. Gemma or Phi-4-mini) or the ModernBERT encoder."""
 
 import json
 import os
