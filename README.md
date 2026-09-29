@@ -27,14 +27,21 @@ makers of Jev. Our training code starts from the open-source [AutoJev](https://g
 ## Quick start
 
 ```bash
-uv sync
+uv sync --extra server --no-dev
 uv run hf download mstrasser/Jeff-Qwen3.5-0.8B --local-dir checkpoints/jeff-0.8b
 
 # NVIDIA GPU or CPU (PyTorch)
 JEFF_CHECKPOINT=checkpoints/jeff-0.8b PORT=8765 uv run jeff-serve
 # Apple silicon (MLX, much faster on a Mac; Qwen models only)
-uv sync --extra mac
+uv sync --extra server --extra mac --no-dev
 JEFF_BACKEND=mlx JEFF_CHECKPOINT=checkpoints/jeff-0.8b PORT=8765 uv run jeff-serve
+```
+
+`server` is the small inference-only dependency profile. For training, evaluation, and tests, install the full
+development environment instead:
+
+```bash
+uv sync
 ```
 
 ```bash

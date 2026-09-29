@@ -5,26 +5,25 @@ description = "One-pass decisions with full-weight supervised training"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+]
+
+[project.optional-dependencies]
+# Dependencies needed to load a checkpoint and run jeff-serve.
+server = [
   "torch==2.14.0",
-  "torchvision==0.29.0",
   "transformers==5.17.0",
   "accelerate==1.15.0",
   "pillow==12.3.0",
   "fastapi==0.141.1",
   "uvicorn==0.52.4",
-  "httpx==0.28.1",
-  "python-dotenv==1.2.3",
-  "datasets==5.0.1",
-  "matplotlib==3.11.2",
   "kernels==0.16.1",
   "flash-linear-attention==0.5.2",
   "safetensors==0.8.0",
   "numpy==2.5.3",
   "huggingface-hub==1.31.0",
-  "imageio-ffmpeg>=0.6",
+  "torchvision==0.29.0",
 ]
 
-[project.optional-dependencies]
 # Apple silicon serving (JEFF_BACKEND=mlx)
 mac = ["mlx-lm==0.31.3"]
 # Game tests (python -m jeff.games) and their videos
@@ -59,7 +58,27 @@ build-backend = "hatchling.build"
 required-version = ">=0.12.19"
 
 [dependency-groups]
-dev = ["mypy>=2.3.1", "pytest>=8.4"]
+dev = [
+  "torch==2.14.0",
+  "torchvision==0.29.0",
+  "transformers==5.17.0",
+  "accelerate==1.15.0",
+  "pillow==12.3.0",
+  "fastapi==0.141.1",
+  "uvicorn==0.52.4",
+  "httpx==0.28.1",
+  "python-dotenv==1.2.3",
+  "datasets==5.0.1",
+  "matplotlib==3.11.2",
+  "kernels==0.16.1",
+  "flash-linear-attention==0.5.2",
+  "safetensors==0.8.0",
+  "numpy==2.5.3",
+  "huggingface-hub==1.31.0",
+  "imageio-ffmpeg>=0.6",
+  "mypy>=2.3.1",
+  "pytest>=8.4",
+]
 
 [tool.mypy]
 files = ["src/jeff"]
