@@ -13,6 +13,7 @@ from typing import NotRequired, TypedDict, cast
 import numpy as np
 from numpy.typing import NDArray
 
+from jeff.orders import check_orders, restore_order, reverse_row
 from jeff.types import Example, JSONValue, Label, Question
 
 
@@ -35,6 +36,7 @@ class Prediction(TypedDict):
     confidence: float
     temperature: float
     logits: NotRequired[list[float]]
+    reversed_logits: NotRequired[list[float]]  # answering twice: the reversed pass, put back in the option order
     soft_target: NotRequired[list[float]]
     answer: NotRequired[dict[str, JSONValue]]
     model: NotRequired[str]
@@ -91,7 +93,11 @@ def options(question: Question) -> list[Label]:
         return [False, True]
     if question["type"] == "choice":
         return list(question["criteria"])
-    raise ValueError("The accuracy/calibration experiment includes Choice and Noul only")
+    if question["type"] == "score":
+        # Levels 0..n-1 in their given order, as jeff.model.options builds the served prompt (never shuffled); the hard
+        # label is the level's index (an int), a soft target a list with one probability per level.
+        return list(range(len(question["criteria"])))
+    raise ValueError(f"Unknown question type {question['type']!r}")
 
 
 def hard_label(row: Example) -> Label:
@@ -149,30 +155,51 @@ def make_prediction(
     return result
 
 
+def scaled_softmax(row: Example, values: Sequence[float], temperature: float) -> tuple[FloatArray, FloatArray]:
+    """The row's valid logits and their probabilities at this temperature."""
+    count = len(options(row["question"]))
+    raw = np.asarray(values[:count], dtype=np.float64)
+    if len(raw) != count or not np.isfinite(raw).all():
+        raise ValueError(f"Missing or nonfinite valid logits: {row['id']}")
+    shifted = (raw - raw.max()) / temperature
+    probabilities = np.exp(shifted)
+    probabilities /= probabilities.sum()
+    return raw, probabilities
+
+
 def evaluate_logits(
     rows: Sequence[Example], logits: Sequence[Sequence[float]], temperature: float = 1.0,
+    reversed_logits: Sequence[Sequence[float]] | None = None,
 ) -> list[Prediction]:
+    """reversed_logits (answering twice) are each row's logits with its options reversed (jeff.orders.reverse_row);
+    the probabilities of the two orders are averaged per option."""
     if len(rows) != len(logits) or not math.isfinite(temperature) or temperature <= 0:
         raise ValueError("Logit rows must match examples and temperature must be positive")
+    if reversed_logits is not None and len(reversed_logits) != len(rows):
+        raise ValueError("Reversed-order logit rows must match examples")
     result: list[Prediction] = []
-    for row, values in zip(rows, logits, strict=True):
-        count = len(options(row["question"]))
-        raw = np.asarray(values[:count], dtype=np.float64)
-        if len(raw) != count or not np.isfinite(raw).all():
-            raise ValueError(f"Missing or nonfinite valid logits: {row['id']}")
-        shifted = (raw - raw.max()) / temperature
-        probabilities = np.exp(shifted)
-        probabilities /= probabilities.sum()
-        prediction = make_prediction(row, probabilities.tolist(), temperature=temperature)
+    for index, (row, values) in enumerate(zip(rows, logits, strict=True)):
+        raw, probabilities = scaled_softmax(row, values, temperature)
+        if reversed_logits is None:
+            prediction = make_prediction(row, probabilities.tolist(), temperature=temperature)
+        else:
+            raw_reversed, probabilities_reversed = scaled_softmax(row, reversed_logits[index], temperature)
+            restored = np.asarray(restore_order(row["question"], probabilities_reversed.tolist()), dtype=np.float64)
+            prediction = make_prediction(row, ((probabilities + restored) / 2).tolist(), temperature=temperature)
+            prediction["reversed_logits"] = restore_order(row["question"], raw_reversed.tolist())
         prediction["logits"] = raw.tolist()
         result.append(prediction)
     validate_coverage(rows, result)
     return result
 
 
-def predict_local(rows: Sequence[Example], infer: Infer, temperature: float = 1.0) -> list[Prediction]:
-    """The model adapter returns raw logits in the supplied row/option order."""
-    return evaluate_logits(rows, infer(rows), temperature)
+def predict_local(rows: Sequence[Example], infer: Infer, temperature: float = 1.0, orders: int = 1) -> list[Prediction]:
+    """The model adapter returns raw logits in the supplied row/option order. Two orders also score every row with
+    its options reversed and average the two probability distributions (jeff.orders)."""
+    check_orders(orders)
+    if orders == 1:
+        return evaluate_logits(rows, infer(rows), temperature)
+    return evaluate_logits(rows, infer(rows), temperature, infer([reverse_row(row) for row in rows]))
 
 
 def fit_temperature(logits: Sequence[Sequence[float]], target_indices: Sequence[int]) -> float:
@@ -355,6 +382,14 @@ def compare(
     }
 
 
+def saved_orders(predictions: Sequence[Prediction]) -> int:
+    """How many option orders saved predictions averaged: 2 when every row kept its reversed-pass logits."""
+    twice = sum("reversed_logits" in row for row in predictions)
+    if twice not in (0, len(predictions)):
+        raise ValueError(f"{twice} of {len(predictions)} saved predictions averaged two option orders; expected all or none")
+    return 2 if twice else 1
+
+
 def read_rows(path: Path) -> list[Example]:
     with path.open(encoding="utf-8") as stream:
         return [cast(Example, json.loads(line)) for line in stream if line.strip()]
@@ -382,6 +417,7 @@ class Arguments(argparse.Namespace):
     calibration: Path | None
     batch_size: int
     temperature: float | None
+    orders: int
 
 
 def parse_arguments(argv: list[str] | None = None) -> Arguments:
@@ -397,13 +433,16 @@ def parse_arguments(argv: list[str] | None = None) -> Arguments:
     parser.add_argument("--calibration", type=Path, help="Fit the temperature on these rows, then score --data with it (untrained base only)")
     parser.add_argument("--batch-size", type=int, default=8)
     parser.add_argument("--temperature", type=float, help="Override the checkpoint temperature; use 1 for raw results")
+    parser.add_argument("--orders", type=int, choices=(1, 2), default=1,
+                        help="1: score the options in the given order. 2: also score them reversed and average the two "
+                             "probability distributions (reduces position bias; twice the cost)")
     args = parser.parse_args(argv, namespace=Arguments())
     if args.local == (args.predictions is not None):
         parser.error("Choose exactly one of --local or --predictions")
     if args.batch_size < 1:
         parser.error("--batch-size must be positive")
-    if not args.local and (args.checkpoint is not None or args.temperature is not None):
-        parser.error("--checkpoint and --temperature require --local")
+    if not args.local and (args.checkpoint is not None or args.temperature is not None or args.orders != 1):
+        parser.error("--checkpoint, --temperature and --orders require --local")
     if bool(args.base_model) != bool(args.revision):
         parser.error("--base-model and --revision must be supplied together")
     if args.base_model and (not args.local or args.checkpoint is not None):
@@ -445,11 +484,15 @@ def main() -> None:
 
         if args.calibration is not None:
             calibration_rows = read_rows(args.calibration)
-            scale = fit_temperature(infer(calibration_rows),
-                                    [label_index(options(row["question"]), hard_label(row)) for row in calibration_rows])
+            targets = [label_index(options(row["question"]), hard_label(row)) for row in calibration_rows]
+            calibration_logits = list(infer(calibration_rows))
+            if args.orders == 2:  # one temperature for both orders: fit it on both passes, targets put in reverse too
+                calibration_logits += infer([reverse_row(row) for row in calibration_rows])
+                targets += [len(options(row["question"])) - 1 - target for row, target in zip(calibration_rows, targets)]
+            scale = fit_temperature(calibration_logits, targets)
             identity["calibration_sha256"] = hashlib.sha256(args.calibration.read_bytes()).hexdigest()
-        predictions = predict_local(rows, infer, scale)
-        identity.update({"model": model.base_model, "revision": model.revision, "temperature": scale,
+        predictions = predict_local(rows, infer, scale, args.orders)
+        identity.update({"model": model.base_model, "revision": model.revision, "temperature": scale, "orders": args.orders,
                          "checkpoint": str(args.checkpoint.resolve()) if args.checkpoint else None, "endpoint": "local"})
         if args.checkpoint is not None:
             identity["checkpoint_config_sha256"] = hashlib.sha256((args.checkpoint / "decision_config.json").read_bytes()).hexdigest()
@@ -463,6 +506,7 @@ def main() -> None:
         "overall": metrics(predictions), "by_suite": {suite: metrics([row for row in predictions if row["suite"] == suite])
                                                      for suite in sorted({row["suite"] for row in predictions})},
         "ece_bins": ECE_BINS, "labels": "hard reference labels; soft diagnostics are separate",
+        "orders": args.orders if args.predictions is None else saved_orders(predictions),
         "observed_models": sorted({row["model"] for row in predictions if "model" in row}),
         "observed_providers": sorted({row["provider"] for row in predictions if "provider" in row}),
     }

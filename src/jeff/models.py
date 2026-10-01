@@ -43,6 +43,10 @@ def device_from_environment() -> str | None:
 
 
 def load_decision_model(checkpoint: str | Path | None = None, **kwargs: Any) -> torch.nn.Module:
+    """A checkpoint that is a LoRA adapter loads its base checkpoint with the adapter attached (jeff.lora)."""
+    if checkpoint is not None and "adapter" in json.loads((Path(checkpoint) / "decision_config.json").read_text()):
+        from jeff.lora import load_adapted
+        return load_adapted(checkpoint, **kwargs)
     kind = architecture(checkpoint, kwargs.get("base_model"))
     layout = kwargs.pop("prompt_layout", None)
     if layout is not None and kind != "qwen":

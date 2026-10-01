@@ -24,6 +24,7 @@ class ChoiceQuestion(QuestionBase):
 class NoulQuestion(QuestionBase):
     type: Literal["noul"]
     criteria: NotRequired[dict[Literal["true", "false"], Content | None] | None]
+    true_first: NotRequired[bool]  # list "true" before "false"; set only by jeff.orders for the reversed pass
 
 
 class ScoreQuestion(QuestionBase):
@@ -75,6 +76,7 @@ type Answer = ChoiceAnswer | NoulAnswer | ScoreAnswer
 class Usage(TypedDict, total=False):
     input_tokens: int
     output_tokens: int
+    orders: int  # 2 when each question was answered twice, the second time with its options reversed
 
 
 class DecisionResponse(TypedDict):

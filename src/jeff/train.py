@@ -1,4 +1,4 @@
-"""Full-weight cross-entropy training with periodic, fixed-fold evaluation."""
+"""Cross-entropy training (full weights, or a LoRA adapter with --lora-rank) with periodic, fixed-fold evaluation."""
 
 import argparse
 import copy
@@ -65,6 +65,10 @@ class Arguments(argparse.Namespace):
     resume: str | None
     initial_checkpoint: str | None
     cpu_threads: int
+    lora_rank: int | None
+    lora_alpha: int | None
+    lora_dropout: float | None
+    readout_lr: float | None
 
 
 def digest(path: str | Path) -> str:
@@ -381,7 +385,11 @@ def save_checkpoint(model: DecisionModel, root: Path, temperature: float, step: 
         metadata["initial_artifact"] = initial_artifact
     if training_schedule is not None:
         metadata["training_schedule"] = training_schedule
-    model.save(destination, temperature=temperature, **metadata)
+    if getattr(model, "adapter", None) is not None:  # a LoRA run saves only its adapter
+        from jeff.lora import save_adapter
+        save_adapter(model, destination, temperature=temperature, **metadata)
+    else:
+        model.save(destination, temperature=temperature, **metadata)
     for file in destination.rglob("*"):
         if file.is_file():
             with file.open("rb") as stream:
@@ -454,7 +462,17 @@ def main() -> None:
     parser.add_argument("--cpu-threads", type=int, default=32)
     parser.add_argument("--prompt-layout", choices=PROMPT_LAYOUTS,
                         help="Prompt order the model is trained (and later served) with; default: the initial checkpoint's, else state-first")
+    parser.add_argument("--lora-rank", type=int, help="Train a LoRA adapter of this rank on the frozen --initial-checkpoint instead of all weights (needs the lora extra: peft)")
+    parser.add_argument("--lora-alpha", type=int, help="LoRA alpha; default: twice the rank")
+    parser.add_argument("--lora-dropout", type=float, help="LoRA dropout; default: 0")
+    parser.add_argument("--readout-lr", type=float, help="Peak learning rate of the answer readout; default: --lr")
     args = parser.parse_args(namespace=Arguments())
+    if args.lora_rank is None and (args.lora_alpha is not None or args.lora_dropout is not None):
+        raise ValueError("--lora-alpha and --lora-dropout apply only with --lora-rank")
+    if args.lora_rank is not None and not args.initial_checkpoint:
+        raise ValueError("--lora-rank trains an adapter for a Jeff checkpoint: give it as --initial-checkpoint")
+    if args.readout_lr is not None and not (math.isfinite(args.readout_lr) and args.readout_lr > 0):
+        raise ValueError("--readout-lr must be positive")
     if min(args.epochs, args.batch_size, args.effective_batch_size, args.token_budget, args.eval_every, args.public_eval_every, args.resume_every, args.quick_eval_every) < 1:
         raise ValueError("Batch, epoch and interval settings must be positive")
     if args.patience is not None and args.patience < 1:
@@ -541,6 +559,8 @@ def main() -> None:
     code_hashes = {name: digest(package / name) for name in ("train.py", "model.py", "encoder.py", "decoder.py", "models.py", "optim.py", "evaluate.py", "types.py", "events.py")}
     if scheduled:
         code_hashes["sft_pipeline.py"] = digest(package / "sft_pipeline.py")
+    if args.lora_rank is not None:
+        code_hashes["lora.py"] = digest(package / "lora.py")
     code_hashes["uv.lock"] = digest(package.parents[1] / "uv.lock")
     config = {**vars(args), "data_sha256": hashes, "code_sha256": code_hashes, "git_commit": revision,
               "initial_artifact": initial_artifact, "events_path": os.getenv("JEFF_EVENTS", "progress/events.jsonl"),
@@ -558,7 +578,12 @@ def main() -> None:
     model = load_decision_model(checkpoint=args.initial_checkpoint, train=True, base_model=args.base_model,
                           revision=args.revision, cache_dir=args.cache_dir, gradient_checkpointing=True,
                           cpu_threads=args.cpu_threads, prompt_layout=args.prompt_layout)
-    optimizer = CPUOffloadAdamW(model.named_parameters(), lr=args.lr, weight_decay=args.weight_decay)
+    if args.lora_rank is not None:
+        from jeff.lora import LoraSettings, attach
+        attach(model, LoraSettings(args.lora_rank, 2 * args.lora_rank if args.lora_alpha is None else args.lora_alpha,
+                                   0.0 if args.lora_dropout is None else args.lora_dropout), cast(str, args.initial_checkpoint))
+    readout_rates = {name: args.readout_lr for name, _ in model.named_parameters() if name.startswith("readout.")} if args.readout_lr is not None else None
+    optimizer = CPUOffloadAdamW(model.named_parameters(), lr=args.lr, weight_decay=args.weight_decay, learning_rates=readout_rates)
     parameters = [parameter for parameter in model.parameters() if parameter.requires_grad]
     groups: list[list[Example]] = []
     for epoch in range(args.epochs):
@@ -740,7 +765,7 @@ def main() -> None:
         warmup = max(1, int(0.05 * total_steps))
         factor = step / warmup if step <= warmup else 0.1 + 0.45 * (1 + math.cos(math.pi * (step - warmup) / max(1, total_steps - warmup)))
         for group_parameters in optimizer.param_groups:
-            group_parameters["lr"] = args.lr * factor
+            group_parameters["lr"] = group_parameters["peak_lr"] * factor
         optimizer_started = time.monotonic()
         optimizer.step()
         torch.cuda.synchronize()

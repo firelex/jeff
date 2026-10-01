@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # The recipe behind the released models (v1.1): build the training set from every source, then train and score the
-# 0.8B and 2B students (ONE epoch each), each scored at its FINAL checkpoint on the panel, JevBench, documents, voice and
+# 0.8B and 2B students (ONE epoch each), each scored at its FINAL checkpoint on the panel (answered once and
+# answered twice: options also reversed, probabilities averaged), JevBench, documents, voice and
 # long-list sets. (Jeff-Gemma4-E2B is v1.0: same recipe without the long lists, lr 2e-5.)
 #
 # Usage: scripts/train_all.sh SYNTHETIC_JSONL
@@ -19,6 +20,8 @@ uv run jeff-mix --public-only --panel-layout --adversarial --escape --extra data
 score() {  # RUN
   local ckpt=checkpoints/$1/final  # the end of the epoch (v1.1 onwards)
   uv run jeff-evaluate --data data/panel.jsonl --output "runs/eval/$1-calibrated.json" --local --checkpoint "$ckpt" --batch-size 16
+  # the panel again, answered twice (options in the given and the reversed order, probabilities averaged)
+  uv run jeff-evaluate --data data/panel.jsonl --output "runs/eval/$1-calibrated-orders2.json" --local --checkpoint "$ckpt" --batch-size 16 --orders 2
   uv run jeff-evaluate --data data/jevbench-hard.jsonl --output "runs/eval/jevbench/$1-calibrated.json" --local --checkpoint "$ckpt" --batch-size 4
   uv run jeff-evaluate --data data/documents/check.jsonl --output "runs/eval/documents/$1-calibrated.json" --local --checkpoint "$ckpt" --batch-size 8
   uv run jeff-evaluate --data data/voice/test.jsonl --output "runs/eval/voice/$1-calibrated.json" --local --checkpoint "$ckpt" --batch-size 8

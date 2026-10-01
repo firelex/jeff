@@ -1,147 +1,178 @@
-# Jeff
+<p align="center">
+  <a href="https://jeffhub.ai"><img src="assets/jeff-logo.png" width="200" alt="Jeff"></a>
+</p>
 
-> **New: v1.1 (29 September 2026).** Jeff-Qwen3.5-0.8B and Jeff-Qwen3.5-2B now choose among up to **254 options**
-> (v1.0: 26), with better calibration. On our long-list test the 0.8B goes from 40% to 95%. The 2B's benchmark score
-> dips from 83.1% to 82.0%. Details in the [changelog](#changelog); v1.0 stays available on Hugging Face as
-> revision `v1.0`.
+<h1 align="center">Jeff</h1>
 
-**Fine-tunes of Qwen3.5 and Gemma 4 for zero-shot classification: small, fast decision models you slot into your
-code, with the same request format as Jev.** You describe a situation and list the options in plain words; Jeff returns a
-calibrated probability for each option from a single forward pass. No generated text, no parsing: about **22 ms** per
-decision on an RTX PRO 6000 and **28 ms** on an Apple M4 Max (MLX).
+<p align="center"><b>Millisecond decisions. Any domain.</b></p>
 
-Zero-shot means the options can be anything: support queues, user intents, moderation labels, voice commands, game
-moves. Your categories don't need to appear in the training data; you describe them, and Jeff picks.
+<p align="center">
+  <a href="https://jeffhub.ai"><b>jeffhub.ai</b></a> ·
+  <a href="https://huggingface.co/mstrasser">Hugging Face</a> ·
+  <a href="#nine-adapters">Adapters</a> ·
+  <a href="#quick-start">Quick start</a> ·
+  <a href="#changelog">Changelog</a>
+</p>
 
-**What it is, and what it isn't.** These are very small models. They make extremely fast, well-calibrated judgement
-calls between options, and they slot easily into your local code. On benchmarks they approach, and sometimes beat, Jev;
-but at this size their reasoning won't match Jev's, which runs on a much larger model. If zero-shot accuracy isn't
-good enough for your purposes, a short fine-tune on your own examples takes you much further: our
-voice-navigation fine-tune moved held-out accuracy from 31.7% to 95.8% in under half an hour on one GPU.
+<!-- Sources of the numbers: the comparison with Qwen3.8-27B and every adapter result from jeff-reference-app
+     results/jeffhub.json (also on jeffhub.ai); base-model scores from ~/jev/runs/eval/**/{0.8b-20260929-2258,
+     2b-20260930-2347}-final-calibrated.json (v1.2) and {0.8b-20260929-0834,2b-20260929-1118}-final-calibrated.json (v1.1)
+     on the training machine; sizes: model.safetensors of the v1.2 base is 1,706,027,688 bytes and the legal-clauses
+     adapter 41,459,776 bytes (adapter weights + readout). -->
 
-**Built entirely on local hardware.** Training on one RTX PRO 6000 workstation GPU (the 0.8B trains in about 2 hours,
-the 2B in about 3.5), all synthetic training data written by an open model (Qwen3.8-Flash-Next) on two DGX Sparks,
-testing on a MacBook. No cloud GPUs, and no closed-model output in the training data; a closed model was used only to
-spot-check the quality of a sample of the synthetic data.
+> **Community preview: Jeff v1.2 and nine adapters (1 October 2026).** Try them and tell us what works
+> ([issues](https://github.com/firelex/jeff/issues)). A stable long-term-support base, **v1.3**, is due in about 36
+> hours; the official adapters will be retrained on it shortly after. Adapters don't carry over between base versions,
+> but data sets do: build yours to the [data guidelines](https://jeffhub.ai/docs) and it carries over too.
 
-**Independent project.** Jeff uses the same request format as Jev, but it is not affiliated with or endorsed by TypeSafe, the
-makers of Jev. Our training code starts from the open-source [AutoJev](https://github.com/denis-pplx/autojev) recipe.
+## Put Jeff in front of your 27B
 
-**Models on Hugging Face:** [Jeff-Qwen3.5-0.8B](https://huggingface.co/mstrasser/Jeff-Qwen3.5-0.8B) · [Jeff-Qwen3.5-2B](https://huggingface.co/mstrasser/Jeff-Qwen3.5-2B) · [Jeff-Gemma4-E2B](https://huggingface.co/mstrasser/Jeff-Gemma4-E2B) · chess fine-tune: [Jeff-Qwen3.5-0.8B-Chess](https://huggingface.co/mstrasser/Jeff-Qwen3.5-0.8B-Chess)
+Jeff is a 0.8B open "System 1" model. Let a strong local model such as Qwen3.8-27B do the writing and planning, and let
+Jeff make the quick decisions in front of it: Jeff answers first, and only when it is unsure does the query go on to
+the 27B. Across 8 adapters\*, with the same test rows both ways:
+
+| | Qwen3.8-27B makes every decision | Jeff + adapters decide, the 27B only when Jeff is unsure |
+|---|---:|---:|
+| **Accuracy** (mean of 8 adapters\*) | 86.6% | **95.3%** |
+| **Time per decision** (mean) | 8.1 s | **0.25 s: 38× faster** |
+| **Wrong answers** | 13.4% | **4.7%: 2.8× fewer** |
+| **Memory** | 28.6 GB | **+1.96 GB** for Jeff with all nine adapters loaded (+6.9%) |
+
+On the five decisions an inbox agent makes for every message (guard, triage, support intent, tool choice, grounding)
+alone: **87.7% → 95.7%, 39× faster.**
+
+| Task | 27B alone | Jeff + adapter | Passed on to the 27B | Faster |
+|---|---:|---:|---:|---:|
+| **guard:** prompt injection and jailbreaks | 84.0% · 3.9 s | **98.0%** · 0.10 s | 0.0% | 38× |
+| **triage:** urgency and sentiment | 81.3% · 3.6 s | **91.0%** · 0.06 s | 0.0% | 59× |
+| **support-intents:** what the customer wants | 86.0% · 6.4 s | **95.3%** · 0.12 s | 0.0% | 55× |
+| **tools:** which tool an agent should call | 90.3% · 11.3 s | **98.0%** · 0.31 s | 0.0% | 36× |
+| **ground:** is the answer supported by the sources? | 96.7% · 13.2 s | 96.3% · 0.66 s | 1.7% | 20× |
+| **nav:** voice commands to on-screen items | 91.3% · 7.2 s | **97.0%** · 0.21 s | 0.0% | 35× |
+| **spam:** spam and phishing | 88.0% · 2.7 s | **98.7%** · 0.07 s | 0.0% | 37× |
+| **legal-clauses:** contract clause types | 75.0% · 16.5 s | **87.8%** · 0.47 s | 0.0% | 36× |
+| emotion\*: the strongest of 27 emotions, or neutral | 35.6% · 4.8 s | **60.6%** · 0.11 s | 0.0% | 42× |
+
+\*Emotion is left out of the averages: picking the single strongest of 27 emotions (or neutral) in short Reddit
+comments is hard even for people, and the human labels often disagree. Jeff + adapter scores 60.6% there against the
+27B's 35.6%, at 42× the speed. Including it, the average across all nine adapters is 91.4% for Jeff + adapters
+against 80.9% for the 27B, so leaving it out makes the gain shown above smaller, not larger.
+
+**How this was measured.**
+- **Setup:** an Apple M4 Max with 128 GB, both models on MLX, one at a time. Qwen3.8-27B in 8-bit, prompted to answer
+  directly (step-by-step reasoning off).
+- **Sample:** each task uses a fixed random sample of its held-out test set (300 rows; 500 for emotion and
+  legal-clauses).
+- **Times:** the mean per query from prompt to answer. When a query is passed on, Jeff's time and the 27B's both count.
+- **Threshold:** each adapter has its own confidence threshold; below it, the 27B answers too and its answer is used.
+  The threshold is the fastest that still beats the 27B by at least one point on the task's separate calibration
+  rows, fixed before the test rows were scored.
+- **Ground** is the one task where the 27B is strong. Jeff passes on its least sure 1.7% and ends up level with it
+  (96.3% against 96.7%, one question in 300) at 20× the speed.
+- **Jeff's memory** was measured on an RTX PRO 6000 with all nine adapters loaded, switching adapter on every request
+  (30 ms per decision, median).
+
+Every number, with its source, is on [jeffhub.ai](https://jeffhub.ai/results), and the comparison can be rebuilt with
+the [reference app](https://github.com/firelex/jeff-reference-app).
+
+## Nine adapters
+
+Each adapter is a LoRA add-on of about 41 MB for Jeff-Qwen3.5-0.8B v1.2, trained in one epoch on one GPU in half an
+hour to four hours. Results on each adapter's full held-out test set (accuracy, calibration error in brackets; the
+adapters never saw these rows):
+
+| Adapter | What it decides | Test rows | Qwen3.5-0.8B untrained | Jeff v1.2 alone | **Jeff v1.2 + adapter** |
+|---|---|---:|---:|---:|---:|
+| [guard](https://jeffhub.ai/adapters/guard) | Prompt-injection guard | 6,552 | 43.7% | 46.9% | **98.4%** (0.004) |
+| [triage](https://jeffhub.ai/adapters/triage) | Support ticket triage | 7,256 | 44.4% | 67.1% | **91.8%** (0.009) |
+| [support-intents](https://jeffhub.ai/adapters/support-intents) | Customer request intents | 5,577 | 33.9% | 85.1% | **96.8%** (0.006) |
+| [tools](https://jeffhub.ai/adapters/tools) | Agent tool choice | 5,157 | 18.0% | 57.8% | **97.9%** (0.004) |
+| [ground](https://jeffhub.ai/adapters/ground) | Passage re-ranking and answer grounding | 4,160 | 28.7% | 49.0% | **97.0%** (0.012) |
+| [nav](https://jeffhub.ai/adapters/nav) | Voice navigation | 3,300 | 12.6% | 23.8% | **97.0%** (0.005) |
+| [emotion](https://jeffhub.ai/adapters/emotion) | Emotion in short comments | 5,408 | 12.5% | 32.2% | **60.6%** (0.020) |
+| [spam](https://jeffhub.ai/adapters/spam) | Spam and phishing in SMS and email | 3,603 | 59.4% | 72.3% | **98.4%** (0.008) |
+| [legal-clauses](https://jeffhub.ai/adapters/legal-clauses) | Contract clause types | 9,895 | 12.5% | 66.0% | **85.7%** (0.011) |
+
+Weights and test sets: `mstrasser/Jeff-Qwen3.5-0.8B-<adapter>` on Hugging Face. Each adapter's page on
+[jeffhub.ai](https://jeffhub.ai) shows where it goes wrong, how sure it is when it is right, its data and its QA
+report. **Build your own** with the [adapter kit](examples/adapter-kit): the checks we ran on all nine (format,
+splits by group, leaks, and the shortcuts that sank our own first drafts).
+
+## What Jeff is
+
+You describe a situation and list the options in plain words; Jeff returns a calibrated probability for each option
+from a single forward pass. No generated text, no parsing. The options can be anything (support queues, intents,
+moderation labels, voice commands, tools), and they don't need to appear in the training data: that is the zero-shot
+base model. **Adapters** add near-perfect accuracy on one job each; **you pick the ones you need**, and any request that
+names no adapter goes to the untouched base. It's a small model: fast, well-calibrated choices between options, not
+multi-step reasoning.
 
 ## Quick start
 
-To serve a model you only need the serving install (`--no-default-groups` leaves out the training, data and
-evaluation packages; plain `uv sync` installs everything):
-
 ```bash
-uv sync --no-default-groups                 # CPU
-uv sync --no-default-groups --extra cuda    # NVIDIA GPU: adds the fast kernels (much slower without them)
-uv sync --no-default-groups --extra mac     # Apple silicon: adds MLX
-uv run --no-default-groups hf download mstrasser/Jeff-Qwen3.5-0.8B --local-dir checkpoints/jeff-0.8b
-
-# NVIDIA GPU or CPU (PyTorch)
-JEFF_CHECKPOINT=checkpoints/jeff-0.8b PORT=8765 uv run --no-default-groups jeff-serve
-# Apple silicon (MLX, much faster on a Mac; Qwen models only)
-JEFF_BACKEND=mlx JEFF_CHECKPOINT=checkpoints/jeff-0.8b PORT=8765 uv run --no-default-groups --extra mac jeff-serve
+git clone https://github.com/firelex/jeff && cd jeff
+uv sync --no-default-groups --extra lora          # add --extra cuda on NVIDIA GPUs, --extra mac on Apple silicon
+uv run --no-default-groups hf download mstrasser/Jeff-Qwen3.5-0.8B --revision v1.2 --local-dir Jeff-Qwen3.5-0.8B-v1.2
+for name in guard tools ground; do               # the adapters you want, one folder each
+  uv run --no-default-groups hf download mstrasser/Jeff-Qwen3.5-0.8B-$name --local-dir adapters/$name
+done
+JEFF_CHECKPOINT=Jeff-Qwen3.5-0.8B-v1.2 JEFF_ADAPTERS=adapters PORT=8765 \
+  uv run --no-default-groups --extra lora jeff-serve       # add JEFF_BACKEND=mlx and --extra mac on Apple silicon
 ```
 
-```bash
-curl -s localhost:8765/v1/systemone -H 'content-type: application/json' -d '{
-  "model": "jeff-latest",
-  "state": "Refund request: the customer says the parcel arrived crushed and wants their money back.",
-  "questions": {
-    "route": {"type": "choice", "instructions": "Which team should handle this?",
-              "criteria": {"1": "Refunds and payments", "2": "Damaged or lost parcels", "3": "Account and login problems"}},
-    "angry": {"type": "noul", "instructions": "Is the customer angry?"}
-  }
-}'
+```python
+from jeff import Client
+from jeff.client import choice_question, yes_no_question
+
+jeff = Client("http://localhost:8765", model="jeff-latest")   # the plain base; jeff.with_model("guard") for an adapter
+answers = jeff.ask("The parcel arrived crushed and I want my money back.", {
+    "team": choice_question({"refunds": "Refunds and payments", "parcels": "Damaged or lost parcels",
+                             "login": "Account and login problems"}, "Which team should handle this ticket?"),
+    "angry": yes_no_question("Is the customer angry?"),
+})
+answers.choice("team").key    # "parcels", with its probability
 ```
 
-Each answer has a probability per option, the chosen option and a confidence. Three question types: `choice` (pick one
-of up to 254 options with the v1.1 Qwen models, 26 with Jeff-Gemma4-E2B), `noul` (yes/no, returned as a probability) and `score` (a point on a scale you describe).
-Several independent questions in one request are answered together.
+Each answer has a probability per option, the chosen option and a confidence. Question types: `choice` (up to 254
+options), `noul` (yes/no) and `score` (a point on a scale). The HTTP API, the TypeScript client
+([clients/typescript](clients/typescript)), adding adapters without a restart and every option are in the
+[docs on jeffhub.ai](https://jeffhub.ai/docs). Two rules matter: never use bare numbers as option keys, and put the
+unchanging parts of a request first and the changing field last.
+
+## Data
+
+The base models' synthetic training data was written by an open model, Qwen3.8-Flash-Next, on two DGX Sparks; some
+public data sets in the mix contain text their authors generated with closed models (for example RAGTruth's model
+responses). Most of the five generated adapters' data (`ground`, `guard`, `tools`, `nav`, `triage`) was written by
+Qwen3.8-Max through Alibaba Cloud's hosted API; every row records which model wrote and checked it, and each adapter's
+card gives the counts. Every data set went through a shortcut check and an independent review before training. We
+publish weights, code and each adapter's test and calibration sets; not the training data. Sources and licences:
+[docs/data-sources.md](docs/data-sources.md).
+
+**Independent project.** Jeff uses the same request format as Jev, but is not affiliated with or endorsed by TypeSafe,
+the makers of Jev. Our training code starts from the open-source [AutoJev](https://github.com/denis-pplx/autojev)
+recipe.
 
 ## Benchmarks
 
-4,599 questions from five public benchmarks, plus JevBench's public hard tier (105 items, scored separately):
-
-![Accuracy of Jeff-Qwen3.5-0.8B, Jeff-Qwen3.5-2B and Jeff-Gemma4-E2B against Jev's published figures, per benchmark](assets/benchmarks.png)
+4,599 questions from five public benchmarks, plus JevBench's public hard tier (105 items, scored separately). The Qwen
+models are v1.2, Jeff-Gemma4-E2B v1.0:
 
 | Benchmark | Qwen3.5-0.8B untrained | Jeff-Qwen3.5-0.8B | Qwen3.5-2B untrained | Jeff-Qwen3.5-2B | Gemma 4 E2B untrained | Jeff-Gemma4-E2B | Jev (published) | AutoJev-27B (published) |
 |---|---|---|---|---|---|---|---|---|
-| **Overall (5 benchmarks)** | 45.3 | 79.1 | 46.5 | 82.0 | 62.5 | 81.6 | **83.0** | ***84.9*** |
-| BBH | 39.5 | 64.9 | 46.0 | 68.7 | 51.3 | 66.4 | **94.3** | 82.8 |
-| Financial PhraseBank | 36.0 | **95.7** | 53.4 | **94.7** | 86.0 | **96.1** | 77.0 | 84.2 |
-| JudgeBench | 56.6 | 63.1 | 57.4 | 59.4 | 46.9 | 60.6 | **78.6** | ***78.9*** |
-| RAGTruth | 49.1 | **85.6** | 35.9 | **87.7** | 63.8 | **87.4** | 77.3 | ***88.9*** |
-| WinoGrande | 49.2 | 69.0 | 52.2 | 78.8 | 51.0 | 77.4 | **90.7** | 83.3 |
-| JevBench hard (separate) | 36.2 | 46.7 | 45.7 | 57.1 | 41.0 | 48.6 | **73.3** | 70.3 |
+| **Overall (5 benchmarks)** | 45.3 | 78.7 | 46.5 | 81.7 | 62.5 | 81.6 | **83.0** | ***84.9*** |
+| BBH | 39.5 | 63.2 | 46.0 | 66.4 | 51.3 | 66.4 | **94.3** | 82.8 |
+| Financial PhraseBank | 36.0 | **96.3** | 53.4 | **95.6** | 86.0 | **96.1** | 77.0 | 84.2 |
+| JudgeBench | 56.6 | 60.9 | 57.4 | 62.0 | 46.9 | 60.6 | **78.6** | ***78.9*** |
+| RAGTruth | 49.1 | **85.5** | 35.9 | **85.5** | 63.8 | **87.4** | 77.3 | ***88.9*** |
+| WinoGrande | 49.2 | 68.7 | 52.2 | 80.7 | 51.0 | 77.4 | **90.7** | 83.3 |
+| JevBench hard (separate) | 36.2 | 44.8 | 45.7 | 57.1 | 41.0 | 48.6 | **73.3** | 70.3 |
 
 **Bold:** the winner of Jeff against Jev in each row. ***Bold italic:*** AutoJev-27B where it is the best of all models
 in the row; it is shown for reference, since the head-to-head comparison is
-with Jev. The Qwen columns are v1.1; Jeff-Gemma4-E2B is v1.0. The published Jev and AutoJev figures were measured on a different sample of the same benchmarks. Jeff's
+with Jev. The Qwen models are v1.2 and Jeff-Gemma4-E2B v1.0. The published Jev and AutoJev figures were measured on a different sample of the same benchmarks. Jeff's
 overall score comes from classification and grounding, where it matches or beats the large models; on the
 reasoning-heavy benchmarks (BBH, JudgeBench, JevBench) it stays well below them, as you would expect at this size.
-
-## Games: a zero-shot test
-
-*Measured with v1.0 of the Jeff models.*
-
-To test zero-shot performance on tasks unlike anything in the benchmarks, we had Jeff play three games. Games aren't
-the ideal zero-shot test, since a game's state isn't typical unstructured data; but they are a common, and fun, way to
-test a System 1 model. Each turn, the code describes the situation and the legal moves in words, and the model picks
-one. The options state what each move leads to (Frogger: "you would be hit by a car and lose a life"; Doom: "the
-nearest monster is a little to your left"), but never which move is right. Each result is 20 episodes, seed 1234; ▶
-opens a video of the run's first episode.
-
-Jeff-Qwen3.5-0.8B playing, zero-shot (the bold row in the table below; click a clip for the full video):
-
-<table><tr><td align="center" valign="top" width="33%"><a href="https://huggingface.co/mstrasser/Jeff-Qwen3.5-0.8B/blob/main/videos/doom-jeff-0.8b.mp4"><img src="assets/previews/doom-jeff-0.8b.gif" width="260" alt="Jeff-Qwen3.5-0.8B playing Doom"></a><br>Doom</td><td align="center" valign="top" width="33%"><a href="https://huggingface.co/mstrasser/Jeff-Qwen3.5-0.8B/blob/main/videos/frogger-jeff-0.8b.mp4"><img src="assets/previews/frogger-jeff-0.8b.gif" width="260" alt="Jeff-Qwen3.5-0.8B playing Frogger"></a><br>Frogger</td><td align="center" valign="top" width="33%"><a href="https://huggingface.co/mstrasser/Jeff-Qwen3.5-0.8B/blob/main/videos/pacman-jeff-0.8b.mp4"><img src="assets/previews/pacman-jeff-0.8b.gif" width="260" alt="Jeff-Qwen3.5-0.8B playing Pac-Man"></a><br>Pac-Man</td></tr></table>
-
-| Model | Doom, kills (monster's direction in words) | | Frogger, crossings (consequences) | | Pac-Man, pellets of 98 (consequences) | |
-|---|---|---|---|---|---|---|
-| Random moves | −0.05 | | 0 | | 11.2 | |
-| Hand-coded rule bot | 6.55 | [▶](https://huggingface.co/mstrasser/Jeff-Qwen3.5-0.8B/blob/main/videos/doom-rule-bot.mp4) | 10.25 | [▶](https://huggingface.co/mstrasser/Jeff-Qwen3.5-0.8B/blob/main/videos/frogger-rule-bot.mp4) | 94.1 | [▶](https://huggingface.co/mstrasser/Jeff-Qwen3.5-0.8B/blob/main/videos/pacman-rule-bot.mp4) |
-| Qwen3.5-0.8B, untrained | 5.0 | [▶](https://huggingface.co/mstrasser/Jeff-Qwen3.5-0.8B/blob/main/videos/doom-untrained-0.8b.mp4) | 1.0 | [▶](https://huggingface.co/mstrasser/Jeff-Qwen3.5-0.8B/blob/main/videos/frogger-untrained-0.8b.mp4) | 25.8 | [▶](https://huggingface.co/mstrasser/Jeff-Qwen3.5-0.8B/blob/main/videos/pacman-untrained-0.8b.mp4) |
-| **Jeff-Qwen3.5-0.8B** | **6.55** | [▶](https://huggingface.co/mstrasser/Jeff-Qwen3.5-0.8B/blob/main/videos/doom-jeff-0.8b.mp4) | **10.3** | [▶](https://huggingface.co/mstrasser/Jeff-Qwen3.5-0.8B/blob/main/videos/frogger-jeff-0.8b.mp4) | **57.0** | [▶](https://huggingface.co/mstrasser/Jeff-Qwen3.5-0.8B/blob/main/videos/pacman-jeff-0.8b.mp4) |
-| Qwen3.5-2B, untrained | 0.55 | [▶](https://huggingface.co/mstrasser/Jeff-Qwen3.5-0.8B/blob/main/videos/doom-untrained-2b.mp4) | 0.05 | [▶](https://huggingface.co/mstrasser/Jeff-Qwen3.5-0.8B/blob/main/videos/frogger-untrained-2b.mp4) | 72.1 | [▶](https://huggingface.co/mstrasser/Jeff-Qwen3.5-0.8B/blob/main/videos/pacman-untrained-2b.mp4) |
-| Jeff-Qwen3.5-2B | −0.9 | [▶](https://huggingface.co/mstrasser/Jeff-Qwen3.5-0.8B/blob/main/videos/doom-jeff-2b.mp4) | 6.0 | [▶](https://huggingface.co/mstrasser/Jeff-Qwen3.5-0.8B/blob/main/videos/frogger-jeff-2b.mp4) | 41.2 | [▶](https://huggingface.co/mstrasser/Jeff-Qwen3.5-0.8B/blob/main/videos/pacman-jeff-2b.mp4) |
-| Gemma 4 E2B, untrained | −0.55 | [▶](https://huggingface.co/mstrasser/Jeff-Qwen3.5-0.8B/blob/main/videos/doom-untrained-g4.mp4) | 0 | [▶](https://huggingface.co/mstrasser/Jeff-Qwen3.5-0.8B/blob/main/videos/frogger-untrained-g4.mp4) | 3.2 | [▶](https://huggingface.co/mstrasser/Jeff-Qwen3.5-0.8B/blob/main/videos/pacman-untrained-g4.mp4) |
-| Jeff-Gemma4-E2B | 0.55 | [▶](https://huggingface.co/mstrasser/Jeff-Qwen3.5-0.8B/blob/main/videos/doom-jeff-g4.mp4) | 0.15 | [▶](https://huggingface.co/mstrasser/Jeff-Qwen3.5-0.8B/blob/main/videos/frogger-jeff-g4.mp4) | 53.2 | [▶](https://huggingface.co/mstrasser/Jeff-Qwen3.5-0.8B/blob/main/videos/pacman-jeff-g4.mp4) |
-| Jev (published, Doom) | 6.55, told the aiming rule; −0.60 without it | | — | | — | |
-
-Jeff-0.8B decides in 29–49 ms per move on an M4 Max; Jev's published Doom run took 212 ms per call over its API. The
-two times were not measured on the same hardware. To play them yourself:
-
-```bash
-uv sync --extra games
-uv run python -m jeff.games --game doom --player jeff --criteria situation --url http://127.0.0.1:8765 --video --out runs/games/doom.json
-uv run python -m jeff.games --game frogger --player jeff --criteria outcomes --url http://127.0.0.1:8765 --out runs/games/frogger.json
-uv run python -m jeff.games --game pacman --player rule --out runs/games/pacman-rule.json
-```
-
-## Fine-tuning example: chess
-
-When zero-shot isn't enough, fine-tune. As a worked example we trained Jeff-Qwen3.5-0.8B on 600,000 Lichess positions,
-labelled by Stockfish, in about 3½ hours on one GPU. On 1,000 held-out chess puzzles:
-
-| Model | Puzzles solved |
-|---|---|
-| Qwen3.5-0.8B, untrained | 6.2% |
-| Jeff-Qwen3.5-0.8B, zero-shot (no chess training) | 15.5% |
-| **[Jeff-Qwen3.5-0.8B-Chess](https://huggingface.co/mstrasser/Jeff-Qwen3.5-0.8B-Chess)** | **55.8%** |
-
-It is not a strong player: about 1,000 Elo with no search, and it loses to Stockfish's weakest setting. The point is
-speed. Each move is one forward pass in tens of milliseconds, so one GPU keeps up with about 600 human blitz games at
-once.
-
-<a href="https://huggingface.co/mstrasser/Jeff-Qwen3.5-0.8B-Chess"><img src="assets/previews/chess-game63.gif" width="720"
-alt="Jeff-Qwen3.5-0.8B-Chess playing 100 blitz games at once; the featured game ends in checkmate"></a>
-
-100 games at once in real time; the featured game is its one win of the 100, a nine-move checkmate. The full video,
-results and training details are on the [model card](https://huggingface.co/mstrasser/Jeff-Qwen3.5-0.8B-Chess). The code to
-reproduce it, step by step, is in [examples/chess](examples/chess).
 
 ## Speed and size
 
@@ -156,68 +187,87 @@ from raw text to probabilities:
 | AutoJev-27B | 27B | ~54 GB | not published | — | — |
 | Jev | not disclosed | API only | 114–212 ms per call in published Doom runs, including the network | | |
 
+**With adapters** (RTX PRO 6000, through jeff-serve's request path, 675 requests mixing all nine adapters' test
+prompts):
+
+| Setting | Median per decision | GPU memory |
+|---|---:|---:|
+| Base alone | 25.9 ms | 1.74 GB |
+| Base + one adapter | 31.2 ms | 1.79 GB |
+| Base + all nine adapters, switching adapter on every request | 30.0 ms | 1.96 GB |
+| One adapter merged into the weights | 25.7 ms | 1.77 GB |
+
 ## Using it well
 
-- **Reason in code, decide with Jeff.** It's a classifier, not a planner. State what each option leads to ("this move
-  gets you hit by a car"); asked to forecast ("a car arrives in 2 turns"), it does no better than random.
-- **Wording matters enormously.** Describe options consistently: giving Frogger's goal option the same words as every
-  other forward option took one episode from 15 crossings to 23.
-- **Use short option keys and descriptive text:** `{"1": "Engagement letter"}`, not long IDs, which cost time and add
-  nothing.
+- **Reason in code, decide with Jeff.** It's a classifier, not a planner: state what each option leads to, don't ask it
+  to forecast.
+- **Wording matters.** Describe options consistently and in words; short descriptive keys (`"refunds"`), never bare
+  numbers.
 - **Ask independent questions together** in one request.
-- **Fine-tune it if zero-shot isn't enough.** A voice-navigation fine-tune on ~11k app-specific examples took about half
-  an hour on one GPU and moved held-out accuracy from 31.7% to 95.8%, at about 40 ms per decision on an M4 Max:
-  `jeff-train --initial-checkpoint <jeff> --epochs 1 ...`.
-- **Pick the size for the job.** For fast option picking the 0.8B is the sweet spot: the 2B is more cautious and plays
-  the games worse, despite scoring higher on the benchmarks.
+- **Use an adapter when zero-shot isn't enough,** or build your own with the [adapter kit](examples/adapter-kit).
 
 ## Train your own
 
-```bash
-uv run jeff-mix ...          # build the training set (public data, synthetic data, leak filter)
-scripts/train.sh RUN data/mix/public.jsonl data/mix 5e-6 40 Qwen/Qwen3.5-0.8B <revision> --epochs 1
-uv run jeff-evaluate --data data/panel.jsonl --local --checkpoint checkpoints/RUN/final --output runs/eval/RUN.json
-```
+Adapters: start with the [adapter kit](examples/adapter-kit) (format, splits by group, leak and shortcut checks,
+replay, three-way evaluation) and `jeff-train --lora-rank 16 ...`. Base models: the full pipeline is in
+[scripts/train_all.sh](scripts/train_all.sh): full-weight fine-tuning, one epoch, the final checkpoint, one fitted
+temperature; the benchmark panel is never used for selection or tuning. Every source and its licence:
+[docs/data-sources.md](docs/data-sources.md).
 
-The full pipeline (synthetic data from a local teacher, leak filter, learning-rate sweeps, dashboard) is described in
-[scripts/train_all.sh](https://github.com/firelex/jeff/blob/main/scripts/train_all.sh), and every training source with its licence in [docs/data-sources.md](https://github.com/firelex/jeff/blob/main/docs/data-sources.md). Training recipe: full-weight fine-tuning, one epoch, batches of 256, cross-entropy over the
-option letters, then one fitted temperature for calibration. From v1.1 we use the checkpoint at the end of the epoch; the benchmark
-panel is never used for selection or tuning. At least half of each training family follows the panel's layout conventions (formats only; no panel
-item is ever trained on).
+## Games and chess
+
+**The base model decides well on things it has never seen.** As a test, it plays games zero-shot (v1.0): each turn the
+code describes the situation and the legal moves in words, and Jeff picks one. Jeff-Qwen3.5-0.8B matches a hand-coded rule bot at Doom (6.55 kills) and Frogger (10.3 crossings) without ever
+seeing the games, and collects 57 of 98 Pac-Man pellets (the bot: 94). Click a clip for the full video; every model's
+results are on the [model card](https://huggingface.co/mstrasser/Jeff-Qwen3.5-0.8B).
+
+<table><tr><td align="center" valign="top" width="33%"><a href="https://huggingface.co/mstrasser/Jeff-Qwen3.5-0.8B/blob/main/videos/doom-jeff-0.8b.mp4"><img src="assets/previews/doom-jeff-0.8b.gif" width="260" alt="Jeff-Qwen3.5-0.8B playing Doom"></a><br>Doom</td><td align="center" valign="top" width="33%"><a href="https://huggingface.co/mstrasser/Jeff-Qwen3.5-0.8B/blob/main/videos/frogger-jeff-0.8b.mp4"><img src="assets/previews/frogger-jeff-0.8b.gif" width="260" alt="Jeff-Qwen3.5-0.8B playing Frogger"></a><br>Frogger</td><td align="center" valign="top" width="33%"><a href="https://huggingface.co/mstrasser/Jeff-Qwen3.5-0.8B/blob/main/videos/pacman-jeff-0.8b.mp4"><img src="assets/previews/pacman-jeff-0.8b.gif" width="260" alt="Jeff-Qwen3.5-0.8B playing Pac-Man"></a><br>Pac-Man</td></tr></table>
+
+**Chess, as a fine-tuning example:** trained on 600,000 Lichess positions in about 3½ hours on one GPU,
+[Jeff-Qwen3.5-0.8B-Chess](https://huggingface.co/mstrasser/Jeff-Qwen3.5-0.8B-Chess) solves 55.8% of 1,000 held-out
+puzzles (zero-shot Jeff: 15.5%). It's about 1,000 Elo with no search, but each move is one forward pass, so one GPU
+keeps up with about 600 blitz games at once. The scripts are in [examples/chess](examples/chess).
+
+<a href="https://huggingface.co/mstrasser/Jeff-Qwen3.5-0.8B-Chess"><img src="assets/previews/chess-game63.gif" width="720"
+alt="Jeff-Qwen3.5-0.8B-Chess playing 100 blitz games at once; the featured game ends in checkmate"></a>
 
 ## Caveats
 
-- **Option limits.** The v1.1 Qwen models are trained on lists of 20 to 254 options and accept up to 254.
-  Jeff-Gemma4-E2B is still v1.0: it picks reliably among at most 26, and the server refuses longer lists for it;
-  shortlist first.
+- **Adapters belong to one base.** The v1.2 adapters work only on Jeff-Qwen3.5-0.8B v1.2; the server refuses them on
+  any other base. v1.3 will need retrained adapters; data sets in the documented format carry over.
+- **The 27B comparison is one setup:** a fixed sample of held-out rows per task on one Mac, the 27B prompted with its
+  step-by-step reasoning off.
 - **Small models don't reason.** Expect fast, calibrated choices between the options you describe, not multi-step
-  reasoning. At 0.8B–2B parameters this holds for every model, not just Jeff.
-- **Jeff-2B is a weaker game player than Jeff-0.8B.** The untrained 2B already appears more risk-averse than the
-  untrained 0.8B, and our training seems to have made that worse. This needs more investigation.
-- **Benchmark scores don't predict game play.** The untrained Gemma 4 E2B beats the untrained Qwen models on the
-  benchmarks yet plays the games worst: right most of the time, but not reliably. Training fixed its Pac-Man (3.2 → 53.2 pellets)
-  but not its Doom or Frogger.
-- **Prompts matter.** Jev's own Doom prompt (a raw bearing number plus an aiming rule) does not work for any of our
-  models; options that state consequences in words do.
+  reasoning.
+- **Option limits:** up to 254 options for the Qwen models; Jeff-Gemma4-E2B (still v1.0) only up to 26.
 - **English and text only.**
 
 ## Changelog
 
-**v1.1 (29 September 2026): Jeff-Qwen3.5-0.8B and Jeff-Qwen3.5-2B**
-- **Long lists.** v1.0 never picked an option past the 26th, because no training question had more than 19 options
-  (thanks to @puhuk for the report, [#1](https://github.com/firelex/jeff/issues/1)). v1.1 adds 32,000 training questions
-  with 20 to 254 options, built in code ([`src/jeff/longlists.py`](src/jeff/longlists.py)) and from the MASSIVE and
-  CLINC150 training splits, and accepts up to 254 options. Long-list test (20 to 254 items): 0.8B 40.3% → 94.7%, 2B 95.2%.
-- **Final checkpoint.** v1.1 publishes the checkpoint at the end of the epoch. Picking the one with the lowest
-  development loss, as v1.0 did, chose an early, less settled checkpoint in the new runs and cost 1–2 points.
-- **Calibration** error 0.049 → 0.021 (0.8B) and 0.028 → 0.026 (2B). JevBench hard tier: 47.6% → 46.7% (0.8B),
-  53.3% → 57.1% (2B).
-- **Benchmarks:** 0.8B unchanged at 79.1%; 2B 83.1% → 82.0%, mostly on JudgeBench (64.6% → 59.4%), a small benchmark
-  where models of this size sit near chance. The 2B no longer edges past Jev's published 83.0%.
-- **Not zero-shot any more:** MASSIVE and CLINC150 (their training splits are now in the training data).
-- **Serving-only install** (`uv sync --no-default-groups`), thanks to @WavesMan ([#2](https://github.com/firelex/jeff/issues/2)).
-- Jeff-Gemma4-E2B was not retrained and stays at v1.0. v1.0 of every model stays available on Hugging Face as revision
-  `v1.0`.
+**v1.2 (1 October 2026)**: [full release notes](https://github.com/firelex/jeff/releases/tag/v1.2)
+- **Nine LoRA adapters**, served side by side on one base (`JEFF_ADAPTERS`, PyTorch and MLX), chosen per request,
+  reloaded without a restart. With the 27B behind them: 86.6% → 95.3% across 8 adapters, 38× faster.
+- **Cleaned training data** for Jeff-Qwen3.5-0.8B and -2B (284,747 questions): every overlap with our test sets
+  removed (MAUD splits by question, so all of it went), answer-length, answer-letter and option-count shortcuts
+  removed, voice navigation moved into the `nav` adapter. More honest, not smarter:
+
+  | Test | 0.8B v1.1 | 0.8B v1.2 | 2B v1.1 | 2B v1.2 |
+  |---|---:|---:|---:|---:|
+  | Benchmark panel (4,599) | 79.1% | 78.7% | 82.0% | 81.7% |
+  | Calibration error (ECE) | 0.021 | 0.028 | 0.026 | 0.021 |
+  | Long lists v2, 20–254 options (1,886, new) | – | 93.1% | – | 93.6% |
+  | Long documents (2,009) | 82.8% | 66.1% | 85.8% | 65.6% (v1.1 inflated by the leak) |
+  | Voice navigation (3,324) | 95.0% | 90.2% | 95.8% | 91.4% (now zero-shot) |
+  | JevBench hard (105) | 46.7% | 44.8% | 57.1% | 57.1% |
+
+- **Python and TypeScript clients**, **answer twice** (`"orders": 2`), `score` questions in training, and the
+  **adapter kit** (`jeff-kit`).
+- Tried and dropped: a 0.8B distilled from the 2B scored the same as v1.2 on every test.
+- **Coming: v1.3**, a long-term-support base with a fixed request format and faster serving; all adapters retrained.
+
+**v1.1 (29 September 2026):** choices among up to 254 options (v1.0: 26; thanks @puhuk,
+[#1](https://github.com/firelex/jeff/issues/1)), better calibration, the final checkpoint published, a serving-only
+install (thanks @WavesMan, [#2](https://github.com/firelex/jeff/issues/2)).
 
 **v1.0 (28 September 2026):** first release: Jeff-Qwen3.5-0.8B, Jeff-Qwen3.5-2B and Jeff-Gemma4-E2B.
 

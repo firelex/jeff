@@ -2,8 +2,10 @@
 
 import argparse
 import json
+import re
 from collections import Counter
 from pathlib import Path
+from typing import cast
 
 from jeff import adversarial, escape, layout
 from jeff.data import NearDuplicates, choose, digest, normalized, ranking, text_parts, validate, write_rows
@@ -17,18 +19,75 @@ def exact_key(row: Example) -> str:
 # A text found in this many panel items is a template (a fixed instruction or prompt), not part of any one item.
 # Real content repeats far less: a RAGTruth article appears once per model response, at most 6 times in the panel.
 SHARED_AT = 20
+# Option descriptions with at least this many words are item content (candidate answers), not labels like "Yes".
+OPTION_WORDS = 5
+WORD = re.compile(r"[^\W_]+")
+
+
+def loose(text: str) -> str:
+    """Case folded, everything but letters and digits removed, spaces collapsed: "Quiet!" and "quiet" are the same."""
+    return " ".join(WORD.findall(text.casefold()))
+
+
+def state_text(row: Example) -> str:
+    state = row["state"]
+    return loose(state if isinstance(state, str) else json.dumps(state, sort_keys=True, ensure_ascii=False))
+
+
+def option_texts(row: Example) -> list[str]:
+    question = row["question"]
+    if question["type"] != "choice":
+        return []
+    texts = [loose(value) for value in (question.get("criteria") or {}).values() if isinstance(value, str)]
+    return [text for text in texts if len(text.split()) >= OPTION_WORDS]
+
+
+def source_records(row: Example) -> set[str]:
+    """Upstream records a row comes from, when its source names them: an Amazon MASSIVE utterance id (unique across
+    MASSIVE's splits and shared by its locales), a MAUD or CUAD contract, a ContractNLI document, a ConditionalQA page. MAUD splits by question, not by
+    contract, so its train and dev rows share contracts."""
+    source = cast(dict[str, object], row.get("source") or {})
+    dataset = str(source.get("dataset", row.get("suite")))
+    records = set()
+    if dataset == "massive" and "upstream_id" in source:
+        records.add(f"massive:{str(source['upstream_id']).removeprefix('massive-')}")
+    elif dataset == "voice_navigation" and "massive_id" in source:
+        records.add(f"massive:{source['massive_id']}")
+    elif dataset == "longlists-massive" and "upstream_id" in source:
+        records.add(f"massive:{source['upstream_id']}")
+    elif dataset in ("maud", "cuad") and "contract" in source:
+        records.add(f"{dataset}:{source['contract']}")
+    elif dataset == "contract_nli" and "document" in source:
+        records.add(f"contract_nli:{source['document']}")
+    elif dataset == "conditional_qa" and "url" in source:
+        records.add(f"conditional_qa:{source['url']}")
+    return records
 
 
 class LeakGuard:
+    """Flags a row that copies an evaluation item: the same item text (exact), a near-identical long text (5-word
+    shingles, texts of 20+ words), the same state at ANY length (short texts such as voice commands included), the
+    same candidate answer in the options (5+ words, found in one evaluation item only), or the same upstream record (see source_records). Texts shared by
+    SHARED_AT or more evaluation items are fixed prompts and are not matched."""
+
     def __init__(self, panel: list[Example]) -> None:
         self.exact = {exact_key(row) for row in panel}
         counts = Counter(text for row in panel for text in {normalized(part) for part in text_parts(row)})
         self.near = NearDuplicates(frozenset(text for text, count in counts.items() if count >= SHARED_AT))
         for row in panel:
             self.near.add(row)
+        states = Counter(state_text(row) for row in panel)
+        options = Counter(text for row in panel for text in set(option_texts(row)))
+        self.states = {text for text, count in states.items() if text and count < SHARED_AT}
+        # A candidate answer belongs to one item; option text found in two or more items is a label (an intent name,
+        # a MAUD answer choice), not item content.
+        self.options = {text for text, count in options.items() if count == 1}
+        self.records = {record for row in panel for record in source_records(row)}
 
     def leaks(self, row: Example) -> bool:
-        return exact_key(row) in self.exact or self.near.matches(row)
+        return (exact_key(row) in self.exact or state_text(row) in self.states
+                or any(text in self.options for text in option_texts(row))
+                or not self.records.isdisjoint(source_records(row)) or self.near.matches(row))
 
 
 def read(path: Path) -> list[Example]:
@@ -81,8 +140,10 @@ def main() -> None:
     parser.add_argument("--dev", type=Path, default=Path("data/public/dev.jsonl"))
     parser.add_argument("--calibration", type=Path, default=Path("data/public/temperature.jsonl"))
     parser.add_argument("--panel", type=Path, default=Path("data/panel.jsonl"))
-    parser.add_argument("--also-exclude", type=Path, nargs="+", default=[Path("data/jevbench-hard.jsonl")],
-                        help="Further evaluation sets the leak filter protects, like the panel")
+    parser.add_argument("--also-exclude", type=Path, nargs="+",
+                        default=[Path("data/jevbench-hard.jsonl"), Path("data/documents/check.jsonl"), Path("data/voice/test.jsonl"),
+                                 Path("data/longlists-test/test.jsonl")],
+                        help="Further evaluation sets the leak filter protects, like the panel (every file must exist)")
     parser.add_argument("--size", type=int, default=50000)
     parser.add_argument("--sweep-size", type=int, default=10000)
     parser.add_argument("--seed", type=int, default=20260920)

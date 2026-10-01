@@ -150,6 +150,9 @@ class GenericDecoderDecisionModel(torch.nn.Module):
         return distributions
 
     def save(self, directory: str | Path, temperature: float | None = None, **metadata: JSONValue) -> None:
+        if hasattr(self.backbone, "peft_config") or getattr(self, "merged_adapter", None) is not None \
+                or any(type(module).__name__ == "LoraLinear" for module in self.backbone.modules()):  # not a plain base
+            raise ValueError("This model has LoRA adapters; save a trained adapter with jeff.lora.save_adapter")
         destination = Path(directory)
         if destination.exists() and any(destination.iterdir()):
             raise FileExistsError(f"Refusing to overwrite checkpoint contents: {destination}")

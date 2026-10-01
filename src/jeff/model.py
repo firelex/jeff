@@ -54,7 +54,10 @@ def options(question: Question) -> tuple[list[str], list[Content]]:
     if question["type"] == "score":
         return [str(i) for i in range(len(question["criteria"]))], list(question["criteria"])
     criteria_noul = question.get("criteria") or {}
-    return ["false", "true"], [criteria_noul.get("false") or "No / false", criteria_noul.get("true") or "Yes / true"]
+    keys, descriptions = ["false", "true"], [criteria_noul.get("false") or "No / false", criteria_noul.get("true") or "Yes / true"]
+    if question.get("true_first"):  # the reversed pass of answering twice (jeff.orders)
+        return keys[::-1], descriptions[::-1]
+    return keys, descriptions
 
 
 # How the prompt is ordered; a checkpoint records its layout in decision_config.json ("prompt_layout").
@@ -102,7 +105,7 @@ def answer(question: Question, probabilities: Sequence[float]) -> Answer:
     total = sum(values)
     values = [value / total for value in values]
     if question["type"] == "noul":
-        return {"type": "noul", "noul": values[1]}
+        return {"type": "noul", "noul": values[keys.index("true")]}
     best = max(range(len(values)), key=values.__getitem__)
     distribution = dict(zip(keys, values))
     if question["type"] == "choice":
@@ -248,6 +251,9 @@ class DecisionModel(torch.nn.Module):
 
     def save(self, directory: str | Path, temperature: float | None = None, **metadata: JSONValue) -> None:
         """Write a new artifact directory; the caller atomically publishes its pointer."""
+        if hasattr(self.backbone, "peft_config") or getattr(self, "merged_adapter", None) is not None \
+                or any(type(module).__name__ == "LoraLinear" for module in self.backbone.modules()):  # not a plain base
+            raise ValueError("This model has LoRA adapters; save a trained adapter with jeff.lora.save_adapter")
         destination = Path(directory)
         if destination.exists() and any(destination.iterdir()):
             raise FileExistsError(f"Refusing to overwrite checkpoint contents: {destination}")

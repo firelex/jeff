@@ -1,6 +1,6 @@
 """AdamW with exact FP32 master weights and moments kept in host memory."""
 
-from collections.abc import Iterable
+from collections.abc import Iterable, Mapping
 from typing import TypedDict, cast
 
 import torch
@@ -9,6 +9,7 @@ import torch
 class ParameterGroup(TypedDict):
     params: list[torch.Tensor]
     lr: float
+    peak_lr: float  # the scheduled rate is peak_lr times the warmup/cosine factor
 
 
 class OffloadState(TypedDict):
@@ -21,8 +22,10 @@ class OffloadState(TypedDict):
 class CPUOffloadAdamW:
     def __init__(
         self, named_parameters: Iterable[tuple[str, torch.nn.Parameter]], lr: float,
-        weight_decay: float = 0.01,
+        weight_decay: float = 0.01, learning_rates: Mapping[str, float] | None = None,
     ) -> None:
+        """`learning_rates`: peak rates for some parameters by name (for example the readout of a LoRA run); the rest use
+        `lr`. Each distinct rate is one parameter group."""
         parameters = [(name, parameter) for name, parameter in named_parameters if parameter.requires_grad]
         if not parameters:
             raise ValueError("The optimizer needs trainable parameters.")
@@ -38,7 +41,10 @@ class CPUOffloadAdamW:
                                dtype=dtype, device="cpu", pin_memory=any(parameter.is_cuda for parameter in self.parameters))
             for dtype in {parameter.dtype for parameter in self.parameters}
         }
-        self.optimizer = torch.optim.AdamW(self.masters, lr=lr, weight_decay=weight_decay, fused=True)
+        rates = [(learning_rates or {}).get(name, lr) for name in self.names]
+        groups = [{"params": [master for master, own in zip(self.masters, rates) if own == rate], "lr": rate, "peak_lr": rate}
+                  for rate in dict.fromkeys(rates)]
+        self.optimizer = torch.optim.AdamW(groups, lr=lr, weight_decay=weight_decay, fused=True)
 
     @property
     def param_groups(self) -> list[ParameterGroup]:
