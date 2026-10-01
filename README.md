@@ -43,15 +43,15 @@ alone: **87.7% → 95.7%, 39× faster.**
 
 | Task | 27B alone | Jeff + adapter | Passed on to the 27B | Faster |
 |---|---:|---:|---:|---:|
-| **guard:** prompt injection and jailbreaks | 84.0% · 3.9 s | **98.0%** · 0.10 s | 0.0% | 38× |
-| **triage:** urgency and sentiment | 81.3% · 3.6 s | **91.0%** · 0.06 s | 0.0% | 59× |
-| **support-intents:** what the customer wants | 86.0% · 6.4 s | **95.3%** · 0.12 s | 0.0% | 55× |
-| **tools:** which tool an agent should call | 90.3% · 11.3 s | **98.0%** · 0.31 s | 0.0% | 36× |
-| **ground:** is the answer supported by the sources? | 96.7% · 13.2 s | 96.3% · 0.66 s | 1.7% | 20× |
-| **nav:** voice commands to on-screen items | 91.3% · 7.2 s | **97.0%** · 0.21 s | 0.0% | 35× |
-| **spam:** spam and phishing | 88.0% · 2.7 s | **98.7%** · 0.07 s | 0.0% | 37× |
-| **legal-clauses:** contract clause types | 75.0% · 16.5 s | **87.8%** · 0.47 s | 0.0% | 36× |
-| emotion\*: the strongest of 27 emotions, or neutral | 35.6% · 4.8 s | **60.6%** · 0.11 s | 0.0% | 42× |
+| **guard:** prompt injection and jailbreaks | 84.0%<br>3.9&nbsp;s | **98.0%**<br>0.10&nbsp;s | 0.0% | 38× |
+| **triage:** urgency and sentiment | 81.3%<br>3.6&nbsp;s | **91.0%**<br>0.06&nbsp;s | 0.0% | 59× |
+| **support-intents:** what the customer wants | 86.0%<br>6.4&nbsp;s | **95.3%**<br>0.12&nbsp;s | 0.0% | 55× |
+| **tools:** which tool an agent should call | 90.3%<br>11.3&nbsp;s | **98.0%**<br>0.31&nbsp;s | 0.0% | 36× |
+| **ground:** is the answer supported by the sources? | 96.7%<br>13.2&nbsp;s | 96.3%<br>0.66&nbsp;s | 1.7% | 20× |
+| **nav:** voice commands to on-screen items | 91.3%<br>7.2&nbsp;s | **97.0%**<br>0.21&nbsp;s | 0.0% | 35× |
+| **spam:** spam and phishing | 88.0%<br>2.7&nbsp;s | **98.7%**<br>0.07&nbsp;s | 0.0% | 37× |
+| **legal-clauses:** contract clause types | 75.0%<br>16.5&nbsp;s | **87.8%**<br>0.47&nbsp;s | 0.0% | 36× |
+| emotion\*: the strongest of 27 emotions, or neutral | 35.6%<br>4.8&nbsp;s | **60.6%**<br>0.11&nbsp;s | 0.0% | 42× |
 
 \*Emotion is left out of the averages: picking the single strongest of 27 emotions (or neutral) in short Reddit
 comments is hard even for people, and the human labels often disagree. Jeff + adapter scores 60.6% there against the
