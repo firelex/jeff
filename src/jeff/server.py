@@ -288,7 +288,7 @@ async def validation_error(request: Request, error: RequestValidationError) -> J
 
 @app.get("/", response_class=HTMLResponse, include_in_schema=False)
 def playground() -> str:
-    return Path(__file__).with_name("playground.html").read_text()
+    return Path(__file__).with_name("playground.html").read_text(encoding="utf-8")
 
 
 @app.get("/health", response_model=None)
