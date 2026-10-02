@@ -29,3 +29,8 @@ checkpoints/
 logs/
 .playwright-mcp/
 _vizdoom.ini
+
+# runtime artifacts: downloaded model, adapters, server log
+Jeff-Qwen3.5-0.8B-v1.2/
+adapters/
+serve.log

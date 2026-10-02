@@ -246,7 +246,7 @@ class ArchiveRequest(BaseModel):
 
 def create_app(root: Path, gpu: Callable[[], dict] = gpu_status) -> FastAPI:
     app = FastAPI()
-    page = (Path(__file__).parent / "dashboard.html").read_text()
+    page = (Path(__file__).parent / "dashboard.html").read_text(encoding="utf-8")
 
     @app.get("/", response_class=HTMLResponse)
     def index() -> str:
