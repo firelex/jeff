@@ -20,6 +20,10 @@ def test_labelled_splits_parts_in_order_and_rejects_bad_layouts() -> None:
     assert layout.labelled("The Source: a\nResponse: b", ("Source", "Response")) is None         # label not at a line start
 
 
+def test_trailing_options_rejects_gaps_in_lettered_options() -> None:
+    assert layout.trailing_options("Question?\nA: first\nC: third") is None
+
+
 def test_pairwise_moves_the_correct_response_and_its_label_together() -> None:
     row = synthetic("pairwise_answer_quality", "Question: 2+2?\nResponse A: 4, right.\nResponse B: 5, wrong.", "A")
     panel = layout.pairwise(row, panel=True, target=1)
