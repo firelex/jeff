@@ -54,12 +54,15 @@ def trailing_options(text: str) -> tuple[str, list[str]] | None:
     """Split off the lettered option lines ("A: ...", "B: ...", in order from A) that end the text."""
     lines = text.rstrip().split("\n")
     options: list[str] = []
+    labels: list[str] = []
     while lines and (match := re.fullmatch(r"([A-Q]): (.+)", lines[-1].strip())):
+        labels.insert(0, match.group(1))
         options.insert(0, match.group(2).strip())
         lines.pop()
         if match.group(1) == "A":
             break
-    if len(options) < 2 or not lines:
+    expected = [chr(ord("A") + offset) for offset in range(len(labels))]
+    if len(options) < 2 or not lines or labels != expected:
         return None
     return "\n".join(lines).strip(), options
 
