@@ -39,9 +39,10 @@ def split_by_family(rows: Sequence[Example], shares: dict[str, float], seed: int
     order = sorted(families, key=lambda family: ranking(family, seed))
     result: dict[str, list[Example]] = {name: [] for name in SPLITS}
     position = 0
-    for name in HELD_OUT:
+    for index, name in enumerate(HELD_OUT):
         target = shares[name] * len(rows)
-        while shares[name] > 0 and position < len(order) - 1:
+        reserved = 1 + sum(shares[later] > 0 for later in HELD_OUT[index + 1:])
+        while shares[name] > 0 and position < len(order) - reserved:
             size = len(families[order[position]])
             if result[name] and abs(len(result[name]) + size - target) >= abs(len(result[name]) - target):
                 break  # the next family would take the split further from its share
