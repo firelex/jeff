@@ -88,6 +88,38 @@ def test_split_keeps_families_together(tmp_path: Path, capsys: pytest.CaptureFix
     assert "Label share per split" in capsys.readouterr().out
 
 
+@pytest.mark.parametrize(("test_share", "development_share", "calibration_share"), [
+    (0.1, 0.1, 0.1),
+    (0.1, 0.0, 0.1),
+    (0.0, 0.1, 0.1),
+    (0.1, 0.1, 0.0),
+    (0.1, 0.0, 0.0),
+    (0.0, 0.0, 0.0),
+])
+def test_split_reserves_families_for_later_splits(
+    test_share: float, development_share: float, calibration_share: float,
+) -> None:
+    families = sorted(["a", "b", "c", "d"], key=lambda family: split.ranking(family, 0))
+    examples: Any = [
+        row(f"{family}-{index}", family, "hello", "other")
+        for position, family in enumerate(families)
+        for index in range(100 if position == 3 else 1)
+    ]
+    shares = {"test": test_share, "development": development_share, "calibration": calibration_share}
+
+    result = split.split_by_family(examples, shares, 0)
+
+    assert result["train"]
+    for name, share in shares.items():
+        assert bool(result[name]) == (share > 0)
+    assigned = [{example["family"] for example in values} for values in result.values()]
+    assert sum(len(group) for group in assigned) == len(set().union(*assigned)) == 4
+    assert sorted(example["id"] for values in result.values() for example in values) == sorted(
+        example["id"] for example in examples
+    )
+    assert result == split.split_by_family(examples, shares, 0)
+
+
 def test_split_refuses_impossible_shares() -> None:
     examples: Any = rows("a", 3)
     with pytest.raises(ValueError, match="at least 4"):
