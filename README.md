@@ -79,7 +79,7 @@ feature off, thinking at full on every turn, as plain Pi runs it), on tasks Jeff
 
 - **Same quality:** 62.4% against 62.8% pass rate; paired difference −0.2 points (95% interval −2.6 to +2.1) over
   1,242 paired tasks from six benchmarks.
-- **47% faster (32% less time) per task:** a task takes 0.68× the baseline's time on average (geometric mean of the
+- **32% less time per task on average:** a task takes 0.68× the baseline's time on average (geometric mean of the
   per-task ratios, 0.64-0.72; median 0.70×). SWE-bench Verified 0.63×, SWE-rebench 0.63-0.70×, Terminal-Bench Pro
   0.63-0.66×, Harbor Index 0.71×; no clear speed-up on Terminal-Bench 2.0 (0.96×) or SkillsBench (0.91×).
 - **Total time over all tasks drops less, by 14% (0.86×, 0.80-0.93):** in about 5% of tasks Jeff-Code runs more than
