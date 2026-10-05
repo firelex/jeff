@@ -22,9 +22,14 @@
      on the training machine; sizes: model.safetensors of the v1.2 base is 1,706,027,688 bytes and the legal-clauses
      adapter 41,459,776 bytes (adapter weights + readout). -->
 
+<p align="center">
+  <b>New: <a href="https://github.com/firelex/jeff-code">Jeff-Code</a></b>, Jeff inside a coding agent with Qwen 3.8-27B:
+  <b>47% faster (32% less time) per task, same pass rate</b> (62.4% vs 62.8%, 1,242 tasks, 6 benchmarks).
+  <a href="#jeff-code">Results →</a>
+</p>
+
 > **Jeff v1.3 ([changelog](#changelog)).** A new adapter-first base, 15 adapters, GGUF files for llama.cpp, and
-> **Jeff-Code**: Qwen 3.8-27B coding tasks 47% faster (32% less time) on average at the same pass rate. v1.3 adapters work only on the v1.3
-> base; the v1.2 models stay available under their old names.
+> Jeff-Code. v1.3 adapters work only on the v1.3 base; the v1.2 models stay available under their old names.
 
 ## Put Jeff in front of your 27B
 
