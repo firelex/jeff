@@ -40,7 +40,7 @@ Jeff make the quick decisions in front of it. Across 8 adapters\*, with the same
 |---|---:|---:|---:|
 | **Accuracy** (mean of 8 adapters\*) | 86.6% | **94.6%** | 95.0% |
 | **Time per decision** (mean, Apple M4 Max) | 8.1 s | **0.25 s: 35× faster** | 0.46 s: 28× faster |
-| **Memory** | 28.6 GB | **+1.96 GB** for Jeff with all nine adapters loaded | |
+| **Memory** | 28.6 GB | **+2.09 GB** for Jeff with all 15 adapters loaded (1.83 GB with 3)\*\* | |
 
 Jeff alone already beats the 27B on every task but one; with the 27B as a fallback, Jeff passes on only the questions
 it is unsure about.
@@ -56,6 +56,9 @@ it is unsure about.
 | **spam:** spam and phishing | 88.0%<br>2.7&nbsp;s | **98.7%**<br>0.08&nbsp;s | 98.7%<br>0.08&nbsp;s | 0% |
 | **legal-clauses:** contract clause types | 75.0%<br>16.5&nbsp;s | **84.8%**<br>0.58&nbsp;s | 84.8%<br>0.58&nbsp;s | 0% |
 | emotion\*: the strongest of 27 emotions, or neutral | 35.6%<br>4.8&nbsp;s | **59.6%**<br>0.14&nbsp;s | 59.6%<br>0.14&nbsp;s | 0% |
+
+\*\*Jeff's memory is GPU memory after loading, measured on an RTX PRO 6000 with the released adapter files; the base
+alone takes 1.74 GB.
 
 \*Emotion is left out of the averages: picking the single strongest of 27 emotions (or neutral) in short Reddit
 comments is hard even for people, and the human labels often disagree. Including it makes the gain larger, not smaller.
@@ -85,8 +88,8 @@ feature off, thinking at full on every turn, as plain Pi runs it), on tasks Jeff
 - **Same quality:** 62.4% against 62.8% pass rate; paired difference −0.2 points (95% interval −2.6 to +2.1) over
   1,242 paired tasks from six benchmarks.
 - **47% faster (32% less time) per task:** a task takes 0.68× the baseline's time on average (geometric mean of the
-  per-task ratios, 0.64-0.72; median 0.70×). SWE-bench Verified 0.63×, SWE-rebench 0.63-0.70×, Terminal-Bench Pro
-  0.63-0.66×, Harbor Index 0.71×; no clear speed-up on Terminal-Bench 2.0 (0.96×) or SkillsBench (0.91×).
+  per-task ratios, 0.64-0.72; median 0.70×). SWE-bench Verified 0.63×, SWE-rebench 0.66×, Terminal-Bench Pro
+  0.64×, Harbor Index 0.71×; no clear speed-up on Terminal-Bench 2.0 (0.96×) or SkillsBench (0.91×).
 - **Total time over all tasks drops less, by 14% (0.86×, 0.80-0.93):** in about 5% of tasks Jeff-Code runs more than
   30 minutes longer, because it keeps going where Qwen alone gives up (there it solved 26 to Qwen's 24).
 - **Why not just turn thinking off?** Faster still, but 7.6 points worse (−10.6 to −4.5; −13.5 on Terminal-Bench
@@ -116,8 +119,8 @@ held-out test set (accuracy, calibration error in brackets; the adapters never s
 | [aml](https://jeffhub.ai/adapters/aml) | Anti-money-laundering review under a written policy | 36.0% | 40.5% | **95.0%** (0.012) |
 | [sanctions](https://jeffhub.ai/adapters/sanctions) | Sanctions name screening | 34.4% | 68.3% | **99.96%** (0.001) |
 | [soc](https://jeffhub.ai/adapters/soc) | Security-alert triage against a playbook | 22.1% | 33.8% | **94.1%** (0.014) |
-| [code](https://jeffhub.ai/adapters/code) | Jeff-Code: the next information-gathering step | | | see [Jeff-Code](#jeff-code) |
-| [code-router](https://jeffhub.ai/adapters/code-router) | Jeff-Code: whether Qwen should think hard | | | see [Jeff-Code](#jeff-code) |
+| [code](https://jeffhub.ai/jeff-code#code) | Jeff-Code: the next information-gathering step | | | see [Jeff-Code](#jeff-code) |
+| [code-router](https://jeffhub.ai/jeff-code#code-router) | Jeff-Code: whether Qwen should think hard | | | see [Jeff-Code](#jeff-code) |
 
 Weights: `mstrasser/jeff-adapter-<name>` on Hugging Face (revision `v1.3`), with the GGUF versions in
 `mstrasser/jeff-adapter-<name>-gguf`. **Licences differ:** sanctions and soc are CC BY-NC 4.0 because of their source
@@ -191,7 +194,7 @@ unchanging parts of a request first and the changing field last.
 
 `mstrasser/jeff-base-gguf` has the base in Q8_0 and Q4_K_M; each adapter has a small LoRA GGUF (about 169 MB) in
 `mstrasser/jeff-adapter-<name>-gguf`, loaded with `--lora`, so one base serves every adapter. Q8_0 is effectively
-lossless (within 0.4 points of full precision); Q4_K_M stays within about half a point, with its own temperature per
+lossless (within 0.4 points of full precision); Q4_K_M stays within 0.67 points (−0.61 to +0.67 per adapter), with its own temperature per
 format so the probabilities stay calibrated. Run Jeff-Code's router on the Q8_0 base: its decisions are close calls,
 and Q4_K_M changes about 6% of them. With llama-server, list every adapter in each request with scale 1 or 0. Details:
 [jeffhub.ai/docs/llama-cpp](https://jeffhub.ai/docs/llama-cpp).
@@ -204,7 +207,8 @@ responses). Most of the five generated adapters' data (`ground`, `guard`, `tools
 Qwen3.8-Max through Alibaba Cloud's hosted API; every row records which model wrote and checked it, and each adapter's
 card gives the counts. v1.3's new adapters use public data sets converted by scripts, and synthetic data where code simulates the scenario and fixes every label, with GLM 5.3 rewording or writing the text (it never decides a label). Every data set went through a shortcut check and an independent review before training. We
 publish weights, code and each adapter's test and calibration sets; not the training data. Sources and licences:
-[docs/data-sources.md](docs/data-sources.md).
+[docs/data-sources.md](docs/data-sources.md) (written for v1.2, not yet updated for v1.3); each v1.3 adapter's sources
+and licences are on its page on [jeffhub.ai](https://jeffhub.ai).
 
 **Independent project.** Jeff uses the same request format as Jev, but is not affiliated with or endorsed by TypeSafe,
 the makers of Jev. Our training code starts from the open-source [AutoJev](https://github.com/denis-pplx/autojev)
@@ -253,9 +257,12 @@ test prompts; v1.2 and v1.3 measured back to back on the same idle GPU, 5 Octobe
 | Base alone | 26.6 ms | 26.2 ms | 1.74 GB |
 | Base + one adapter | 31.4 ms | 30.9 ms | 1.79 GB |
 | Base + all nine adapters, switching adapter on every request | 31.8 ms | 31.5 ms | 1.96 GB |
+| Base + 3 adapters, switching on every request (released files) | 31.9 ms | | 1.83 GB |
+| Base + all 15 adapters, switching on every request (released files) | 32.1 ms | | 2.09 GB |
 | One adapter merged into the weights | 26.7 ms | 26.3 ms | 1.77 GB |
 
-GPU memory was measured with v1.2; v1.3 has the same size. Most of each decision is fixed overhead: a 251-token
+GPU memory for the base, one adapter, nine adapters and merged was measured with v1.2; v1.3 has the same size. The 3- and
+15-adapter rows are v1.3, measured on the same GPU. Most of each decision is fixed overhead: a 251-token
 prompt takes about 25 ms and a 2,569-token prompt about 33 ms.
 
 ## Using it well
@@ -273,7 +280,8 @@ Adapters: start with the [adapter kit](examples/adapter-kit) (format, splits by 
 replay, three-way evaluation) and `jeff-train --lora-rank 16 ...`. Base models: the full pipeline is in
 [scripts/train_all.sh](scripts/train_all.sh): full-weight fine-tuning, one epoch, the final checkpoint, one fitted
 temperature; the benchmark panel is never used for selection or tuning. Every source and its licence:
-[docs/data-sources.md](docs/data-sources.md).
+[docs/data-sources.md](docs/data-sources.md) (written for v1.2, not yet updated for v1.3; each v1.3 adapter's sources
+are on its page on [jeffhub.ai](https://jeffhub.ai)).
 
 ## Games and chess (earlier releases)
 
@@ -354,4 +362,5 @@ silicon, game tests and a training dashboard. The original copyright notice is k
 
 Code: MIT (including AutoJev's). Model weights: Apache 2.0. Doom harness adapted from
 [jev-plays-doom](https://github.com/tirukovelamanoj/jev-plays-doom) (MIT). Training data: see the dataset card; each
-source keeps its licence and is listed in [docs/data-sources.md](docs/data-sources.md). We release the weights and code, not the training data; some sources are share-alike (CC BY-SA).
+source keeps its licence and is listed in [docs/data-sources.md](docs/data-sources.md) (v1.2) or on the adapter's page on
+[jeffhub.ai](https://jeffhub.ai) (v1.3). We release the weights and code, not the training data; some sources are share-alike (CC BY-SA).
