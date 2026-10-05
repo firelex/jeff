@@ -240,15 +240,18 @@ from raw text to probabilities:
 | AutoJev-27B | 27B | ~54 GB | not published | — | — |
 | Jev | not disclosed | API only | 114–212 ms per call in published Doom runs, including the network | | |
 
-**With adapters** (v1.2; RTX PRO 6000, through jeff-serve's request path, 675 requests mixing all nine adapters'
-test prompts). [v1.3 GPU serving latency: being re-measured; replace this table with the v1.3 numbers before release.]
+**With adapters** (RTX PRO 6000, through jeff-serve's request path, 675 requests mixing all nine original adapters'
+test prompts; v1.2 and v1.3 measured back to back on the same idle GPU, 5 October 2026):
 
-| Setting | Median per decision | GPU memory |
-|---|---:|---:|
-| Base alone | 25.9 ms | 1.74 GB |
-| Base + one adapter | 31.2 ms | 1.79 GB |
-| Base + all nine adapters, switching adapter on every request | 30.0 ms | 1.96 GB |
-| One adapter merged into the weights | 25.7 ms | 1.77 GB |
+| Setting | v1.3 median per decision | v1.2 median | GPU memory |
+|---|---:|---:|---:|
+| Base alone | 26.6 ms | 26.2 ms | 1.74 GB |
+| Base + one adapter | 31.4 ms | 30.9 ms | 1.79 GB |
+| Base + all nine adapters, switching adapter on every request | 31.8 ms | 31.5 ms | 1.96 GB |
+| One adapter merged into the weights | 26.7 ms | 26.3 ms | 1.77 GB |
+
+GPU memory was measured with v1.2; v1.3 has the same size. Most of each decision is fixed overhead: a 251-token
+prompt takes about 25 ms and a 2,569-token prompt about 33 ms.
 
 ## Using it well
 
