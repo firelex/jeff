@@ -119,8 +119,8 @@ held-out test set (accuracy, calibration error in brackets; the adapters never s
 | [aml](https://jeffhub.ai/adapters/aml) | Anti-money-laundering review under a written policy | 36.0% | 40.5% | **95.0%** (0.012) |
 | [sanctions](https://jeffhub.ai/adapters/sanctions) | Sanctions name screening | 34.4% | 68.3% | **99.96%** (0.001) |
 | [soc](https://jeffhub.ai/adapters/soc) | Security-alert triage against a playbook | 22.1% | 33.8% | **94.1%** (0.014) |
-| [code](https://jeffhub.ai/jeff-code#code) | Jeff-Code: the next information-gathering step | | | see [Jeff-Code](#jeff-code) |
-| [code-router](https://jeffhub.ai/jeff-code#code-router) | Jeff-Code: whether Qwen should think hard | | | see [Jeff-Code](#jeff-code) |
+| [code](https://huggingface.co/mstrasser/jeff-adapter-code) | Jeff-Code: the next information-gathering step | | | see [Jeff-Code](#jeff-code) |
+| [code-router](https://huggingface.co/mstrasser/jeff-adapter-code-router) | Jeff-Code: whether Qwen should think hard | | | see [Jeff-Code](#jeff-code) |
 
 Weights: `mstrasser/jeff-adapter-<name>` on Hugging Face (revision `v1.3`), with the GGUF versions in
 `mstrasser/jeff-adapter-<name>-gguf`. **Licences differ:** sanctions and soc are CC BY-NC 4.0 because of their source
