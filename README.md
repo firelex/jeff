@@ -23,7 +23,7 @@
      adapter 41,459,776 bytes (adapter weights + readout). -->
 
 > **Jeff v1.3 ([changelog](#changelog)).** A new adapter-first base, 15 adapters, GGUF files for llama.cpp, and
-> **Jeff-Code**: Qwen 3.8-27B coding tasks take 32% less time on average at the same pass rate. v1.3 adapters work only on the v1.3
+> **Jeff-Code**: Qwen 3.8-27B coding tasks 47% faster (32% less time) on average at the same pass rate. v1.3 adapters work only on the v1.3
 > base; the v1.2 models stay available under their old names.
 
 ## Put Jeff in front of your 27B
@@ -79,7 +79,7 @@ feature off, thinking at full on every turn, as plain Pi runs it), on tasks Jeff
 
 - **Same quality:** 62.4% against 62.8% pass rate; paired difference −0.2 points (95% interval −2.6 to +2.1) over
   1,242 paired tasks from six benchmarks.
-- **32% less time per task on average:** a task takes 0.68× the baseline's time on average (geometric mean of the
+- **47% faster (32% less time) per task:** a task takes 0.68× the baseline's time on average (geometric mean of the
   per-task ratios, 0.64-0.72; median 0.70×). SWE-bench Verified 0.63×, SWE-rebench 0.63-0.70×, Terminal-Bench Pro
   0.63-0.66×, Harbor Index 0.71×; no clear speed-up on Terminal-Bench 2.0 (0.96×) or SkillsBench (0.91×).
 - **Total time over all tasks drops less, by 14% (0.86×, 0.80-0.93):** in about 5% of tasks Jeff-Code runs more than
@@ -306,7 +306,7 @@ alt="Jeff-Qwen3.5-0.8B-Chess playing 100 blitz games at once; the featured game 
 - **Adapter-first base** (`mstrasser/jeff-base`, revision v1.3): the fixed part of a request first and the changing
   input last, so prompts can be cached; trained on the same data as v1.2.
 - **15 adapters:** the nine retrained, plus trading-desk, aml, sanctions and soc, and the two Jeff-Code adapters.
-- **Jeff-Code:** Qwen 3.8-27B coding tasks take 32% less time on average at the same pass rate.
+- **Jeff-Code:** Qwen 3.8-27B coding tasks 47% faster (32% less time) on average at the same pass rate.
 - **GGUF for llama.cpp:** one base per format plus one LoRA file per adapter.
 - **New names on Hugging Face:** `jeff-base`, `jeff-adapter-<name>`, and `-gguf` versions.
 
