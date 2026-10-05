@@ -120,6 +120,8 @@ JEFF_CHECKPOINT=Jeff-Qwen3.5-0.8B-v1.2 JEFF_ADAPTERS=adapters PORT=8765 \
   uv run --no-default-groups --extra lora jeff-serve       # add JEFF_BACKEND=mlx and --extra mac on Apple silicon
 ```
 
+Overlapping `/v1/systemone` requests get `529` by default. Set `JEFF_QUEUE_MS` (milliseconds) to wait for the decision lock instead of failing immediately.
+
 ```python
 from jeff import Client
 from jeff.client import choice_question, yes_no_question

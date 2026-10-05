@@ -353,13 +353,34 @@ def predict(model: DecisionModel, body: EvaluationRequest) -> DecisionResponse:
             "usage": {"input_tokens": input_tokens, "output_tokens": 0, "orders": body.orders}}
 
 
+def decision_lock_timeout_s() -> float:
+    """Seconds to wait for the decision lock. JEFF_QUEUE_MS=0 (default) keeps the old non-blocking 529."""
+    raw = os.getenv("JEFF_QUEUE_MS", "0").strip() or "0"
+    try:
+        ms = float(raw)
+    except ValueError as error:
+        raise HTTPException(500, "JEFF_QUEUE_MS must be a number of milliseconds.") from error
+    if ms < 0:
+        raise HTTPException(500, "JEFF_QUEUE_MS must be >= 0.")
+    return ms / 1000.0
+
+
+def try_acquire_decision_lock(timeout_s: float) -> bool:
+    if timeout_s <= 0:
+        return service.lock.acquire(blocking=False)
+    return service.lock.acquire(blocking=True, timeout=timeout_s)
+
+
 @app.post("/v1/systemone", dependencies=[Depends(authenticate)], response_model=None)
 async def system_one(body: EvaluationRequest) -> DecisionResponse:
     model = service.model
     if model is None:
         raise HTTPException(503, "The model is not ready.")
     check_option_counts(body)
-    if not service.lock.acquire(blocking=False):
+    # Wait off the event loop so overlapping clients can share the lock without a busy 529
+    # when JEFF_QUEUE_MS is set (see #7). A cancelled request never holds the lock: acquire
+    # either fails before we take it, or we release in finally after predict returns/raises.
+    if not await run_in_threadpool(try_acquire_decision_lock, decision_lock_timeout_s()):
         raise HTTPException(529, "The model is busy. Retry shortly.", headers={"Retry-After": "1"})
     try:
         return await run_in_threadpool(predict, model, body)
