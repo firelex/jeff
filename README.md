@@ -9,7 +9,9 @@
 <p align="center">
   <a href="https://jeffhub.ai"><b>jeffhub.ai</b></a> ·
   <a href="https://huggingface.co/mstrasser">Hugging Face</a> ·
-  <a href="#nine-adapters">Adapters</a> ·
+  <a href="#jeff-code">Jeff-Code</a> ·
+  <a href="#adapters">Adapters</a> ·
+  <a href="#gguf-for-llamacpp">GGUF</a> ·
   <a href="#quick-start">Quick start</a> ·
   <a href="#changelog">Changelog</a>
 </p>
@@ -20,90 +22,131 @@
      on the training machine; sizes: model.safetensors of the v1.2 base is 1,706,027,688 bytes and the legal-clauses
      adapter 41,459,776 bytes (adapter weights + readout). -->
 
-> **Community preview: Jeff v1.2 and nine adapters (1 October 2026).** Try them and tell us what works
-> ([issues](https://github.com/firelex/jeff/issues)). A stable long-term-support base, **v1.3**, is due in about 36
-> hours; the official adapters will be retrained on it shortly after. Adapters don't carry over between base versions,
-> but data sets do: build yours to the [data guidelines](https://jeffhub.ai/docs) and it carries over too.
+> **Jeff v1.3 ([changelog](#changelog)).** A new adapter-first base, 15 adapters, GGUF files for llama.cpp, and
+> **Jeff-Code**: Qwen 3.8-27B coding tasks take 32% less time on average at the same pass rate. v1.3 adapters work only on the v1.3
+> base; the v1.2 models stay available under their old names.
 
 ## Put Jeff in front of your 27B
 
 Jeff is a 0.8B open "System 1" model. Let a strong local model such as Qwen3.8-27B do the writing and planning, and let
-Jeff make the quick decisions in front of it: Jeff answers first, and only when it is unsure does the query go on to
-the 27B. Across 8 adapters\*, with the same test rows both ways:
+Jeff make the quick decisions in front of it. Across 8 adapters\*, with the same test rows each way:
 
-| | Qwen3.8-27B makes every decision | Jeff + adapters decide, the 27B only when Jeff is unsure |
-|---|---:|---:|
-| **Accuracy** (mean of 8 adapters\*) | 86.6% | **95.3%** |
-| **Time per decision** (mean) | 8.1 s | **0.25 s: 38× faster** |
-| **Wrong answers** | 13.4% | **4.7%: 2.8× fewer** |
-| **Memory** | 28.6 GB | **+1.96 GB** for Jeff with all nine adapters loaded (+6.9%) |
+| | Qwen3.8-27B makes every decision | **Jeff + adapter alone** | Jeff first, the 27B only when Jeff is unsure |
+|---|---:|---:|---:|
+| **Accuracy** (mean of 8 adapters\*) | 86.6% | **94.6%** | 95.0% |
+| **Time per decision** (mean, Apple M4 Max) | 8.1 s | **0.25 s: 35× faster** | 0.46 s: 28× faster |
+| **Memory** | 28.6 GB | **+1.96 GB** for Jeff with all nine adapters loaded | |
 
-On the five decisions an inbox agent makes for every message (guard, triage, support intent, tool choice, grounding)
-alone: **87.7% → 95.7%, 39× faster.**
+Jeff alone already beats the 27B on every task but one; with the 27B as a fallback, Jeff passes on only the questions
+it is unsure about.
 
-| Task | 27B alone | Jeff + adapter | Passed on to the 27B | Faster |
+| Task | 27B alone | Jeff + adapter | Jeff, 27B as fallback | Passed on |
 |---|---:|---:|---:|---:|
-| **guard:** prompt injection and jailbreaks | 84.0%<br>3.9&nbsp;s | **98.0%**<br>0.10&nbsp;s | 0.0% | 38× |
-| **triage:** urgency and sentiment | 81.3%<br>3.6&nbsp;s | **91.0%**<br>0.06&nbsp;s | 0.0% | 59× |
-| **support-intents:** what the customer wants | 86.0%<br>6.4&nbsp;s | **95.3%**<br>0.12&nbsp;s | 0.0% | 55× |
-| **tools:** which tool an agent should call | 90.3%<br>11.3&nbsp;s | **98.0%**<br>0.31&nbsp;s | 0.0% | 36× |
-| **ground:** is the answer supported by the sources? | 96.7%<br>13.2&nbsp;s | 96.3%<br>0.66&nbsp;s | 1.7% | 20× |
-| **nav:** voice commands to on-screen items | 91.3%<br>7.2&nbsp;s | **97.0%**<br>0.21&nbsp;s | 0.0% | 35× |
-| **spam:** spam and phishing | 88.0%<br>2.7&nbsp;s | **98.7%**<br>0.07&nbsp;s | 0.0% | 37× |
-| **legal-clauses:** contract clause types | 75.0%<br>16.5&nbsp;s | **87.8%**<br>0.47&nbsp;s | 0.0% | 36× |
-| emotion\*: the strongest of 27 emotions, or neutral | 35.6%<br>4.8&nbsp;s | **60.6%**<br>0.11&nbsp;s | 0.0% | 42× |
+| **guard:** prompt injection and jailbreaks | 84.0%<br>3.9&nbsp;s | **98.7%**<br>0.07&nbsp;s | 98.7%<br>0.07&nbsp;s | 0% |
+| **triage:** urgency and sentiment | 81.3%<br>3.6&nbsp;s | **88.7%**<br>0.11&nbsp;s | 88.7%<br>0.11&nbsp;s | 0% |
+| **support-intents:** what the customer wants | 86.0%<br>6.4&nbsp;s | **94.3%**<br>0.20&nbsp;s | 94.3%<br>0.20&nbsp;s | 0% |
+| **tools:** which tool an agent should call | 90.3%<br>11.3&nbsp;s | **98.3%**<br>0.32&nbsp;s | 98.3%<br>0.32&nbsp;s | 0% |
+| **ground:** is the answer supported by the sources? | 96.7%<br>13.2&nbsp;s | 95.0%<br>0.43&nbsp;s | **98.0%**<br>2.09&nbsp;s | 11% |
+| **nav:** voice commands to on-screen items | 91.3%<br>7.2&nbsp;s | **98.7%**<br>0.23&nbsp;s | 98.7%<br>0.23&nbsp;s | 0% |
+| **spam:** spam and phishing | 88.0%<br>2.7&nbsp;s | **98.7%**<br>0.08&nbsp;s | 98.7%<br>0.08&nbsp;s | 0% |
+| **legal-clauses:** contract clause types | 75.0%<br>16.5&nbsp;s | **84.8%**<br>0.58&nbsp;s | 84.8%<br>0.58&nbsp;s | 0% |
+| emotion\*: the strongest of 27 emotions, or neutral | 35.6%<br>4.8&nbsp;s | **59.6%**<br>0.14&nbsp;s | 59.6%<br>0.14&nbsp;s | 0% |
 
 \*Emotion is left out of the averages: picking the single strongest of 27 emotions (or neutral) in short Reddit
-comments is hard even for people, and the human labels often disagree. Jeff + adapter scores 60.6% there against the
-27B's 35.6%, at 42× the speed. Including it, the average across all nine adapters is 91.4% for Jeff + adapters
-against 80.9% for the 27B, so leaving it out makes the gain shown above smaller, not larger.
+comments is hard even for people, and the human labels often disagree. Including it makes the gain larger, not smaller.
 
 **How this was measured.**
 - **Setup:** an Apple M4 Max with 128 GB, both models on MLX, one at a time. Qwen3.8-27B in 8-bit, prompted to answer
-  directly (step-by-step reasoning off).
+  directly (step-by-step reasoning off). These are Mac times; on an NVIDIA GPU, Jeff takes tens of milliseconds per
+  decision (see [Speed and size](#speed-and-size)).
 - **Sample:** each task uses a fixed random sample of its held-out test set (300 rows; 500 for emotion and
-  legal-clauses).
+  legal-clauses), the same rows as for v1.2.
 - **Times:** the mean per query from prompt to answer. When a query is passed on, Jeff's time and the 27B's both count.
-- **Threshold:** each adapter has its own confidence threshold; below it, the 27B answers too and its answer is used.
-  The threshold is the fastest that still beats the 27B by at least one point on the task's separate calibration
-  rows, fixed before the test rows were scored.
-- **Ground** is the one task where the 27B is strong. Jeff passes on its least sure 1.7% and ends up level with it
-  (96.3% against 96.7%, one question in 300) at 20× the speed.
-- **Jeff's memory** was measured on an RTX PRO 6000 with all nine adapters loaded, switching adapter on every request
-  (30 ms per decision, median).
+- **Fallback threshold:** each adapter's threshold is the fastest that beats the 27B by at least one point on the
+  task's separate calibration rows, fixed before the test rows were scored; where no threshold does (ground), the one
+  with the best calibration accuracy.
 
 Every number, with its source, is on [jeffhub.ai](https://jeffhub.ai/results), and the comparison can be rebuilt with
 the [reference app](https://github.com/firelex/jeff-reference-app).
 
-## Nine adapters
+## Jeff-Code
 
-Each adapter is a LoRA add-on of about 41 MB for Jeff-Qwen3.5-0.8B v1.2, trained in one epoch on one GPU in half an
-hour to four hours. Results on each adapter's full held-out test set (accuracy, calibration error in brackets; the
-adapters never saw these rows):
+[Jeff-Code](https://github.com/firelex/jeff-code) is a coding agent built on [Pi](https://pi.dev), with two small Jeff
+adapters trained for Qwen 3.8-27B. Around every Qwen turn, Jeff takes the routine information-gathering steps itself
+(read a file, list a folder, search, check the toolchain) when it is confident, and decides whether Qwen needs to think
+hard on that turn. Run side by side in paired blocks against Qwen 3.8-27B alone (the same build with every Jeff
+feature off, thinking at full on every turn, as plain Pi runs it), on tasks Jeff never saw in training:
 
-| Adapter | What it decides | Test rows | Qwen3.5-0.8B untrained | Jeff v1.2 alone | **Jeff v1.2 + adapter** |
-|---|---|---:|---:|---:|---:|
-| [guard](https://jeffhub.ai/adapters/guard) | Prompt-injection guard | 6,552 | 43.7% | 46.9% | **98.4%** (0.004) |
-| [triage](https://jeffhub.ai/adapters/triage) | Support ticket triage | 7,256 | 44.4% | 67.1% | **91.8%** (0.009) |
-| [support-intents](https://jeffhub.ai/adapters/support-intents) | Customer request intents | 5,577 | 33.9% | 85.1% | **96.8%** (0.006) |
-| [tools](https://jeffhub.ai/adapters/tools) | Agent tool choice | 5,157 | 18.0% | 57.8% | **97.9%** (0.004) |
-| [ground](https://jeffhub.ai/adapters/ground) | Passage re-ranking and answer grounding | 4,160 | 28.7% | 49.0% | **97.0%** (0.012) |
-| [nav](https://jeffhub.ai/adapters/nav) | Voice navigation | 3,300 | 12.6% | 23.8% | **97.0%** (0.005) |
-| [emotion](https://jeffhub.ai/adapters/emotion) | Emotion in short comments | 5,408 | 12.5% | 32.2% | **60.6%** (0.020) |
-| [spam](https://jeffhub.ai/adapters/spam) | Spam and phishing in SMS and email | 3,603 | 59.4% | 72.3% | **98.4%** (0.008) |
-| [legal-clauses](https://jeffhub.ai/adapters/legal-clauses) | Contract clause types | 9,895 | 12.5% | 66.0% | **85.7%** (0.011) |
+- **Same quality:** 62.4% against 62.8% pass rate; paired difference −0.2 points (95% interval −2.6 to +2.1) over
+  1,242 paired tasks from six benchmarks.
+- **47% faster (32% less time) per task:** a task takes 0.68× the baseline's time on average (geometric mean of the
+  per-task ratios, 0.64-0.72; median 0.70×). SWE-bench Verified 0.63×, SWE-rebench 0.63-0.70×, Terminal-Bench Pro
+  0.63-0.66×, Harbor Index 0.71×; no clear speed-up on Terminal-Bench 2.0 (0.96×) or SkillsBench (0.91×).
+- **Total time over all tasks drops less, by 14% (0.86×, 0.80-0.93):** in about 5% of tasks Jeff-Code runs more than
+  30 minutes longer, because it keeps going where Qwen alone gives up (there it solved 26 to Qwen's 24).
+- **Why not just turn thinking off?** Faster still, but 7.6 points worse (−10.6 to −4.5; −13.5 on Terminal-Bench
+  2.0). Jeff deciding when Qwen should think is what keeps the quality.
 
-Weights and test sets: `mstrasser/Jeff-Qwen3.5-0.8B-<adapter>` on Hugging Face. Each adapter's page on
-[jeffhub.ai](https://jeffhub.ai) shows where it goes wrong, how sure it is when it is right, its data and its QA
-report. **Build your own** with the [adapter kit](examples/adapter-kit): the checks we ran on all nine (format,
-splits by group, leaks, and the shortcuts that sank our own first drafts).
+Adapters: [jeff-adapter-code](https://huggingface.co/mstrasser/jeff-adapter-code) and
+[jeff-adapter-code-router](https://huggingface.co/mstrasser/jeff-adapter-code-router). Details on
+[jeffhub.ai](https://jeffhub.ai).
+
+## Adapters
+
+Each adapter is a LoRA add-on for the Jeff v1.3 base, trained in one epoch. Results on each adapter's
+held-out test set (accuracy, calibration error in brackets; the adapters never saw these rows):
+
+| Adapter | What it decides | Qwen3.5-0.8B untrained | Jeff v1.3 alone | **Jeff v1.3 + adapter** |
+|---|---|---:|---:|---:|
+| [guard](https://jeffhub.ai/adapters/guard) | Prompt-injection guard | 43.8% | 49.4% | **98.2%** (0.004) |
+| [triage](https://jeffhub.ai/adapters/triage) | Support ticket triage | 44.1% | 47.6% | **91.5%** (0.015) |
+| [support-intents](https://jeffhub.ai/adapters/support-intents) | Customer request intents | 33.9% | 24.2% | **96.3%** (0.003) |
+| [tools](https://jeffhub.ai/adapters/tools) | Agent tool choice | 17.9% | 30.2% | **97.2%** (0.007) |
+| [ground](https://jeffhub.ai/adapters/ground) | Passage re-ranking and answer grounding | 28.9% | 50.9% | **96.6%** (0.007) |
+| [nav](https://jeffhub.ai/adapters/nav) | Voice navigation | 12.3% | 13.9% | **97.3%** (0.006) |
+| [emotion](https://jeffhub.ai/adapters/emotion) | Emotion in short comments | 12.6% | 25.3% | **60.5%** (0.018) |
+| [spam](https://jeffhub.ai/adapters/spam) | Spam and phishing in SMS and email | 59.3% | 72.2% | **98.1%** (0.007) |
+| [legal-clauses](https://jeffhub.ai/adapters/legal-clauses) | Contract clause types (100 options) | 12.5% | 7.4% | **83.6%** (0.011) |
+| [trading-desk](https://jeffhub.ai/adapters/trading-desk) | Trading-desk decisions under written rules | 38.6% | 41.1% | **98.1%** (0.010) |
+| [aml](https://jeffhub.ai/adapters/aml) | Anti-money-laundering review under a written policy | 36.0% | 40.5% | **95.0%** (0.012) |
+| [sanctions](https://jeffhub.ai/adapters/sanctions) | Sanctions name screening | 34.4% | 68.3% | **99.96%** (0.001) |
+| [soc](https://jeffhub.ai/adapters/soc) | Security-alert triage against a playbook | 22.1% | 33.8% | **94.1%** (0.014) |
+| [code](https://jeffhub.ai/adapters/code) | Jeff-Code: the next information-gathering step | | | see [Jeff-Code](#jeff-code) |
+| [code-router](https://jeffhub.ai/adapters/code-router) | Jeff-Code: whether Qwen should think hard | | | see [Jeff-Code](#jeff-code) |
+
+Weights: `mstrasser/jeff-adapter-<name>` on Hugging Face (revision `v1.3`), with the GGUF versions in
+`mstrasser/jeff-adapter-<name>-gguf`. **Licences differ:** sanctions and soc are CC BY-NC 4.0 because of their source
+data; aml and trading-desk carry data-source terms of their own. Each adapter's page on [jeffhub.ai](https://jeffhub.ai)
+gives its licence, its data, where it goes wrong and how sure it is when it is right. **Build your own** with the
+[adapter kit](examples/adapter-kit).
+
+## Why a Jeff base?
+
+v1.3 is **adapter-first**: the base is no longer tuned to compete on zero-shot benchmarks. Its prompt layout puts the
+fixed part of a request (instructions and options) first and the changing input last, so the fixed part can be cached;
+the price is weaker zero-shot accuracy on long, unfamiliar option lists (legal-clauses without an adapter: 66.0% on
+v1.2, 7.4% on v1.3). With an adapter, v1.3 is within −0.7 to +0.3 points of v1.2 on every task except legal-clauses
+(83.6% vs 85.7%). For zero-shot use without an adapter, use v1.2.
+
+Adapters work on plain Qwen3.5-0.8B too, so why a Jeff base? We trained the same triage adapter on both:
+
+| training examples | adapter on Jeff v1.3 | adapter on plain Qwen3.5-0.8B |
+|---:|---:|---:|
+| 0 (no adapter) | 47.2% | 33.8% |
+| 250 | 76.4% | 76.0% |
+| 500 | 79.1% | 76.5% |
+| 1,000 | 80.9% | 79.6% |
+| 72,000 (all) | 91.5% | 91.2% |
+
+With plenty of data the base hardly matters; with little data, the Jeff base gives the adapter a head start, because
+it already knows how to decide between listed options and give a calibrated answer.
 
 ## What Jeff is
 
 You describe a situation and list the options in plain words; Jeff returns a calibrated probability for each option
 from a single forward pass. No generated text, no parsing. The options can be anything (support queues, intents,
-moderation labels, voice commands, tools), and they don't need to appear in the training data: that is the zero-shot
-base model. **Adapters** add near-perfect accuracy on one job each; **you pick the ones you need**, and any request that
+moderation labels, voice commands, tools), and they don't need to appear in the training data: and the base model
+handles them zero-shot, though v1.3 is built to be used with adapters. **Adapters** add near-perfect accuracy on one job each; **you pick the ones you need**, and any request that
 names no adapter goes to the untouched base. It's a small model: fast, well-calibrated choices between options, not
 multi-step reasoning.
 
@@ -112,11 +155,11 @@ multi-step reasoning.
 ```bash
 git clone https://github.com/firelex/jeff && cd jeff
 uv sync --no-default-groups --extra lora          # add --extra cuda on NVIDIA GPUs, --extra mac on Apple silicon
-uv run --no-default-groups hf download mstrasser/Jeff-Qwen3.5-0.8B --revision v1.2 --local-dir Jeff-Qwen3.5-0.8B-v1.2
+uv run --no-default-groups hf download mstrasser/jeff-base --revision v1.3 --local-dir jeff-base-v1.3
 for name in guard tools ground; do               # the adapters you want, one folder each
-  uv run --no-default-groups hf download mstrasser/Jeff-Qwen3.5-0.8B-$name --local-dir adapters/$name
+  uv run --no-default-groups hf download mstrasser/jeff-adapter-$name --revision v1.3 --local-dir adapters/$name
 done
-JEFF_CHECKPOINT=Jeff-Qwen3.5-0.8B-v1.2 JEFF_ADAPTERS=adapters PORT=8765 \
+JEFF_CHECKPOINT=jeff-base-v1.3 JEFF_ADAPTERS=adapters PORT=8765 \
   uv run --no-default-groups --extra lora jeff-serve       # add JEFF_BACKEND=mlx and --extra mac on Apple silicon
 ```
 
@@ -124,7 +167,7 @@ JEFF_CHECKPOINT=Jeff-Qwen3.5-0.8B-v1.2 JEFF_ADAPTERS=adapters PORT=8765 \
 from jeff import Client
 from jeff.client import choice_question, yes_no_question
 
-jeff = Client("http://localhost:8765", model="jeff-latest")   # the plain base; jeff.with_model("guard") for an adapter
+jeff = Client("http://localhost:8765", model="triage")   # name the adapter for each request
 answers = jeff.ask("The parcel arrived crushed and I want my money back.", {
     "team": choice_question({"refunds": "Refunds and payments", "parcels": "Damaged or lost parcels",
                              "login": "Account and login problems"}, "Which team should handle this ticket?"),
@@ -139,13 +182,22 @@ options), `noul` (yes/no) and `score` (a point on a scale). The HTTP API, the Ty
 [docs on jeffhub.ai](https://jeffhub.ai/docs). Two rules matter: never use bare numbers as option keys, and put the
 unchanging parts of a request first and the changing field last.
 
+## GGUF for llama.cpp
+
+`mstrasser/jeff-base-gguf` has the base in Q8_0 and Q4_K_M; each adapter has a small LoRA GGUF (about 169 MB) in
+`mstrasser/jeff-adapter-<name>-gguf`, loaded with `--lora`, so one base serves every adapter. Q8_0 is effectively
+lossless (within 0.4 points of full precision); Q4_K_M stays within about half a point, with its own temperature per
+format so the probabilities stay calibrated. Run Jeff-Code's router on the Q8_0 base: its decisions are close calls,
+and Q4_K_M changes about 6% of them. With llama-server, list every adapter in each request with scale 1 or 0. Details:
+[jeffhub.ai/docs/llama-cpp](https://jeffhub.ai/docs/llama-cpp).
+
 ## Data
 
 The base models' synthetic training data was written by an open model, Qwen3.8-Flash-Next, on two DGX Sparks; some
 public data sets in the mix contain text their authors generated with closed models (for example RAGTruth's model
 responses). Most of the five generated adapters' data (`ground`, `guard`, `tools`, `nav`, `triage`) was written by
 Qwen3.8-Max through Alibaba Cloud's hosted API; every row records which model wrote and checked it, and each adapter's
-card gives the counts. Every data set went through a shortcut check and an independent review before training. We
+card gives the counts. v1.3's new adapters use public data sets converted by scripts, and synthetic data where code simulates the scenario and fixes every label, with GLM 5.3 rewording or writing the text (it never decides a label). Every data set went through a shortcut check and an independent review before training. We
 publish weights, code and each adapter's test and calibration sets; not the training data. Sources and licences:
 [docs/data-sources.md](docs/data-sources.md).
 
@@ -155,8 +207,9 @@ recipe.
 
 ## Benchmarks
 
-4,599 questions from five public benchmarks, plus JevBench's public hard tier (105 items, scored separately). The Qwen
-models are v1.2, Jeff-Gemma4-E2B v1.0:
+Zero-shot benchmark results of the **v1.2** base models (v1.3 is adapter-first: on the same panel it scores 78.6%
+against v1.2's 78.8%, but much lower on long unfamiliar option lists). 4,599 questions from five public benchmarks, plus
+JevBench's public hard tier (105 items, scored separately). The Qwen models are v1.2, Jeff-Gemma4-E2B v1.0:
 
 | Benchmark | Qwen3.5-0.8B untrained | Jeff-Qwen3.5-0.8B | Qwen3.5-2B untrained | Jeff-Qwen3.5-2B | Gemma 4 E2B untrained | Jeff-Gemma4-E2B | Jev (published) | AutoJev-27B (published) |
 |---|---|---|---|---|---|---|---|---|
@@ -187,8 +240,8 @@ from raw text to probabilities:
 | AutoJev-27B | 27B | ~54 GB | not published | — | — |
 | Jev | not disclosed | API only | 114–212 ms per call in published Doom runs, including the network | | |
 
-**With adapters** (RTX PRO 6000, through jeff-serve's request path, 675 requests mixing all nine adapters' test
-prompts):
+**With adapters** (v1.2; RTX PRO 6000, through jeff-serve's request path, 675 requests mixing all nine adapters'
+test prompts). [v1.3 GPU serving latency: being re-measured; replace this table with the v1.3 numbers before release.]
 
 | Setting | Median per decision | GPU memory |
 |---|---:|---:|
@@ -214,7 +267,7 @@ replay, three-way evaluation) and `jeff-train --lora-rank 16 ...`. Base models: 
 temperature; the benchmark panel is never used for selection or tuning. Every source and its licence:
 [docs/data-sources.md](docs/data-sources.md).
 
-## Games and chess
+## Games and chess (earlier releases)
 
 **The base model decides well on things it has never seen.** As a test, it plays games zero-shot (v1.0): each turn the
 code describes the situation and the legal moves in words, and Jeff picks one. Jeff-Qwen3.5-0.8B matches a hand-coded rule bot at Doom (6.55 kills) and Frogger (10.3 crossings) without ever
@@ -233,8 +286,10 @@ alt="Jeff-Qwen3.5-0.8B-Chess playing 100 blitz games at once; the featured game 
 
 ## Caveats
 
-- **Adapters belong to one base.** The v1.2 adapters work only on Jeff-Qwen3.5-0.8B v1.2; the server refuses them on
-  any other base. v1.3 will need retrained adapters; data sets in the documented format carry over.
+- **Adapters belong to one base.** v1.3 adapters work only on the v1.3 base, and v1.2 adapters only on v1.2; the
+  server refuses them on any other base. Data sets in the documented format carry over.
+- **v1.3 is adapter-first.** Without an adapter it is much weaker than v1.2 on long, unfamiliar option lists.
+- **Licences differ by adapter**; check each adapter's card (some are non-commercial).
 - **The 27B comparison is one setup:** a fixed sample of held-out rows per task on one Mac, the 27B prompted with its
   step-by-step reasoning off.
 - **Small models don't reason.** Expect fast, calibrated choices between the options you describe, not multi-step
@@ -243,6 +298,14 @@ alt="Jeff-Qwen3.5-0.8B-Chess playing 100 blitz games at once; the featured game 
 - **English and text only.**
 
 ## Changelog
+
+**v1.3 (October 2026)**
+- **Adapter-first base** (`mstrasser/jeff-base`, revision v1.3): the fixed part of a request first and the changing
+  input last, so prompts can be cached; trained on the same data as v1.2.
+- **15 adapters:** the nine retrained, plus trading-desk, aml, sanctions and soc, and the two Jeff-Code adapters.
+- **Jeff-Code:** Qwen 3.8-27B coding tasks take 32% less time on average at the same pass rate.
+- **GGUF for llama.cpp:** one base per format plus one LoRA file per adapter.
+- **New names on Hugging Face:** `jeff-base`, `jeff-adapter-<name>`, and `-gguf` versions.
 
 **v1.2 (1 October 2026)**: [full release notes](https://github.com/firelex/jeff/releases/tag/v1.2)
 - **Nine LoRA adapters**, served side by side on one base (`JEFF_ADAPTERS`, PyTorch and MLX), chosen per request,
