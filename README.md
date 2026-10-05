@@ -153,7 +153,7 @@ it already knows how to decide between listed options and give a calibrated answ
 
 You describe a situation and list the options in plain words; Jeff returns a calibrated probability for each option
 from a single forward pass. No generated text, no parsing. The options can be anything (support queues, intents,
-moderation labels, voice commands, tools), and they don't need to appear in the training data: and the base model
+moderation labels, voice commands, tools), and they don't need to appear in the training data, and the base model
 handles them zero-shot, though v1.3 is built to be used with adapters. **Adapters** add near-perfect accuracy on one job each; **you pick the ones you need**, and any request that
 names no adapter goes to the untouched base. It's a small model: fast, well-calibrated choices between options, not
 multi-step reasoning.
