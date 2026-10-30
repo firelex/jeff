@@ -25,6 +25,22 @@ class Scaler:
 
 
 def softmax(scores: FloatArray) -> FloatArray:
+    if (
+        type(scores) is np.ndarray
+        and scores.dtype == np.float64
+        and scores.ndim == 2
+        and scores.shape[1] in (2, 3)
+    ):
+        columns = scores.T
+        highest = np.maximum(columns[0], columns[1])
+        if len(columns) == 3:
+            np.maximum(highest, columns[2], out=highest)
+        shifted = columns - highest
+        np.exp(shifted, out=shifted)
+        total = np.add(shifted[0], shifted[1], out=highest)
+        if len(columns) == 3:
+            total += shifted[2]
+        return (shifted / total).T
     shifted = np.exp(scores - scores.max(axis=1, keepdims=True))
     return np.asarray(shifted / shifted.sum(axis=1, keepdims=True), dtype=np.float64)
 
