@@ -1,0 +1,60 @@
+{
+  "name": "jeff-hub",
+  "private": true,
+  "type": "module",
+  "description": "The public Jeff site: home, docs and catalogue, prerendered to static HTML, and its endpoints (api/, server/) as one Vercel function.",
+  "engines": {
+    "node": ">=22.18.0 <23.0.0 || >=23.6.0"
+  },
+  "scripts": {
+    "dev": "react-router dev",
+    "build": "node scripts/hub-version.mjs && react-router build && node scripts/static-404.mjs && node scripts/csp-meta.mjs && node scripts/check-build.mjs",
+    "typecheck": "node scripts/hub-version.mjs && react-router typegen && tsc --noEmit",
+    "test": "node scripts/hub-version.mjs && vitest run --project light",
+    "test:heavy": "node scripts/hub-version.mjs && vitest run --project heavy --maxWorkers=1",
+    "test:all": "node scripts/hub-version.mjs && vitest run --maxWorkers=1 && playwright test --workers=1",
+    "e2e": "playwright test",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "node --env-file=.env.migrate ./node_modules/drizzle-kit/bin.cjs migrate"
+  },
+  "dependencies": {
+    "@electric-sql/pglite": "0.5.15",
+    "@jeff/brand": "workspace:*",
+    "@jeff/ui": "workspace:*",
+    "@react-router/node": "8.4.0",
+    "@vercel/blob": "2.8.2",
+    "ajv": "8.17.1",
+    "ajv-formats": "3.0.1",
+    "better-auth": "1.7.16",
+    "drizzle-orm": "0.45.4",
+    "fflate": "0.8.3",
+    "isbot": "5.2.2",
+    "lucide-react": "0.554.0",
+    "pg": "8.23.1",
+    "react": "19.2.5",
+    "react-dom": "19.2.5",
+    "react-markdown": "10.1.0",
+    "react-router": "8.4.0",
+    "remark-gfm": "4.0.1",
+    "stripe": "23.1.0",
+    "yaml": "2.9.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.1",
+    "@react-router/dev": "8.4.0",
+    "@tailwindcss/vite": "4.3.3",
+    "@testing-library/react": "16.3.3",
+    "@types/node": "22.20.5",
+    "@types/pg": "8.23.1",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "drizzle-kit": "0.31.11",
+    "jsdom": "29.1.1",
+    "oauth2-mock-server": "9.3.0",
+    "tailwindcss": "4.3.3",
+    "tsx": "4.23.15",
+    "typescript": "5.8.3",
+    "vite": "7.3.7",
+    "vitest": "5.0.5"
+  }
+}

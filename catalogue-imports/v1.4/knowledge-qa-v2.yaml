@@ -1,0 +1,79 @@
+# General knowledge and reading questions with lettered options, v1.4 (RTX /mnt/d/jeff-adapters/v1.4/knowledge-qa-v2,
+# data teamsuzie/jeff-data apps/knowledge-qa-v2). Each row's source.kind names its question; the passage kind holds
+# two request shapes (a plain-text passage with its question, or passage and question as fields), told apart by
+# request shape. Plain-text functions are sent the caller's text unwrapped, as trained.
+path: apps/knowledge-qa-v2
+adapter_path: knowledge-qa-v2
+id: jeff.knowledge.knowledge-qa
+aliases: [knowledge-qa-v2, knowledge-qa]
+version: 1.4.0
+function_by: [source_kind, state_shape]
+kinds:
+  blank: blank
+  question: question
+  continuation: continuation
+  passage: [passage, passage_text]
+  social: social
+  solution: solution
+context: []
+input:
+  key: question
+  description: A question or statement to complete, as plain text; the options are the possible answers (A, B, ...).
+  form: text
+functions:
+  # classify: which option (the caller's two candidates, A and B) fills the blank (_) in the sentence.
+  blank:
+    interface: classify
+    context: []
+    input:
+      key: sentence
+      description: A sentence with one blank written as _, as plain text; the options are the two candidate fillers.
+      form: text
+  # classify: which option answers the question or completes the statement (the caller's options, A to H).
+  question: {interface: classify}
+  # classify: which ending most plausibly continues the description of the activity (options A to D).
+  continuation:
+    interface: classify
+    context:
+      - key: activity
+        description: The activity being described, in a few words (for example "Breakdancing").
+    input:
+      key: text
+      description: The start of a description of the activity, to be continued by one of the options.
+      form: fields
+  # classify: which option answers the question about the passage (options A to D), passage and question as fields.
+  passage:
+    interface: classify
+    context:
+      - key: passage
+        description: The passage to read.
+    input:
+      key: question
+      description: The question about the passage, or a statement to complete.
+      form: fields
+  # classify: the same question with the passage and its question in one plain text (options A to D).
+  passage_text:
+    interface: classify
+    context: []
+    input:
+      key: passage_and_question
+      description: The passage followed by its question, as one plain text.
+      form: text
+  # classify: which option best answers the question about the people in the situation (options A to C).
+  social:
+    interface: classify
+    context:
+      - key: situation
+        description: A short everyday situation involving one or more people.
+    input:
+      key: question
+      description: The question about the people in the situation.
+      form: fields
+  # classify: which solution (the caller's two, A and B) best achieves the goal.
+  solution:
+    interface: classify
+    context: []
+    input:
+      key: goal
+      description: A practical goal, as plain text; the options are two candidate solutions.
+      form: text

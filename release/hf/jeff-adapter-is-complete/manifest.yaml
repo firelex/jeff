@@ -1,0 +1,68 @@
+id: jeff.reasoning.is-complete
+version: 1.4.0
+aliases:
+- oss-is-complete
+- is-complete
+licence:
+  kind: open
+  adapter: Apache-2.0
+weights:
+  open:
+    repo: mstrasser/jeff-adapter-is-complete
+    revision: v1.4
+base:
+  id: jeff-base
+  version: v1.4
+  max_options: 3
+context:
+- key: context
+  description: 'The review: an object with the organisation, the reviewer, the kind of pack, its purpose and the date of the
+    review.'
+  required: true
+- key: checklist
+  description: 'The checklist: a list of required documents and conditions (some only for some cases).'
+  required: true
+input:
+  key: submission
+  description: 'The pack received: an object with the case (name, reference) and the documents received, each described (kind,
+    date, pages, signatures).'
+  form: fields
+functions:
+  is_complete:
+    interface: classify
+    type: choice
+    instructions: 'Is the pack complete against the checklist? Go through every checklist line that applies to this case.
+      A required document counts only if it is the kind of document listed (not a similar one), is about the subject of the
+      case, has all its pages, is signed where the checklist asks for a signature, has not expired on the date of the review,
+      and was issued within the period the checklist allows. A conditional line applies only when its circumstance holds for
+      the case. complete: every applicable line is met (extra documents do not matter). incomplete: at least one applicable
+      line is not met. unclear: no line is clearly unmet, but at least one cannot be decided from what is shown, for example
+      a needed date, signature or page count is not visible, a document''s kind cannot be told, or the case details do not
+      say whether a conditional line''s circumstance holds while its document is absent. Cover notes and labels may be misleading;
+      judge the documents themselves.'
+    labels:
+      source: fixed
+      fixed:
+        complete: Every document the checklist requires for this case is in the pack and acceptable.
+        incomplete: At least one required document is missing or not acceptable (wrong kind, about someone or something else,
+          expired or too old, missing pages, or unsigned).
+        unclear: 'The pack and the case details do not settle it: something the answer depends on cannot be seen or is not
+          stated.'
+      subset: false
+    abstain_labels: []
+    calibration:
+      data: hf://mstrasser/jeff-adapter-is-complete@v1.4/calibration.jsonl
+      rows: 1941
+      target_precision: 0.98
+      threshold: 0.788914
+      precision_at_threshold: 0.980277
+      coverage_at_threshold: 0.966512
+routes_to: []
+tests:
+  published: hf://mstrasser/jeff-adapter-is-complete@v1.4/test.jsonl
+  calibration: hf://mstrasser/jeff-adapter-is-complete@v1.4/calibration.jsonl
+  function_by: only
+hub:
+  title: oss-is_complete
+  summary: 'Jeff v1.4 adapter `is_complete`. Checks a pack of documents against a checklist: complete, incomplete (something
+    missing, expired, unsigned or about someone else) or unclear.'

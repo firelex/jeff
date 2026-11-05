@@ -1,0 +1,102 @@
+id: jeff.engineering.ci-failure
+version: 1.4.0
+aliases:
+- oss-ci-failure
+- ci-failure
+licence:
+  kind: open
+  adapter: Apache-2.0
+weights:
+  local: {}
+base:
+  id: jeff-base
+  version: v1.4
+  max_options: 7
+context:
+- key: project
+  description: 'The software project: its name and a description of what it is.'
+  required: true
+- key: ci_run
+  description: 'The failed CI run: an object with job, trigger (for example a pull request), commit and date.'
+  required: true
+- key: change
+  description: 'The code change being tested: an object with its title and description.'
+  required: true
+- key: ci_facts
+  description: 'Facts the CI system records: attempts on this commit, the history of the same test or job on the main branch,
+    other jobs in this run, dependency versions compared with the last passing run, and durations.'
+  required: true
+input:
+  key: log
+  description: The log of the failed run, as text.
+  form: fields
+functions:
+  failure:
+    interface: classify
+    type: choice
+    instructions: 'What kind of failure is this CI run? Use the log, the change (if there is one) and the CI facts (attempts
+      on this commit, the history of the same test or job on the main branch, other jobs, dependency versions compared with
+      the last passing run, durations). Apply the first rule that fits. build_or_config: the run failed before any test ran,
+      in compiling, type checking, linting, packaging or the CI configuration itself (a bad pipeline file, a missing secret
+      or variable, a wrong path), even if the change caused it. environment_or_infra: the error comes from the CI machine
+      or an outside service (network or DNS errors, a package registry or mirror down, no disk space, a lost runner, a service
+      container that did not start), not from the code; other jobs often fail the same way. flaky_test: the test fails only
+      some of the time on the same code: a rerun of the same commit passed, or the test fails now and then on the main branch
+      without code changes. timeout_or_resource: a test or job was stopped for exceeding a time limit or a memory limit (out
+      of memory, killed, exit code 137) on every attempt. dependency_change: a third-party package resolves to a different
+      version than in the last passing run (pulled in automatically, or upgraded by the change itself) and the error comes
+      from that package. test_needs_update: the change says this behaviour was changed on purpose, and the failing test still
+      expects the old behaviour. real_regression: the change broke behaviour it did not mean to change: the failure repeats
+      on every attempt and the same test passes on the main branch. Warnings or retries in the log that did not stop the run
+      do not decide the answer.'
+    labels:
+      source: fixed
+      fixed:
+        build_or_config: 'Build or configuration: the run failed before any test ran: compiling, type checking, linting, packaging,
+          or the CI configuration itself (bad pipeline file, missing secret or variable, wrong path).'
+        dependency_change: 'Dependency change: a third-party package now resolves to a different version than in the last
+          passing run (pulled in automatically or upgraded by the change), and the failure comes from that package.'
+        environment_or_infra: 'Environment or infrastructure: the failure comes from the CI machine or an outside service
+          (network, package registry, disk space, a lost runner, a service container that did not start), not from the project''s
+          code.'
+        flaky_test: 'Flaky test: the test fails only some of the time on the same code (a rerun of the same commit passed,
+          or it fails now and then on unchanged code).'
+        real_regression: 'Real regression: the change broke behaviour it did not mean to change; the failure repeats on every
+          attempt and the same test passes on the main branch.'
+        test_needs_update: 'Test needs update: the change says the behaviour was changed on purpose, and the failing test
+          still expects the old behaviour.'
+        timeout_or_resource: 'Timeout or resource limit: a test or job was stopped for exceeding a time limit or a memory
+          limit, and it happens on every attempt.'
+      subset: false
+    abstain_labels: []
+    calibration:
+      data: hf://datasets/teamsuzie/jeff-data@main/apps/oss-ci-failure/calibration.jsonl
+      data_mirror:
+        path: /mnt/d/jeff-data/apps/oss-ci-failure/calibration.jsonl
+        sha256: fb60a566a6f66793f1b414f87a663c36a8090d55d8e13b43ec166f7bc824d37d
+      rows: 1500
+      target_precision: 0.95
+      threshold: 0.595233
+      precision_at_threshold: 0.996
+      coverage_at_threshold: 1.0
+routes_to: []
+tests:
+  published: null
+  calibration: null
+  internal: hf://datasets/teamsuzie/jeff-data@main/apps/oss-ci-failure/test.jsonl
+  internal_calibration: hf://datasets/teamsuzie/jeff-data@main/apps/oss-ci-failure/calibration.jsonl
+  function_by: only
+hub:
+  title: oss-ci-failure
+  summary: 'Jeff v1.4 adapter `ci-failure`. Reads a failed automated build-and-test run (its log, the code change and the
+    run history) and says what kind of failure it is: a real regression, a flaky test, infrastructure, a dependency change,
+    a test that needs updating, and so on.'
+  source: local adapter folder oss-ci-failure (not on Hugging Face)
+  notes:
+  - 'failure: instructions are the one text of the 1365 test rows marked canonical (source.instructions); the other 635 ask
+    the same question reworded or with no instructions (as trained), and are rebuilt with the canonical text in template mode.'
+  - 'failure: every test row has the same 7 labels in varying orders (training shuffled them), so they are listed by key.'
+  - 'base: jeff-base v1.4, identified by the SHA-256 of its model.safetensors, which the adapter''s decision_config.json records
+    for its base checkpoint.'
+  - 'tests: the test set is the private hf://datasets/teamsuzie/jeff-data@main/apps/oss-ci-failure/test.jsonl, so tests.published
+    is null; the calibration of each function is filled in later by `jeff calibrate`.'

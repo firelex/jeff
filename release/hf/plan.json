@@ -1,0 +1,2359 @@
+{
+ "description": "Every file of the Jeff v1.4 Hugging Face release (scripts/release_hf.py): for each repository, each file's source on datigator or its copy in release/hf/, with its size, SHA-256 and git blob SHA-1.",
+ "revision": "v1.4",
+ "repos": [
+  {
+   "repo": "mstrasser/jeff-base",
+   "files": {
+    "model.safetensors": {
+     "source": "/mnt/d/jeff-models/v1.4/v14-final/model.safetensors",
+     "size": 1706027688,
+     "sha256": "22fd9a1ee317894fe8a987e362a313f36e4246129602a19ce54f617fa90e2f9b",
+     "git_sha1": "820200a3786f965ab805d2ba999f1e80d939837d"
+    },
+    "readout.safetensors": {
+     "source": "/mnt/d/jeff-models/v1.4/v14-final/readout.safetensors",
+     "size": 522320,
+     "sha256": "fb17558292e616a0f6b05e4c83101ee057b9cc08c366b68f9280603641a0c486",
+     "git_sha1": "fa853bd7c3fdf3b5d52ed23c134c3f661eca8955"
+    },
+    "decision_config.json": {
+     "source": "/mnt/d/jeff-models/v1.4/v14-final/decision_config.json",
+     "size": 6624,
+     "sha256": "b43751c13234d57e145b23ede4f1df7e20fd618ffb733abb8d62f452fe8c94f7",
+     "git_sha1": "f90548f5441be66cf0032d716284fc8c9a555d4e"
+    },
+    "config.json": {
+     "source": "/mnt/d/jeff-models/v1.4/v14-final/config.json",
+     "size": 2692,
+     "sha256": "e430598ca8aa6228b9856573dcc0425d0710acad4a19a937da52cde724b34f25",
+     "git_sha1": "8e2841027573c73bf08f425fc30dfa057cd15455"
+    },
+    "tokenizer.json": {
+     "source": "/mnt/d/jeff-models/v1.4/v14-final/tokenizer.json",
+     "size": 19989492,
+     "sha256": "6f32ce20dc35f57a7f9ad1eac03525bd7d30f9df8cea6507e958279cc3657706",
+     "git_sha1": "529a1d64191ee99773329731cdd03f612af2f6a2"
+    },
+    "tokenizer_config.json": {
+     "source": "/mnt/d/jeff-models/v1.4/v14-final/tokenizer_config.json",
+     "size": 1166,
+     "sha256": "5f7aa0d810000c4a0940b35c8f16e56c3439260fccc13a321826ebc3ccf2501f",
+     "git_sha1": "b4acebe045132228e18a4e2ca7f75ce137d1fbf7"
+    },
+    "chat_template.jinja": {
+     "source": "/mnt/d/jeff-models/v1.4/v14-final/chat_template.jinja",
+     "size": 7755,
+     "sha256": "273d8e0e683b885071fb17e08d71e5f2a5ddfb5309756181681de4f5a1822d80",
+     "git_sha1": "0ef09f214eaa6d9bca297988afc1454b5827b2c7"
+    },
+    "processor_config.json": {
+     "source": "/mnt/d/jeff-models/v1.4/v14-final/processor_config.json",
+     "size": 1218,
+     "sha256": "abb488b9a03a53407dc9c8e43c0a2caec9142e5fc7a1203807fdf54b2149cc8f",
+     "git_sha1": "b7df4377fc4140c120d853dce13694a25b31022e"
+    },
+    "README.md": {
+     "release": "release/hf/jeff-base/README.md",
+     "size": 4603,
+     "sha256": "3c106697314c8694b8c383694ff1e537258a6cce9a13dabb920b3e4b228e2957",
+     "git_sha1": "088cd9f2d5b98ad3ff12fc460e96f368a139c84d"
+    },
+    "LICENSE": {
+     "release": "release/hf/LICENSE",
+     "size": 11544,
+     "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a",
+     "git_sha1": "f938136e3adacfd92be087f6e113b5d6d97f678f"
+    }
+   }
+  },
+  {
+   "repo": "mstrasser/jeff-adapter-action-check",
+   "adapter": "jeff.agents.action-check",
+   "files": {
+    "adapter_model.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/oss-action-check/adapter_model.safetensors",
+     "size": 40937456,
+     "sha256": "5ccc9877223c863a3c66056d1c375bfafd0691808c188cf052ecebae77408513",
+     "git_sha1": "20c6f7f5443e2e738293f20333cefc25f9dfd321"
+    },
+    "readout.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/oss-action-check/readout.safetensors",
+     "size": 522320,
+     "sha256": "273f3d17663065ea9553a6c60c34cc5d997804e11d3aa30ead58be3124ce119a",
+     "git_sha1": "e87eb634f50872f3b9ea9cb8152a5beb96b7f6e0"
+    },
+    "adapter_config.json": {
+     "release": "release/hf/jeff-adapter-action-check/adapter_config.json",
+     "size": 1331,
+     "sha256": "1248376061e52bdbffc934cc7e3e01b55e386df2cc80367bc7739e79a4316303",
+     "git_sha1": "03dfc3820d895ce4f159e7be3a83f4dc3cfbea2a",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/oss-action-check/adapter_config.json",
+      "sha256": "b9b50e7b68ba901fde744ea5517a7ce989f448223732c4d472063fd2536736be"
+     }
+    },
+    "decision_config.json": {
+     "release": "release/hf/jeff-adapter-action-check/decision_config.json",
+     "size": 24618,
+     "sha256": "418e179d0cc8d8f36b7d31b8579fca461caacef4fd913b6c9366ee559a74ad14",
+     "git_sha1": "d50f9c70cd71f689be3c8fa08699380a5cb37116",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/oss-action-check/decision_config.json",
+      "sha256": "935fbff1ecebf828d77867503057e21fba49dba715bf5b27d94668ec3828cf7d"
+     }
+    },
+    "manifest.yaml": {
+     "release": "release/hf/jeff-adapter-action-check/manifest.yaml",
+     "size": 4105,
+     "sha256": "45407a26b0512f43fb5ffc603ad161390722a3bc5d8f63e3fbdf78c148ec0f31",
+     "git_sha1": "4711e235c3f1d4823e542ac1bda94022d2945d54"
+    },
+    "README.md": {
+     "release": "release/hf/jeff-adapter-action-check/README.md",
+     "size": 12715,
+     "sha256": "29f8000898a3bfcdbd5041d82b3d0a0977acb0b391be0ab0914af3ed4e9f2af3",
+     "git_sha1": "392364e57dca7e6f11814e98ade03de797a00187"
+    },
+    "LICENSE": {
+     "release": "release/hf/LICENSE",
+     "size": 11544,
+     "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a",
+     "git_sha1": "f938136e3adacfd92be087f6e113b5d6d97f678f"
+    },
+    "test.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/oss-action-check/test.jsonl",
+     "size": 21546925,
+     "sha256": "1550248fc7b3f7630a18fb0d2a854bfd27b3cbdaf9e3a2fd00eb69594d6f8ccf",
+     "git_sha1": "11c3de3ed1857a06ef9e4f0fbf6c538d5839c84f"
+    },
+    "calibration.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/oss-action-check/calibration.jsonl",
+     "size": 21666042,
+     "sha256": "d2e72f3cb8b6d57e51af1fe0f9b294d73cc6315e02e8772dcd63d6ea5bc03bef",
+     "git_sha1": "33d535b19aa873e779a0a98956e6f39d7bba1708"
+    }
+   }
+  },
+  {
+   "repo": "mstrasser/jeff-adapter-after-result",
+   "adapter": "jeff.agents.after-result",
+   "files": {
+    "adapter_model.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/oss-after-result/adapter_model.safetensors",
+     "size": 40937456,
+     "sha256": "eec6ffcdadc18ff83f378153659639c1697d7196379e224781fe0f134fa693a5",
+     "git_sha1": "aceeed7704592398e2e29d446a1f91e77d461c7a"
+    },
+    "readout.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/oss-after-result/readout.safetensors",
+     "size": 522320,
+     "sha256": "02cb84a2399706c8be438e6535ab88e659256461cb9aa31b9d72a31833cf24e1",
+     "git_sha1": "fa97476013fede78bf07c29d584fbc0dad37d477"
+    },
+    "adapter_config.json": {
+     "release": "release/hf/jeff-adapter-after-result/adapter_config.json",
+     "size": 1331,
+     "sha256": "322fce8b6864d503058cc35cc43d3f0ceb6f912ad181e70644df9a337dc4045f",
+     "git_sha1": "5eea9000365323baebab5ca611c4bab0149cac13",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/oss-after-result/adapter_config.json",
+      "sha256": "f375c5a62449178d6a9457a31c92c07d0e874efbe45d2634c93ea5c2454e2af2"
+     }
+    },
+    "decision_config.json": {
+     "release": "release/hf/jeff-adapter-after-result/decision_config.json",
+     "size": 24618,
+     "sha256": "b71bea908ca1a798bf09b7acbd172b5cda80d0435fe08ba717514519038e7476",
+     "git_sha1": "94217183f7d3548241a93f35216edc01e20197fd",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/oss-after-result/decision_config.json",
+      "sha256": "c5fd9feaed5310ff06c2d692cac44b4fcb42084e887f24b949e1b5cde82d4a40"
+     }
+    },
+    "manifest.yaml": {
+     "release": "release/hf/jeff-adapter-after-result/manifest.yaml",
+     "size": 4157,
+     "sha256": "aa910a983bfdd1ccd48c9d1326e5756165c4e0e44784f1b5363cf6d3d846b27e",
+     "git_sha1": "2cfe1ed67be3a6f3d91ab3c548e921172113aae5"
+    },
+    "README.md": {
+     "release": "release/hf/jeff-adapter-after-result/README.md",
+     "size": 12757,
+     "sha256": "5d69fb9e176b60f6b313dc51fa04d4728cff7c6c155f3c1096d478726422e17d",
+     "git_sha1": "1b3cd02f78f8bf1b9704ff514e11bea9944811d5"
+    },
+    "LICENSE": {
+     "release": "release/hf/LICENSE",
+     "size": 11544,
+     "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a",
+     "git_sha1": "f938136e3adacfd92be087f6e113b5d6d97f678f"
+    },
+    "test.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/oss-after-result/test.jsonl",
+     "size": 11604298,
+     "sha256": "31ac5cbaeff68d14a7ce1006560239798d8a77ec03b4850bb33abbf882a1bb7a",
+     "git_sha1": "36982a4beca3ffda7179ad3564dfba2f927933c2"
+    },
+    "calibration.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/oss-after-result/calibration.jsonl",
+     "size": 11588711,
+     "sha256": "7a2055ca4f6e9446c506d1edd85f0f435ebfd71ad06ab439a7daff1311d62beb",
+     "git_sha1": "4e3c29b545b67eee779eb23b01fd02f152b2c3c7"
+    }
+   }
+  },
+  {
+   "repo": "mstrasser/jeff-adapter-assistant-routing",
+   "adapter": "jeff.agents.assistant-routing",
+   "files": {
+    "adapter_model.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/assistant-routing/adapter_model.safetensors",
+     "size": 40937456,
+     "sha256": "931fbc069592becaf40cdb56c3741640ac333da677d19438b8a3fa8fd7f826a6",
+     "git_sha1": "735e3af9c4c3eda291ea9edf02b7b8263cac2a2b"
+    },
+    "readout.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/assistant-routing/readout.safetensors",
+     "size": 522320,
+     "sha256": "674c2bf9c0d441616fc0c269021c7e0e40a132a6a6e91fa92057412b5d99a44c",
+     "git_sha1": "af9131a573a1ca572d3efdc59a2a3b4708c5f208"
+    },
+    "adapter_config.json": {
+     "release": "release/hf/jeff-adapter-assistant-routing/adapter_config.json",
+     "size": 1331,
+     "sha256": "d45c753313a6001555ef876091c90529abd07a4ed3b5442aabfa26cacfee532e",
+     "git_sha1": "48b658cbe7fd5fe5354176e75cc79c1eb95d572a",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/assistant-routing/adapter_config.json",
+      "sha256": "461e1411d162f1ba22bb3a3aadf8441d866d36ad7164e94fc2390c222fa0bde6"
+     }
+    },
+    "decision_config.json": {
+     "release": "release/hf/jeff-adapter-assistant-routing/decision_config.json",
+     "size": 24623,
+     "sha256": "60291b9c8478582387ce40d56a6698cf1d75b01c004a82ab3220f3c7f3f33e06",
+     "git_sha1": "b69719edf170fed0124f48e6dfb21b1f1d5ce498",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/assistant-routing/decision_config.json",
+      "sha256": "2ac05af3b831eb1e2b575c381158a1e455451ae65299162f42271ce22814dfcd"
+     }
+    },
+    "manifest.yaml": {
+     "release": "release/hf/jeff-adapter-assistant-routing/manifest.yaml",
+     "size": 1838,
+     "sha256": "18e7ff180fd2bcdcf9b2924bffff7db36c7dfdd08f5d2ca9cbab5ac13a1b56dc",
+     "git_sha1": "4addbc7df09849ce2cb89e06d9f43c23ba2d8398"
+    },
+    "README.md": {
+     "release": "release/hf/jeff-adapter-assistant-routing/README.md",
+     "size": 7654,
+     "sha256": "03823e6f87493bffcc28d6960db51e8e8a18ef01dbc997d71c94249636904225",
+     "git_sha1": "86cbdcca9d15aec193fd89d874668a7d54db5fc3"
+    },
+    "LICENSE": {
+     "release": "release/hf/LICENSE",
+     "size": 11544,
+     "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a",
+     "git_sha1": "f938136e3adacfd92be087f6e113b5d6d97f678f"
+    },
+    "test.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/assistant-routing/test.jsonl",
+     "size": 2366326,
+     "sha256": "46805eb00bde7c612341497a71e729461d13f48edefad95d1b54886cef37921c",
+     "git_sha1": "06838fe9294b4d00c6ead43c76bbdfd34abce971"
+    },
+    "calibration.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/assistant-routing/calibration.jsonl",
+     "size": 1041071,
+     "sha256": "5dddf0123699fb0ba556e50311358ad24a4f6c3a492584e7fa1a8d9c41dcc44e",
+     "git_sha1": "d885d91f884d46a3f7d9979c482f0e2b17f0c7df"
+    }
+   }
+  },
+  {
+   "repo": "mstrasser/jeff-adapter-result-relevant",
+   "adapter": "jeff.agents.result-relevant",
+   "files": {
+    "adapter_model.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/oss-result-relevant/adapter_model.safetensors",
+     "size": 40937456,
+     "sha256": "001407d312e5a000d9619e93a89e692967d7cb120e5474272c91d93ee65cad53",
+     "git_sha1": "3100273e3bd38b4c1ace19abe3e5c10b6923d907"
+    },
+    "readout.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/oss-result-relevant/readout.safetensors",
+     "size": 522320,
+     "sha256": "2cfc8dd6f85ab4b0037e0be7310f682cea22e19888c7e7f156d977326a67b568",
+     "git_sha1": "4391df74fb3c3f2dfef0f412fd8c20783e86ecd1"
+    },
+    "adapter_config.json": {
+     "release": "release/hf/jeff-adapter-result-relevant/adapter_config.json",
+     "size": 1331,
+     "sha256": "5128adf7460a7a75d6587e988402bb4375ccb3905e06fd2ec43c03d2433ffe40",
+     "git_sha1": "fff7c2106bb0f63e10c606f92733280299c21e5b",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/oss-result-relevant/adapter_config.json",
+      "sha256": "93ac98030a676e4951225cd55499ed8f7e615f29c0bc82333b1cb6bedeee5cb6"
+     }
+    },
+    "decision_config.json": {
+     "release": "release/hf/jeff-adapter-result-relevant/decision_config.json",
+     "size": 24621,
+     "sha256": "43e7fff3c514b3a2836539c95af2b723b8cfeb250003e9e33ecd72bb907058b3",
+     "git_sha1": "16c4ce3b767dd0054739a1efa8ad0ee5609271ba",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/oss-result-relevant/decision_config.json",
+      "sha256": "2d32f87446016411f908b6e33a673a60a01739c08ea9cb1b7e26b538b7cd4674"
+     }
+    },
+    "manifest.yaml": {
+     "release": "release/hf/jeff-adapter-result-relevant/manifest.yaml",
+     "size": 2775,
+     "sha256": "83a09c8be1352b06a9261f1eb99c881b31e3295b4ab978bf341f02b552bace1c",
+     "git_sha1": "ad6a0889f05c83234f8dfd4193cb7a5b3dbb9f0a"
+    },
+    "README.md": {
+     "release": "release/hf/jeff-adapter-result-relevant/README.md",
+     "size": 8817,
+     "sha256": "59882fe98f779c1fe2828fe5a56e19a81f5fed8a275ed99fccf897465435d577",
+     "git_sha1": "d5d5b4b7011a52b79a0d53c41059281ffc390cdf"
+    },
+    "LICENSE": {
+     "release": "release/hf/LICENSE",
+     "size": 11544,
+     "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a",
+     "git_sha1": "f938136e3adacfd92be087f6e113b5d6d97f678f"
+    },
+    "test.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/oss-result-relevant/test.jsonl",
+     "size": 5529358,
+     "sha256": "51ef0e009b269c6ffa42c3e464b59f00bb7c4887d7d516ed8ba2ab0eb6b3a045",
+     "git_sha1": "bfd8c5b5416e9bf71953970fd8843f9ace2db1a1"
+    },
+    "calibration.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/oss-result-relevant/calibration.jsonl",
+     "size": 5588464,
+     "sha256": "eb20c49ca1cd9041016450c2610fe666cfbb756099c83ca5a3e5f749a22237c2",
+     "git_sha1": "b8a0e2930c69f2f57eb4f7f0aa42a7796bfb8a02"
+    }
+   }
+  },
+  {
+   "repo": "mstrasser/jeff-adapter-task-complete",
+   "adapter": "jeff.agents.task-complete",
+   "files": {
+    "adapter_model.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/oss-task-complete/adapter_model.safetensors",
+     "size": 40937456,
+     "sha256": "b851954e60ba4d3208713d5455dcff586ad3cbd0a4fa30727f0a5732e8bea9ff",
+     "git_sha1": "b26a4bc0cee9f88b09c8bf1db1f3aaaf7cdcc948"
+    },
+    "readout.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/oss-task-complete/readout.safetensors",
+     "size": 522320,
+     "sha256": "9e9b4de51f026952f1ee454dd3f1335c0c3ae67011b9e917a8878e55c3e86116",
+     "git_sha1": "167a084c2f43a3e00752f05ff359acaf2b27acb1"
+    },
+    "adapter_config.json": {
+     "release": "release/hf/jeff-adapter-task-complete/adapter_config.json",
+     "size": 1331,
+     "sha256": "946d084bba79b5128a266cf94ee97d18c976cbc89add761e9b148afd2c7bda0f",
+     "git_sha1": "d99ad8e61e55707b314c3481fbd54fc00edc00a4",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/oss-task-complete/adapter_config.json",
+      "sha256": "b2e9b6a681ebc2387dfe4f5376bb091cf55a5d214407dc9bcba624aee7087aac"
+     }
+    },
+    "decision_config.json": {
+     "release": "release/hf/jeff-adapter-task-complete/decision_config.json",
+     "size": 24619,
+     "sha256": "56a885f8ebe6533a9dcc15d932b493921d31c9b3420668c848c6b60b83a867c7",
+     "git_sha1": "34e62fe060a958ce12a8d59866b466ba763b5239",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/oss-task-complete/decision_config.json",
+      "sha256": "fb646024f1f43d3714904414dfd883f35e4fa856e14110354a83cf34f3683906"
+     }
+    },
+    "manifest.yaml": {
+     "release": "release/hf/jeff-adapter-task-complete/manifest.yaml",
+     "size": 3110,
+     "sha256": "2b611ebd953175588e1dceb2c76843e02e00f4136c1f50fb7576c41b8dc88eee",
+     "git_sha1": "2811c3655117cad79930f1828f96b212c9b9c247"
+    },
+    "README.md": {
+     "release": "release/hf/jeff-adapter-task-complete/README.md",
+     "size": 10537,
+     "sha256": "7176cc0fb810db8e1641c8b6fa7e771fecbee229e828bf4e589fbe26ee23e1b1",
+     "git_sha1": "616fe526001eace32e2c66886f1f102a8dc06f4a"
+    },
+    "LICENSE": {
+     "release": "release/hf/LICENSE",
+     "size": 11544,
+     "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a",
+     "git_sha1": "f938136e3adacfd92be087f6e113b5d6d97f678f"
+    },
+    "test.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/oss-task-complete/test.jsonl",
+     "size": 6812187,
+     "sha256": "3e24dd075f48e889d25973249a664c61d355998eebeae46d98a3940cfbb7c5d1",
+     "git_sha1": "571aca7a14f3a7a94afc8e40a8f0c1f43693b2dc"
+    },
+    "calibration.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/oss-task-complete/calibration.jsonl",
+     "size": 6890681,
+     "sha256": "62e3d5f4a7baef4a611d229c04352076f43d43df408f29d3f7c0dcfb82d90540",
+     "git_sha1": "7cf1b17db47e18d2a20afe9bdd1186d43203b5a1"
+    }
+   }
+  },
+  {
+   "repo": "mstrasser/jeff-adapter-tool-route",
+   "adapter": "jeff.agents.tool-route",
+   "files": {
+    "adapter_model.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/oss-tool-route/adapter_model.safetensors",
+     "size": 40937456,
+     "sha256": "77bc609aa04a55cae8abd2a90545d0ce4054707db4a6317602310deeb80a4801",
+     "git_sha1": "dd4b0d250fff51cb95bad4da4714fb494b18ab6b"
+    },
+    "readout.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/oss-tool-route/readout.safetensors",
+     "size": 522320,
+     "sha256": "8f64b8dbc31cfbb0a66c0a28a7f8a7ec69f40a5169c9cfe096e14cad2299288b",
+     "git_sha1": "3139be8ba5c70804d57380571c7e0c1cd85d9107"
+    },
+    "adapter_config.json": {
+     "release": "release/hf/jeff-adapter-tool-route/adapter_config.json",
+     "size": 1331,
+     "sha256": "c057549ced0108223a85e7ac992822199ed011810a7e763f3980a1e55997c4f8",
+     "git_sha1": "45f69b55991c28237c158517443b78905d5db00d",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/oss-tool-route/adapter_config.json",
+      "sha256": "689596f7cee4fab7544d6008b596f1bff17ccbdf5bc59b9c8f12d3add12f61cc"
+     }
+    },
+    "decision_config.json": {
+     "release": "release/hf/jeff-adapter-tool-route/decision_config.json",
+     "size": 24618,
+     "sha256": "aa3345055c2aafc455337278c43518c7b403e3233d9e1489ad9b10a6c1d2412d",
+     "git_sha1": "0d8a67923d0c86cbdf87b08cf5eb3ab01509e385",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/oss-tool-route/decision_config.json",
+      "sha256": "1479be566a6d0a43a7cd5d9aa172741b08816099de198b20f73c280a7f6b400e"
+     }
+    },
+    "manifest.yaml": {
+     "release": "release/hf/jeff-adapter-tool-route/manifest.yaml",
+     "size": 2520,
+     "sha256": "5563eb0a30953d925f96d21cd82a6064ccd4ec6db1cce0ecf7b276b14fdda283",
+     "git_sha1": "807dbdb14cb877f4d98e01275255dd2cd95d9160"
+    },
+    "README.md": {
+     "release": "release/hf/jeff-adapter-tool-route/README.md",
+     "size": 11068,
+     "sha256": "0c55b53bb45406b014267860dcc6d821eb08b2a7a38cb4b600d7faf84e198769",
+     "git_sha1": "6db5662f080ec6ea809d45d295e014c8fd0fd6ac"
+    },
+    "LICENSE": {
+     "release": "release/hf/LICENSE",
+     "size": 11544,
+     "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a",
+     "git_sha1": "f938136e3adacfd92be087f6e113b5d6d97f678f"
+    },
+    "test.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/oss-tool-route/test.jsonl",
+     "size": 22242750,
+     "sha256": "c421a508d4df900a237b9299c12dd3a6ec1df5ea0e0743b2eed53cc15fedcf85",
+     "git_sha1": "c88ff6acacbd6af8530a84e948356994908bbb67"
+    },
+    "calibration.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/oss-tool-route/calibration.jsonl",
+     "size": 21889190,
+     "sha256": "8dd064fa51355657097e11c61a3e77534f874449ceb4b1924cdabd99c3362f68",
+     "git_sha1": "4ff0faabc4f4fa4d3038dee36c20432aaaac5e97"
+    }
+   }
+  },
+  {
+   "repo": "mstrasser/jeff-adapter-sanctions",
+   "adapter": "jeff.compliance.sanctions",
+   "files": {
+    "adapter_model.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/sanctions/adapter_model.safetensors",
+     "size": 40937456,
+     "sha256": "107ee01ea157acf799000bd883fc27d45540040dad2bd9e483530813cfb34008",
+     "git_sha1": "53010429b7ffe0088a610d912f20b86c2a8cabb5"
+    },
+    "readout.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/sanctions/readout.safetensors",
+     "size": 522320,
+     "sha256": "20a510a9296d95d03d81c44e4e86cb42caf4f1d3913a7553b2ed3ffd69038cd1",
+     "git_sha1": "4b8151126514fa7cd09556f7b46ec2e0d0be5fe9"
+    },
+    "adapter_config.json": {
+     "release": "release/hf/jeff-adapter-sanctions/adapter_config.json",
+     "size": 1331,
+     "sha256": "018abcbbbf674283eaea428b16f405247114b6a3459629aa72cbb7211f016717",
+     "git_sha1": "7ecde84a2d03b772cab17dc852cbd197aac654f6",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/sanctions/adapter_config.json",
+      "sha256": "90bcdeeb28e9c02004ced9e2d71a89f7682f6bbf8b00ef3a630977f0a2157c4d"
+     }
+    },
+    "decision_config.json": {
+     "release": "release/hf/jeff-adapter-sanctions/decision_config.json",
+     "size": 24616,
+     "sha256": "52db767e4847aecca4a02e9c240a28ff8a67aab61cc13441be96c1557befc7a2",
+     "git_sha1": "c30ecd40ef5cbbe00927037673a41fe901857d34",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/sanctions/decision_config.json",
+      "sha256": "93d7bd903b59aeb284b101de7d427db111ea23104d9b7c257f5f2cfea33291b2"
+     }
+    },
+    "manifest.yaml": {
+     "release": "release/hf/jeff-adapter-sanctions/manifest.yaml",
+     "size": 2905,
+     "sha256": "6e5fe606dbe1879dad7b30ca50dc81037a81e1501bcc951675cc40f43f31dbda",
+     "git_sha1": "484ef9b3f95895aa02843b2ae7a37d598b78cebc"
+    },
+    "README.md": {
+     "release": "release/hf/jeff-adapter-sanctions/README.md",
+     "size": 8710,
+     "sha256": "a5017f47f994c235f48bb9c9cd803f3f1722fac0b50c98a9c8e0dd07a718416b",
+     "git_sha1": "1926f76d5204e714566979755920285c2fc33628"
+    },
+    "LICENSE": {
+     "release": "release/hf/LICENSE",
+     "size": 11544,
+     "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a",
+     "git_sha1": "f938136e3adacfd92be087f6e113b5d6d97f678f"
+    }
+   },
+   "held": [
+    "test.jsonl",
+    "calibration.jsonl"
+   ]
+  },
+  {
+   "repo": "mstrasser/jeff-adapter-ci-failure",
+   "adapter": "jeff.engineering.ci-failure",
+   "files": {
+    "adapter_model.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/oss-ci-failure/adapter_model.safetensors",
+     "size": 40937456,
+     "sha256": "e1235cb09499ac7a7742c075e70130a8c4de8e3e9f4d1317d1b022f9059733ed",
+     "git_sha1": "908b13f7a4995eb1ac1c7465ab93f554be0d03cc"
+    },
+    "readout.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/oss-ci-failure/readout.safetensors",
+     "size": 522320,
+     "sha256": "31b84e7f1b21e004bd41e6ad479a924542ea1305db842af11d38a64d0d52ae32",
+     "git_sha1": "a79aecc661ae680d8917a89fe1c6bd8fb41b7428"
+    },
+    "adapter_config.json": {
+     "release": "release/hf/jeff-adapter-ci-failure/adapter_config.json",
+     "size": 1331,
+     "sha256": "f7105e0260b5feab56abf12368a8ee9e840b0e336848049642ff07caa94197cc",
+     "git_sha1": "a3f7f42a63094ec06f1a3436b63209719095d3be",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/oss-ci-failure/adapter_config.json",
+      "sha256": "031963a77fbdb8edd6dcd1728ccda56a511acd8eb6276944f16cd1f4afec963e"
+     }
+    },
+    "decision_config.json": {
+     "release": "release/hf/jeff-adapter-ci-failure/decision_config.json",
+     "size": 24618,
+     "sha256": "ce636429a41464a938b5c3e4cc9c1cb04950401e1f973311eab0de925dc2f9db",
+     "git_sha1": "62782b9ffc9ed83de4c0f2ce5ab56664cbf865f1",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/oss-ci-failure/decision_config.json",
+      "sha256": "3ed391d2060f5feb344b8f43f3737261963b6ac3481cd5d9f131807b4a430fb9"
+     }
+    },
+    "manifest.yaml": {
+     "release": "release/hf/jeff-adapter-ci-failure/manifest.yaml",
+     "size": 5107,
+     "sha256": "21bdfbe25c3e322aa4cfe4632d67fd6e0443d737e450f661bd930180e91cdd30",
+     "git_sha1": "cb8e060679c3e933b3e4414e8c4a1652358dc6c0"
+    },
+    "README.md": {
+     "release": "release/hf/jeff-adapter-ci-failure/README.md",
+     "size": 12057,
+     "sha256": "67303acb95ad24ab070f5752f453c20c858ca5b5cf12169a5e9b63369994b740",
+     "git_sha1": "8b2e1a76c6e00973c4a0baa1d664b18651f99d27"
+    },
+    "LICENSE": {
+     "release": "release/hf/LICENSE",
+     "size": 11544,
+     "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a",
+     "git_sha1": "f938136e3adacfd92be087f6e113b5d6d97f678f"
+    },
+    "test.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/oss-ci-failure/test.jsonl",
+     "size": 12875025,
+     "sha256": "2c45297107798b3e26345d58c1de14c10992b164480708b7706e2f91538143b1",
+     "git_sha1": "898a4c6ae10003528b11efd5d43800f81e42a394"
+    },
+    "calibration.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/oss-ci-failure/calibration.jsonl",
+     "size": 9798942,
+     "sha256": "fb60a566a6f66793f1b414f87a663c36a8090d55d8e13b43ec166f7bc824d37d",
+     "git_sha1": "fc4b52f7fc506bdf0455831867607adb8ebec318"
+    }
+   }
+  },
+  {
+   "repo": "mstrasser/jeff-adapter-issue-route",
+   "adapter": "jeff.engineering.issue-route",
+   "files": {
+    "adapter_model.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/oss-issue-route/adapter_model.safetensors",
+     "size": 40937456,
+     "sha256": "67a6e8d293ba9c2d719c20dbee5c8b75c25d45831280b287610630f737c8c244",
+     "git_sha1": "f958ec95d14538dfb79a3bc29e0541e92358bf8b"
+    },
+    "readout.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/oss-issue-route/readout.safetensors",
+     "size": 522320,
+     "sha256": "2bebac61f78cc4b96f7bd22fcfd5cbe106d88edc76dee256c44cb97a2fd826ae",
+     "git_sha1": "0f31c3f28ff3f9e11361405fa72b40109339cd82"
+    },
+    "adapter_config.json": {
+     "release": "release/hf/jeff-adapter-issue-route/adapter_config.json",
+     "size": 1331,
+     "sha256": "ae1c3d2495c22f903eb60b7188844d745adbd4ddc9b9456758c56f8f80a74c2a",
+     "git_sha1": "325c7e1b06423b890bcad26c5c9b2c51ec12fb21",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/oss-issue-route/adapter_config.json",
+      "sha256": "45f0d90266fbc52b8b7d7d0bcb21ca4fcb7d02cf1a65a62e9ef136f47727f41d"
+     }
+    },
+    "decision_config.json": {
+     "release": "release/hf/jeff-adapter-issue-route/decision_config.json",
+     "size": 24620,
+     "sha256": "9b6c63571344033efe397f3e6f8977afbb27741bc331ad7c594f718a768bfca0",
+     "git_sha1": "00f80c47003262b31384538ea01dcbbb06e79ec9",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/oss-issue-route/decision_config.json",
+      "sha256": "4409cd9cd2151d5e3f450697d71c2b0a9f0885815c430c5dd2dff0e4f06764c3"
+     }
+    },
+    "manifest.yaml": {
+     "release": "release/hf/jeff-adapter-issue-route/manifest.yaml",
+     "size": 4193,
+     "sha256": "487ff9e2daf221a438372ca22efe1584dbb906a7e62efc703010669241a16267",
+     "git_sha1": "56edf45e31b79779d504dfd8ebe6ff8608784087"
+    },
+    "README.md": {
+     "release": "release/hf/jeff-adapter-issue-route/README.md",
+     "size": 11591,
+     "sha256": "7629c87f6ee98fdd6a0f18c43ad3c66821e362920a5d5bd8f7c27720d21f67db",
+     "git_sha1": "cb14d588345568877d50dc63877565aa27bdb701"
+    },
+    "LICENSE": {
+     "release": "release/hf/LICENSE",
+     "size": 11544,
+     "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a",
+     "git_sha1": "f938136e3adacfd92be087f6e113b5d6d97f678f"
+    },
+    "test.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/oss-issue-route/test.jsonl",
+     "size": 13556219,
+     "sha256": "8adf4a79f605dd40d4c21ed7d0f2c68b2be2944d4135aad5923ca2074566593e",
+     "git_sha1": "969b3bda302ff25488d83af59ea1d5970c1c1338"
+    },
+    "calibration.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/oss-issue-route/calibration.jsonl",
+     "size": 13520432,
+     "sha256": "ca86885353d8ae71740056dd0550f7b963a40e4ca97cc5ce727cc4e3a943d633",
+     "git_sha1": "08fe70c25eb4317dd1d858fada58e19cec995337"
+    }
+   }
+  },
+  {
+   "repo": "mstrasser/jeff-adapter-trading-desk",
+   "adapter": "jeff.finance.trading-desk",
+   "files": {
+    "adapter_model.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/trading-desk/adapter_model.safetensors",
+     "size": 40937456,
+     "sha256": "b5b1dcd99bcaa90d88e3ed99622c442daaf017fb04733cea90ac854b6ffa26e9",
+     "git_sha1": "00f281cc5ef1363e8919fe28075e9622454c8d0a"
+    },
+    "readout.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/trading-desk/readout.safetensors",
+     "size": 522320,
+     "sha256": "2372fe088e1aa5efa6fa7e5b4df9dfd821feb5459778b431396cf163608affdd",
+     "git_sha1": "ac8a3ab515c9e50aa3037a06e2bdc5d9457fe047"
+    },
+    "adapter_config.json": {
+     "release": "release/hf/jeff-adapter-trading-desk/adapter_config.json",
+     "size": 1331,
+     "sha256": "b676de6d62acc9ebeb7f33a32f57e7c7500bb4632677eaf3d95c15547bc62ec1",
+     "git_sha1": "da2f5ba86ce46e6027bc397356a3eee6bed73aca",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/trading-desk/adapter_config.json",
+      "sha256": "8a1eede48581fcbe0b7e4dd6ddeb926bf1acc3181e6768ea470f621812a4dfa7"
+     }
+    },
+    "decision_config.json": {
+     "release": "release/hf/jeff-adapter-trading-desk/decision_config.json",
+     "size": 24619,
+     "sha256": "36519770e4b4a8fe7a656132c46ed8645f9c23682cdc7b5b1a47443ce87b4b8b",
+     "git_sha1": "db15a86aa110609f181f801e22c34f1120fc2295",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/trading-desk/decision_config.json",
+      "sha256": "87ae7695cae32082c8d1303a9e72429a0b3e677595b45658fdbba38e63bf1c5e"
+     }
+    },
+    "manifest.yaml": {
+     "release": "release/hf/jeff-adapter-trading-desk/manifest.yaml",
+     "size": 6173,
+     "sha256": "869b6f59f5a92db71763423a7b09bcd687043b77e23d81524f6039414863bec1",
+     "git_sha1": "54e1ccb34ac5408697b168dbaa8722b04446ecbe"
+    },
+    "README.md": {
+     "release": "release/hf/jeff-adapter-trading-desk/README.md",
+     "size": 12638,
+     "sha256": "a0e23f5a3a02f8c3e7cf018e8aa2634afd3fdbcdd8d152cff16f37ca632b06b5",
+     "git_sha1": "8c78920851f9ac21eb1265a12b36573da5ce7904"
+    },
+    "LICENSE": {
+     "release": "release/hf/LICENSE",
+     "size": 11544,
+     "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a",
+     "git_sha1": "f938136e3adacfd92be087f6e113b5d6d97f678f"
+    },
+    "test.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/trading-desk/test.jsonl",
+     "size": 25592580,
+     "sha256": "c2592b6ce86a8096780a03a74710e3839f4158c5b3f11bfc53a3fd51f25030f6",
+     "git_sha1": "b56e7f04068dc78b2a7db04f7513769ff2635854"
+    },
+    "calibration.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/trading-desk/calibration.jsonl",
+     "size": 5094227,
+     "sha256": "9cf4e607c95368c67b65f438b158366c6f41c1fa927367e4435cc8f2fdefacf3",
+     "git_sha1": "ce250952cfb397085f1771287aca0b837a99ec7c"
+    }
+   }
+  },
+  {
+   "repo": "mstrasser/jeff-adapter-knowledge-qa",
+   "adapter": "jeff.knowledge.knowledge-qa",
+   "files": {
+    "adapter_model.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/knowledge-qa-v2/adapter_model.safetensors",
+     "size": 40937456,
+     "sha256": "f4b0e89ffd185df147c2951bd5609a60bab7d20b6dc9de6f6829dd75f85b1a78",
+     "git_sha1": "de0aee878a4bc0cc05bff394e95b9078b975d590"
+    },
+    "readout.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/knowledge-qa-v2/readout.safetensors",
+     "size": 522320,
+     "sha256": "5399dadd9ccc68f103fb0b7868424c8884fc52e7bd47ad10f06f3ff26218eae1",
+     "git_sha1": "9eb0a741b3b57315df5dce5a627621f598952fe9"
+    },
+    "adapter_config.json": {
+     "release": "release/hf/jeff-adapter-knowledge-qa/adapter_config.json",
+     "size": 1331,
+     "sha256": "13516963e0ca361581b7d88cd4a9921be97412da30cf9e92c123ade8391498b8",
+     "git_sha1": "d1e0241aaef4db974c9e0599dd59923da32be84a",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/knowledge-qa-v2/adapter_config.json",
+      "sha256": "efd6deac1851fd44c9f70174d77b7f84ea8cb863b5fd35c93955c6ae3ec8b4ce"
+     }
+    },
+    "decision_config.json": {
+     "release": "release/hf/jeff-adapter-knowledge-qa/decision_config.json",
+     "size": 24618,
+     "sha256": "9fd372074cf8721140d2cc1e2e34a3149a58b0907fba311d4996b8a444e1502f",
+     "git_sha1": "f9b258d19f8249f8293621c97d032c745c04cbad",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/knowledge-qa-v2/decision_config.json",
+      "sha256": "4470345f7e6339e6673fce018ac5d46dcdf1539d4de74ffba6fc3be46f8e1f9a"
+     }
+    },
+    "manifest.yaml": {
+     "release": "release/hf/jeff-adapter-knowledge-qa/manifest.yaml",
+     "size": 5552,
+     "sha256": "8286ee0a1b9e661ac895f374b4fd4be6a76741aa22722531bc70968f70c1953c",
+     "git_sha1": "df44033ba9db02e7f57cd49928ba5cd68299f219"
+    },
+    "README.md": {
+     "release": "release/hf/jeff-adapter-knowledge-qa/README.md",
+     "size": 11168,
+     "sha256": "fb2f11682f977b61d1c1284b8450aca0f7c6da6dbe92fe79339763b4d8d78c77",
+     "git_sha1": "5bbbdfbedceb5996325b56818c56eb706b19a2d0"
+    },
+    "LICENSE": {
+     "release": "release/hf/LICENSE",
+     "size": 11544,
+     "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a",
+     "git_sha1": "f938136e3adacfd92be087f6e113b5d6d97f678f"
+    },
+    "test.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/knowledge-qa-v2/test.jsonl",
+     "size": 2563046,
+     "sha256": "97e6aab939a4ec009bbc4347aa56a85ab733d466163d4b0b3e14f09813cf07db",
+     "git_sha1": "e8a1ed5bf60d71c4409a05129a1a8ab38d97ca58"
+    },
+    "calibration.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/knowledge-qa-v2/calibration.jsonl",
+     "size": 2557119,
+     "sha256": "ed2622ccf4e87b9c36196c16274982fe1d03dabccd3f9065076f22fef8d56516",
+     "git_sha1": "4dd6fec66f9b71e0a417cbe59df316dc104c657c"
+    }
+   }
+  },
+  {
+   "repo": "mstrasser/jeff-adapter-emotion",
+   "adapter": "jeff.language.emotion",
+   "files": {
+    "adapter_model.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/emotion/adapter_model.safetensors",
+     "size": 40937456,
+     "sha256": "10e798c2e4c3fda826de3b3f598079473fff96aa0778e2fb93e5a2dbbb4960d8",
+     "git_sha1": "a809a39d5f63c470f963d584f40e5b88e09cba38"
+    },
+    "readout.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/emotion/readout.safetensors",
+     "size": 522320,
+     "sha256": "c1da7f5daaebcee551ba0efd9acf0f12003e9cd4e0c24fed77453e6590821623",
+     "git_sha1": "d3582c79836e5a382314078d4629795c64996671"
+    },
+    "adapter_config.json": {
+     "release": "release/hf/jeff-adapter-emotion/adapter_config.json",
+     "size": 1331,
+     "sha256": "35ff65d484f49a6a864406a71b30c3c8ffd892abef2cb0afba58fef3417459be",
+     "git_sha1": "52099ab978823ee5350d1c50b036e244e9d7e842",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/emotion/adapter_config.json",
+      "sha256": "3c89f7fdfc9355bc5276c6771e0363f800a4f04a83382c980ddf867041eb9c5e"
+     }
+    },
+    "decision_config.json": {
+     "release": "release/hf/jeff-adapter-emotion/decision_config.json",
+     "size": 24615,
+     "sha256": "49994b20229a57f4ba4d18b38afdde9267494ee6af169c050258ddbf618e3864",
+     "git_sha1": "42db64f790f437fecb45ca27cc94f339faf84b63",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/emotion/decision_config.json",
+      "sha256": "22b9a09b2db2e62542331252b3f7eebf17817aea1b9e0310d8aac79cb6a9efa7"
+     }
+    },
+    "manifest.yaml": {
+     "release": "release/hf/jeff-adapter-emotion/manifest.yaml",
+     "size": 3596,
+     "sha256": "59778d5959c68b74307d1ef681dc8ad6838d7c489a8a20a1bcfd390de6fa0b10",
+     "git_sha1": "422df43f6f9f30153dccf4ab99ee7e181e569b3f"
+    },
+    "README.md": {
+     "release": "release/hf/jeff-adapter-emotion/README.md",
+     "size": 8638,
+     "sha256": "58f7e41e5c046c01e986ea49259e5b6b9713cc8673d527228e90a8bf7a85bb07",
+     "git_sha1": "d009c471c4b606267ec70fb61e4d0ce7a2f13d17"
+    },
+    "LICENSE": {
+     "release": "release/hf/LICENSE",
+     "size": 11544,
+     "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a",
+     "git_sha1": "f938136e3adacfd92be087f6e113b5d6d97f678f"
+    },
+    "test.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/emotion/test.jsonl",
+     "size": 16098411,
+     "sha256": "65b0a9cfe30108e51167cf571b6d7dd29e2754e8db07f7dfa29a31ba3cde7038",
+     "git_sha1": "f0e44445e25fc4ad6381e196d21ce4489d2747f4"
+    },
+    "calibration.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/emotion/calibration.jsonl",
+     "size": 2993832,
+     "sha256": "ed20e2deff7a90f6a60b7dfaa82b892d8e4f64d1785247ff3a9ac9a4a259d7eb",
+     "git_sha1": "f30669de8196c9e18f04cc91ab260ff882e1a639"
+    }
+   }
+  },
+  {
+   "repo": "mstrasser/jeff-adapter-legal-clauses",
+   "adapter": "jeff.legal.legal-clauses",
+   "files": {
+    "adapter_model.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/legal-clauses/adapter_model.safetensors",
+     "size": 40937456,
+     "sha256": "d64433008a7c8cd4128878d3758e09f35f96f65f447f632fa854eb1b0cc7c56a",
+     "git_sha1": "9a5c5e001d1b33387f2e37eeac77840f43e422a8"
+    },
+    "readout.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/legal-clauses/readout.safetensors",
+     "size": 522320,
+     "sha256": "c334ee43276e36d839abe929af561989329fe0afa1b739469b85a6074636e384",
+     "git_sha1": "82cfd2e520aa037f07e2d01236a1c88ed1333c0f"
+    },
+    "adapter_config.json": {
+     "release": "release/hf/jeff-adapter-legal-clauses/adapter_config.json",
+     "size": 1331,
+     "sha256": "5235d1c05cb89367f2756b0badcdfac9e128e8c60f0cedac1c5a09e0076f74e2",
+     "git_sha1": "9d0f72229655879fd4887bbfb809a51ccf6ded04",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/legal-clauses/adapter_config.json",
+      "sha256": "15dc0c678d530aaf0c217a9adb1e815650d17bc655adb8b0d5ab422221135e56"
+     }
+    },
+    "decision_config.json": {
+     "release": "release/hf/jeff-adapter-legal-clauses/decision_config.json",
+     "size": 24621,
+     "sha256": "be2dee129d115045da735add2e5f49803a0e66662cd08abd1e0c6b9bc3f701da",
+     "git_sha1": "a68ade5c48a27e160cc596fb323415d8302fbc1b",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/legal-clauses/decision_config.json",
+      "sha256": "d10950637cbdb17ca69fee4b98a97edf4a1bec9af1e5bc00df4b25fa0f74cf43"
+     }
+    },
+    "manifest.yaml": {
+     "release": "release/hf/jeff-adapter-legal-clauses/manifest.yaml",
+     "size": 13200,
+     "sha256": "cdce7e305f52b2f046b7449271ed50135600dee223e1228ece164f9c17a19faf",
+     "git_sha1": "00cca6c0e8231fdc10401967722c50e5dbcb6f37"
+    },
+    "README.md": {
+     "release": "release/hf/jeff-adapter-legal-clauses/README.md",
+     "size": 17894,
+     "sha256": "bf4dc9bf284e4fcd2461ae7dc56e18d6f652ad6ed1bf5398b79c63b3cc137e34",
+     "git_sha1": "2e18cf1c087578f03fc674362d9da2abe609667c"
+    },
+    "LICENSE": {
+     "release": "release/hf/LICENSE",
+     "size": 11544,
+     "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a",
+     "git_sha1": "f938136e3adacfd92be087f6e113b5d6d97f678f"
+    },
+    "test.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/legal-clauses/test.jsonl",
+     "size": 120216488,
+     "sha256": "d3172e00cf1487cd7fb2760b4bc2d9cf2bb7be0b0a5280f1f7a7f6bc3dedb99e",
+     "git_sha1": "fec42d0c872458eb5ee2ee41a20c0e389d712445"
+    },
+    "calibration.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/legal-clauses/calibration.jsonl",
+     "size": 11642886,
+     "sha256": "ba2438e5a36e201f41984f2b3dbc0fed47dc338724e3edd4a826bf986dcc75e6",
+     "git_sha1": "10f9ff580238bf49d8c6a6b64db2140d6c5eb399"
+    }
+   }
+  },
+  {
+   "repo": "mstrasser/jeff-adapter-contradicts",
+   "adapter": "jeff.reasoning.contradicts",
+   "files": {
+    "adapter_model.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/oss-contradicts/adapter_model.safetensors",
+     "size": 40937456,
+     "sha256": "fa55ddcf6c64afc41e67a6c78ea3f08d35e084f91cdde92c5da0c166ba3d2339",
+     "git_sha1": "d6d6b2bd5f942bae036ed1b910eac145358c67b6"
+    },
+    "readout.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/oss-contradicts/readout.safetensors",
+     "size": 522320,
+     "sha256": "b5b99ec1b248f05c612e9860fbec6673eed64b0e71dfc567849dcafb4f7652af",
+     "git_sha1": "ff25ac1dba308c3092358902eb367398f4c8ca7c"
+    },
+    "adapter_config.json": {
+     "release": "release/hf/jeff-adapter-contradicts/adapter_config.json",
+     "size": 1331,
+     "sha256": "14c2ea42d6a4c7400f3a17fbe68356bb81a7702d97ce880ad9045c270cdf9926",
+     "git_sha1": "df6ab94bf4bd3e7b0761569164e162a04696ef72",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/oss-contradicts/adapter_config.json",
+      "sha256": "500263b6fd5f11500713a6ff5b08ff126937f500cdafe01f98299323848ea78b"
+     }
+    },
+    "decision_config.json": {
+     "release": "release/hf/jeff-adapter-contradicts/decision_config.json",
+     "size": 24617,
+     "sha256": "ebc9a67b461865c8bad74cadb1a93fd5e236667a46f60609719ab5f4fa91886d",
+     "git_sha1": "115368c1bfa3d2a05aa468a07aab7e61aa14b10a",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/oss-contradicts/decision_config.json",
+      "sha256": "71df8020118b9fd9547cb895aace2bbf78abc21b3981d9ed8f75fdca55e8f8c0"
+     }
+    },
+    "manifest.yaml": {
+     "release": "release/hf/jeff-adapter-contradicts/manifest.yaml",
+     "size": 2306,
+     "sha256": "1939aa9301ce88ed5ae53ff7c8e0ab7b35c3cce78889955e5921a7a15d40595c",
+     "git_sha1": "7b00760fd34f62bb063754af69d93c748182fb4e"
+    },
+    "README.md": {
+     "release": "release/hf/jeff-adapter-contradicts/README.md",
+     "size": 8674,
+     "sha256": "9512b17c53e8e72149b22291b5cd5c04d0bf128f589a1636bc76da063edea203",
+     "git_sha1": "8044bbeb456ceca22d38921dfbe7e48941431658"
+    },
+    "LICENSE": {
+     "release": "release/hf/LICENSE",
+     "size": 11544,
+     "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a",
+     "git_sha1": "f938136e3adacfd92be087f6e113b5d6d97f678f"
+    },
+    "test.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/oss-contradicts/test.jsonl",
+     "size": 4033967,
+     "sha256": "96363d8476dbd2dc072a6289b608837f9ee0519d08669d3df01a030c49f45041",
+     "git_sha1": "03c4112d8ff9c3dd6e52f765a1de4a8258f715c3"
+    },
+    "calibration.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/oss-contradicts/calibration.jsonl",
+     "size": 4088357,
+     "sha256": "1534f109bbd6e42b18ddde1abeec6e75842bc31360e0e12c3778431d0982ae7f",
+     "git_sha1": "720b9e821427d62f1a345347d0e5efbc2fb6ac23"
+    }
+   }
+  },
+  {
+   "repo": "mstrasser/jeff-adapter-entails",
+   "adapter": "jeff.reasoning.entails",
+   "files": {
+    "adapter_model.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/oss-entails/adapter_model.safetensors",
+     "size": 40937456,
+     "sha256": "76430f9170777b50ee23001fc9a2ee9ed15a66dfb1b9975c1280b6f5dab1db71",
+     "git_sha1": "ff2935f9df6acaaadaab236b57a79b8f1e41daf7"
+    },
+    "readout.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/oss-entails/readout.safetensors",
+     "size": 522320,
+     "sha256": "b4176f70c5d23dd317c11f1eee5e43b4956b84d5bcacb808cec8955472954bcc",
+     "git_sha1": "b2300ccee93f8a02f1f9308ff0e7c3a4f73d1052"
+    },
+    "adapter_config.json": {
+     "release": "release/hf/jeff-adapter-entails/adapter_config.json",
+     "size": 1331,
+     "sha256": "ba5898b531d4d22947c027e090300755dff64264d2ee3a4d5e94a174f0449731",
+     "git_sha1": "f6f9371fd5b9ecce8a922597f1457bd77484921e",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/oss-entails/adapter_config.json",
+      "sha256": "f43e4233aaa76f7cd0de6daa1e9b5bde9770a19ada0c7cba75db0f9225e0ae30"
+     }
+    },
+    "decision_config.json": {
+     "release": "release/hf/jeff-adapter-entails/decision_config.json",
+     "size": 24613,
+     "sha256": "1858cc0d3d44180bd44d3553ffbf798b4abb5afd0ba947ed5fc87676b340c82b",
+     "git_sha1": "683cf470de02d573bdb3918dcdc4f2438307310e",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/oss-entails/decision_config.json",
+      "sha256": "e90ff559a03ab5ddf5717d20db375036c4e50cc257aa830fb21c605b2722d011"
+     }
+    },
+    "manifest.yaml": {
+     "release": "release/hf/jeff-adapter-entails/manifest.yaml",
+     "size": 2319,
+     "sha256": "84404e4c7346b5cd81fdc8f8317234a7df81f913e50a7493abce583f51126702",
+     "git_sha1": "3339b6c3d2dec73f2a0b3d8810aff30fce283d5e"
+    },
+    "README.md": {
+     "release": "release/hf/jeff-adapter-entails/README.md",
+     "size": 8483,
+     "sha256": "020cbca77f6a6265bdbca4237632761dfdf603cee41a1652c844b4fd8282ee96",
+     "git_sha1": "8dd1649d6181aaf546d6b8296da9ac6a567b85b3"
+    },
+    "LICENSE": {
+     "release": "release/hf/LICENSE",
+     "size": 11544,
+     "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a",
+     "git_sha1": "f938136e3adacfd92be087f6e113b5d6d97f678f"
+    },
+    "test.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/oss-entails/test.jsonl",
+     "size": 5006144,
+     "sha256": "98105352b30b6c498ed55750ffb6bd7d9ce4a830bfb753ef38f4d1218cc2617c",
+     "git_sha1": "8c3ed83c040b4cec17b39f85bd72f5a5c41ba58f"
+    },
+    "calibration.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/oss-entails/calibration.jsonl",
+     "size": 4997739,
+     "sha256": "fa44aafe7653f2f7aa53fdaa31cf4df4bb0133b5c902978c6b4006b51c9193a3",
+     "git_sha1": "57b4362ba05742448065e959da1eef31545ea8e5"
+    }
+   }
+  },
+  {
+   "repo": "mstrasser/jeff-adapter-equivalent",
+   "adapter": "jeff.reasoning.equivalent",
+   "files": {
+    "adapter_model.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/oss-equivalent/adapter_model.safetensors",
+     "size": 40937456,
+     "sha256": "dec1d436c97bb8f3943ea73365ef56b164bbceacb0250366eb95c1538f51e53c",
+     "git_sha1": "ae2c4bb9d5becbb8af8ff93e20bd211557eb0049"
+    },
+    "readout.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/oss-equivalent/readout.safetensors",
+     "size": 522320,
+     "sha256": "d016cc34d8c90f282936638f3175a6c462206ec214f4896bc8b8e376f6d4801c",
+     "git_sha1": "3d78e8027b4c2dd07faf2e68fb19ec5c4304a0a8"
+    },
+    "adapter_config.json": {
+     "release": "release/hf/jeff-adapter-equivalent/adapter_config.json",
+     "size": 1331,
+     "sha256": "1a36748153b3b502d5c73d7f4d511c9d2d9816acc70a7eaa451c5a12403f2aa4",
+     "git_sha1": "38aebe3afe28e6433293c24b06a8cdfda306947e",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/oss-equivalent/adapter_config.json",
+      "sha256": "41cc90f9b0427bde34e6112f0334ca2b5b24a1a373f0a0e86db1b17b5d66e431"
+     }
+    },
+    "decision_config.json": {
+     "release": "release/hf/jeff-adapter-equivalent/decision_config.json",
+     "size": 24616,
+     "sha256": "535ef621a170b9069e7569dec3e3df0a5b2ed426bfcffc27e47f8e8681d09a74",
+     "git_sha1": "7cb2130acb071084f49e2884ce1113885f1171c7",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/oss-equivalent/decision_config.json",
+      "sha256": "cd721f84bd42e3ac349eb142e991eb04968b8a42704b3b897fb56f1e77dae4a3"
+     }
+    },
+    "manifest.yaml": {
+     "release": "release/hf/jeff-adapter-equivalent/manifest.yaml",
+     "size": 2329,
+     "sha256": "cb419b124cdffaca6dafe65114b4c3673009058789156efd68fc35de298dff82",
+     "git_sha1": "997c9a880740ce97b395e10e588942a40cbd174d"
+    },
+    "README.md": {
+     "release": "release/hf/jeff-adapter-equivalent/README.md",
+     "size": 7944,
+     "sha256": "47f68633fcc5a96218134c1ae5eb4c17c51f3c6cd13ed734d985d9e8fbae06d3",
+     "git_sha1": "7b4357fc85876fd8c1e97110351a07473c854ef3"
+    },
+    "LICENSE": {
+     "release": "release/hf/LICENSE",
+     "size": 11544,
+     "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a",
+     "git_sha1": "f938136e3adacfd92be087f6e113b5d6d97f678f"
+    },
+    "test.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/oss-equivalent/test.jsonl",
+     "size": 3847407,
+     "sha256": "5f4b85f1efc89969ca8dd2b5d78ae93015596fc15cd66d9376f01aed23d5956f",
+     "git_sha1": "aadf969c969add6dc3c126781e9fc3032944e224"
+    },
+    "calibration.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/oss-equivalent/calibration.jsonl",
+     "size": 3885655,
+     "sha256": "e86e74c24b5e39ff37a727334ee9cec6d620ae88750a890b06af8ab19ec57c16",
+     "git_sha1": "4200ae2d24d1c6fe0ff69424f87807d223519c20"
+    }
+   }
+  },
+  {
+   "repo": "mstrasser/jeff-adapter-is-complete",
+   "adapter": "jeff.reasoning.is-complete",
+   "files": {
+    "adapter_model.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/oss-is-complete/adapter_model.safetensors",
+     "size": 40937456,
+     "sha256": "68a99cda912834842517b984c1508aaeb0f4c4da9dd4b3b3c1c89da5db321d90",
+     "git_sha1": "ef14eb4c7b971960739bad1f9370d776b4883fe7"
+    },
+    "readout.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/oss-is-complete/readout.safetensors",
+     "size": 522320,
+     "sha256": "01fa22b8e4cfd5c132b9b28419a5c62a65db95c2d1683a2506d05b95181094ea",
+     "git_sha1": "045ade770a37d10786f9c0d11a39c3092b223373"
+    },
+    "adapter_config.json": {
+     "release": "release/hf/jeff-adapter-is-complete/adapter_config.json",
+     "size": 1331,
+     "sha256": "c5fe8cf822402973e1c26e25cb656ded77a50a3a9b543e12f2b4c894446d62c0",
+     "git_sha1": "4eca16ff698ad380df187efeed33ad3fd4939208",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/oss-is-complete/adapter_config.json",
+      "sha256": "83f291ca61b90c934b9c48c02d012747d96ecc906f3da860396df13ff8ccbb1c"
+     }
+    },
+    "decision_config.json": {
+     "release": "release/hf/jeff-adapter-is-complete/decision_config.json",
+     "size": 24617,
+     "sha256": "eeaa17245f9fd6e27412688b591b4947935dcf12491b00305431d8a18616be57",
+     "git_sha1": "b52c74c41a2b694e07247f2903855c9874431027",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/oss-is-complete/decision_config.json",
+      "sha256": "20e9c5630b0ad9d9f333b8424293830a7d9b11041786c9aadee6a672c5ea4446"
+     }
+    },
+    "manifest.yaml": {
+     "release": "release/hf/jeff-adapter-is-complete/manifest.yaml",
+     "size": 3055,
+     "sha256": "030dc4c7a0976e46b97e54ec7cf18328f5223b75c829c114aa7cae963cfa4c67",
+     "git_sha1": "c19dfaafda8dfbeeda25a5b47f5dbace0cd5e588"
+    },
+    "README.md": {
+     "release": "release/hf/jeff-adapter-is-complete/README.md",
+     "size": 10964,
+     "sha256": "7c9ab3e1c553440469628238b645e89e88ed68131ddf410128f50021e99a71c7",
+     "git_sha1": "31be9710f4223b01e47aac75ae80766d3a5d5f49"
+    },
+    "LICENSE": {
+     "release": "release/hf/LICENSE",
+     "size": 11544,
+     "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a",
+     "git_sha1": "f938136e3adacfd92be087f6e113b5d6d97f678f"
+    },
+    "test.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/oss-is_complete/test.jsonl",
+     "size": 7766970,
+     "sha256": "c56f1f8e456e571a6984394f36af18c0c890eee30942e96fa489071be32711a7",
+     "git_sha1": "b3b41478576b8c3e98bc8f147304cdc68a0b7676"
+    },
+    "calibration.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/oss-is_complete/calibration.jsonl",
+     "size": 7638058,
+     "sha256": "995b1b06f468e1149a610b4b523054f324378f8c0dfa6323a0d5218859dca774",
+     "git_sha1": "d397b21a3c0599b67c47f72f1a32196eb84217b0"
+    }
+   }
+  },
+  {
+   "repo": "mstrasser/jeff-adapter-satisfies",
+   "adapter": "jeff.reasoning.satisfies",
+   "files": {
+    "adapter_model.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/oss-satisfies/adapter_model.safetensors",
+     "size": 40937456,
+     "sha256": "5e4682804e4bd4f1836aae5f4a4699ca6d32d2d7669df0e910aff663c07834c7",
+     "git_sha1": "b7cb4a78a46a5400a9d9daa8aadd6c87162410ed"
+    },
+    "readout.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/oss-satisfies/readout.safetensors",
+     "size": 522320,
+     "sha256": "074f9232fca01fabff248d11af98b251aa239ccfcdaee729de02064f920e3263",
+     "git_sha1": "5cd93ac400bfe6dc13516954e8d0225956835e71"
+    },
+    "adapter_config.json": {
+     "release": "release/hf/jeff-adapter-satisfies/adapter_config.json",
+     "size": 1331,
+     "sha256": "273b1d0a3cb565ad0c5c9f06344cec0eb98db570cdc3eafa0fa59abce502314e",
+     "git_sha1": "4a3c3be68532f25bec6c4d7781beb5b268acfc9a",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/oss-satisfies/adapter_config.json",
+      "sha256": "1563ee1365b496166371c6a7f4a7bb938acfa581e531f066c022d4f7c729f8ca"
+     }
+    },
+    "decision_config.json": {
+     "release": "release/hf/jeff-adapter-satisfies/decision_config.json",
+     "size": 24615,
+     "sha256": "7080460b07b5ff3fe876987f0289b28f3095e69de4864470140526d76437cfca",
+     "git_sha1": "fd92422e460754f28a02a2ea87e2760ecea80e2b",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/oss-satisfies/decision_config.json",
+      "sha256": "98c797a37197c0cc62c454bd6f88ffc1ede01065332c0bdf73a22b43ebab0274"
+     }
+    },
+    "manifest.yaml": {
+     "release": "release/hf/jeff-adapter-satisfies/manifest.yaml",
+     "size": 2990,
+     "sha256": "381af5230e16e2c489ed8a0c15192b17ae7dedaee3310b04b8611747017054c7",
+     "git_sha1": "950c97a090168e64f4027ef9fcd83d7326c2c26b"
+    },
+    "README.md": {
+     "release": "release/hf/jeff-adapter-satisfies/README.md",
+     "size": 8330,
+     "sha256": "624f646602eedaeb0154cb7b8368ad2e9243be94090bdbf3c866bb5c1d145d55",
+     "git_sha1": "b6694c87838a5bdf81b49ca0dfc85b12e1eafa0c"
+    },
+    "LICENSE": {
+     "release": "release/hf/LICENSE",
+     "size": 11544,
+     "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a",
+     "git_sha1": "f938136e3adacfd92be087f6e113b5d6d97f678f"
+    },
+    "test.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/oss-satisfies/test.jsonl",
+     "size": 7999572,
+     "sha256": "b7e49bc14893fbf6c3b06326c88cc0fa272143c6e8cbc3e4f5318d352d7d0d7c",
+     "git_sha1": "b84aae6d3ae8e6bf6da02c2ed1e7bf3a66b0a55b"
+    },
+    "calibration.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/oss-satisfies/calibration.jsonl",
+     "size": 8068236,
+     "sha256": "fbd29b776e4e0ff55ddd2906c5f2d82a23443591062876f55d35484c293f48b9",
+     "git_sha1": "0c152ea35ce59a0bd3e934a851b3d220789311e1"
+    }
+   }
+  },
+  {
+   "repo": "mstrasser/jeff-adapter-doc-type",
+   "adapter": "jeff.retrieval.doc-type",
+   "files": {
+    "adapter_model.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/oss-doc-type/adapter_model.safetensors",
+     "size": 40937456,
+     "sha256": "29fb258ea181f2ff2b13ed3f3d03a3f329a5ab980f327436ad91c36927e52fa0",
+     "git_sha1": "514cf45f1fd6aab0cffa4eb15cc636ed2b601b98"
+    },
+    "readout.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/oss-doc-type/readout.safetensors",
+     "size": 522320,
+     "sha256": "06c626736ac69a7b6155a35cf0ac73c9a7b168723adcb596660010edbb432b50",
+     "git_sha1": "5d48ba1c5b3d262a74af7b510776a7b73d6e2292"
+    },
+    "adapter_config.json": {
+     "release": "release/hf/jeff-adapter-doc-type/adapter_config.json",
+     "size": 1331,
+     "sha256": "41e5ff0cda165ba039b13a81b221d44b1b9cb744fff0cd5b9047ce6356d8d86c",
+     "git_sha1": "7e79c5e6baf2e2013b9998c3d12c5a6b4ca7dfba",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/oss-doc-type/adapter_config.json",
+      "sha256": "173ab984ad9620426d3fdcc53a2ef86dfda9e3be01fdba4e0787dbc06b0b24c2"
+     }
+    },
+    "decision_config.json": {
+     "release": "release/hf/jeff-adapter-doc-type/decision_config.json",
+     "size": 24614,
+     "sha256": "d670c9bff187ac78fcde8f93a2649dc191369fc277e243545e2d71ccc6e92bd5",
+     "git_sha1": "75287fe47484c2d64b388c5e69dacd406de19429",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/oss-doc-type/decision_config.json",
+      "sha256": "944527198ede6a8bd05453badb05eb2af8f02fe828a3456078d8464eb32b171c"
+     }
+    },
+    "manifest.yaml": {
+     "release": "release/hf/jeff-adapter-doc-type/manifest.yaml",
+     "size": 1793,
+     "sha256": "76939c3dee7e76c6dc4ef374e8641b363fb97e32bcffe174631e9b5226795eb0",
+     "git_sha1": "508087044b570fed0081b2cbfbd4081aa50bf7bf"
+    },
+    "README.md": {
+     "release": "release/hf/jeff-adapter-doc-type/README.md",
+     "size": 8237,
+     "sha256": "d8f8876a8da3acefdb560e8c80006bfe9e6a3cf9d26676bda0521c1f60871c07",
+     "git_sha1": "2c5a5329ab4bc906532e5a3e4ba2e82bccdf4302"
+    },
+    "LICENSE": {
+     "release": "release/hf/LICENSE",
+     "size": 11544,
+     "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a",
+     "git_sha1": "f938136e3adacfd92be087f6e113b5d6d97f678f"
+    },
+    "test.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/oss-doc-type/test.jsonl",
+     "size": 7922522,
+     "sha256": "f6b1ea2ebf13d52b3c710e531ab07be80410080f60ed34942b8fe4a4ca28a127",
+     "git_sha1": "79f1942636a56df4cb196922740435bf41ff7366"
+    },
+    "calibration.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/oss-doc-type/calibration.jsonl",
+     "size": 9527728,
+     "sha256": "d164f3753b75a78a1cff1cdf61f1f9b7a6f884d9da59039d48695ed8ab7c736b",
+     "git_sha1": "46e48c55b973c40b6b2a437e16dfb81898010b6c"
+    }
+   }
+  },
+  {
+   "repo": "mstrasser/jeff-adapter-evidence-sufficient",
+   "adapter": "jeff.retrieval.evidence-sufficient",
+   "files": {
+    "adapter_model.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/oss-evidence-sufficient-v2/adapter_model.safetensors",
+     "size": 40937456,
+     "sha256": "c47ebc64ea12167b9ff2a50f3a096074721841e26d8c106c0501bb2c273aa2c7",
+     "git_sha1": "ecd1089dbaec527f424ad9779d68167928541330"
+    },
+    "readout.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/oss-evidence-sufficient-v2/readout.safetensors",
+     "size": 522320,
+     "sha256": "42ddd03b0d117821c1d9f3289bd2a2cf8f3108c35e81dd105bcc96d5e0deb82c",
+     "git_sha1": "7c5caf72b8c46180da3f6c5936abafb2b0d9b730"
+    },
+    "adapter_config.json": {
+     "release": "release/hf/jeff-adapter-evidence-sufficient/adapter_config.json",
+     "size": 1331,
+     "sha256": "f51b606ff95d89910146f3953c0e0ebd7d33de5b01d5beaf5a9fdd099962449b",
+     "git_sha1": "2333a765cc4224d56f0bb3f867851039af6e8840",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/oss-evidence-sufficient-v2/adapter_config.json",
+      "sha256": "0836a132eed3af584b8e82123f056897ca90224a76330a2c34429df7280919ff"
+     }
+    },
+    "decision_config.json": {
+     "release": "release/hf/jeff-adapter-evidence-sufficient/decision_config.json",
+     "size": 24625,
+     "sha256": "10a55dfa2c403dfdbbe48d3591ca3f369afd260e4cab0b097d32da7e93d3e19e",
+     "git_sha1": "8b25654fd2aace233a4668e980f299c44ebfdf19",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/oss-evidence-sufficient-v2/decision_config.json",
+      "sha256": "55212ee6e08726bec0ea311cc41d17f4ebe287debc1a888d0def25d2ffa230a7"
+     }
+    },
+    "manifest.yaml": {
+     "release": "release/hf/jeff-adapter-evidence-sufficient/manifest.yaml",
+     "size": 2700,
+     "sha256": "5989340fe9eca80807709c80a02ce860697506ea242122b98fa2ae0386787311",
+     "git_sha1": "8f1d144ffd09758003085d457aa9b6d47f7936c3"
+    },
+    "README.md": {
+     "release": "release/hf/jeff-adapter-evidence-sufficient/README.md",
+     "size": 8490,
+     "sha256": "fb8443736bdd41081d6f14d9ba6e841486d94f015354bd45e6c469b84e1f19eb",
+     "git_sha1": "e704a9bf29c899eea2e20e732168cdc7a2404d2a"
+    },
+    "LICENSE": {
+     "release": "release/hf/LICENSE",
+     "size": 11544,
+     "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a",
+     "git_sha1": "f938136e3adacfd92be087f6e113b5d6d97f678f"
+    },
+    "test.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/oss-evidence-sufficient-v2/test.jsonl",
+     "size": 11331246,
+     "sha256": "1746b8f7a87107aee0c26e365e5d817cd91b00724c9f4cc5d34db849c64e4b48",
+     "git_sha1": "54752971f078c71eb7c2803596dcce845e33fd7e"
+    },
+    "calibration.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/oss-evidence-sufficient-v2/calibration.jsonl",
+     "size": 11187627,
+     "sha256": "82fdacff2cf779533d68c0ba805dfe0d9471f98b68e268caa1720b79666c1c8f",
+     "git_sha1": "c1d1ae6d1c82c6e467848611f135bd2cfc2a20ac"
+    }
+   }
+  },
+  {
+   "repo": "mstrasser/jeff-adapter-extract-check",
+   "adapter": "jeff.retrieval.extract-check",
+   "files": {
+    "adapter_model.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/oss-extract-check/adapter_model.safetensors",
+     "size": 40937456,
+     "sha256": "09b1772feb458f8b7aa49e6796139ed9d0f3732d5392b744ad86faeea3ac9b98",
+     "git_sha1": "1854d2d486f718708e23f3970203408f3407e2aa"
+    },
+    "readout.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/oss-extract-check/readout.safetensors",
+     "size": 522320,
+     "sha256": "93ee421db272ea05f99954cea7859d31d422140e35f432f9b5cf0868a4f984bb",
+     "git_sha1": "aa8a2a80bc89d3bcc85f7c487d78694a0ac267ca"
+    },
+    "adapter_config.json": {
+     "release": "release/hf/jeff-adapter-extract-check/adapter_config.json",
+     "size": 1331,
+     "sha256": "460cb1e9132c69ce449794571938bf3360ab9e6748290201eaec8586190f5fff",
+     "git_sha1": "65e72552314006784d5f0d507553479b1237def5",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/oss-extract-check/adapter_config.json",
+      "sha256": "db3c40d4f8c623e090287507b989d4f5439010329b718230ed1aa4c619dea5b1"
+     }
+    },
+    "decision_config.json": {
+     "release": "release/hf/jeff-adapter-extract-check/decision_config.json",
+     "size": 24619,
+     "sha256": "8a48eaa4e458b7af3052e5aee2b24fc6190b7da167598ca1ea50767efcc28b37",
+     "git_sha1": "7d634f60743ba6d22443f2e6fb15ce95c1ac390b",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/oss-extract-check/decision_config.json",
+      "sha256": "e79d8e783b39b43c97d9045de0395a8ab34c8b3681471e8815d0dd50117261de"
+     }
+    },
+    "manifest.yaml": {
+     "release": "release/hf/jeff-adapter-extract-check/manifest.yaml",
+     "size": 2944,
+     "sha256": "c756cd5be7f008f24e350fcc914ee4095bac2c45c3d80a917d02f6977f519872",
+     "git_sha1": "a2381593d2bd6181215d8f0a41048f84e908635b"
+    },
+    "README.md": {
+     "release": "release/hf/jeff-adapter-extract-check/README.md",
+     "size": 7909,
+     "sha256": "88b1142a8a37e88fcad341a6456b5aa13f69a247e2ae57e75ac92cf9daa8f97a",
+     "git_sha1": "caf03e01b3578e11bdb155f3ea0d0d30c3dc1b42"
+    },
+    "LICENSE": {
+     "release": "release/hf/LICENSE",
+     "size": 11544,
+     "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a",
+     "git_sha1": "f938136e3adacfd92be087f6e113b5d6d97f678f"
+    },
+    "test.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/oss-extract-check/test.jsonl",
+     "size": 7950448,
+     "sha256": "2fe96dee072889f7cf2a78e3651639b08426e38291321a1a17fddbedbb6721f4",
+     "git_sha1": "fc300b324b4edc5c3d6d2addfb01a44ef1646ba8"
+    },
+    "calibration.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/oss-extract-check/calibration.jsonl",
+     "size": 7887029,
+     "sha256": "cd827e5a51addf2313a411fcd689ce18f594434540ce800a434b5632d9f660e6",
+     "git_sha1": "20a65ca6a7a323c9e723014408f1a5bb055839ba"
+    }
+   }
+  },
+  {
+   "repo": "mstrasser/jeff-adapter-ground",
+   "adapter": "jeff.retrieval.ground",
+   "files": {
+    "adapter_model.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/ground/adapter_model.safetensors",
+     "size": 40937456,
+     "sha256": "72302a6a141cabd0928557327711ab420fa1f22698cf921f41d16e4b755cd7ce",
+     "git_sha1": "cb40fbb4a235f75957ed3b8025358974c14ede1e"
+    },
+    "readout.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/ground/readout.safetensors",
+     "size": 522320,
+     "sha256": "fdd866375fb6e8bc878398f4b3d5a238045148aaed8f2133356777756abd8708",
+     "git_sha1": "60035470c2bdbda58112bd48b6d3c71f36a5958b"
+    },
+    "adapter_config.json": {
+     "release": "release/hf/jeff-adapter-ground/adapter_config.json",
+     "size": 1331,
+     "sha256": "da9b3245fb1f9d164f91f24b69b9e3ed8c493d2feeb374449e12682263af0559",
+     "git_sha1": "b2063eba5d1a1a0561a96d8e1ccca7de011cd0d4",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/ground/adapter_config.json",
+      "sha256": "a91ffcc55ff8ad1b76c0284da2763d20d5e9034ccc3068ca5e4ad6ae97647af7"
+     }
+    },
+    "decision_config.json": {
+     "release": "release/hf/jeff-adapter-ground/decision_config.json",
+     "size": 24614,
+     "sha256": "f3d7d2b6641cf02fe86414e9366930d739f3f31da59e187cc50135c2e23b5310",
+     "git_sha1": "677dcb1d632f98764425301214a9987053ca6c07",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/ground/decision_config.json",
+      "sha256": "75afa9067394839afc8345be7531cc66e5535d4fff477f547b26caf93191a6f8"
+     }
+    },
+    "manifest.yaml": {
+     "release": "release/hf/jeff-adapter-ground/manifest.yaml",
+     "size": 2479,
+     "sha256": "bcc596b7bddc7eabaab0b584f7aa2b46f9cf1ae7b6ea4f5e06d9fcc1f5793924",
+     "git_sha1": "d02bd1a34b6329ce2449a7fcf10ffdcf86ff88b9"
+    },
+    "README.md": {
+     "release": "release/hf/jeff-adapter-ground/README.md",
+     "size": 8868,
+     "sha256": "52c1277f94114eab40ba8156a7c46cd262b4ee3b5ef27d256d1fa2899fc43cb8",
+     "git_sha1": "f87f17d11054c4a1510dcb37123aed57b5226c12"
+    },
+    "LICENSE": {
+     "release": "release/hf/LICENSE",
+     "size": 11544,
+     "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a",
+     "git_sha1": "f938136e3adacfd92be087f6e113b5d6d97f678f"
+    },
+    "test.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/ground/test.jsonl",
+     "size": 34137215,
+     "sha256": "b06fde6d80097f5ff17e765baaca8d478de38bc6a8a3631670e0228a355a1816",
+     "git_sha1": "23093a8c782dfaf5d3855c007b8977535341f13e"
+    },
+    "calibration.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/ground/calibration.jsonl",
+     "size": 11392173,
+     "sha256": "c57c67e8e950eaa12d72af25cc058555208721ecfeb0d6aae69252aa6d3407b2",
+     "git_sha1": "6fca3ba1e68f7098681a7db48bb23867b10a187c"
+    }
+   }
+  },
+  {
+   "repo": "mstrasser/jeff-adapter-passage-relevant",
+   "adapter": "jeff.retrieval.passage-relevant",
+   "files": {
+    "adapter_model.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/oss-passage-relevant-v2/adapter_model.safetensors",
+     "size": 40937456,
+     "sha256": "136445b81e26bdf66862017e61cf06cef3749a53d28cbc8e782e31704aad8629",
+     "git_sha1": "8e1cc668ec9013a0e857d2131cf47c22d838b69f"
+    },
+    "readout.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/oss-passage-relevant-v2/readout.safetensors",
+     "size": 522320,
+     "sha256": "51ff6b214c4f00b19d1af820bf3b9a3305561f3bed158947d479996a6069182c",
+     "git_sha1": "fa8448c00b4b38da468118363616c2372fe67dea"
+    },
+    "adapter_config.json": {
+     "release": "release/hf/jeff-adapter-passage-relevant/adapter_config.json",
+     "size": 1331,
+     "sha256": "1e28ebc9fbe1a266f7c057315e284e93cede5d5b4aff5cafa29d2bbd3e563b54",
+     "git_sha1": "bbb4fd994f00d9d18eee2a743611cc622173188b",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/oss-passage-relevant-v2/adapter_config.json",
+      "sha256": "8f74b06f5d8abfc1dc67b07f03ffbd3cb406fa1eaa38c0a1f332c67e40ccf3e9"
+     }
+    },
+    "decision_config.json": {
+     "release": "release/hf/jeff-adapter-passage-relevant/decision_config.json",
+     "size": 24622,
+     "sha256": "4ab488b822759e5ea9ed4248c90f4af08a881ed1acf9c8d5e8bd8028666dda1b",
+     "git_sha1": "369dd2fc5c7bd6e8557a04d817fdfd9fca6f7fb2",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/oss-passage-relevant-v2/decision_config.json",
+      "sha256": "daf1ad413ae6b66729861ee6cd70cfad5fae76c9f2320c5ab4ccdf39c6751bf4"
+     }
+    },
+    "manifest.yaml": {
+     "release": "release/hf/jeff-adapter-passage-relevant/manifest.yaml",
+     "size": 2665,
+     "sha256": "b154d718d472ccca5a33fe5f164417361042c11fc325b56c9b26bc13cdbec0d2",
+     "git_sha1": "c54a5f4dbbfdaea7bf8c4e315562f98fb5dca0b6"
+    },
+    "README.md": {
+     "release": "release/hf/jeff-adapter-passage-relevant/README.md",
+     "size": 8022,
+     "sha256": "356f66e8ce80638f3c2afbdde79a8714b0ea2d4453ee8b098b411312bd458020",
+     "git_sha1": "6b9cce68562cd699e81eaa19f5f15446396dffaa"
+    },
+    "LICENSE": {
+     "release": "release/hf/LICENSE",
+     "size": 11544,
+     "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a",
+     "git_sha1": "f938136e3adacfd92be087f6e113b5d6d97f678f"
+    },
+    "test.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/oss-passage-relevant-v2/test.jsonl",
+     "size": 6657087,
+     "sha256": "652c9bce5da6137c0bef0bc39159926649363ede29911492204184c7ea2cc0b9",
+     "git_sha1": "ad8625b5b53c66648f2ed05ff3147de6fb9396dc"
+    },
+    "calibration.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/oss-passage-relevant-v2/calibration.jsonl",
+     "size": 6727494,
+     "sha256": "f06034123c61e1c1447384b27cee343f065f69309a6d9d5bc9b73a0cbe3b9433",
+     "git_sha1": "55d179a9127e8acf6ac3fffa030b98e88ab65c98"
+    }
+   }
+  },
+  {
+   "repo": "mstrasser/jeff-adapter-query-route",
+   "adapter": "jeff.retrieval.query-route",
+   "files": {
+    "adapter_model.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/oss-query-route/adapter_model.safetensors",
+     "size": 40937456,
+     "sha256": "8e515b5f8731fb894a60aac794a5cf01fae8f13f7b1d8a7d302784d602d624c8",
+     "git_sha1": "04d0bedb00391021a8ca5254d2acf26bb679af57"
+    },
+    "readout.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/oss-query-route/readout.safetensors",
+     "size": 522320,
+     "sha256": "9e6b056e9a8f844746199849d579755a44feebc3148d35a788a7565c45062c8b",
+     "git_sha1": "ee33c82d2e2874cb8aefb8880294e72c3bfac739"
+    },
+    "adapter_config.json": {
+     "release": "release/hf/jeff-adapter-query-route/adapter_config.json",
+     "size": 1331,
+     "sha256": "a7af0172f57deaa4a60566c6c6ecca63d49d07c47c012950f22c9cc8550eafd6",
+     "git_sha1": "a57c180d24564e189b18f5cca8c699c5533bb6c8",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/oss-query-route/adapter_config.json",
+      "sha256": "1d4bc6133d05c80acbfaba2aad52e380c6dc648ece0fc518e65ea549b8eb5abb"
+     }
+    },
+    "decision_config.json": {
+     "release": "release/hf/jeff-adapter-query-route/decision_config.json",
+     "size": 24618,
+     "sha256": "5308c8d1b8c5a5bce6b16a87b1613c8a5ff12683401ba88a8a16c5f31c9a2172",
+     "git_sha1": "bc7179103eb61975d484cd14e10dbd116cb0ead2",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/oss-query-route/decision_config.json",
+      "sha256": "187ab38b383c73405666d9248371725dd5a404d0146c0e7841ab49d43f2c24cb"
+     }
+    },
+    "manifest.yaml": {
+     "release": "release/hf/jeff-adapter-query-route/manifest.yaml",
+     "size": 1974,
+     "sha256": "d76dd247936e1a636cccf42c7c4ff5451752a3c5f58c4cd655e661c6a65eb604",
+     "git_sha1": "36b5bafb6ac1caafa92bde78e9bda614cef09ff1"
+    },
+    "README.md": {
+     "release": "release/hf/jeff-adapter-query-route/README.md",
+     "size": 8953,
+     "sha256": "72c1cc660523366fad48f9e902ac06b78dbf7355476ceabbdcdb01f252c6c2c9",
+     "git_sha1": "ba8502fe8a99c295a638a92c5c405a4262fe3f44"
+    },
+    "LICENSE": {
+     "release": "release/hf/LICENSE",
+     "size": 11544,
+     "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a",
+     "git_sha1": "f938136e3adacfd92be087f6e113b5d6d97f678f"
+    },
+    "test.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/oss-query-route/test.jsonl",
+     "size": 10920661,
+     "sha256": "3eb278df08bd04206f91897e428f983f9b9da9de96b987d235e379030de7243c",
+     "git_sha1": "67c7d5b2e1f61db9cc5577345a812713a358c481"
+    },
+    "calibration.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/oss-query-route/calibration.jsonl",
+     "size": 16848651,
+     "sha256": "14735520c86f8c6c86f6ca390d905813f6c5838ba81a09f21d0f3ae8866496e8",
+     "git_sha1": "5bed76a9cdeed495fa1c87979b37ac32b51c4142"
+    }
+   }
+  },
+  {
+   "repo": "mstrasser/jeff-adapter-section-id",
+   "adapter": "jeff.retrieval.section-id",
+   "files": {
+    "adapter_model.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/oss-section-id/adapter_model.safetensors",
+     "size": 40937456,
+     "sha256": "9a21dddcaf43726d2a90778e05a6aa6e68d48e2c33561a580507294858f9c1b6",
+     "git_sha1": "54871a44113332e086ec75ce92e5b3df9aedcf59"
+    },
+    "readout.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/oss-section-id/readout.safetensors",
+     "size": 522320,
+     "sha256": "0fbed9862da3bfca8e62e97d966a0f6269d34075bb708240625219181c7877a8",
+     "git_sha1": "4e5da8958c1c819086bf7357b731c13fcdb955a6"
+    },
+    "adapter_config.json": {
+     "release": "release/hf/jeff-adapter-section-id/adapter_config.json",
+     "size": 1331,
+     "sha256": "3bc8a9ceca873520ca0ca511240ccd5760cc7c054b14b8114a0e4077b6c76874",
+     "git_sha1": "32261172852a1bafad82857a8f0f4a3acf5925ce",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/oss-section-id/adapter_config.json",
+      "sha256": "81b3b7820f2e2be164a16d9138819063311516285bfe862ef9e184b9645a4ea0"
+     }
+    },
+    "decision_config.json": {
+     "release": "release/hf/jeff-adapter-section-id/decision_config.json",
+     "size": 24617,
+     "sha256": "6a02df2cdd851c02881d571a497feac005db105a305d4e55ef974292fd1150ca",
+     "git_sha1": "27e0f8c3b89974f0fb0cdfbed940f9cc89e6c7cf",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/oss-section-id/decision_config.json",
+      "sha256": "6b5bbfa1def31999434596df86051ea38291615f59fd66dc3b4fcf7d22de3535"
+     }
+    },
+    "manifest.yaml": {
+     "release": "release/hf/jeff-adapter-section-id/manifest.yaml",
+     "size": 1784,
+     "sha256": "c9afd920567ae1af0581ca9878c4244279601d7ef10d7557c350f5923449df4e",
+     "git_sha1": "fe5016a9a87c48c4c45f1581b1e3b8abf8dfc47c"
+    },
+    "README.md": {
+     "release": "release/hf/jeff-adapter-section-id/README.md",
+     "size": 7953,
+     "sha256": "3669876e8228b38bb14708d1830f97b5af67a0e79866ed4ea4e07cbdb7f204ab",
+     "git_sha1": "4417b47d3c82016c63a8ed356cefcfeb7a548a50"
+    },
+    "LICENSE": {
+     "release": "release/hf/LICENSE",
+     "size": 11544,
+     "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a",
+     "git_sha1": "f938136e3adacfd92be087f6e113b5d6d97f678f"
+    },
+    "test.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/oss-section-id/test.jsonl",
+     "size": 5449687,
+     "sha256": "10cd5d6adfd6a2573ec3c1f630ae16313781db23d3ad2f7780ce53e24299dfae",
+     "git_sha1": "163ae4b760e08dc64ca661cd7400e4cf20a50d5e"
+    },
+    "calibration.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/oss-section-id/calibration.jsonl",
+     "size": 5599376,
+     "sha256": "8453fdcd365314608800b372cd330a0449f94240d95d5a7d9de2bda38ee6e053",
+     "git_sha1": "35b6319c74597aaf7712a637ef9f6e4c54c9f782"
+    }
+   }
+  },
+  {
+   "repo": "mstrasser/jeff-adapter-router-open-v14",
+   "adapter": "jeff.routing.router-open-v14",
+   "files": {
+    "adapter_model.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/jeff-router-open-v14/adapter_model.safetensors",
+     "size": 40937456,
+     "sha256": "c700727c49b6c42f869d491571b32a71d2b95585dbe4ea568351fc5495282fc2",
+     "git_sha1": "a0609ee54d274cfc7235558749ac35a72762e3e6"
+    },
+    "readout.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/jeff-router-open-v14/readout.safetensors",
+     "size": 522320,
+     "sha256": "4fac2b1d2d00f307d9d123d91d34603ae90c3ef16f65fb46b66d823808f26143",
+     "git_sha1": "eb21dd557aedf7c87fde03ebbf52c2d18f792ace"
+    },
+    "adapter_config.json": {
+     "release": "release/hf/jeff-adapter-router-open-v14/adapter_config.json",
+     "size": 1331,
+     "sha256": "72af9c56c2bd0450809cb03933096b29266d507d0cf84099bdb0c381baae0a42",
+     "git_sha1": "3e7c418e132e1c0c8721d1cec248078ad39f755a",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/jeff-router-open-v14/adapter_config.json",
+      "sha256": "5d3de7d2dd866cde84fa90d292979b1cec4c23e2826c0a61fff22a151ecad5a8"
+     }
+    },
+    "decision_config.json": {
+     "release": "release/hf/jeff-adapter-router-open-v14/decision_config.json",
+     "size": 24627,
+     "sha256": "c70da55e79a4a02a20aa88b610531ab76161dfad62a359c11af0b66782cb59ec",
+     "git_sha1": "acfce608d929679d101feb2c3efc084228b7b46a",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/jeff-router-open-v14/decision_config.json",
+      "sha256": "aeca73146ef80449205fe77956843d28ffa3771d0c41997735ed5ec42b8f9da0"
+     }
+    },
+    "manifest.yaml": {
+     "release": "release/hf/jeff-adapter-router-open-v14/manifest.yaml",
+     "size": 1540,
+     "sha256": "8bcc67af5ae6d0a76a717e4211994b316024557dd736b8ac47c71f68d3b2c7ef",
+     "git_sha1": "0a4bc54df6bc21a68eb0f1621fe0b62a2ef734c1"
+    },
+    "README.md": {
+     "release": "release/hf/jeff-adapter-router-open-v14/README.md",
+     "size": 20241,
+     "sha256": "40315f93fa839b6c104ac784f9b05e8255c726bccbf7ee76ddb70f2773436058",
+     "git_sha1": "2c9fc6416ac1b882ed106bafd9831cfe598b7e08"
+    },
+    "LICENSE": {
+     "release": "release/hf/LICENSE",
+     "size": 11544,
+     "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a",
+     "git_sha1": "f938136e3adacfd92be087f6e113b5d6d97f678f"
+    }
+   },
+   "held": [
+    "test.jsonl",
+    "calibration.jsonl"
+   ]
+  },
+  {
+   "repo": "mstrasser/jeff-adapter-tools",
+   "adapter": "jeff.routing.tools",
+   "files": {
+    "adapter_model.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/tools/adapter_model.safetensors",
+     "size": 40937456,
+     "sha256": "c99f3178e0a90ee1d53f66e2e696cea71dcd788fa1253e1d7d83dd66298a1827",
+     "git_sha1": "2502926ede0f4575d4de9e725b8daf02de60c96e"
+    },
+    "readout.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/tools/readout.safetensors",
+     "size": 522320,
+     "sha256": "c136128d827c4d38df86a6bc5f76ed8feec7f5649890af5340c2ac71df8b2d07",
+     "git_sha1": "f2e1a12d2d892ac4c7a5bf5515a7a70ca369274f"
+    },
+    "adapter_config.json": {
+     "release": "release/hf/jeff-adapter-tools/adapter_config.json",
+     "size": 1331,
+     "sha256": "b7460c9fb4700e5d00c9f49bd7185f8ab9a5cce9b8deb9c984cdf7c2f2051ddf",
+     "git_sha1": "3a0e2cc508c14cd7db112592cbadbe5ac6ad2353",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/tools/adapter_config.json",
+      "sha256": "efbef9110df275bdd50ae23b5e11723893c3b18928834dfbd6b0cedf5295e684"
+     }
+    },
+    "decision_config.json": {
+     "release": "release/hf/jeff-adapter-tools/decision_config.json",
+     "size": 24614,
+     "sha256": "0c0bd1d843b7e7600c262a782c7b6517122025c55d407538c6e1584d0a721012",
+     "git_sha1": "8bcecd65cd2c8f3eeab9c7fcbc2fbe0f5f6ad122",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/tools/decision_config.json",
+      "sha256": "336700eb505f216d39d37564bcbf4314883ea7c0bc5d7a95afa4c22c1dc43a5f"
+     }
+    },
+    "manifest.yaml": {
+     "release": "release/hf/jeff-adapter-tools/manifest.yaml",
+     "size": 1931,
+     "sha256": "084f61e6567de23141a81ce0939631caa4036176c927b489f1a921160b45401a",
+     "git_sha1": "ce9ea0df101674f0eebb0dc56e4db2cdf5191a74"
+    },
+    "README.md": {
+     "release": "release/hf/jeff-adapter-tools/README.md",
+     "size": 8843,
+     "sha256": "c93948b33aa6889380c28dd179089c9ac89f77685af170d525bbe2fb22681944",
+     "git_sha1": "aefcafda47b32ac7da79b9e2854886a6182953db"
+    },
+    "LICENSE": {
+     "release": "release/hf/LICENSE",
+     "size": 11544,
+     "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a",
+     "git_sha1": "f938136e3adacfd92be087f6e113b5d6d97f678f"
+    },
+    "test.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/tools/test.jsonl",
+     "size": 36185067,
+     "sha256": "67daf856a769c6391ca415afde03d4f65cd6224b58266c3df355e38c466a33ab",
+     "git_sha1": "e58c03ef1d2f35c24972cd0fe6d61d2e26a9067f"
+    },
+    "calibration.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/tools/calibration.jsonl",
+     "size": 14605965,
+     "sha256": "c6d97c59f9d925f3109648f1260bd538b3f9b916db31fe06b933930aec4e78e6",
+     "git_sha1": "06f9775d183daa973fb06b0f68080cc29141bb3a"
+    }
+   }
+  },
+  {
+   "repo": "mstrasser/jeff-adapter-guard",
+   "adapter": "jeff.safety.guard",
+   "files": {
+    "adapter_model.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/guard/adapter_model.safetensors",
+     "size": 40937456,
+     "sha256": "42518011e40ac064cf6f07acef38088d7a817b77419135bce64190111a195ae8",
+     "git_sha1": "0edc7fd89838c6ac48e01ccb1fc141129b3e9f56"
+    },
+    "readout.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/guard/readout.safetensors",
+     "size": 522320,
+     "sha256": "4dd728679b4fd1e4971cdc87dc0fe306c0684e92debf4e014df48bb53c36835d",
+     "git_sha1": "1d8db7199617705f0ea5db8b2e30c7621032c188"
+    },
+    "adapter_config.json": {
+     "release": "release/hf/jeff-adapter-guard/adapter_config.json",
+     "size": 1331,
+     "sha256": "b65d768e393394c50c51f49cae214ce562912727d332a1fa86b3f49fb2b6482e",
+     "git_sha1": "f8d1a145f25e402ed79e5470284fa487c7e476b1",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/guard/adapter_config.json",
+      "sha256": "402c7772724eb3923beec468e977f04fa0976f048c9459a96cd66e618ea76ef3"
+     }
+    },
+    "decision_config.json": {
+     "release": "release/hf/jeff-adapter-guard/decision_config.json",
+     "size": 24612,
+     "sha256": "f46ccb95fdbfb118be1c0ce64b50decf01db4b5391046a76b8ccc7f48a070275",
+     "git_sha1": "a747bf5cc74d99029f16f96f70034dade2e800bf",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/guard/decision_config.json",
+      "sha256": "ac742e9c51ea0a2a18bbc53230ecf949e966b0c3daaa754053df979628d753d2"
+     }
+    },
+    "manifest.yaml": {
+     "release": "release/hf/jeff-adapter-guard/manifest.yaml",
+     "size": 2742,
+     "sha256": "3f36740c16ef979d88737aee6bc57baf611ce3facd9ef0ab448a6c9f08b61b6a",
+     "git_sha1": "466bdc11f7f9296cd854cd435f1546d55ec915d3"
+    },
+    "README.md": {
+     "release": "release/hf/jeff-adapter-guard/README.md",
+     "size": 8801,
+     "sha256": "53b7edce24514c26fb5cb66994872a552319036a88eaab4bf72945b2dc6cfb63",
+     "git_sha1": "c746b4ccfab86767789b9ed1f385a2effc878c50"
+    },
+    "LICENSE": {
+     "release": "release/hf/LICENSE",
+     "size": 11544,
+     "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a",
+     "git_sha1": "f938136e3adacfd92be087f6e113b5d6d97f678f"
+    },
+    "test.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/guard/test.jsonl",
+     "size": 16032311,
+     "sha256": "e4adccc0ed294de2aff8a003d3c7da40618ddb2e4de9db7ce2f6b4e7bfbb5d4d",
+     "git_sha1": "6d0386379de1a61b903c720db85d056286fe7bc1"
+    },
+    "calibration.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/guard/calibration.jsonl",
+     "size": 5609405,
+     "sha256": "322e7c9d6fd18454e8fb82ba98678c7c041ca40c0717966a2e35d3150942329e",
+     "git_sha1": "7631041e21ac7dc3c3cf92d4e39bd4fd70711169"
+    }
+   }
+  },
+  {
+   "repo": "mstrasser/jeff-adapter-spam",
+   "adapter": "jeff.safety.spam",
+   "files": {
+    "adapter_model.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/spam/adapter_model.safetensors",
+     "size": 40937456,
+     "sha256": "ca6116010886f27dc746fa8dafae8e17dc91ec1b9c84112f6c1f0f7b3d66536f",
+     "git_sha1": "adb254e595164b61f1c0e5c2f857f42f0366078f"
+    },
+    "readout.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/spam/readout.safetensors",
+     "size": 522320,
+     "sha256": "842aba9b94ba588493bd1cc084ec29a3fd20878572b5bd72303686978ddde272",
+     "git_sha1": "92a7f0468a2bfa0391258f680c4a8990a6fb54a3"
+    },
+    "adapter_config.json": {
+     "release": "release/hf/jeff-adapter-spam/adapter_config.json",
+     "size": 1331,
+     "sha256": "a93b1cbe23b074a9cfc90189b1ac0e56b17c8c9fc4876bdb88266da5090a19be",
+     "git_sha1": "0ec115285700ce00a98cf8a638b649e169652580",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/spam/adapter_config.json",
+      "sha256": "fe6d48500fa0017d9bfee1ee286aa7e2be929058eef0687f8ce8489872bcbeb8"
+     }
+    },
+    "decision_config.json": {
+     "release": "release/hf/jeff-adapter-spam/decision_config.json",
+     "size": 24611,
+     "sha256": "6fc547859c9563cdf7e3834b6cf8606254600eac0f6d1b6021e3e2cfdde157d1",
+     "git_sha1": "945ba992a51212f97eede7f2caf8a4bbe62a8e47",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/spam/decision_config.json",
+      "sha256": "3c9b20190ac1d4acc7d35bc475e20bd59b18f70e2521d1d58c6eefcdc2e04292"
+     }
+    },
+    "manifest.yaml": {
+     "release": "release/hf/jeff-adapter-spam/manifest.yaml",
+     "size": 2826,
+     "sha256": "11a370c30f4b3c45aecd88faaed6be04b312ca1a7164aa5ed4e69b0e696eeb0a",
+     "git_sha1": "eef0830bbe473a67d542f3a48daccdb0dd03c9a1"
+    },
+    "README.md": {
+     "release": "release/hf/jeff-adapter-spam/README.md",
+     "size": 7371,
+     "sha256": "27ed507bb27c7b8f0858c7cf7a0d67f3db91689432c8e252ad517327d5f98c09",
+     "git_sha1": "1dcbd8f0479bf65c4c8c159efcd479065739bfb2"
+    },
+    "LICENSE": {
+     "release": "release/hf/LICENSE",
+     "size": 11544,
+     "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a",
+     "git_sha1": "f938136e3adacfd92be087f6e113b5d6d97f678f"
+    },
+    "test.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/spam/test.jsonl",
+     "size": 9341492,
+     "sha256": "af4f957db16770b70f13a39d220a9feb9ae99593aae0bff09f598052f292947b",
+     "git_sha1": "b1669f951eb0f7fdcdc996209044ace1d6486197"
+    },
+    "calibration.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/spam/calibration.jsonl",
+     "size": 4028182,
+     "sha256": "fea125426174b6bd3beebf20f6fb831a4add20c339d5f0763ff744913fb889c4",
+     "git_sha1": "03b77bd42e4b444abc8c7b28e1f64d032ef36061"
+    }
+   }
+  },
+  {
+   "repo": "mstrasser/jeff-adapter-soc",
+   "adapter": "jeff.security.soc",
+   "files": {
+    "adapter_model.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/soc/adapter_model.safetensors",
+     "size": 40937456,
+     "sha256": "2816f2e1b72b16ffe548bfe608fdf611069309056466101e30fb2dce1b2c00aa",
+     "git_sha1": "26def9620dfea9f8dc807d89cd0e40893f09e72c"
+    },
+    "readout.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/soc/readout.safetensors",
+     "size": 522320,
+     "sha256": "831c3ec72b9f2eb3972001ac082f7d9d5a5904f3856b99cbeb98b43afdb8da93",
+     "git_sha1": "24dbc2aab652754b04ac6cb2d045ca5103a28d38"
+    },
+    "adapter_config.json": {
+     "release": "release/hf/jeff-adapter-soc/adapter_config.json",
+     "size": 1331,
+     "sha256": "9e045dcc33a499a66d9e335f94f9bafd4b5695a31ddca6598efa36f3cc251bcf",
+     "git_sha1": "3631673f4c63d025169165f5949dbc93a0202ea5",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/soc/adapter_config.json",
+      "sha256": "d537d87c98547067c50e614235f6ab60a846723bda060ad365a06282e200351e"
+     }
+    },
+    "decision_config.json": {
+     "release": "release/hf/jeff-adapter-soc/decision_config.json",
+     "size": 24610,
+     "sha256": "fb4e1920bbab218b23623c0bf5b4964410fdd8eedfdcf27e3f57feb9c0a18f3e",
+     "git_sha1": "b1ced24aac4e074d506c08496ed5889f8adeb4eb",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/soc/decision_config.json",
+      "sha256": "509167fb12d8a28938a288ddaef024a46d581b1a5dff27f9c63b8210d9b3c500"
+     }
+    },
+    "manifest.yaml": {
+     "release": "release/hf/jeff-adapter-soc/manifest.yaml",
+     "size": 2262,
+     "sha256": "cb16a63bbefe3a210830c4d9d25da120d8be3cebdb9c96dd625e0e432965c2e8",
+     "git_sha1": "c3eb0da762396ac6049b458cc11e9480ea6fb35e"
+    },
+    "README.md": {
+     "release": "release/hf/jeff-adapter-soc/README.md",
+     "size": 9202,
+     "sha256": "be5324325ba1dab718558187d9263720e8ce1b426241501b8fa4b2faa22596ba",
+     "git_sha1": "4f4f9322c85ca01151189fe0851f1bec18ade15a"
+    },
+    "LICENSE": {
+     "release": "release/hf/LICENSE",
+     "size": 11544,
+     "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a",
+     "git_sha1": "f938136e3adacfd92be087f6e113b5d6d97f678f"
+    }
+   },
+   "held": [
+    "test.jsonl",
+    "calibration.jsonl"
+   ]
+  },
+  {
+   "repo": "mstrasser/jeff-adapter-message-triage",
+   "adapter": "jeff.support.message-triage",
+   "files": {
+    "adapter_model.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/oss-message-triage/adapter_model.safetensors",
+     "size": 40937456,
+     "sha256": "cdd7309e92f19d8214116672020b2168131d366474995e780442928744807e5a",
+     "git_sha1": "5c80340d6aa16a56b5ff92e8fd023581432789c4"
+    },
+    "readout.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/oss-message-triage/readout.safetensors",
+     "size": 522320,
+     "sha256": "00b354dd2e2d2f4319945a5a48b8c56bab0f790747ee08170ed884481be6b346",
+     "git_sha1": "990af22b5d6e31113a4e9f3da03cd0e0e44c6719"
+    },
+    "adapter_config.json": {
+     "release": "release/hf/jeff-adapter-message-triage/adapter_config.json",
+     "size": 1331,
+     "sha256": "901ae8f70a64f97dc50b83841551288236a9fb9693210deeef802d67dcbede03",
+     "git_sha1": "f64f33370d729b8cd9e3cedb6655f8eb89c8f829",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/oss-message-triage/adapter_config.json",
+      "sha256": "a53df145ce9a3f10b7154cffeb91c57de65e391cfe94252448b5f6601505e033"
+     }
+    },
+    "decision_config.json": {
+     "release": "release/hf/jeff-adapter-message-triage/decision_config.json",
+     "size": 24621,
+     "sha256": "3b70f51343a978c4a03dc3717eb9530e7a571edb46257037ffad4fb53581c907",
+     "git_sha1": "dfcb74528ef0a3c9ea134ee968776f73e6167829",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/oss-message-triage/decision_config.json",
+      "sha256": "a8839286f12860b50d905bb1ba58d55fc74c91d787f60badaf301883fd04bff8"
+     }
+    },
+    "manifest.yaml": {
+     "release": "release/hf/jeff-adapter-message-triage/manifest.yaml",
+     "size": 6817,
+     "sha256": "e9ad516d236e3a2f454c3557f5353b0d56b99eda7235fced32435dae0b3deac8",
+     "git_sha1": "159ee8de4b2409ce79416efaec2945d3362aea3d"
+    },
+    "README.md": {
+     "release": "release/hf/jeff-adapter-message-triage/README.md",
+     "size": 14881,
+     "sha256": "57cb92766d521ea1daf3c4d019c40690df3b88be9b49ec42c579093d878ae231",
+     "git_sha1": "f7a46830699e10808b09c8c175bbe8fd97ef907f"
+    },
+    "LICENSE": {
+     "release": "release/hf/LICENSE",
+     "size": 11544,
+     "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a",
+     "git_sha1": "f938136e3adacfd92be087f6e113b5d6d97f678f"
+    },
+    "test.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/oss-message-triage/test.jsonl",
+     "size": 13506093,
+     "sha256": "87078c86bb14120266b33bce1678813fb315f3fa8ab6258ec2943761871a40d5",
+     "git_sha1": "c076ab3155faa7b4f89e95dcea26fbe644455719"
+    },
+    "calibration.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/oss-message-triage/calibration.jsonl",
+     "size": 13253924,
+     "sha256": "40eb4f69a5c61b6406cf36f42201199e727eb186d5e1968e521ed1b35d2a262e",
+     "git_sha1": "a0007176df99b33706e21b9cf6937b90b50d8aa3"
+    }
+   }
+  },
+  {
+   "repo": "mstrasser/jeff-adapter-requires-action",
+   "adapter": "jeff.support.requires-action",
+   "files": {
+    "adapter_model.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/oss-requires-action/adapter_model.safetensors",
+     "size": 40937456,
+     "sha256": "ecb9b035aac0878c4c6169baee1462da2f68e21965e7808b63dd416c187cffd2",
+     "git_sha1": "e260d0cf7ac832299eea200243bd3b7195f2a4e9"
+    },
+    "readout.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/oss-requires-action/readout.safetensors",
+     "size": 522320,
+     "sha256": "580442fd821aa49c12f72a0f4cc36e2169d65876dc06522efb25868000cf2a22",
+     "git_sha1": "db4238939cf66ccfbf3f3d79407fb870ac5726d1"
+    },
+    "adapter_config.json": {
+     "release": "release/hf/jeff-adapter-requires-action/adapter_config.json",
+     "size": 1331,
+     "sha256": "50ac9f5f425c9eb88f1371dd6c98a1f6e3f7db4f1ba8ae0a4e32300c28bf51c1",
+     "git_sha1": "5261e28edb6f4da37398d745dfcb6f31908f2214",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/oss-requires-action/adapter_config.json",
+      "sha256": "689a5211fa6c9198ee72637bdd1e3e8be5183aa6a5e2a14264ee778abce8a531"
+     }
+    },
+    "decision_config.json": {
+     "release": "release/hf/jeff-adapter-requires-action/decision_config.json",
+     "size": 24621,
+     "sha256": "949337f2eb268bd459ec780350b8e4d51e9c5faa1b6fef2790c6ad4f2db31f81",
+     "git_sha1": "4da4f66661706f4700e9b4b5587f43ddc6efcd9e",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/oss-requires-action/decision_config.json",
+      "sha256": "ff71d24f94dc9ea1f4bbbb409bd9168b3f6f9090f276cc1523696a9738a9f7fa"
+     }
+    },
+    "manifest.yaml": {
+     "release": "release/hf/jeff-adapter-requires-action/manifest.yaml",
+     "size": 3968,
+     "sha256": "ff297d45ec588ebafcf25aa8c1c41895c3ca11f90d35d17a27a72003bf4c980a",
+     "git_sha1": "9367c833dc80dbe9d8012ce70a6510893bbcd720"
+    },
+    "README.md": {
+     "release": "release/hf/jeff-adapter-requires-action/README.md",
+     "size": 10134,
+     "sha256": "40b9dd51f465ad1cf5d3a043deb8ae2438051309c5247a3589f2610665879105",
+     "git_sha1": "5b5b8e150e95a42ac2495e264ef229a120eebc0f"
+    },
+    "LICENSE": {
+     "release": "release/hf/LICENSE",
+     "size": 11544,
+     "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a",
+     "git_sha1": "f938136e3adacfd92be087f6e113b5d6d97f678f"
+    },
+    "test.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/oss-requires_action/test.jsonl",
+     "size": 9025666,
+     "sha256": "28a048f982779ac1b08e981aee55c7a559e2c6a698843752a6d3f100b3486e97",
+     "git_sha1": "a987cce76ec4719ba6f0d17f627e16d90369450c"
+    },
+    "calibration.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/oss-requires_action/calibration.jsonl",
+     "size": 9038782,
+     "sha256": "9be60908ca5d538bbe7bf8695e211f510646f0c9715f62134f79aefac732c757",
+     "git_sha1": "7a0391949bc220484a6de92b9703b16530ca54c1"
+    }
+   }
+  },
+  {
+   "repo": "mstrasser/jeff-adapter-support-intents",
+   "adapter": "jeff.support.support-intents",
+   "files": {
+    "adapter_model.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/support-intents/adapter_model.safetensors",
+     "size": 40937456,
+     "sha256": "262226545222102d80a4648dfbe122e3e5d2c767acc5e39cd3ba06806a06611f",
+     "git_sha1": "af4946c4ddc856d38018763978c1cffef259cf90"
+    },
+    "readout.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/support-intents/readout.safetensors",
+     "size": 522320,
+     "sha256": "dd0a73953d10fbcfad03bc7a5e7fe5633bb75084e63e274d456c61e4f037c850",
+     "git_sha1": "c341b63808b7e65012a2827d821e04f332faa3b1"
+    },
+    "adapter_config.json": {
+     "release": "release/hf/jeff-adapter-support-intents/adapter_config.json",
+     "size": 1331,
+     "sha256": "da1563e61b1aa93c17b470b240b7215ebe9a1fdbe088df58034013d7316e725d",
+     "git_sha1": "fea7b5b87383d17ef9fd6c2c27015805b0ee07dc",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/support-intents/adapter_config.json",
+      "sha256": "edb86223ce9aaf74109e3e00b7949fd6e715c8a90a4a4899656885f67daf0683"
+     }
+    },
+    "decision_config.json": {
+     "release": "release/hf/jeff-adapter-support-intents/decision_config.json",
+     "size": 24623,
+     "sha256": "41545a4921978ff33dfaa816fd6f8d1085023aabe8039bf1f10806cec0c60b8f",
+     "git_sha1": "6e02d1bf658bb84285e7e09835007459b44f8128",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/support-intents/decision_config.json",
+      "sha256": "1a33f1e40f890ca1c5d1459f3e1c5a6ac988e39bb06708717e79f8192bb73a32"
+     }
+    },
+    "manifest.yaml": {
+     "release": "release/hf/jeff-adapter-support-intents/manifest.yaml",
+     "size": 1591,
+     "sha256": "4d9cadfe2e13502c9f18379ddad97b836baebb29f6bd99598c0aef7b28bc423e",
+     "git_sha1": "01792c324cb11aa795424615b7ab1dfdbc33844d"
+    },
+    "README.md": {
+     "release": "release/hf/jeff-adapter-support-intents/README.md",
+     "size": 7284,
+     "sha256": "29d7feabb9432aa1734a5657de58b582fd3295ae3cb122c47f72432527d01a91",
+     "git_sha1": "dc3b1a53dfb523475369bc6600573c1d1fa2791a"
+    },
+    "LICENSE": {
+     "release": "release/hf/LICENSE",
+     "size": 11544,
+     "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a",
+     "git_sha1": "f938136e3adacfd92be087f6e113b5d6d97f678f"
+    },
+    "test.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/support-intents/test.jsonl",
+     "size": 19936477,
+     "sha256": "70ee3343d3d0de12718cb5553c38449c045f348e116536ad4b11de22feae27bc",
+     "git_sha1": "05095ecde3656fab5dff7d6e6603317982f23d8c"
+    },
+    "calibration.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/support-intents/calibration.jsonl",
+     "size": 3257775,
+     "sha256": "bb5d24665f9edab2e5d6093ed083e2756a7ee3a1875c29e994b24822a7d66a91",
+     "git_sha1": "98e993ec953c18cbf3737c2d540c955b50466961"
+    }
+   }
+  },
+  {
+   "repo": "mstrasser/jeff-adapter-triage",
+   "adapter": "jeff.support.triage",
+   "files": {
+    "adapter_model.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/triage/adapter_model.safetensors",
+     "size": 40937456,
+     "sha256": "6348411ba01eba70ae3d782f54f146eef98b1a43346bdcc69685a514b57148a7",
+     "git_sha1": "25583480c56b58fcb88f284e12cb5ba785d89d2a"
+    },
+    "readout.safetensors": {
+     "source": "/home/roli79/jeff-v14/adapters/triage/readout.safetensors",
+     "size": 522320,
+     "sha256": "cd38250bd692de29f230ac9dea0bd62a27b13479f0f1b73cffb39e1b2ae9290a",
+     "git_sha1": "36bc8055b07cac1109c05d98864d54269d5a067c"
+    },
+    "adapter_config.json": {
+     "release": "release/hf/jeff-adapter-triage/adapter_config.json",
+     "size": 1331,
+     "sha256": "ddd590d0eef1317de4af31de87722ecd0e5c109ff156c5525c11c05ee0875e39",
+     "git_sha1": "9bcd0b22a5710eb4b30f797cf0c4214f8d908735",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/triage/adapter_config.json",
+      "sha256": "c496f8210e7251e144391e436387579b2f73b62d20065c79eee83c38ec2842a0"
+     }
+    },
+    "decision_config.json": {
+     "release": "release/hf/jeff-adapter-triage/decision_config.json",
+     "size": 24615,
+     "sha256": "5d8e39974f14fcf2cd223fb2eefc4d9b7d6a2103c12833e4d9b3dfe20dbbc59e",
+     "git_sha1": "07553e38d21513a650bddd0985d9ba2b7d9475ce",
+     "derived_from": {
+      "source": "/home/roli79/jeff-v14/adapters/triage/decision_config.json",
+      "sha256": "a700243064142474ea87ba08b7a5c921f7df75c5218c11bf7b6f3c45162893b6"
+     }
+    },
+    "manifest.yaml": {
+     "release": "release/hf/jeff-adapter-triage/manifest.yaml",
+     "size": 3274,
+     "sha256": "d918cb4455ac1585cc561b591d79dd43aedfcc8e2c79b200343fb2c17c3e51a4",
+     "git_sha1": "bec32af87c269be9ad07abb2e2f27fe1c2e6c9a0"
+    },
+    "README.md": {
+     "release": "release/hf/jeff-adapter-triage/README.md",
+     "size": 8597,
+     "sha256": "d4701878cf12ad878ae7fb70f6323c164be5b890f2a91463c94ac721cad52b12",
+     "git_sha1": "427f57f248fd301f5d5c6d80a2688ff51d2fdfc6"
+    },
+    "LICENSE": {
+     "release": "release/hf/LICENSE",
+     "size": 11544,
+     "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a",
+     "git_sha1": "f938136e3adacfd92be087f6e113b5d6d97f678f"
+    },
+    "test.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/triage/test.jsonl",
+     "size": 20636115,
+     "sha256": "2c55ff7664fd6650c6cc37b5f5f0b066bb22f2f479b0c8706a27c01e8aa8a6a4",
+     "git_sha1": "5717c88575f0aa8f51393b0f763da8d58d48e60e"
+    },
+    "calibration.jsonl": {
+     "source": "/mnt/d/jeff-data/apps/triage/calibration.jsonl",
+     "size": 4270462,
+     "sha256": "93c047ff96a9a74d8d7def273a0856feb2b6a06e2cb2bbe02f22bdb36f333dd4",
+     "git_sha1": "f1c62e9f6379ce2d75e40f7634dcac89eb40f6b7"
+    }
+   }
+  }
+ ]
+}

@@ -1,0 +1,60 @@
+{
+  "folder": "/adapters/parcel-claims",
+  "adapter": "jeff.factory.parcel-claims",
+  "served": [
+    "jeff.factory.parcel-claims"
+  ],
+  "example": {
+    "model": "parcel-claims",
+    "state": {
+      "shop": "An online shop selling running shoes.",
+      "message": "My trainers arrived with the sole ripped off. Refund please."
+    },
+    "questions": {
+      "claim": {
+        "type": "choice",
+        "instructions": "What does the customer claim happened to the parcel?",
+        "criteria": {
+          "damaged": "It arrived broken or damaged",
+          "lost": "It never arrived",
+          "late": "It arrived, or will arrive, later than promised",
+          "none": "The message makes no claim about a parcel"
+        }
+      },
+      "refund": {
+        "type": "noul",
+        "instructions": "Does the customer ask for their money back?",
+        "criteria": {
+          "false": "No refund is asked for",
+          "true": "A refund is asked for"
+        }
+      }
+    }
+  },
+  "function": "jeff.factory.parcel-claims.claim",
+  "answer": {
+    "value": "damaged",
+    "confidence": 0.982,
+    "abstained": false,
+    "calibrated": true,
+    "interface": "classify",
+    "function": "jeff.factory.parcel-claims.claim",
+    "version": "1.0.0",
+    "probabilities": {
+      "damaged": 0.982,
+      "lost": 0.006,
+      "late": 0.009,
+      "none": 0.003
+    },
+    "score": null,
+    "route": [],
+    "decided_by": "jeff.factory.parcel-claims.claim@1.0.0",
+    "escalations": [],
+    "timing": {
+      "model_ms": 3.9
+    },
+    "evidence_refs": []
+  },
+  "server_ms": 4.2,
+  "warning": "Published on the synthetic test only (no independent test set)"
+}

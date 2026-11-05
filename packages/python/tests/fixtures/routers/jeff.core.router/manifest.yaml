@@ -1,0 +1,19 @@
+id: jeff.core.router
+version: 0.1.0
+aliases: []
+licence: { kind: open, adapter: Apache-2.0 }
+weights: { open: { repo: fixture/router, revision: v0 } }
+base: { id: jeff-base, version: v1.3, max_options: 252 }
+context: []
+input: { key: text, description: Any text., form: fields }
+functions:
+  domain:
+    interface: route
+    type: choice
+    instructions: Which area does this text belong to?
+    labels: { source: subset, fixed: { jeff.support.router: Customer support, jeff.safety.spam: Spam and safety, jeff.support.triage.urgency: How urgent a message is } }
+    abstain_labels: []
+    calibration: { data: fixture, rows: 10, target_precision: 0.9, threshold: 0.8, precision_at_threshold: 0.9, coverage_at_threshold: 0.9 }
+routes_to: [jeff.support.router, jeff.safety.spam, jeff.support.triage.urgency]
+tests: { published: null, calibration: null, function_by: only }
+hub: { summary: "Picks the adapter that should answer a request." }

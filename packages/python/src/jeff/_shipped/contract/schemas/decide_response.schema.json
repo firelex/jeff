@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jeff.dev/schemas/decide_response.schema.json",
+  "title": "Jeff POST /v1/decide response",
+  "description": "One reply per request shape: 'decisions' (in call order) for 'calls', 'decision' (with its route) for 'dispatch', 'graph_result' for 'graph'.",
+  "oneOf": [
+    {"type": "object", "additionalProperties": false, "required": ["decisions"],
+     "properties": {"decisions": {"type": "array", "items": {"$ref": "https://jeff.dev/schemas/decision.schema.json"}}}},
+    {"type": "object", "additionalProperties": false, "required": ["decision"],
+     "properties": {"decision": {"$ref": "https://jeff.dev/schemas/decision.schema.json"}}},
+    {"type": "object", "additionalProperties": false, "required": ["graph_result"],
+     "properties": {"graph_result": {"$ref": "https://jeff.dev/schemas/graph_result.schema.json"}}}
+  ]
+}

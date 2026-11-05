@@ -1,15 +1,24 @@
 # Training data sources
 
-Jeff's weights were trained on the sources below. **We release the model weights and code, not the training data.**
-Each source keeps its own licence; some are share-alike (CC BY-SA). Licences are shown where our code records them;
-for the others, see the source. From v1.2, every training question is checked against all our evaluation sets (the
-benchmark panel, JevBench, the long-document test, the voice test, both long-list tests, the chess tests, and the
-development and calibration files) by exact state, by option texts unique to one test item, by near-duplicate
-passages and by upstream record (the same contract, document or source sentence); overlapping questions are removed.
-v1.2's training mix has 284,747 questions.
+This page lists the data Jeff's base model was trained on. **We release the model weights and code, not the training
+data.** Each source keeps its own licence; some are share-alike (CC BY-SA). Licences are shown where our code records
+them; for the others, see the source.
 
-The LoRA adapters released with v1.2 have their own data; each adapter's model card lists its sources, licences and
-how its data was made.
+Which base used what:
+
+- **v1.2** was trained on the sources below: 284,747 questions. Every training question was checked against all our
+  evaluation sets (the benchmark panel, JevBench, the long-document test, the voice test, both long-list tests, the
+  chess tests, and the development and calibration files) by exact state, by option texts unique to one test item, by
+  near-duplicate passages and by upstream record (the same contract, document or source sentence); overlapping
+  questions were removed.
+- **v1.3** uses the same data as v1.2. The one change is the prompt layout ("live-last").
+- **v1.4** uses the v1.3 mix plus a slice of the training data of every Jeff adapter, open and proprietary. No
+  adapter's development, calibration or test rows were used. Some of those slices come from sources licensed for
+  non-commercial, academic or research use only. See the base's model card at
+  [mstrasser/jeff-base](https://huggingface.co/mstrasser/jeff-base) (revision `v1.4`).
+
+Each adapter has its own data. Its model card on Hugging Face lists its sources, their licences and how its data was
+made.
 
 ## Public datasets converted into decisions
 
@@ -46,8 +55,8 @@ how its data was made.
 
 ## Long-list questions (v1.1)
 
-32,250 questions with 20 to 254 options, so the models learn to answer past the 26th option. Built by
-[`src/jeff/longlists.py`](../src/jeff/longlists.py):
+32,250 questions with 20 to 254 options, so the models learn to answer past the 26th option. Built in code
+(the v1.1 data code, not part of this repository):
 
 | Part | Rows | Source | Licence |
 |---|---|---|---|

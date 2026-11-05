@@ -1,0 +1,14 @@
+{
+  "name": "jeff-dev-next",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "test": "pnpm -r --if-present run test",
+    "typecheck": "pnpm -r --if-present run typecheck"
+  },
+  "pnpm": {
+    "overrides": {
+      "jsdom": "29.1.1"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+# oss-message-triage, v1.4 (RTX /mnt/d/jeff-adapters/v1.4/oss-message-triage, data teamsuzie/jeff-data apps/oss-message-triage).
+path: apps/oss-message-triage
+adapter_path: oss-message-triage
+id: jeff.support.message-triage
+aliases: [oss-message-triage, message-triage]
+version: 1.4.0
+function_by: id_suffix
+context:
+  - key: recipient
+    description: "Whose inbox it is: an object with the recipient's name, address, role and organisation."
+  - key: message_kinds
+    description: "The recipient's own sorting list: an object of message kind -> description."
+  - key: routing_table
+    description: "Who handles what: a list of entries, each with key, name, address and the topics it handles."
+  - key: routing_rules
+    description: "Rules that override the routing table, a list of sentences."
+  - key: now
+    description: "The current date and time (for example 'Monday 8 February 2027, 12:15')."
+input:
+  key: message
+  description: "The newest message: an object with channel, from, to, cc, received, subject and body (it may quote or forward earlier messages)."
+  form: fields
+functions:
+  # route: picks who should deal with the message from the caller's routing table (or self)
+  route_to: {interface: route}
+  # classify: fixed set reply / do_task / forward / fyi_only / ignore_spam
+  action_needed: {interface: classify, option_order: shuffled}
+  # classify: picks one message kind from the recipient's own sorting list
+  intent: {interface: classify}
+  # classify: fixed set now / today / this_week / no_deadline, asked as a choice question (not a score)
+  urgency: {interface: classify, option_order: shuffled}

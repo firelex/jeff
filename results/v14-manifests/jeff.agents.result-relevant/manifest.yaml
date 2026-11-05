@@ -1,0 +1,81 @@
+id: jeff.agents.result-relevant
+version: 1.4.0
+aliases:
+- oss-result-relevant
+- result-relevant
+licence:
+  kind: open
+  adapter: Apache-2.0
+weights:
+  local: {}
+base:
+  id: jeff-base
+  version: v1.4
+  max_options: 3
+context:
+- key: app
+  description: 'The application the agent works in: its name and a description of what it does and for whom.'
+  required: true
+- key: today
+  description: Today's date, written out (for example 'Wednesday 23 June 2027').
+  required: true
+- key: sub_question
+  description: The agent's current sub-question.
+  required: true
+- key: call
+  description: 'The tool call made: an object with tool, its description and arguments.'
+  required: true
+input:
+  key: result
+  description: The tool's result, as returned.
+  form: fields
+functions:
+  relevant:
+    interface: classify
+    type: choice
+    instructions: 'Does the tool result answer the agent''s current sub-question? Check the record (id, name), the period
+      and every detail the sub-question asks for. yes: the result gives every asked detail for the right record or period
+      (other records or extra details next to it do not matter). partly: the result is about the right record or set and gives
+      at least one of the asked details but not all of them, or only part of a list the sub-question needs in full was returned
+      (more remain). no: the result is about a different record or a different period, gives none of the asked details (only
+      other details, even for the right record), is empty, or is an error.'
+    labels:
+      source: fixed
+      fixed:
+        'no': 'No: the result does not answer it: it is about a different record or period, gives none of the asked details
+          (only other ones), is empty, or is an error.'
+        partly: 'Partly: the result is about the right record or set and gives at least one asked detail, but not all (a requested
+          detail is missing), or only part of the list was returned.'
+        'yes': 'Yes: the result gives everything the sub-question asks, for the right record or period.'
+      subset: false
+    abstain_labels: []
+    calibration:
+      data: hf://datasets/teamsuzie/jeff-data@main/apps/oss-result-relevant/calibration.jsonl
+      data_mirror:
+        path: /mnt/d/jeff-data/apps/oss-result-relevant/calibration.jsonl
+        sha256: eb20c49ca1cd9041016450c2610fe666cfbb756099c83ca5a3e5f749a22237c2
+      rows: 2000
+      target_precision: 0.98
+      threshold: 0.368763
+      precision_at_threshold: 0.992
+      coverage_at_threshold: 1.0
+routes_to: []
+tests:
+  published: null
+  calibration: null
+  internal: hf://datasets/teamsuzie/jeff-data@main/apps/oss-result-relevant/test.jsonl
+  internal_calibration: hf://datasets/teamsuzie/jeff-data@main/apps/oss-result-relevant/calibration.jsonl
+  function_by: only
+hub:
+  title: oss-result-relevant
+  summary: 'Jeff v1.4 adapter `result-relevant`. Checks whether a tool result answers the agent''s current sub-question: yes,
+    partly or no.'
+  source: local adapter folder oss-result-relevant (not on Hugging Face)
+  notes:
+  - 'relevant: instructions are the one text of the 1395 test rows marked canonical (source.instructions); the other 605 ask
+    the same question reworded or with no instructions (as trained), and are rebuilt with the canonical text in template mode.'
+  - 'relevant: every test row has the same 3 labels in varying orders (training shuffled them), so they are listed by key.'
+  - 'base: jeff-base v1.4, identified by the SHA-256 of its model.safetensors, which the adapter''s decision_config.json records
+    for its base checkpoint.'
+  - 'tests: the test set is the private hf://datasets/teamsuzie/jeff-data@main/apps/oss-result-relevant/test.jsonl, so tests.published
+    is null; the calibration of each function is filled in later by `jeff calibrate`.'

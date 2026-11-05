@@ -1,0 +1,17 @@
+openapi: 3.1.0
+info:
+  title: Fixture
+  version: '1.0.0'
+paths:
+  /v1/decide:
+    get:
+      summary: First
+      responses:
+        '200':
+          description: ok
+  /v1/Decide:
+    get:
+      summary: Second, differently cased -- same derived id as the one above
+      responses:
+        '200':
+          description: ok

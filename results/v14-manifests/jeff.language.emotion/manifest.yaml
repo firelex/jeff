@@ -1,0 +1,90 @@
+id: jeff.language.emotion
+version: 1.4.0
+aliases:
+- emotion
+licence:
+  kind: open
+  adapter: Apache-2.0
+weights:
+  local: {}
+base:
+  id: jeff-base
+  version: v1.4
+  max_options: 28
+context:
+- key: source
+  description: One short phrase on where the text comes from. In training this was always "Reddit comment ([NAME] and [RELIGION]
+    replace removed names)".
+  required: true
+input:
+  key: comment
+  description: The comment or message to read.
+  form: fields
+functions:
+  emotion:
+    interface: classify
+    type: choice
+    instructions: Which emotion does the comment express most? Choose the emotion that is strongest in the comment, or neutral
+      if it expresses no particular emotion.
+    labels:
+      source: fixed
+      fixed:
+        admiration: 'Admiration: finding something impressive or worthy of respect.'
+        amusement: 'Amusement: finding something funny or entertaining.'
+        anger: 'Anger: a strong feeling of displeasure or hostility.'
+        annoyance: 'Annoyance: mild anger or irritation.'
+        approval: 'Approval: having or expressing a favourable opinion; agreeing.'
+        caring: 'Caring: kindness and concern for others.'
+        confusion: 'Confusion: lack of understanding or uncertainty.'
+        curiosity: 'Curiosity: a strong wish to know or learn something.'
+        desire: 'Desire: a strong wish for something or for something to happen.'
+        disappointment: 'Disappointment: sadness or displeasure because hopes or expectations were not met.'
+        disapproval: 'Disapproval: having or expressing an unfavourable opinion; disagreeing.'
+        disgust: 'Disgust: revulsion or strong disapproval caused by something unpleasant or offensive.'
+        embarrassment: 'Embarrassment: self-consciousness, shame or awkwardness.'
+        excitement: 'Excitement: great enthusiasm and eagerness.'
+        fear: 'Fear: being afraid or worried about danger or harm.'
+        gratitude: 'Gratitude: feeling thankful or appreciative.'
+        grief: 'Grief: intense sorrow, especially over someone''s death.'
+        joy: 'Joy: a feeling of pleasure and happiness.'
+        love: 'Love: strong positive emotion of affection and regard.'
+        nervousness: 'Nervousness: apprehension, worry or anxiety.'
+        neutral: 'Neutral: no particular emotion is expressed.'
+        optimism: 'Optimism: hopefulness and confidence about the future.'
+        pride: 'Pride: pleasure or satisfaction from one''s own or a close person''s achievements.'
+        realization: 'Realization: becoming aware of something.'
+        relief: 'Relief: reassurance and relaxation after anxiety or distress ends.'
+        remorse: 'Remorse: regret or guilt about something one did.'
+        sadness: 'Sadness: feeling sorrow or unhappiness.'
+        surprise: 'Surprise: being astonished or startled by something unexpected.'
+      subset: false
+    abstain_labels: []
+    calibration:
+      data: hf://datasets/teamsuzie/jeff-data@main/apps/emotion/calibration.jsonl
+      data_mirror:
+        path: /mnt/d/jeff-data/apps/emotion/calibration.jsonl
+        sha256: ed20e2deff7a90f6a60b7dfaa82b892d8e4f64d1785247ff3a9ac9a4a259d7eb
+      rows: 1000
+      target_precision: 0.9
+      threshold: 0.846456
+      precision_at_threshold: 0.900662
+      coverage_at_threshold: 0.151
+routes_to: []
+tests:
+  published: null
+  calibration: null
+  internal: hf://datasets/teamsuzie/jeff-data@main/apps/emotion/test.jsonl
+  internal_calibration: hf://datasets/teamsuzie/jeff-data@main/apps/emotion/calibration.jsonl
+  function_by: only
+hub:
+  title: emotion
+  summary: Jeff v1.4 adapter `emotion`. Picks the strongest of 27 emotions, or neutral, in a short comment or message.
+  source: local adapter folder emotion (not on Hugging Face)
+  notes:
+  - 'emotion: instructions are the one text of the 3791 test rows marked canonical (source.instructions); the other 1617 ask
+    the same question reworded or with no instructions (as trained), and are rebuilt with the canonical text in template mode.'
+  - 'emotion: every test row has the same 28 labels in varying orders (training shuffled them), so they are listed by key.'
+  - 'base: jeff-base v1.4, identified by the SHA-256 of its model.safetensors, which the adapter''s decision_config.json records
+    for its base checkpoint.'
+  - 'tests: the test set is the private hf://datasets/teamsuzie/jeff-data@main/apps/emotion/test.jsonl, so tests.published
+    is null; the calibration of each function is filled in later by `jeff calibrate`.'

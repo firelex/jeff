@@ -1,0 +1,5 @@
+jeff.safety.guard:
+  title: Prompt injection guard
+  summary: Checks a user message or outside content for prompt injection, jailbreak and data-leak attempts, and names the kind.
+  use_when: [Text from users or tools is about to reach an AI model.]
+  avoid_when: [You need to judge whether content is harmful in general; this checks for attempts to control the model.]

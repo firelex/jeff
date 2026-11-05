@@ -1,0 +1,73 @@
+{
+  "calibration": {
+    "temperature": 1.087,
+    "trainer_temperature": 1.12,
+    "rows": 318,
+    "seconds": 35.1
+  },
+  "synthetic": {
+    "label": "synthetic held-out test",
+    "rows": 421,
+    "accuracy": 0.9632,
+    "interval": [
+      0.9462,
+      0.9782
+    ],
+    "ece": 0.0214,
+    "ece_bins": 10,
+    "reliability": [],
+    "log_loss": 0.118,
+    "questions": {
+      "claim": {
+        "rows": 296,
+        "accuracy": 0.9696,
+        "interval": [
+          0.9493,
+          0.9865
+        ],
+        "ece": 0.019,
+        "by_option": {
+          "damaged": {
+            "rows": 80,
+            "accuracy": 0.975
+          },
+          "lost": {
+            "rows": 76,
+            "accuracy": 0.9605
+          },
+          "late": {
+            "rows": 78,
+            "accuracy": 0.9744
+          },
+          "none": {
+            "rows": 62,
+            "accuracy": 0.9677
+          }
+        }
+      },
+      "refund": {
+        "rows": 125,
+        "accuracy": 0.9485,
+        "interval": [
+          0.904,
+          0.984
+        ],
+        "ece": 0.031,
+        "by_option": {
+          "false": {
+            "rows": 66,
+            "accuracy": 0.9545
+          },
+          "true": {
+            "rows": 59,
+            "accuracy": 0.9407
+          }
+        }
+      }
+    },
+    "temperature": 1.087,
+    "seconds": 46.7,
+    "mistakes": [],
+    "calls": null
+  }
+}

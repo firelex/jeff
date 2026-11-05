@@ -1,0 +1,6 @@
+{
+ "what": "LocalEngine.predict, one triage row, fast backend, p50 ms of 1,000 calls, 3 rounds in one process on datigator 2026-10-24 (bench_use_removed.py)",
+ "after_task1": [4.213, 4.2126, 4.2097],
+ "with_use_added_back": [4.2935, 4.2922, 4.2941],
+ "adapter_set_use_alone": [0.0744, 0.0762, 0.0756]
+}

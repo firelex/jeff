@@ -1,0 +1,64 @@
+id: jeff.security.soc
+version: 1.4.0
+aliases:
+- soc
+licence:
+  kind: open
+  adapter: CC-BY-NC-4.0
+weights:
+  open:
+    repo: mstrasser/jeff-adapter-soc
+    revision: v1.4
+base:
+  id: jeff-base
+  version: v1.4
+  max_options: 5
+context:
+- key: organisation
+  description: One line on the organisation, its sector and which alert source this queue handles.
+  required: true
+- key: playbook
+  description: 'The playbook: numbered rules (the first that matches decides), thresholds, severity table, asset inventory
+    or office policy, allowed actions, and what to do when a rule calls for an action the team may not take.'
+  required: true
+input:
+  key: alert
+  description: The new alert as the security tools report it - what fired, on which host or user, the evidence and any lookups.
+  form: fields
+functions:
+  action:
+    interface: classify
+    type: choice
+    instructions: You are the first-line analyst in a security operations centre. Apply the organisation's playbook to the
+      new alert and choose the action the playbook requires. The playbook's rules are checked in order and the first rule
+      that matches decides.
+    labels:
+      source: fixed
+      fixed:
+        block: 'Block: block the outside address, file or account involved.'
+        isolate: 'Isolate: cut the affected internal computer off the network.'
+        escalate: 'Escalate: hand the alert at once to the senior responder.'
+        investigate: 'Investigate: open a case for an analyst; no containment now.'
+        ignore: 'Ignore: close the alert because no action at all is needed.'
+      subset: true
+    abstain_labels: []
+    calibration:
+      data: hf://mstrasser/jeff-adapter-soc@v1.4/calibration.jsonl
+      rows: 991
+      target_precision: 0.98
+      threshold: 0.731224
+      precision_at_threshold: 0.98
+      coverage_at_threshold: 0.958628
+routes_to: []
+tests:
+  published: hf://mstrasser/jeff-adapter-soc@v1.4/test.jsonl
+  calibration: hf://mstrasser/jeff-adapter-soc@v1.4/calibration.jsonl
+  function_by: only
+hub:
+  title: Security alert triage
+  summary: Applies a security team's playbook to a new alert - ignore, investigate, isolate, block or escalate.
+  task: security
+  kind: official
+  maintainer:
+    name: Jeff maintainers
+    github: firelex

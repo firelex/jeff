@@ -1,0 +1,26 @@
+# The support ticket triage adapter, v1.4 (RTX /mnt/d/jeff-adapters/v1.4/triage, data teamsuzie/jeff-data apps/triage).
+# Same ID, keys and interfaces as the v1.3 catalogue manifest jeff.support.triage.
+path: apps/triage
+adapter_path: triage
+id: jeff.support.triage
+aliases: [triage]
+version: 1.4.0
+function_by: id_suffix
+context:
+  - key: company
+    description: One sentence about the organisation the message is sent to.
+  - key: channel
+    description: Where the message came from, for example email, web form, chat, app review, social media reply or phone transcript.
+input:
+  key: message
+  description: The ticket or email as received, including subject line, quoted thread and signature.
+  form: fields
+functions:
+  # route: which of the caller's teams should handle the message (or other).
+  route: {interface: route}
+  # urgency: five ordered levels from no action to handle immediately.
+  urgency: {interface: rate}
+  # sentiment: five ordered levels from very negative to very positive.
+  sentiment: {interface: rate}
+  # needs_human: yes/no, must a person act on it now.
+  needs_human: {interface: requires_escalation}

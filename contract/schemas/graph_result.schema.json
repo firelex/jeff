@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jeff.dev/schemas/graph_result.schema.json",
+  "title": "Jeff decision graph result",
+  "description": "What running a decision graph returns: every node's result, the graph's outputs (the same results, for the nodes the graph names as outputs) and how many batched stages it took. A model node's result is its Decision; a skipped node's is {skipped: true, reason}; a code node's is whatever the caller's code returned, under 'code'.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["nodes", "outputs", "stages"],
+  "properties": {
+    "nodes": {"type": "object", "additionalProperties": {"$ref": "#/$defs/result"}},
+    "outputs": {"type": "object", "additionalProperties": {"$ref": "#/$defs/result"}},
+    "stages": {"type": "integer", "minimum": 0}
+  },
+  "$defs": {
+    "result": {
+      "oneOf": [
+        {"type": "object", "additionalProperties": false, "required": ["decision"],
+         "properties": {"decision": {"$ref": "https://jeff.dev/schemas/decision.schema.json"}}},
+        {"type": "object", "additionalProperties": false, "required": ["skipped", "reason"],
+         "properties": {"skipped": {"const": true}, "reason": {"type": "string"}}},
+        {"type": "object", "additionalProperties": false, "required": ["code"], "properties": {"code": true}}
+      ]
+    }
+  }
+}

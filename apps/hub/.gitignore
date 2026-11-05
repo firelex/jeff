@@ -1,0 +1,6 @@
+# The database URL pulled from Vercel for `pnpm db:migrate` (vercel env pull), and the Playwright accounts run's
+# PGlite folder and test mailbox: never committed.
+.env.migrate
+.e2e/
+# The build's version (scripts/hub-version.mjs writes it at build, test and typecheck time).
+app/lib/hub-version.generated.ts

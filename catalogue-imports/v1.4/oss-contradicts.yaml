@@ -1,0 +1,19 @@
+# oss-contradicts, v1.4 (RTX /mnt/d/jeff-adapters/v1.4/oss-contradicts, data teamsuzie/jeff-data apps/oss-contradicts).
+path: apps/oss-contradicts
+adapter_path: oss-contradicts
+id: jeff.reasoning.contradicts
+aliases: [oss-contradicts, contradicts]
+version: 1.4.0
+function_by: only
+context:
+  - key: setting
+    description: "Who is asking: a sentence naming the team and organisation the statements come from."
+  - key: statement_a
+    description: "The first statement or record: an object with `source` (for example record entry, email, report) and `text`."
+input:
+  key: statement_b
+  description: "The second statement or record, in the same form as statement_a."
+  form: fields
+functions:
+  # classify: fixed answer set yes / no / unclear (not the is_supported or equivalent values)
+  contradicts: {interface: classify, option_order: shuffled}

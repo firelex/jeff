@@ -1,0 +1,22 @@
+# For a turn a Jeff-routed assistant hands to the large model: does it need careful thinking (RTX
+# /mnt/d/jeff-adapters/v1.4/assistant-routing, data apps/assistant-routing).
+path: apps/assistant-routing
+adapter_path: assistant-routing
+id: jeff.agents.assistant-routing
+aliases: [assistant-routing]
+version: 1.4.0
+function_by: only
+context:
+  - key: accounts
+    description: The user's accounts the assistant can act on, as one text (for example "Work account [work], Personal account [personal]").
+  - key: date_and_time_zone
+    description: Today's date and time and the user's time zone, as one sentence.
+  - key: conversation
+    description: The conversation so far as one text, including the user's messages and the tool calls and results.
+input:
+  key: turn
+  description: What the main assistant must do next in this turn (for example "Reply to the user in words.").
+  form: fields
+functions:
+  # detect: a yes/no question, is this turn one that needs careful thinking before the reply.
+  needs_thinking: {interface: detect}

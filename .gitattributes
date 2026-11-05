@@ -1,4 +1,0 @@
-# Preserve exact trained-source checksums.
-src/jeff/__init__.py whitespace=-blank-at-eof
-src/jeff/events.py whitespace=-blank-at-eof
-src/jeff/types.py whitespace=-blank-at-eof

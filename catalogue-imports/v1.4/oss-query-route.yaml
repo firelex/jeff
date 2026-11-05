@@ -1,0 +1,17 @@
+# oss-query-route, v1.4 (RTX /mnt/d/jeff-adapters/v1.4/oss-query-route, data teamsuzie/jeff-data apps/oss-query-route).
+path: apps/oss-query-route
+adapter_path: oss-query-route
+id: jeff.retrieval.query-route
+aliases: [oss-query-route, query-route]
+version: 1.4.0
+function_by: only
+context:
+  - key: menu
+    description: "The sources a query can be sent to (document collections, indexes, databases, tools), written as tool definitions with names and descriptions."
+input:
+  key: query
+  description: "The user's query."
+  form: fields
+functions:
+  # route: picks which source on the caller's menu the query goes to (or none, or several)
+  source: {interface: route}

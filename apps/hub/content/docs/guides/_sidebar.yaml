@@ -1,0 +1,14 @@
+- group: Get started
+  pages: [introduction, quickstart, coding-agents]
+- group: Why Jeff
+  pages: [system-1, hosted-decision-apis, primer]
+- group: Worked examples
+  pages: [worked-support-agent, worked-inbox, worked-retrieval, worked-ci]
+- group: Concepts
+  pages: [how-it-works, adapters, the-swarm, state, how-to-build]
+- group: Open-source adapters
+  pages: [oss-reasoning, oss-agents, oss-support, oss-engineering, oss-retrieval, oss-safety-language]
+- group: The API
+  pages: [decide, escalation, graphs, remote, channel, mcp, errors, running-server, running]
+- group: Roadmap
+  pages: [gaps]

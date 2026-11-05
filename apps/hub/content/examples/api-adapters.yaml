@@ -1,0 +1,45 @@
+# The catalogue pages' examples of the two adapters opened on 4 November 2026 (assistant-routing and knowledge-qa):
+# one call of each adapter's main function, shown on its page /catalogue/<adapter id> (content/catalogue-examples.yaml
+# says which example and what it shows). The hidden adapters' examples that were here are in
+# content/owner-only/examples/api-adapters.yaml. Format and recording: scripts/hub_examples.py. The `recorded` blocks
+# are written by `scripts/hub_examples.py --record`, never by hand. Every input here was written for the page; every
+# company and person in it is invented.
+- id: api-assistant-routing
+  name: Thanks after a moved meeting
+  function: jeff.agents.assistant-routing.needs_thinking
+  context:
+    accounts: Work account [work], Personal account [personal]
+    date_and_time_zone: It is Tuesday 3 November 2026, 16:20, and the user is in London (UK time).
+    conversation: 'User: Can you move my 4 pm call with Priya to Thursday at the same time? Assistant: (calls calendar.move_event) Result: the call is now on Thursday 5 November at 16:00. Assistant: Done, your call with Priya is now on Thursday at 4 pm. User: Great, thanks!'
+  input: Reply to the user in words.
+  recorded:
+    value: false
+    confidence: 0.951
+    top_options:
+    - option: 'false'
+      probability: 0.951
+    - option: 'true'
+      probability: 0.049
+    server: v1.4
+    at: '2026-11-03'
+- id: api-knowledge-qa
+  name: Warfarin and antibiotics
+  function: jeff.knowledge.knowledge-qa.question
+  input: A patient taking warfarin is prescribed a course of antibiotics. Why should the patient's INR (a blood clotting test) be checked more often during the course?
+  labels:
+    A: Antibiotics neutralise warfarin in the stomach, so the dose stops working.
+    B: Some antibiotics can strengthen warfarin's effect and raise the risk of bleeding.
+    C: Antibiotics thicken the blood, so the patient is more likely to form clots.
+    D: Warfarin stops antibiotics from being absorbed, so the infection may not clear.
+  recorded:
+    value: B
+    confidence: 0.832
+    top_options:
+    - option: B
+      probability: 0.832
+    - option: C
+      probability: 0.078
+    - option: D
+      probability: 0.057
+    server: v1.4
+    at: '2026-11-03'

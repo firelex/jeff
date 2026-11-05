@@ -1,0 +1,8 @@
+# Base models: id -> version -> where the weights are, and the date the version was released (YYYY-MM-DD; GET
+# /v1/models reports it). Where: a Hugging Face repo and revision, or, for a base not on Hugging Face, the folder that
+# holds it on the machine that serves it (path). model_sha256, the SHA-256 of its model.safetensors, which adapters
+# record for the base they were trained on, is required with path and may be given with a repo. Only v1.4 is listed:
+# v1.3 and its adapters are no longer published (owner, 2026-11-05).
+jeff-base:
+  # v1.4: released publicly on 2026-11-05 (scripts/release_hf.py), from the folder datigator served it from.
+  v1.4: { repo: mstrasser/jeff-base, revision: v1.4, model_sha256: 22fd9a1ee317894fe8a987e362a313f36e4246129602a19ce54f617fa90e2f9b, released: "2026-11-05" }

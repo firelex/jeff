@@ -1,0 +1,69 @@
+id: jeff.agents.result-relevant
+version: 1.4.0
+aliases:
+- oss-result-relevant
+- result-relevant
+licence:
+  kind: open
+  adapter: Apache-2.0
+weights:
+  open:
+    repo: mstrasser/jeff-adapter-result-relevant
+    revision: v1.4
+base:
+  id: jeff-base
+  version: v1.4
+  max_options: 3
+context:
+- key: app
+  description: 'The application the agent works in: its name and a description of what it does and for whom.'
+  required: true
+- key: today
+  description: Today's date, written out (for example 'Wednesday 23 June 2027').
+  required: true
+- key: sub_question
+  description: The agent's current sub-question.
+  required: true
+- key: call
+  description: 'The tool call made: an object with tool, its description and arguments.'
+  required: true
+input:
+  key: result
+  description: The tool's result, as returned.
+  form: fields
+functions:
+  relevant:
+    interface: classify
+    type: choice
+    instructions: 'Does the tool result answer the agent''s current sub-question? Check the record (id, name), the period
+      and every detail the sub-question asks for. yes: the result gives every asked detail for the right record or period
+      (other records or extra details next to it do not matter). partly: the result is about the right record or set and gives
+      at least one of the asked details but not all of them, or only part of a list the sub-question needs in full was returned
+      (more remain). no: the result is about a different record or a different period, gives none of the asked details (only
+      other details, even for the right record), is empty, or is an error.'
+    labels:
+      source: fixed
+      fixed:
+        'no': 'No: the result does not answer it: it is about a different record or period, gives none of the asked details
+          (only other ones), is empty, or is an error.'
+        partly: 'Partly: the result is about the right record or set and gives at least one asked detail, but not all (a requested
+          detail is missing), or only part of the list was returned.'
+        'yes': 'Yes: the result gives everything the sub-question asks, for the right record or period.'
+      subset: false
+    abstain_labels: []
+    calibration:
+      data: hf://mstrasser/jeff-adapter-result-relevant@v1.4/calibration.jsonl
+      rows: 2000
+      target_precision: 0.98
+      threshold: 0.368763
+      precision_at_threshold: 0.992
+      coverage_at_threshold: 1.0
+routes_to: []
+tests:
+  published: hf://mstrasser/jeff-adapter-result-relevant@v1.4/test.jsonl
+  calibration: hf://mstrasser/jeff-adapter-result-relevant@v1.4/calibration.jsonl
+  function_by: only
+hub:
+  title: oss-result-relevant
+  summary: 'Jeff v1.4 adapter `result-relevant`. Checks whether a tool result answers the agent''s current sub-question: yes,
+    partly or no.'

@@ -1,0 +1,21 @@
+graph: message_check
+version: 1.0.0
+input: message
+params: [channel, application, source]
+nodes:
+  type:
+    call: spam.message_type
+    context: {channel: {param: channel}}
+  attack:
+    call: guard.attempt
+    context: {application: {param: application}, source: {param: source}}
+    when: {node: type, is: legitimate}
+  kind:
+    call: guard.kind
+    context: {application: {param: application}, source: {param: source}}
+    when: {node: attack, is: true}
+  reply:
+    code: choose_reply
+    after: [attack]
+    when: {node: type, is: legitimate}
+outputs: [type, attack, kind, reply]

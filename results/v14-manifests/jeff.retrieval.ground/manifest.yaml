@@ -1,0 +1,97 @@
+id: jeff.retrieval.ground
+version: 1.4.0
+aliases:
+- ground
+licence:
+  kind: open
+  adapter: Apache-2.0
+weights:
+  local: {}
+base:
+  id: jeff-base
+  version: v1.4
+  max_options: 41
+context:
+- key: sources
+  description: 'The source passages the answer was written from, each with a short label such as "Document A: Title" or "Source
+    1".'
+  required: true
+input:
+  key: answer
+  description: The answer to check.
+  form: fields
+functions:
+  grounding:
+    interface: is_supported
+    type: choice
+    instructions: Is the answer supported by the sources? Judge only from the sources, not from outside knowledge.
+    labels:
+      source: fixed
+      fixed:
+        supported: Everything the answer claims is stated in or follows directly from the sources
+        partly_supported: Some claims are supported, but at least one is not in the sources
+        contradicted: The sources state something that conflicts with the answer
+        unsupported: The answer's main claim is not in the sources at all
+      subset: false
+    abstain_labels: []
+    calibration:
+      data: hf://datasets/teamsuzie/jeff-data@main/apps/ground/calibration.jsonl
+      data_mirror:
+        path: /mnt/d/jeff-data/apps/ground/calibration.jsonl
+        sha256: c57c67e8e950eaa12d72af25cc058555208721ecfeb0d6aae69252aa6d3407b2
+      rows: 720
+      target_precision: 0.98
+      threshold: 0.634066
+      precision_at_threshold: 0.98017
+      coverage_at_threshold: 0.980556
+  rerank:
+    interface: classify
+    type: choice
+    instructions: Which passage answers the question? If none of them does, choose none.
+    labels:
+      source: caller
+      fixed_first: {}
+      caller_keys: null
+      max: 41
+    abstain_labels: []
+    calibration:
+      data: hf://datasets/teamsuzie/jeff-data@main/apps/ground/calibration.jsonl
+      data_mirror:
+        path: /mnt/d/jeff-data/apps/ground/calibration.jsonl
+        sha256: c57c67e8e950eaa12d72af25cc058555208721ecfeb0d6aae69252aa6d3407b2
+      rows: 720
+      target_precision: 0.98
+      threshold: 0.797359
+      precision_at_threshold: 0.980153
+      coverage_at_threshold: 0.909722
+    context: []
+    input:
+      key: question
+      description: The question to find an answering passage for; the passages are the options, each as p1, p2, ... with its
+        text.
+      form: fields
+routes_to: []
+tests:
+  published: null
+  calibration: null
+  internal: hf://datasets/teamsuzie/jeff-data@main/apps/ground/test.jsonl
+  internal_calibration: hf://datasets/teamsuzie/jeff-data@main/apps/ground/calibration.jsonl
+  function_by: state_shape
+hub:
+  title: ground
+  summary: 'Jeff v1.4 adapter `ground`. For retrieval-augmented generation: picks the passage that answers a question, and
+    checks whether an answer is supported by its sources.'
+  source: local adapter folder ground (not on Hugging Face)
+  notes:
+  - 'grounding: instructions are the one text of the 1407 test rows marked canonical (source.instructions); the other 673
+    ask the same question reworded or with no instructions (as trained), and are rebuilt with the canonical text in template
+    mode.'
+  - 'grounding: every test row has the same 4 labels in varying orders (training shuffled them), so they are listed by key.'
+  - 'grounding: labels in the order of the interface''s values [''supported'', ''partly_supported'', ''contradicted'', ''unsupported''].'
+  - 'rerank: instructions are the one text of the 1419 test rows marked canonical (source.instructions); the other 661 ask
+    the same question reworded or with no instructions (as trained), and are rebuilt with the canonical text in template mode.'
+  - 'rerank: max 41 is the largest number of caller labels in the test rows (nothing documents a training limit).'
+  - 'base: jeff-base v1.4, identified by the SHA-256 of its model.safetensors, which the adapter''s decision_config.json records
+    for its base checkpoint.'
+  - 'tests: the test set is the private hf://datasets/teamsuzie/jeff-data@main/apps/ground/test.jsonl, so tests.published
+    is null; the calibration of each function is filled in later by `jeff calibrate`.'

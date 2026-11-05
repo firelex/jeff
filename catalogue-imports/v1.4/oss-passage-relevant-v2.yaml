@@ -1,0 +1,19 @@
+# oss-passage-relevant-v2, v1.4 (RTX /mnt/d/jeff-adapters/v1.4/oss-passage-relevant-v2, data teamsuzie/jeff-data apps/oss-passage-relevant-v2).
+path: apps/oss-passage-relevant-v2
+adapter_path: oss-passage-relevant-v2
+id: jeff.retrieval.passage-relevant
+aliases: [oss-passage-relevant-v2, passage-relevant]
+version: 1.4.0
+function_by: only
+context:
+  - key: source
+    description: "Where the passage comes from: the collection's name and a description of what it holds."
+  - key: question
+    description: "The question to answer."
+input:
+  key: passage
+  description: "The retrieved passage's text."
+  form: fields
+functions:
+  # classify: fixed answer set yes / partly / no
+  relevant: {interface: classify, option_order: shuffled}

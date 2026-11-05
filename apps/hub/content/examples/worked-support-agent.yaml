@@ -1,0 +1,203 @@
+# The "A support agent, end to end" worked example (guides/worked-support-agent.md): one customer message to an online
+# shop's assistant, followed through every check. The page leaves out two steps whose adapter answered a clear case
+# wrongly after one rewrite (the first tool choice, and the action check of a refund to a new card). Format and
+# recording: scripts/hub_examples.py. The `recorded` blocks are written by `scripts/hub_examples.py --record-new`,
+# never by hand. Every input here was written for the page.
+- id: worked-support-guard
+  name: Cancel and refund, checked for an attack
+  function: jeff.safety.guard.attempt
+  context:
+    application: A support chat assistant for an online shop of outdoor gear.
+    source: user message
+  input: 'Cancel my order #4471 and refund it to my card.'
+  recorded:
+    value: false
+    confidence: 1.0
+    top_options:
+    - option: 'false'
+      probability: 1.0
+    - option: 'true'
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-04'
+- id: worked-support-routing
+  name: Does this turn need thinking?
+  function: jeff.agents.assistant-routing.needs_thinking
+  context:
+    accounts: Brightfield Outfitters order system [shop]
+    date_and_time_zone: It is Wednesday 4 November 2026, 10:15, and the customer is in Manchester (UK time).
+    conversation: 'Assistant: Hi, I''m the Brightfield Outfitters assistant. How can I help? User: Cancel my order #4471 and refund it to my card.'
+  input: Choose the next tool call to cancel order 4471 and refund it.
+  recorded:
+    value: true
+    confidence: 0.929
+    top_options:
+    - option: 'true'
+      probability: 0.929
+    - option: 'false'
+      probability: 0.071
+    server: v1.4
+    at: '2026-11-04'
+- id: worked-support-result-relevant
+  name: The order, as looked up
+  function: jeff.agents.result-relevant.relevant
+  context:
+    app: Brightfield Outfitters, an online shop for outdoor gear. Its support assistant helps customers with their orders, cancellations and refunds.
+    today: Wednesday 4 November 2026
+    sub_question: Has order 4471 shipped, what did it cost, and which card paid for it?
+    call:
+      tool: lookup_order
+      description: 'Looks up an order: its items, total, payment card and whether it has shipped.'
+      arguments: {order_id: '4471'}
+  input:
+    order_id: '4471'
+    items: [Ridgeline 2 tent]
+    total: 189.00
+    paid_with: Visa ending 3054
+    shipped: false
+  recorded:
+    value: 'yes'
+    confidence: 0.958
+    top_options:
+    - option: 'yes'
+      probability: 0.958
+    - option: partly
+      probability: 0.037
+    - option: 'no'
+      probability: 0.005
+    server: v1.4
+    at: '2026-11-05'
+- id: worked-support-check-cancel
+  name: Cancel an order that has not shipped
+  function: jeff.agents.action-check.action
+  context: &check-context
+    app: Brightfield Outfitters, an online shop for outdoor gear. Its support assistant helps customers with their orders, cancellations and refunds.
+    today: Wednesday 4 November 2026
+    rules:
+    - Cancel an order only if it has not shipped.
+    - Refund only the amount the customer paid for the order.
+    - A refund goes to the card that paid for the order. If the customer asks for a refund to any other card, ask them to confirm the new card and the amount before refunding.
+    people:
+    - Maya Okafor <maya.okafor@example.com> (the customer, order 4471)
+    tools: |-
+      def lookup_order(order_id: str) -> dict:
+          """Looks up an order: its items, total, payment card and whether it has shipped. Call it before any change to an order."""
+      def cancel_order(order_id: str) -> dict:
+          """Cancels an order that has not shipped."""
+      def refund(order_id: str, amount: float, card_last4: str) -> dict:
+          """Refunds an amount for an order to a card."""
+    conversation:
+    - role: user
+      content: 'Cancel my order #4471 and refund it to my card.'
+    - role: assistant
+      content: 'Order 4471 (Ridgeline 2 tent, 189.00, paid with Visa ending 3054) has not shipped yet.'
+    latest_user_message: 'Cancel my order #4471 and refund it to my card.'
+  input:
+    tool: cancel_order
+    arguments: {order_id: '4471'}
+  recorded:
+    value: approve
+    confidence: 0.997
+    top_options:
+    - option: approve
+      probability: 0.997
+    - option: ask_user
+      probability: 0.002
+    - option: wrong_action
+      probability: 0.001
+    server: v1.4
+    at: '2026-11-04'
+- id: worked-support-after-cancel
+  name: The order is cancelled
+  function: jeff.agents.after-result.next
+  context:
+    app: Brightfield Outfitters, an online shop for outdoor gear. Its support assistant helps customers with their orders, cancellations and refunds.
+    today: Wednesday 4 November 2026
+    tools:
+    - 'lookup_order: looks up an order, its total, payment card and whether it has shipped'
+    - 'cancel_order: cancels an order that has not shipped'
+    - 'refund: refunds an amount for an order to a card'
+    retry_limit: Retry a failed call at most 2 times.
+    goal: 'Cancel my order #4471 and refund it to my card.'
+    plan:
+    - 1. Look up order 4471 (done)
+    - 2. Cancel it (current step)
+    - 3. Refund 189.00 to the Visa ending 3054 (still to do)
+    - 4. Tell the customer (still to do)
+    steps_so_far:
+    - call:
+        tool: lookup_order
+        arguments: {order_id: '4471'}
+      result: {order_id: '4471', total: 189.00, paid_with: Visa ending 3054, shipped: false}
+    latest_call:
+      tool: cancel_order
+      arguments: {order_id: '4471'}
+      attempt: 1
+  input:
+    status: ok
+    order_id: '4471'
+    order_status: cancelled
+  recorded:
+    value: continue
+    confidence: 1.0
+    top_options:
+    - option: continue
+      probability: 1.0
+    - option: retry
+      probability: 0.0
+    - option: escalate
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-05'
+- id: worked-support-check-refund
+  name: Refund to the card that paid
+  function: jeff.agents.action-check.action
+  context: *check-context
+  input:
+    tool: refund
+    arguments: {order_id: '4471', amount: 189.00, card_last4: '3054'}
+  recorded:
+    value: approve
+    confidence: 0.818
+    top_options:
+    - option: approve
+      probability: 0.818
+    - option: ask_user
+      probability: 0.142
+    - option: wrong_action
+      probability: 0.028
+    server: v1.4
+    at: '2026-11-05'
+- id: worked-support-task-complete
+  name: Cancelled and refunded
+  function: jeff.agents.task-complete.complete
+  context:
+    app: Brightfield Outfitters, an online shop for outdoor gear. Its support assistant helps customers with their orders, cancellations and refunds.
+    today: Wednesday 4 November 2026
+    request: 'Cancel my order #4471 and refund it to my card.'
+    transcript:
+    - call:
+        tool: lookup_order
+        arguments: {order_id: '4471'}
+      result: {order_id: '4471', total: 189.00, paid_with: Visa ending 3054, shipped: false}
+    - call:
+        tool: cancel_order
+        arguments: {order_id: '4471'}
+      result: {status: ok, order_status: cancelled}
+    - call:
+        tool: refund
+        arguments: {order_id: '4471', amount: 189.00, card_last4: '3054'}
+      result: {status: ok, refund_id: RF-20931, amount: 189.00}
+  input: Done. Order #4471 is cancelled and 189.00 is refunded to your Visa ending 3054. It usually shows on your statement within 3 to 5 working days.
+  recorded:
+    value: complete
+    confidence: 1.0
+    top_options:
+    - option: complete
+      probability: 1.0
+    - option: incomplete
+      probability: 0.0
+    - option: unclear
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-05'

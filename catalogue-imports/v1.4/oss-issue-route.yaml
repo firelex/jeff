@@ -1,0 +1,26 @@
+# Issue and pull request routing, v1.4 (RTX /mnt/d/jeff-adapters/v1.4/oss-issue-route, data teamsuzie/jeff-data
+# apps/oss-issue-route). Two questions; row ids end with a number fused with the function letter (ir-te00141-i1k), so
+# each row's source.kind names its function: issue-kind -> kind, issue-owner -> owner (owner decision 2026-10-26).
+path: apps/oss-issue-route
+adapter_path: oss-issue-route
+id: jeff.engineering.issue-route
+aliases: [oss-issue-route, issue-route]
+version: 1.4.0
+function_by: source_kind
+kinds:
+  issue-kind: kind
+  issue-owner: owner
+context:
+  - key: project
+    description: The project in a few sentences, and its components, each with its owner team, what it owns and its code paths.
+  - key: open_issues
+    description: 'The project''s open issues, one string each ("#number [Component] title: summary").'
+input:
+  key: new_item
+  description: The new issue or pull request, an object with its type, number, title, body and any labels or changed files.
+  form: fields
+functions:
+  # classify: bug / feature / docs / question / duplicate_candidate, a fixed set.
+  kind: {interface: classify, option_order: shuffled}
+  # route: which component (from the caller's list, with descriptions) owns the issue and must change to resolve it.
+  owner: {interface: route}

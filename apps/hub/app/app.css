@@ -1,0 +1,160 @@
+@import "tailwindcss";
+@import "@jeff/brand/fonts.css";
+@import "@jeff/brand/tokens.css";
+/* The pixel display font for headings, nav, tabs and buttons: Jeff Pixel, drawn on the logo's grid
+   (packages/brand/fonts/jeff-pixel; SIL Open Font License 1.1). One weight. Body text stays Inter, code JetBrains
+   Mono. root.tsx preloads the same file on every page. */
+@import "@jeff/brand/jeff-pixel.css";
+
+/* The components' class names live in packages/ui's sources, which Tailwind does not scan on its own (same fix as
+   apps/server/ui/src/index.css: without this, a @jeff/ui component's own classes -- not just ones this app happens
+   to repeat elsewhere -- compile to nothing, e.g. CodeBlock's Copy button had no `display: inline-flex`). */
+@source "../../../packages/ui/src";
+
+/*
+ * The hub's own look: "retro-clean" on light paper, built around the JEFF block-cursor logo. Everything visual
+ * lives in these tokens, which override the shared deck tokens (@jeff/brand/tokens.css) for this app's build only
+ * -- the Jeff Console imports the same file into its own build and keeps the deck look.
+ *
+ * Paper background, dark ink text and borders, one violet accent (links, the active tab and sidebar item, focus
+ * rings, the logo's cursor). No gradients, no soft shadows, square corners. A nod to the home computers of the
+ * 1980s, without copying any: code and the home page's hero sit on a deep violet-blue "screen" (derived from the
+ * brand violet, not any machine's palette) inside a lighter violet frame, and buttons are keycaps.
+ */
+:root {
+  --bg: #f7f6f2;      /* paper */
+  --panel: #fdfcf9;   /* a card or code window: a shade lighter than the paper */
+  --ink: #1d1f24;
+  --line: #1d1f24;    /* borders are ink */
+  --rule: #dcd9cf;    /* faint dividers: table rows, list separators */
+  --text: #1d1f24;
+  --soft: #3d4048;    /* body text: 9.6:1 on the paper */
+  --mute: #5c6068;    /* secondary text: 5.8:1 */
+  --faint: #8b8e94;   /* input placeholders only, never text a reader needs */
+  --v: #7547fe;       /* the accent: 4.75:1 on the paper */
+  --vd: #611fe2;
+  --vl: #efeafe;
+  --vb: #7547fe;
+  --open-fill: #eef5ec; /* an open adapter's card: a very light green drawn from the paper, so it stays quiet beside the purple */
+  --open: #15803d;    /* an open adapter's card border (catalogue): 4.6:1 on the paper; never the only sign, the card's
+                         Open tag says it in words too. The site has one light theme, so there is no dark value. */
+  --grad: none;
+
+  /* The screen: code blocks and the home hero. Code text on the screen is 11.3:1, dimmer screen text 8.0:1, the
+     frame's white title text 6.3:1. */
+  --screen: #2a2170;
+  --screen-frame: #5b4bd0;
+  --screen-text: #ece8ff;
+  --screen-dim: #c9c0ff;
+}
+
+@theme {
+  --color-ink: var(--ink);
+  --color-rule: var(--rule);
+  --color-open: var(--open);
+  --color-open-fill: var(--open-fill);
+  --color-screen: var(--screen);
+  --color-screen-frame: var(--screen-frame);
+  --color-screen-text: var(--screen-text);
+  --color-screen-dim: var(--screen-dim);
+
+  /* Jeff Pixel's cell is a tenth of an em, so the sizes it is used at are whole multiples of 10 px (whole pixels per
+     cell). Each line height keeps the baseline on a whole pixel: the font's own line box is 1.1em (ascent 0.9em,
+     descent 0.2em), and the line height minus that box is an even number of pixels, so half of it, the space above
+     the text, is whole.
+     --text-pixel-10 (1 px cells) is only for a code window's language tabs (ScreenTabs/screenTabClass): six
+     languages, curl and Copy must share one row, which 20 px tabs cannot do. */
+  --text-pixel-10: 10px;
+  --text-pixel-10--line-height: 13px;
+  --text-pixel-20: 20px;
+  --text-pixel-20--line-height: 24px;
+  --text-pixel-30: 30px;
+  --text-pixel-30--line-height: 39px;
+  --text-pixel-40: 40px;
+  --text-pixel-40--line-height: 48px;
+  --text-pixel-50: 50px;
+  --text-pixel-50--line-height: 59px;
+
+  --radius-card: 0;
+  --radius-button: 0;
+  --radius-nav: 0;
+  --radius-tag: 0;
+  --radius-status: 0;
+  --radius-pill: 0;
+
+  --shadow-card: none;
+  --shadow-violet: none;
+  --shadow-nav: none;
+  /* A hard, offset "block shadow" in ink, for things that float (the search results) or lift on hover (cards). */
+  --shadow-modal: 3px 3px 0 var(--ink);
+  --shadow-block: 3px 3px 0 var(--ink);
+  --shadow-key: 3px 3px 0 var(--ink);
+  --shadow-key-accent: 3px 3px 0 var(--v);
+
+  --background-image-grad: none;
+}
+
+html, body { background: var(--bg); color: var(--text); font-family: Inter, system-ui, sans-serif; }
+code, pre, kbd { font-family: "JetBrains Mono", ui-monospace, monospace; }
+
+:focus-visible { outline: 2px solid var(--v); outline-offset: 2px; }
+/* On the dark screen and its frame the violet ring would not show; use the screen's light text colour. */
+.on-screen :focus-visible { outline-color: var(--screen-text); }
+/* Likewise the block cursor marker on a screen frame is light, not violet. */
+.on-screen .cursor-mark::before { background: var(--screen-text); }
+
+/* The pixel font, as a utility (so a breakpoint's sm:font-pixel carries all of it, not just the family). Jeff Pixel
+   draws whole-pixel cells only at the text-pixel-* sizes in @theme, on whole-pixel positions. Font smoothing is off
+   (macOS browsers): the glyphs are axis-aligned squares, so at whole-pixel positions smoothing changes nothing, and
+   where layout leaves text on a fraction of a pixel (a centred line, a grid column of a third of the width) the edges
+   snap to device pixels instead of turning into grey fringes. No letter spacing (the 2-cell gaps between letters are
+   in the font, as in the logo), and the browser may not fake a bold or italic from the one weight. */
+@utility font-pixel {
+  font-family: 'Jeff Pixel';
+  font-weight: 400;
+  font-synthesis: none;
+  letter-spacing: 0;
+  text-rendering: optimizeSpeed;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: unset;
+}
+
+/* The block cursor, drawn as a violet square (the logo's cursor is a square too) rather than the U+25AE character,
+   which the bundled JetBrains Mono subsets do not include. Put before docs section headings, the active sidebar
+   item, the active tab and code windows' language labels. */
+.cursor-mark::before {
+  content: '';
+  display: inline-block;
+  width: 0.6em;
+  height: 0.6em;
+  margin-right: 0.5em;
+  background: var(--v);
+  vertical-align: 0.05em;
+}
+
+/* The header logo's cursor: violet, blinking like a terminal's, still for anyone who asked for reduced motion. */
+.jeff-logo-cursor { fill: var(--v); animation: jeff-blink 1.1s steps(1, end) infinite; }
+@keyframes jeff-blink { 0%, 49.99% { opacity: 1; } 50%, 100% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .jeff-logo-cursor { animation: none; } }
+
+/* The faint dot grid behind the home page's top area. */
+.dot-grid {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Crect x='7' y='7' width='2' height='2' fill='%231d1f24' fill-opacity='0.13'/%3E%3C/svg%3E");
+}
+
+/* The home screen's lines appear one after another, as if typed; the delay is set per line (--line-delay). The text
+   is real, selectable text throughout. No animation, everything shown at once, for prefers-reduced-motion. */
+.type-line { opacity: 0; animation: type-in 0s steps(1, end) forwards; animation-delay: var(--line-delay, 0ms); }
+@keyframes type-in { to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .type-line { opacity: 1; animation: none; } }
+
+/* The screen's own block cursor, after the last line: blinks like the logo's, steady for reduced motion. */
+.screen-cursor {
+  display: inline-block;
+  width: 0.65em;
+  height: 1.1em;
+  background: var(--screen-text);
+  vertical-align: -0.2em;
+  animation: jeff-blink 1.1s steps(1, end) infinite;
+}
+@media (prefers-reduced-motion: reduce) { .screen-cursor { animation: none; } }

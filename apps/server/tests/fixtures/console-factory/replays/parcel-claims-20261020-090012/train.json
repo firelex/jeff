@@ -1,0 +1,10 @@
+{
+  "steps": 250,
+  "complete": true,
+  "temperature": 1.12,
+  "git_commit": "4e1c9a2",
+  "adapter": "/factory/runs/parcel-claims-20261020-090012/training/adapter",
+  "trainer_commit": "4e1c9a2",
+  "gpu_seconds": 674.2,
+  "passes": 2
+}

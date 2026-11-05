@@ -1,0 +1,56 @@
+id: jeff.support.support-intents
+version: 1.4.0
+aliases:
+- support-intents
+licence:
+  kind: open
+  adapter: Apache-2.0
+weights:
+  open:
+    repo: mstrasser/jeff-adapter-support-intents
+    revision: v1.4
+base:
+  id: jeff-base
+  version: v1.4
+  max_options: 64
+context:
+- key: service
+  description: One short phrase about the service the message is sent to. Training used three, one per data set, for example
+    "Customer support chat of an online shop".
+  required: true
+input:
+  key: message
+  description: The customer's or user's message as received.
+  form: fields
+functions:
+  intent:
+    interface: classify
+    type: choice
+    instructions: What does the customer want? Choose the request that best matches what the customer is asking for in their
+      message.
+    labels:
+      source: caller
+      fixed_first: {}
+      caller_keys: null
+      max: 64
+    abstain_labels: []
+    calibration:
+      data: hf://mstrasser/jeff-adapter-support-intents@v1.4/calibration.jsonl
+      rows: 999
+      target_precision: 0.95
+      threshold: 0.290397
+      precision_at_threshold: 0.964965
+      coverage_at_threshold: 1.0
+routes_to: []
+tests:
+  published: hf://mstrasser/jeff-adapter-support-intents@v1.4/test.jsonl
+  calibration: hf://mstrasser/jeff-adapter-support-intents@v1.4/calibration.jsonl
+  function_by: only
+hub:
+  title: Customer request intents
+  summary: Names what a customer or assistant user is asking for, from a fixed list of requests such as cancel_order or track_refund.
+  task: support
+  kind: official
+  maintainer:
+    name: Jeff maintainers
+    github: firelex

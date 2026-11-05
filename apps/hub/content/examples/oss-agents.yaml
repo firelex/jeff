@@ -1,0 +1,208 @@
+# The "Agents" page's examples (guides/oss-agents.md): one agent turn followed through, from choosing a tool to
+# checking that the task is done, then the tool router. Format and recording:
+# scripts/hub_examples.py. The `recorded` blocks are written by `scripts/hub_examples.py --record`, never by hand.
+# Every input here was written for the page.
+- id: oss-tool-route
+  name: Send the invoice and copy me
+  function: jeff.agents.tool-route.tool
+  context:
+    app: Pinecrest Books, a bookkeeping assistant for a small design studio. It keeps the studio's invoices and clients and emails invoices on request.
+    today: Monday 2 November 2026
+    tools: |-
+      def find_invoice(client: str, month: str) -> dict:
+          """Finds the studio's invoice for a client and month."""
+      def send_invoice(invoice_id: str, to: str, cc: list[str] = []) -> dict:
+          """Emails an invoice to a recipient, with optional copies."""
+      def create_invoice(client: str, items: list[dict]) -> dict:
+          """Creates a new draft invoice."""
+    conversation:
+    - role: user
+      content: Morning! Can you send the October invoice for Orbit Print?
+    - role: assistant
+      content: I found it, INV-2026-0412 for 2,350.00, still unpaid. Who at Orbit Print should receive it?
+  input: Send it to their accounts address, accounts@orbitprint.example, and copy me.
+  labels:
+    find_invoice: Finds the studio's invoice for a client and month.
+    send_invoice: Emails an invoice to a recipient, with optional copies.
+    create_invoice: Creates a new draft invoice.
+    none: No tool is needed, or no tool on the menu can do what the user asks.
+    ask_user: A tool fits, but a required detail is missing and the agent must ask the user.
+  recorded:
+    value: send_invoice
+    confidence: 0.998
+    top_options:
+    - option: send_invoice
+      probability: 0.998
+    - option: ask_user
+      probability: 0.002
+    - option: find_invoice
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-03'
+- id: oss-action-check
+  name: Send the October invoice to Orbit Print
+  function: jeff.agents.action-check.action
+  context:
+    app: Pinecrest Books, a bookkeeping assistant for a small design studio. It keeps the studio's invoices and clients and emails invoices on request.
+    today: Monday 2 November 2026
+    rules:
+    - Invoices may be emailed only to an address on the client's record or one the user gives in the conversation.
+    - Never delete an invoice without the user's explicit yes.
+    people:
+    - Sam Whitley <sam@pinecrest.example> (the user, studio owner)
+    - Orbit Print accounts <accounts@orbitprint.example> (client)
+    tools: |-
+      def send_invoice(invoice_id: str, to: str, cc: list[str] = []) -> dict:
+          """Emails an invoice to a recipient, with optional copies."""
+    conversation:
+    - role: user
+      content: Morning! Can you send the October invoice for Orbit Print?
+    - role: assistant
+      content: I found it, INV-2026-0412 for 2,350.00, still unpaid. Who at Orbit Print should receive it?
+    - role: user
+      content: Send it to their accounts address, accounts@orbitprint.example, and copy me.
+    latest_user_message: Send it to their accounts address, accounts@orbitprint.example, and copy me.
+  input:
+    tool: send_invoice
+    arguments:
+      invoice_id: INV-2026-0412
+      to: accounts@orbitprint.example
+      cc: []
+  recorded:
+    value: wrong_action
+    confidence: 0.991
+    top_options:
+    - option: wrong_action
+      probability: 0.991
+    - option: approve
+      probability: 0.005
+    - option: unsafe
+      probability: 0.003
+    server: v1.4
+    at: '2026-11-03'
+- id: oss-after-result
+  name: Mail service briefly down
+  function: jeff.agents.after-result.next
+  context:
+    app: Pinecrest Books, a bookkeeping assistant for a small design studio. It keeps the studio's invoices and clients and emails invoices on request.
+    today: Monday 2 November 2026
+    tools:
+    - 'find_invoice: finds the studio''s invoice for a client and month'
+    - 'send_invoice: emails an invoice to a recipient, with optional copies'
+    retry_limit: Retry a failed call at most 3 times.
+    goal: Send the October invoice for Orbit Print to accounts@orbitprint.example and copy me.
+    plan:
+    - 1. Find the October invoice for Orbit Print (done)
+    - 2. Email it to accounts@orbitprint.example with a copy to sam@pinecrest.example (current step)
+    - 3. Tell the user it was sent (still to do)
+    steps_so_far:
+    - call:
+        tool: find_invoice
+        arguments: {client: Orbit Print, month: 2026-10}
+      result: {invoice_id: INV-2026-0412, total: 2350.00, status: unpaid}
+    latest_call:
+      tool: send_invoice
+      arguments: {invoice_id: INV-2026-0412, to: accounts@orbitprint.example, cc: [sam@pinecrest.example]}
+      attempt: 1
+  input:
+    status: error
+    code: 503
+    message: Mail service temporarily unavailable, please try again in a few seconds.
+  recorded:
+    value: retry
+    confidence: 1.0
+    top_options:
+    - option: retry
+      probability: 1.0
+    - option: continue
+      probability: 0.0
+    - option: escalate
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-05'
+- id: oss-result-relevant
+  name: Orbit Print's September invoice
+  function: jeff.agents.result-relevant.relevant
+  context:
+    app: Pinecrest Books, a bookkeeping assistant for a small design studio. It keeps the studio's invoices and clients and emails invoices on request.
+    today: Monday 2 November 2026
+    sub_question: What is the invoice number and total of Orbit Print's October 2026 invoice?
+    call:
+      tool: find_invoice
+      description: Finds the studio's invoice for a client and month.
+      arguments: {client: Orbit Print, month: 2026-10}
+  input:
+    invoice_id: INV-2026-0388
+    client: Orbit Print
+    month: 2026-09
+    total: 1980.00
+    status: paid
+  recorded:
+    value: 'no'
+    confidence: 0.954
+    top_options:
+    - option: 'no'
+      probability: 0.954
+    - option: partly
+      probability: 0.045
+    - option: 'yes'
+      probability: 0.001
+    server: v1.4
+    at: '2026-11-05'
+- id: oss-task-complete
+  name: Invoice sent and copied
+  function: jeff.agents.task-complete.complete
+  context:
+    app: Pinecrest Books, a bookkeeping assistant for a small design studio. It keeps the studio's invoices and clients and emails invoices on request.
+    today: Monday 2 November 2026
+    request: Send the October invoice for Orbit Print to accounts@orbitprint.example and copy me.
+    transcript:
+    - call:
+        tool: find_invoice
+        arguments: {client: Orbit Print, month: 2026-10}
+      result: {invoice_id: INV-2026-0412, total: 2350.00, status: unpaid}
+    - call:
+        tool: send_invoice
+        arguments: {invoice_id: INV-2026-0412, to: accounts@orbitprint.example, cc: []}
+      result: {status: sent, message_id: m-77120}
+  input: Done! The October invoice (INV-2026-0412, 2,350.00) is on its way to Orbit Print, and you're copied in.
+  recorded:
+    value: incomplete
+    confidence: 0.98
+    top_options:
+    - option: incomplete
+      probability: 0.98
+    - option: complete
+      probability: 0.019
+    - option: unclear
+      probability: 0.001
+    server: v1.4
+    at: '2026-11-05'
+- id: oss-tools
+  name: Book a hotel in Leeds
+  function: jeff.routing.tools.tool
+  context:
+    agent: A travel desk assistant for a consulting firm that books trains and hotels for staff and checks the travel policy.
+    conversation:
+    - role: user
+      text: I'm going to the Leeds workshop next week.
+    - role: assistant
+      text: Great. Do you need travel or a hotel booked?
+  input: Yes, please book me a hotel in Leeds for Tuesday and Wednesday night.
+  labels:
+    book_train: Books a train ticket for a traveller, given the route, date and time.
+    book_hotel: Books a hotel room for a traveller, given the city or address and the nights.
+    check_policy: Looks up what the firm's travel policy allows (classes of travel, nightly hotel limits).
+    cancel_booking: Cancels an existing booking by its reference.
+  recorded:
+    value: book_hotel
+    confidence: 0.889
+    top_options:
+    - option: book_hotel
+      probability: 0.889
+    - option: ask_user
+      probability: 0.109
+    - option: check_policy
+      probability: 0.001
+    server: v1.4
+    at: '2026-11-03'

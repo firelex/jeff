@@ -1,0 +1,14 @@
+{"command": "show nvda 1h", "function": "plot_price", "arguments": {"symbol": "NVDA", "resolution": "1h"}}
+{"command": "plot rolling correlation between nvda and spy for the past month", "function": "rolling_correlation", "arguments": {"symbol": "NVDA", "benchmark": "SPY", "window": "1mo"}}
+{"command": "when during the day does nvda trade the most", "function": "intraday_pattern", "arguments": {"symbol": "NVDA"}}
+{"command": "what moved today", "function": "top_movers", "arguments": {"window": "1d", "direction": "gainers"}}
+{"command": "what tickers do you have", "function": "list_symbols", "arguments": {}}
+{"command": "how did the market do this week", "function": "market_summary", "arguments": {"window": "1w"}}
+{"command": "candles for tesla with a 20 period moving average", "function": "plot_price", "arguments": {"symbol": "TSLA", "style": "candles", "moving_average": "20"}}
+{"command": "compare nvda amd and msft over the past three months", "function": "compare_returns", "arguments": {"symbols": ["NVDA", "AMD", "MSFT"], "window": "3mo"}}
+{"command": "how volatile is tsla", "function": "volatility", "arguments": {"symbol": "TSLA"}}
+{"command": "biggest losers today", "function": "top_movers", "arguments": {"window": "1d", "direction": "losers"}}
+{"command": "worst drawdown for nvda this quarter, and chart it please", "function": "drawdown", "arguments": {"symbol": "NVDA", "window": "3mo", "plot": true}}
+{"command": "spy stats for the last month", "function": "summary_stats", "arguments": {"symbol": "SPY", "window": "1mo"}}
+{"command": "show me apple daily with volume", "function": "plot_price", "arguments": {"symbol": "AAPL", "resolution": "1d", "include_volume": true}}
+{"command": "is amd tracking nvidia lately", "function": "rolling_correlation", "arguments": {"symbol": "AMD", "benchmark": "NVDA"}}

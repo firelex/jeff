@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jeff.dev/schemas/models_response.schema.json",
+  "title": "Jeff GET /v1/models response (the legacy jeff-server API)",
+  "description": "The model names /v1/systemone answers to: the base under the server's model name, then each served adapter under its alias (its ID when it has none). release_date is the base's release date (YYYY-MM-DD).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["models"],
+  "properties": {
+    "models": {"type": "array", "items": {
+      "type": "object", "additionalProperties": false, "required": ["name", "description", "release_date"],
+      "properties": {"name": {"type": "string"}, "description": {"type": "string"},
+                     "release_date": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"}}}}
+  }
+}

@@ -1,0 +1,154 @@
+# The "Support" page's examples (guides/oss-support.md): sorting incoming messages, deciding who acts, and a trading
+# desk's rule check. Format and recording: scripts/hub_examples.py. The `recorded` blocks are written by
+# `scripts/hub_examples.py --record`, never by hand. Every input here was written for the page.
+- id: oss-message-triage
+  name: Supplier invoice to the office manager
+  function: jeff.support.message-triage.action_needed
+  context:
+    recipient:
+      name: Lena Brandt
+      address: lena.brandt@hollowayarch.example
+      role: Office manager
+      organisation: Holloway Architects
+    message_kinds:
+      invoice: A supplier's bill or a question about one
+      booking: Meeting room, travel or event bookings
+      it_problem: Something broken with computers, phones or the network
+      newsletter: Bulk mail and marketing
+    routing_table:
+    - key: finance
+      name: Finance team
+      address: finance@hollowayarch.example
+      topics: Supplier invoices, payments, expenses
+    - key: it
+      name: IT support
+      address: it@hollowayarch.example
+      topics: Computers, phones, printers, network and accounts
+    routing_rules:
+    - Anything about a client project's fees goes to the partner on the project, never to finance.
+    now: Monday 2 November 2026, 09:40
+  input:
+    channel: email
+    from: billing@greenleafplants.example
+    to: lena.brandt@hollowayarch.example
+    cc: ''
+    received: Monday 2 November 2026, 08:55
+    subject: Invoice GL-5520 for October plant care
+    body: Hello Lena, please find attached our invoice GL-5520 for October's plant care at your Bristol office, 240.00. Could you arrange payment within 30 days? Kind regards, Greenleaf Plants
+  recorded:
+    value: forward
+    confidence: 0.99
+    top_options:
+    - option: forward
+      probability: 0.99
+    - option: do_task
+      probability: 0.007
+    - option: fyi_only
+      probability: 0.001
+    server: v1.4
+    at: '2026-11-03'
+- id: oss-requires-action
+  name: Pothole reported to the council
+  function: jeff.support.requires-action.requires_action
+  context:
+    team:
+      organisation: Westmoor Borough Council
+      name: Highways team
+    policy:
+    - The team handles potholes, damaged road signs, blocked drains on roads and broken street lights.
+    - Any report of an immediate danger to people (for example an exposed cable or a collapsed road) must be escalated to the duty officer.
+    - Bin collections and parking fines belong to other teams.
+  input:
+    from: r.osei@mailbox.example
+    to: highways@westmoor.example
+    date: 2 November 2026
+    subject: Pothole on Mill Lane
+    body: There's a deep pothole outside number 14 Mill Lane, right where cyclists come down the hill. Could someone take a look?
+  recorded:
+    value: 'yes'
+    confidence: 0.991
+    top_options:
+    - option: 'yes'
+      probability: 0.991
+    - option: unclear
+      probability: 0.006
+    - option: 'no'
+      probability: 0.003
+    server: v1.4
+    at: '2026-11-03'
+- id: oss-triage
+  name: Wrong jacket size in the parcel
+  function: jeff.support.triage.route
+  context:
+    company: An online shop selling outdoor clothing and camping gear across Europe.
+    channel: email
+  input: |-
+    Subject: Wrong item in my parcel
+    Hi, my order 88213 arrived today but the parcel had a large Alpine shell jacket instead of the medium I ordered. Please exchange it and send the medium before Saturday. Thanks, Marta
+  labels:
+    orders: Orders, deliveries, returns and exchanges
+    payments: Payments, refunds and invoices
+    product: Product questions, sizing advice and stock
+    account: Customer accounts, passwords and newsletters
+  recorded:
+    value: orders
+    confidence: 1.0
+    top_options:
+    - option: orders
+      probability: 1.0
+    - option: product
+      probability: 0.0
+    - option: payments
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-03'
+- id: oss-support-intents
+  name: Cancel boots before they ship
+  function: jeff.support.support-intents.intent
+  context:
+    service: Customer support chat of an online shop
+  input: hi, i changed my mind about the boots i ordered yesterday, can i still stop the order before it ships?
+  labels:
+    cancel_order: Cancel an order that has not been delivered yet
+    track_order: Find out where an order is
+    change_address: Change the delivery address of an order
+    return_item: Return an item that was delivered
+    track_refund: Find out the status of a refund
+  recorded:
+    value: cancel_order
+    confidence: 0.999
+    top_options:
+    - option: cancel_order
+      probability: 0.999
+    - option: return_item
+      probability: 0.0
+    - option: track_order
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-03'
+- id: oss-trading-desk
+  name: Losing long position below its average
+  function: jeff.finance.trading-desk.risk_off
+  context:
+    desk: |-
+      Strategy: mean reversion on one stock. Buy when the mid is more than 0.6% below its 20-minute average, sell when more than 0.6% above.
+      Clip size: 500 shares. Position limit: 3,000 shares either way.
+      Filters: no new trades when the spread is wider than 8 basis points, or after 15:45.
+      Risk-off triggers: (1) the day's loss on this stock exceeds 25,000; (2) realised volatility over 5 minutes is above 60% annualised; (3) a trading halt or a news alert flagged "material" on this stock.
+      Venues: venue_a (lit exchange, fee 0.3 bp, 0.4 ms), venue_b (lit exchange, rebate 0.1 bp, 1.1 ms), venue_c (dark pool, fee 0.1 bp, 2.0 ms).
+    market_context: 'Stock: a mid-cap European industrial. Date: 2 November 2026. Opening mid 41.20; morning range 40.95 to 41.60; typical spread 4 bp; trading normal.'
+  input: |-
+    Time 13:12:05. Mid 40.31, 20-minute average 40.88. Spread 5 bp.
+    Order-flow imbalance -0.42. Realised volatility (5 min) 38% annualised.
+    Position: long 2,500 shares, average price 41.35. Day P&L on this stock: -26,400.
+    Open orders: none. News: none flagged.
+  recorded:
+    value: 'yes'
+    confidence: 1.0
+    top_options:
+    - option: 'yes'
+      probability: 1.0
+    - option: 'no'
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-03'

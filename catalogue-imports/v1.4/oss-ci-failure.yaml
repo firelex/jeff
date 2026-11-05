@@ -1,0 +1,23 @@
+# oss-ci-failure, v1.4 (RTX /mnt/d/jeff-adapters/v1.4/oss-ci-failure, data teamsuzie/jeff-data apps/oss-ci-failure).
+path: apps/oss-ci-failure
+adapter_path: oss-ci-failure
+id: jeff.engineering.ci-failure
+aliases: [oss-ci-failure, ci-failure]
+version: 1.4.0
+function_by: only
+context:
+  - key: project
+    description: "The software project: its name and a description of what it is."
+  - key: ci_run
+    description: "The failed CI run: an object with job, trigger (for example a pull request), commit and date."
+  - key: change
+    description: "The code change being tested: an object with its title and description."
+  - key: ci_facts
+    description: "Facts the CI system records: attempts on this commit, the history of the same test or job on the main branch, other jobs in this run, dependency versions compared with the last passing run, and durations."
+input:
+  key: log
+  description: "The log of the failed run, as text."
+  form: fields
+functions:
+  # classify: picks one failure kind from a fixed set of 7 (real_regression, flaky_test, environment_or_infra, ...)
+  failure: {interface: classify, option_order: shuffled}

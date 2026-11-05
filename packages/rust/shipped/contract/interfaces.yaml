@@ -1,0 +1,26 @@
+# The interface catalogue. An interface is here only when at least one validated function implements it
+# (spec Section 5). question_type is the server question type the interface compiles to. values, when present,
+# are the exact label keys every implementing function must have, in this order.
+classify:
+  question_type: choice
+  description: Choose one label from a defined set of labels.
+route:
+  question_type: choice
+  description: Choose which candidate (a team, a tool, a screen item, or another function) should handle the input.
+rate:
+  question_type: score
+  description: Place the input on an ordered scale of levels.
+detect:
+  question_type: noul
+  description: Say whether the input is an instance of the thing the function detects.
+is_supported:
+  question_type: choice
+  values: [supported, partly_supported, contradicted, unsupported]
+  description: Judge whether an answer is supported by its sources, using only the sources.
+equivalent:
+  question_type: choice
+  values: [match, possible_match, no_match]
+  description: Judge whether two records describe the same entity.
+requires_escalation:
+  question_type: noul
+  description: Say whether a person must act on the input now.

@@ -1,0 +1,302 @@
+{
+ "script": "scripts/bench_batched.py",
+ "date": "2026-10-24 23:37",
+ "versions": {
+  "torch": "2.14.0+cu130",
+  "cuda": "13.0",
+  "gpu": "NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition",
+  "triton": "3.8.0",
+  "flash-linear-attention": "0.5.2"
+ },
+ "setup": {
+  "adapters_loaded": 9,
+  "prefixes": 16,
+  "prefix_tokens": [
+   338,
+   502,
+   505,
+   513,
+   515,
+   515,
+   518,
+   552,
+   552,
+   552,
+   823,
+   987,
+   1269,
+   1379,
+   1474,
+   1730
+  ],
+  "prefix_pool_mb": 8192,
+  "warmup": 150,
+  "reps": 300,
+  "call": "LocalEngine.predict_many, one group per adapter: prefixes looked up and pinned, one batched pass, unpinned; rows prepared before timing",
+  "engine_start_s": 56.2
+ },
+ "other_servers": {
+  "gpu_before_this_engine": {
+   "memory_used_mib": 33767.0,
+   "memory_total_mib": 97887.0,
+   "utilization_pct": 0.0,
+   "compute_processes": 5
+  },
+  "note": "the other Jeff servers on datigator (jeff-server, jeff-public, fastserve, tdd-preview, legal-eval) stay resident and may serve during the run; gpu_during per (B, N) samples the whole GPU"
+ },
+ "rows_per_s": {
+  "32": {
+   "1": 414.0,
+   "4": 1376.2,
+   "16": 2600.4,
+   "64": 3198.8
+  },
+  "64": {
+   "1": 372.0,
+   "4": 1032.5,
+   "16": 1571.3,
+   "64": 1850.7
+  },
+  "128": {
+   "1": 335.7,
+   "4": 680.9,
+   "16": 874.0,
+   "64": 931.1
+  }
+ },
+ "design_today_rows_per_s": {
+  "32": 294,
+  "64": 242,
+  "128": 249
+ },
+ "results": {
+  "B=1 N=32": {
+   "wall_ms": {
+    "p50": 2.415,
+    "p99": 2.492,
+    "mean": 2.416
+   },
+   "model_ms": {
+    "p50": 2.402,
+    "p99": 2.471,
+    "mean": 2.403
+   },
+   "rows_per_s": 414.0,
+   "adapters_per_pass": 1,
+   "gpu_during": {
+    "samples": 13,
+    "utilization_pct_mean": 80.5,
+    "memory_used_mib_max": 48926.0
+   }
+  },
+  "B=4 N=32": {
+   "wall_ms": {
+    "p50": 2.907,
+    "p99": 2.968,
+    "mean": 2.906
+   },
+   "model_ms": {
+    "p50": 2.888,
+    "p99": 2.947,
+    "mean": 2.886
+   },
+   "rows_per_s": 1376.2,
+   "adapters_per_pass": 4,
+   "gpu_during": {
+    "samples": 7,
+    "utilization_pct_mean": 83.9,
+    "memory_used_mib_max": 48926.0
+   }
+  },
+  "B=16 N=32": {
+   "wall_ms": {
+    "p50": 6.152,
+    "p99": 6.22,
+    "mean": 6.153
+   },
+   "model_ms": {
+    "p50": 6.119,
+    "p99": 6.183,
+    "mean": 6.12
+   },
+   "rows_per_s": 2600.4,
+   "adapters_per_pass": 9,
+   "gpu_during": {
+    "samples": 14,
+    "utilization_pct_mean": 90.1,
+    "memory_used_mib_max": 48926.0
+   }
+  },
+  "B=64 N=32": {
+   "wall_ms": {
+    "p50": 19.996,
+    "p99": 20.179,
+    "mean": 20.007
+   },
+   "model_ms": {
+    "p50": 19.937,
+    "p99": 20.11,
+    "mean": 19.947
+   },
+   "rows_per_s": 3198.8,
+   "adapters_per_pass": 9,
+   "gpu_during": {
+    "samples": 45,
+    "utilization_pct_mean": 95.9,
+    "memory_used_mib_max": 48926.0
+   }
+  },
+  "B=1 N=64": {
+   "wall_ms": {
+    "p50": 2.687,
+    "p99": 2.744,
+    "mean": 2.688
+   },
+   "model_ms": {
+    "p50": 2.675,
+    "p99": 2.729,
+    "mean": 2.676
+   },
+   "rows_per_s": 372.0,
+   "adapters_per_pass": 1,
+   "gpu_during": {
+    "samples": 6,
+    "utilization_pct_mean": 86.3,
+    "memory_used_mib_max": 48926.0
+   }
+  },
+  "B=4 N=64": {
+   "wall_ms": {
+    "p50": 3.874,
+    "p99": 3.958,
+    "mean": 3.874
+   },
+   "model_ms": {
+    "p50": 3.854,
+    "p99": 3.939,
+    "mean": 3.854
+   },
+   "rows_per_s": 1032.5,
+   "adapters_per_pass": 4,
+   "gpu_during": {
+    "samples": 9,
+    "utilization_pct_mean": 91.7,
+    "memory_used_mib_max": 48926.0
+   }
+  },
+  "B=16 N=64": {
+   "wall_ms": {
+    "p50": 10.18,
+    "p99": 10.269,
+    "mean": 10.183
+   },
+   "model_ms": {
+    "p50": 10.144,
+    "p99": 10.232,
+    "mean": 10.147
+   },
+   "rows_per_s": 1571.3,
+   "adapters_per_pass": 9,
+   "gpu_during": {
+    "samples": 23,
+    "utilization_pct_mean": 94.5,
+    "memory_used_mib_max": 48926.0
+   }
+  },
+  "B=64 N=64": {
+   "wall_ms": {
+    "p50": 34.591,
+    "p99": 34.902,
+    "mean": 34.581
+   },
+   "model_ms": {
+    "p50": 34.523,
+    "p99": 34.798,
+    "mean": 34.516
+   },
+   "rows_per_s": 1850.7,
+   "adapters_per_pass": 9,
+   "gpu_during": {
+    "samples": 78,
+    "utilization_pct_mean": 97.4,
+    "memory_used_mib_max": 48926.0
+   }
+  },
+  "B=1 N=128": {
+   "wall_ms": {
+    "p50": 2.965,
+    "p99": 3.084,
+    "mean": 2.979
+   },
+   "model_ms": {
+    "p50": 2.953,
+    "p99": 3.065,
+    "mean": 2.966
+   },
+   "rows_per_s": 335.7,
+   "adapters_per_pass": 1,
+   "gpu_during": {
+    "samples": 7,
+    "utilization_pct_mean": 82.0,
+    "memory_used_mib_max": 48926.0
+   }
+  },
+  "B=4 N=128": {
+   "wall_ms": {
+    "p50": 5.876,
+    "p99": 6.002,
+    "mean": 5.875
+   },
+   "model_ms": {
+    "p50": 5.856,
+    "p99": 5.977,
+    "mean": 5.854
+   },
+   "rows_per_s": 680.9,
+   "adapters_per_pass": 4,
+   "gpu_during": {
+    "samples": 14,
+    "utilization_pct_mean": 92.4,
+    "memory_used_mib_max": 48926.0
+   }
+  },
+  "B=16 N=128": {
+   "wall_ms": {
+    "p50": 18.298,
+    "p99": 18.52,
+    "mean": 18.306
+   },
+   "model_ms": {
+    "p50": 18.262,
+    "p99": 18.435,
+    "mean": 18.268
+   },
+   "rows_per_s": 874.0,
+   "adapters_per_pass": 9,
+   "gpu_during": {
+    "samples": 41,
+    "utilization_pct_mean": 95.3,
+    "memory_used_mib_max": 48926.0
+   }
+  },
+  "B=64 N=128": {
+   "wall_ms": {
+    "p50": 68.75,
+    "p99": 69.214,
+    "mean": 68.734
+   },
+   "model_ms": {
+    "p50": 68.676,
+    "p99": 69.113,
+    "mean": 68.659
+   },
+   "rows_per_s": 931.1,
+   "adapters_per_pass": 9,
+   "gpu_during": {
+    "samples": 154,
+    "utilization_pct_mean": 98.7,
+    "memory_used_mib_max": 48926.0
+   }
+  }
+ }
+}

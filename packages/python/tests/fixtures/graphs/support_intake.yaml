@@ -1,0 +1,14 @@
+graph: jeff.graphs.support_intake
+version: 1.0.0
+input: message
+params: [company, channel, teams]
+nodes:
+  kind:    { call: jeff.safety.spam.message_type, context: { channel: { param: channel } } }
+  team:    { call: jeff.support.triage.route,
+             context: { company: { param: company }, channel: { param: channel } }, labels: { param: teams },
+             when: { node: kind, is: legitimate } }
+  urgency: { call: jeff.support.triage.urgency,
+             context: { company: { param: company }, channel: { param: channel } },
+             when: { node: team, abstained: false } }
+  ticket:  { code: make_ticket, after: [team, urgency] }
+outputs: [kind, team, urgency, ticket]

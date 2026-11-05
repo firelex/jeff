@@ -1,0 +1,122 @@
+{
+  "rows": {
+    "train": 2104,
+    "dev": 214,
+    "calibration": 318,
+    "test": 421
+  },
+  "requests_written": {
+    "train": 1430,
+    "dev": 150,
+    "calibration": 222,
+    "test": 296
+  },
+  "duplicates_dropped": {
+    "train": 31,
+    "dev": 2,
+    "calibration": 4,
+    "test": 3
+  },
+  "near_copies_dropped": {
+    "train": 0,
+    "dev": 5,
+    "calibration": 6,
+    "test": 9
+  },
+  "independent_test_copies_dropped": {
+    "exact": {},
+    "near": {}
+  },
+  "near_copy_rule": "word 5-grams overlapping 60% or more with a training request",
+  "families": {
+    "train": 46,
+    "dev": 4,
+    "calibration": 4,
+    "test": 6
+  },
+  "test_family_overlap": 0,
+  "balance": {
+    "claim": {
+      "damaged": 402,
+      "late": 391,
+      "lost": 380,
+      "none": 249
+    },
+    "refund": {
+      "false": 360,
+      "true": 322
+    }
+  },
+  "instructions": {
+    "train": {
+      "canonical": 712,
+      "reworded": 1392
+    },
+    "dev": {
+      "canonical": 214
+    },
+    "calibration": {
+      "canonical": 318
+    },
+    "test": {
+      "canonical": 421
+    }
+  },
+  "kinds": {
+    "plain": 1620,
+    "negation": 260,
+    "two_claims": 224
+  },
+  "tokens": {
+    "min": 141,
+    "median": 188,
+    "p95": 246,
+    "max": 301,
+    "histogram": [
+      {
+        "from": 141,
+        "to": 155,
+        "count": 120
+      },
+      {
+        "from": 155,
+        "to": 301,
+        "count": 2937
+      }
+    ]
+  },
+  "sample": [
+    {
+      "family": "fam-07",
+      "state": {
+        "shop": "A small shop selling hand-thrown ceramic mugs.",
+        "message": "the mug came in pieces, i want my money back"
+      },
+      "question": {
+        "type": "choice",
+        "instructions": "What does the customer claim happened to the parcel?",
+        "criteria": {}
+      },
+      "label": "damaged",
+      "kind": "plain",
+      "style": "terse",
+      "instruction": "canonical"
+    },
+    {
+      "family": "fam-12",
+      "state": {
+        "shop": "An online bookshop.",
+        "message": "Hello, my order is a week late but please do not cancel it."
+      },
+      "question": {
+        "type": "noul",
+        "instructions": "Does the customer ask for their money back?",
+        "criteria": {}
+      },
+      "label": false,
+      "kind": "negation",
+      "style": "polite",
+      "instruction": "reworded"
+    }
+  ]
+}

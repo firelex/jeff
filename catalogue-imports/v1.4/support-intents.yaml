@@ -1,0 +1,20 @@
+# The customer support intents adapter, v1.4 (RTX /mnt/d/jeff-adapters/v1.4/support-intents, data teamsuzie/jeff-data apps/support-intents).
+# Same ID, key and interface as the v1.3 catalogue manifest jeff.support.support-intents.
+path: apps/support-intents
+adapter_path: support-intents
+id: jeff.support.support-intents
+aliases: [support-intents]
+version: 1.4.0
+function_by: only
+context:
+  - key: service
+    description: >-
+      One short phrase about the service the message is sent to. Training used three, one per data set, for example
+      "Customer support chat of an online shop".
+input:
+  key: message
+  description: The customer's or user's message as received.
+  form: fields
+functions:
+  # intent: what the customer asks for, one of the service's intents (97 in the test rows).
+  intent: {interface: classify}

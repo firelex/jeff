@@ -1,0 +1,20 @@
+{
+ "label": "after-ab1",
+ "date": "2026-10-24 20:38",
+ "setup": {
+  "adapters": 9,
+  "prefix_pool_mb": 8192,
+  "prepare_workers": 1
+ },
+ "engine_start_seconds": 50.5,
+ "gpu_memory_gb": {
+  "allocated": 11.16,
+  "reserved": 14.0,
+  "max_reserved": 15.11
+ },
+ "fast_path_graphs": 0,
+ "batched_graphs": 75,
+ "recording_log": [
+  "jeff.batched_path: batched fast path: 39 decision and 36 prefix CUDA graphs recorded in 25.6 s; GPU memory allocated 11.16 GB, reserved 14.00 GB"
+ ]
+}

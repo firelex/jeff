@@ -1,0 +1,36 @@
+{
+ "32": {
+  "per_decision_ms": {
+   "wide_bn256_target_8": 0.5032,
+   "wide_bn128_target_8": 0.5294,
+   "wide_bn256_target_16": 0.5311,
+   "reduce_target_8": 0.5351,
+   "today_target_8": 0.5514,
+   "reduce_target_16": 0.5826,
+   "wide_bn256_target_64": 0.591,
+   "wide_bn128_target_16": 0.6466,
+   "reduce_target_64": 0.6962,
+   "today_target_16": 0.7027,
+   "wide_bn128_target_64": 0.76,
+   "today_target_64": 0.8759
+  },
+  "bit_for_bit_equal_to_today_same_split": true
+ },
+ "128": {
+  "per_decision_ms": {
+   "wide_bn128_target_8": 0.6245,
+   "reduce_target_16": 0.625,
+   "wide_bn128_target_16": 0.6299,
+   "reduce_target_8": 0.6621,
+   "today_target_8": 0.6688,
+   "wide_bn256_target_16": 0.7039,
+   "wide_bn256_target_8": 0.7132,
+   "reduce_target_64": 0.7415,
+   "today_target_16": 0.7464,
+   "wide_bn256_target_64": 0.8215,
+   "wide_bn128_target_64": 0.8335,
+   "today_target_64": 1.2536
+  },
+  "bit_for_bit_equal_to_today_same_split": true
+ }
+}

@@ -1,0 +1,171 @@
+{
+ "base": "/mnt/d/jeff-models/v1.3/v13base/ll-v12-final",
+ "triage": "/mnt/d/jeff-models/v1.3/v13adapters/checkpoints/0.8b-triage-20261003-0149/final",
+ "commit": "23fb008",
+ "prefixes": [
+  {
+   "adapter": "triage",
+   "tokens": 77,
+   "text": "{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'phone transcript', 'message': \"Caller: Hello, um, yes. I'm calling about my mortgage. Reference number is 44-9021-X. I need to change the repayment schedule, please. My circumstances have changed slightly",
+   "conv": {
+    "shape": [
+     18,
+     3,
+     6144
+    ],
+    "dtype": "torch.bfloat16",
+    "sha256": "f4552eb2318d2a211da9ab4f14e96c6a3b8341b301c72deeb7ef264744e895e7",
+    "sum": -847.7088532447815,
+    "absmax": 30.5
+   },
+   "state": {
+    "shape": [
+     18,
+     16,
+     128,
+     128
+    ],
+    "dtype": "torch.float32",
+    "sha256": "f676149b6d47e30e0441de48f47bb9760e5cbf41fbe68f58cba820c56fca6509",
+    "sum": 1846.2769698463965,
+    "absmax": 11.297842979431152
+   },
+   "kv": {
+    "shape": [
+     6,
+     2,
+     77,
+     2,
+     256
+    ],
+    "dtype": "torch.bfloat16",
+    "sha256": "87708d9a356e07e239a6ad800f1d6ec75288086e0c06a71e8a0b3a3bcc00e5f6",
+    "sum": -3097.3386167231947,
+    "absmax": 37.0
+   }
+  },
+  {
+   "adapter": "triage",
+   "tokens": 1001,
+   "text": "{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'phone transcript', 'message': \"Caller: Hello, um, yes. I'm calling about my mortgage. Reference number is 44-9021-X. I need to change the repayment schedule, please. My circumstances have changed slightly, so I want to adjust the monthly amount. Could someone please review this and get back to me? Thank you.\"}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'phone transcript', 'message': \"Caller: Hello, um, yes. I'm calling about my mortgage. Reference number is 44-9021-X. I need to change the repayment schedule, please. My circumstances have changed slightly, so I want to adjust the monthly amount. Could someone please review this and get back to me? Thank you.\"}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'phone transcript', 'message': \"Caller: Hello, um, yes. I'm calling about my mortgage. Reference number is 44-9021-X. I need to change the repayment schedule, please. My circumstances have changed slightly, so I want to adjust the monthly amount. Could someone please review this and get back to me? Thank you.\"}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'phone transcript', 'message': \"Caller: Hello, um, yes. I'm calling about my mortgage. Reference number is 44-9021-X. I need to change the repayment schedule, please. My circumstances have changed slightly, so I want to adjust the monthly amount. Could someone please review this and get back to me? Thank you.\"}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'web form', 'message': \"Name: Elena Rossi\\nEmail: elena.r@libero.it\\nTopic: Savings\\nMessage: Just confirming that the reimbursement of \u20ac200 for the fraudulent charge has appeared in my account. Everything looks fine now. I don't need any further help with this specific issue.\\n\\nElena Rossi\\nFreelance Designer\\n+39 333 123 4567\"}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'web form', 'message': \"Name: Elena Rossi\\nEmail: elena.r@libero.it\\nTopic: Savings\\nMessage: Just confirming that the reimbursement of \u20ac200 for the fraudulent charge has appeared in my account. Everything looks fine now. I don't need any further help with this specific issue.\\n\\nElena Rossi\\nFreelance Designer\\n+39 333 123 4567\"}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'web form', 'message': \"Name: Elena Rossi\\nEmail: elena.r@libero.it\\nTopic: Savings\\nMessage: Just confirming that the reimbursement of \u20ac200 for the fraudulent charge has appeared in my account. Everything looks fine now. I don't need any further help with this specific issue.\\n\\nElena Rossi\\nFreelance Designer\\n+39 333 123 4567\"}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'web form', 'message': \"Name: Elena Rossi\\nEmail: elena.r@libero.it\\nTopic: Savings\\nMessage: Just confirming that the reimbursement of \u20ac200 for the fraudulent charge has appeared in my account. Everything looks fine now. I don't need any further help with this specific issue.\\n\\nElena Rossi\\nFreelance Designer\\n+39 333 123 4567\"}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'social media reply', 'message': '@EthicalCU I need to order a replacement card urgently as mine was lost. Also how do I increase my savings deposit limit? Thanks.'}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'social media reply', 'message': '@EthicalCU I need",
+   "conv": {
+    "shape": [
+     18,
+     3,
+     6144
+    ],
+    "dtype": "torch.bfloat16",
+    "sha256": "5070b9c67620fe9b735e17501c200324e79c55b6edf11560fa4d0ccc92d62361",
+    "sum": 189.85474571585655,
+    "absmax": 35.25
+   },
+   "state": {
+    "shape": [
+     18,
+     16,
+     128,
+     128
+    ],
+    "dtype": "torch.float32",
+    "sha256": "a4ccadcabeed38f2be7044b226f157360eddcbe672d78b6d7e0bf4cf8142fb6d",
+    "sum": 1891.300092776967,
+    "absmax": 11.936695098876953
+   },
+   "kv": {
+    "shape": [
+     6,
+     2,
+     1001,
+     2,
+     256
+    ],
+    "dtype": "torch.bfloat16",
+    "sha256": "728153472b4984507fab3e804bd4ad1274b1310f51a1da8c38b12100092128a7",
+    "sum": -50852.30210017972,
+    "absmax": 37.0
+   }
+  },
+  {
+   "adapter": "triage",
+   "tokens": 2601,
+   "text": "{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'phone transcript', 'message': \"Caller: Hello, um, yes. I'm calling about my mortgage. Reference number is 44-9021-X. I need to change the repayment schedule, please. My circumstances have changed slightly, so I want to adjust the monthly amount. Could someone please review this and get back to me? Thank you.\"}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'phone transcript', 'message': \"Caller: Hello, um, yes. I'm calling about my mortgage. Reference number is 44-9021-X. I need to change the repayment schedule, please. My circumstances have changed slightly, so I want to adjust the monthly amount. Could someone please review this and get back to me? Thank you.\"}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'phone transcript', 'message': \"Caller: Hello, um, yes. I'm calling about my mortgage. Reference number is 44-9021-X. I need to change the repayment schedule, please. My circumstances have changed slightly, so I want to adjust the monthly amount. Could someone please review this and get back to me? Thank you.\"}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'phone transcript', 'message': \"Caller: Hello, um, yes. I'm calling about my mortgage. Reference number is 44-9021-X. I need to change the repayment schedule, please. My circumstances have changed slightly, so I want to adjust the monthly amount. Could someone please review this and get back to me? Thank you.\"}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'web form', 'message': \"Name: Elena Rossi\\nEmail: elena.r@libero.it\\nTopic: Savings\\nMessage: Just confirming that the reimbursement of \u20ac200 for the fraudulent charge has appeared in my account. Everything looks fine now. I don't need any further help with this specific issue.\\n\\nElena Rossi\\nFreelance Designer\\n+39 333 123 4567\"}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'web form', 'message': \"Name: Elena Rossi\\nEmail: elena.r@libero.it\\nTopic: Savings\\nMessage: Just confirming that the reimbursement of \u20ac200 for the fraudulent charge has appeared in my account. Everything looks fine now. I don't need any further help with this specific issue.\\n\\nElena Rossi\\nFreelance Designer\\n+39 333 123 4567\"}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'web form', 'message': \"Name: Elena Rossi\\nEmail: elena.r@libero.it\\nTopic: Savings\\nMessage: Just confirming that the reimbursement of \u20ac200 for the fraudulent charge has appeared in my account. Everything looks fine now. I don't need any further help with this specific issue.\\n\\nElena Rossi\\nFreelance Designer\\n+39 333 123 4567\"}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'web form', 'message': \"Name: Elena Rossi\\nEmail: elena.r@libero.it\\nTopic: Savings\\nMessage: Just confirming that the reimbursement of \u20ac200 for the fraudulent charge has appeared in my account. Everything looks fine now. I don't need any further help with this specific issue.\\n\\nElena Rossi\\nFreelance Designer\\n+39 333 123 4567\"}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'social media reply', 'message': '@EthicalCU I need to order a replacement card urgently as mine was lost. Also how do I increase my savings deposit limit? Thanks.'}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'social media reply', 'message': '@EthicalCU I need to order a replacement card urgently as mine was lost. Also how do I increase my savings deposit limit? Thanks.'}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'social media reply', 'message': '@EthicalCU I need to order a replacement card urgently as mine was lost. Also how do I increase my savings deposit limit? Thanks.'}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'social media reply', 'message': '@EthicalCU I need to order a replacement card urgently as mine was lost. Also how do I increase my savings deposit limit? Thanks.'}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'chat', 'message': 'Hi. My mortgage application REF-8821 was supposed to conclude by 15 June. It\u2019s now 20 June and I\u2019m worried about the offer expiring. Can you check the status of file 44-22-09?'}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'chat', 'message': 'Hi. My mortgage application REF-8821 was supposed to conclude by 15 June. It\u2019s now 20 June and I\u2019m worried about the offer expiring. Can you check the status of file 44-22-09?'}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'chat', 'message': 'Hi. My mortgage application REF-8821 was supposed to conclude by 15 June. It\u2019s now 20 June and I\u2019m worried about the offer expiring. Can you check the status of file 44-22-09?'}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'chat', 'message': 'Hi. My mortgage application REF-8821 was supposed to conclude by 15 June. It\u2019s now 20 June and I\u2019m worried about the offer expiring. Can you check the status of file 44-22-09?'}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'social media reply', 'message': '@EthiCreditUnion Min ans\u00f6kan om medlemskap avvisades pga fel. Jag beh\u00f6ver tillg\u00e5ng NU f\u00f6r att betala hyran. \u00c5tg\u00e4rda detta omedelbart!'}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'social media reply', 'message': '@EthiCreditUnion Min ans\u00f6kan om medlemskap avvisades pga fel. Jag beh\u00f6ver tillg\u00e5ng NU f\u00f6r att betala hyran. \u00c5tg\u00e4rda detta omedelbart!'}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'social media reply', 'message': '@EthiCreditUnion Min ans\u00f6kan om medlemskap avvisades pga fel. Jag beh\u00f6ver tillg\u00e5ng NU f\u00f6r att betala hyran. \u00c5tg\u00e4rda detta omedelbart!'}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'social media reply', 'message': '@EthiCreditUnion Min ans\u00f6kan om medlemskap avvisades pga fel. Jag beh\u00f6ver tillg\u00e5ng NU f\u00f6r att betala hyran. \u00c5tg\u00e4rda detta omedelbart!'}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'chat', 'message': \"My card 5541 was blocked for 1500\u20ac ATM limit! \ud83d\ude21 I need to withdraw NOW for a family emergency!! \ud83d\ude2d The app is freezing and won't let me change it. Please help instantly!! \ud83d\ude24 Account 8821. I am desperate.\"}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'chat', 'message': \"My card 5541 was blocked for 1500\u20ac ATM limit! \ud83d\ude21 I need to withdraw NOW for a family emergency!! \ud83d\ude2d The app is freezing and won't let me change it. Please help instantly!! \ud83d\ude24 Account 8821. I am desperate.\"}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'chat', 'message': \"My card 5541 was blocked for 1500\u20ac ATM limit! \ud83d\ude21 I need to withdraw NOW for a family emergency!! \ud83d\ude2d The app is freezing and won't let me change it. Please help instantly!! \ud83d\ude24 Account 8821. I am desperate.\"}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'chat', 'message': \"My card 5541 was blocked for 1500\u20ac ATM limit! \ud83d\ude21 I need to withdraw NOW for a family emergency!! \ud83d\ude2d The app is freezing and won't let me change it. Please help instantly!! \ud83d\ude24 Account 8821. I am desperate.\"}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'social media reply', 'message': '@EthicalCreditUnion Still waiting for my card #9982. I called 3x already! It is blocked now, I cannot pay rent in Berlin! This is disgraceful service. Where is my card? I need it TODAY. Send help now or I cancel everything. Terrible experience again. Order ref 44912.'}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'social media reply', 'message': '@EthicalCreditUnion Still waiting for my card #9982. I called 3x already! It is blocked now, I cannot pay rent in Berlin! This is disgraceful service. Where is my card? I need it TODAY. Send help now or I cancel everything. Terrible experience again. Order ref 44912.'}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'social media reply', 'message': '@EthicalCreditUnion Still waiting for my card #9982. I called 3x already! It is blocked now, I cannot pay rent in Berlin! This is disgraceful service. Where is my card? I need it TODAY. Send help now or I cancel everything. Terrible experience again. Order ref 44912.'}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'social media reply', 'message': '@EthicalCreditUnion Still waiting for my card #9982. I called 3x already! It",
+   "conv": {
+    "shape": [
+     18,
+     3,
+     6144
+    ],
+    "dtype": "torch.bfloat16",
+    "sha256": "f7efa51b00517d13859ad491a83390260fd2d51ecfdbfb42835f855c8fdb1ab4",
+    "sum": 529.627988576889,
+    "absmax": 32.25
+   },
+   "state": {
+    "shape": [
+     18,
+     16,
+     128,
+     128
+    ],
+    "dtype": "torch.float32",
+    "sha256": "d374c8255583c6ed3911f1af218ae611ec91b8030ee38d0fffa82b506370bfbb",
+    "sum": 1910.8407935847138,
+    "absmax": 11.950687408447266
+   },
+   "kv": {
+    "shape": [
+     6,
+     2,
+     2601,
+     2,
+     256
+    ],
+    "dtype": "torch.bfloat16",
+    "sha256": "d8cb859d8801f0de1f873b990d6df6ef699dc4d8307a07d35dc7196eaafde0a3",
+    "sum": -113247.06900928635,
+    "absmax": 37.0
+   }
+  },
+  {
+   "adapter": null,
+   "tokens": 1001,
+   "text": "{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'phone transcript', 'message': \"Caller: Hello, um, yes. I'm calling about my mortgage. Reference number is 44-9021-X. I need to change the repayment schedule, please. My circumstances have changed slightly, so I want to adjust the monthly amount. Could someone please review this and get back to me? Thank you.\"}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'phone transcript', 'message': \"Caller: Hello, um, yes. I'm calling about my mortgage. Reference number is 44-9021-X. I need to change the repayment schedule, please. My circumstances have changed slightly, so I want to adjust the monthly amount. Could someone please review this and get back to me? Thank you.\"}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'phone transcript', 'message': \"Caller: Hello, um, yes. I'm calling about my mortgage. Reference number is 44-9021-X. I need to change the repayment schedule, please. My circumstances have changed slightly, so I want to adjust the monthly amount. Could someone please review this and get back to me? Thank you.\"}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'phone transcript', 'message': \"Caller: Hello, um, yes. I'm calling about my mortgage. Reference number is 44-9021-X. I need to change the repayment schedule, please. My circumstances have changed slightly, so I want to adjust the monthly amount. Could someone please review this and get back to me? Thank you.\"}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'web form', 'message': \"Name: Elena Rossi\\nEmail: elena.r@libero.it\\nTopic: Savings\\nMessage: Just confirming that the reimbursement of \u20ac200 for the fraudulent charge has appeared in my account. Everything looks fine now. I don't need any further help with this specific issue.\\n\\nElena Rossi\\nFreelance Designer\\n+39 333 123 4567\"}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'web form', 'message': \"Name: Elena Rossi\\nEmail: elena.r@libero.it\\nTopic: Savings\\nMessage: Just confirming that the reimbursement of \u20ac200 for the fraudulent charge has appeared in my account. Everything looks fine now. I don't need any further help with this specific issue.\\n\\nElena Rossi\\nFreelance Designer\\n+39 333 123 4567\"}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'web form', 'message': \"Name: Elena Rossi\\nEmail: elena.r@libero.it\\nTopic: Savings\\nMessage: Just confirming that the reimbursement of \u20ac200 for the fraudulent charge has appeared in my account. Everything looks fine now. I don't need any further help with this specific issue.\\n\\nElena Rossi\\nFreelance Designer\\n+39 333 123 4567\"}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'web form', 'message': \"Name: Elena Rossi\\nEmail: elena.r@libero.it\\nTopic: Savings\\nMessage: Just confirming that the reimbursement of \u20ac200 for the fraudulent charge has appeared in my account. Everything looks fine now. I don't need any further help with this specific issue.\\n\\nElena Rossi\\nFreelance Designer\\n+39 333 123 4567\"}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'social media reply', 'message': '@EthicalCU I need to order a replacement card urgently as mine was lost. Also how do I increase my savings deposit limit? Thanks.'}\n{'company': 'A European credit union providing ethical savings, loans, and insurance services to members across multiple countries.', 'channel': 'social media reply', 'message': '@EthicalCU I need",
+   "conv": {
+    "shape": [
+     18,
+     3,
+     6144
+    ],
+    "dtype": "torch.bfloat16",
+    "sha256": "04f14c7a6cb44aa09735e76a395ab3bfd9089cb31bff80d6ba8d8de590e62292",
+    "sum": 533.457063883543,
+    "absmax": 34.25
+   },
+   "state": {
+    "shape": [
+     18,
+     16,
+     128,
+     128
+    ],
+    "dtype": "torch.float32",
+    "sha256": "25fc765092d255ee7f16aaabbb8cbcc81cc3b64cf67dde3b2a709c4170168156",
+    "sum": 1903.7881123421935,
+    "absmax": 11.872772216796875
+   },
+   "kv": {
+    "shape": [
+     6,
+     2,
+     1001,
+     2,
+     256
+    ],
+    "dtype": "torch.bfloat16",
+    "sha256": "30ded176ffb1db98edddad9dc244e78bb9de8836b7edb09a13c4da3daf2dcab2",
+    "sum": -57598.37987181544,
+    "absmax": 37.25
+   }
+  }
+ ]
+}

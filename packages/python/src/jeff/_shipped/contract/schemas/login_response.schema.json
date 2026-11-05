@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jeff.dev/schemas/login_response.schema.json",
+  "title": "Jeff POST /ui/login response",
+  "description": "A console session token: send it as Authorization: Bearer <token> in place of the API key.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["user", "token"],
+  "properties": {
+    "user": {"type": "string", "description": "The signed-in login, lower-cased."},
+    "token": {"type": "string"}
+  }
+}

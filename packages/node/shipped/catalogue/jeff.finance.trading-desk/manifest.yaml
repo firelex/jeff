@@ -1,0 +1,150 @@
+id: jeff.finance.trading-desk
+version: 1.4.0
+aliases:
+- trading-desk
+licence:
+  kind: open
+  adapter: Apache-2.0
+weights:
+  open:
+    repo: mstrasser/jeff-adapter-trading-desk
+    revision: v1.4
+base:
+  id: jeff-base
+  version: v1.4
+  max_options: 3
+context:
+- key: desk
+  description: 'The desk definition: strategy and entry rule, clip size, position limit, spread and cut-off filters, order
+    handling, risk-off triggers, the instrument, the venues with fees and latencies, and the routing rule.'
+  required: true
+- key: market_context
+  description: 'The stock and the day: date, opening mid price, the morning''s range and spread, and whether trading is calm,
+    normal or active.'
+  required: true
+input:
+  key: market_state
+  description: 'The live state: time, order book, spread, mid and its average, order-flow imbalance, realised volatility,
+    recent trades, displayed size per venue, position and P&L, open orders, parent order, news, and the request.'
+  form: fields
+functions:
+  route:
+    interface: classify
+    type: choice
+    instructions: You are the order router of an automated trading desk. Send the new order described in the request line
+      of the live market state to one of the desk's three venues, using the routing rule in the desk definition. A buy order
+      takes the ask side and a sell order takes the bid side, so compare the order size with each venue's displayed size on
+      that side.
+    labels:
+      source: describe
+      keys:
+      - venue_a
+      - venue_b
+      - venue_c
+    abstain_labels: []
+    calibration:
+      data: hf://mstrasser/jeff-adapter-trading-desk@v1.4/calibration.jsonl
+      rows: 200
+      target_precision: 0.99
+      threshold: 0.808822
+      precision_at_threshold: 0.994475
+      coverage_at_threshold: 0.905
+  risk_off:
+    interface: classify
+    type: choice
+    instructions: You are the risk check of an automated trading desk. Decide whether the desk must go risk-off now under
+      the risk-off triggers in its desk definition. Going risk-off means the desk stops opening trades in this stock, cancels
+      its orders and reduces its position. Answer yes if any one trigger is met by the live market state, otherwise no.
+    labels:
+      source: fixed
+      fixed:
+        'yes': 'Yes: at least one risk-off trigger is met; go risk-off now.'
+        'no': 'No: no risk-off trigger is met; keep trading.'
+      subset: false
+    abstain_labels: []
+    calibration:
+      data: hf://mstrasser/jeff-adapter-trading-desk@v1.4/calibration.jsonl
+      rows: 200
+      target_precision: 0.99
+      threshold: 0.999642
+      precision_at_threshold: 1.0
+      coverage_at_threshold: 1.0
+  direction:
+    interface: classify
+    type: choice
+    instructions: 'You are the decision step of an automated trading desk. The desk definition states the strategy''s entry
+      rule, the clip size (the standard order size), the position limit, a maximum spread and a cut-off time for new trades.
+      Apply them to the live market state and choose the next action. Use only these entry rules: risk-off triggers, open
+      orders and order routing are decided separately.'
+    labels:
+      source: fixed
+      fixed:
+        buy: 'Buy one clip now: the buy rule is met and no filter (spread, position limit, cut-off time, signal filter if
+          the desk uses one) blocks it.'
+        sell: 'Sell one clip now: the sell rule is met and no filter (spread, position limit, cut-off time, signal filter
+          if the desk uses one) blocks it.'
+        hold: 'Hold: no entry rule is met, or a filter blocks the trade.'
+      subset: false
+    abstain_labels: []
+    calibration:
+      data: hf://mstrasser/jeff-adapter-trading-desk@v1.4/calibration.jsonl
+      rows: 200
+      target_precision: 0.99
+      threshold: 0.98073
+      precision_at_threshold: 1.0
+      coverage_at_threshold: 1.0
+  size:
+    interface: classify
+    type: choice
+    instructions: You are the decision step of an automated trading desk. A volatility-target desk sizes its position from
+      realised volatility and the unrealised loss on its position; an execution desk paces a client parent order against its
+      schedule and its limit price. Apply the sizing or pacing rule in the desk definition to the live market state.
+    labels:
+      source: fixed
+      fixed:
+        increase: 'Increase: add one clip to the position, or speed up the parent order.'
+        decrease: 'Decrease: cut the position by one clip, or slow down the parent order.'
+        keep: Keep the current size or pace.
+      subset: false
+    abstain_labels: []
+    calibration:
+      data: hf://mstrasser/jeff-adapter-trading-desk@v1.4/calibration.jsonl
+      rows: 200
+      target_precision: 0.99
+      threshold: 0.96866
+      precision_at_threshold: 0.992063
+      coverage_at_threshold: 0.63
+  order:
+    interface: classify
+    type: choice
+    instructions: You manage the open orders of an automated trading desk. Decide what to do with the open order named in
+      the request line of the live market state, using the order rules in the desk definition. 'Ticks behind' is the distance
+      from the best price on the order's own side (the best bid for a buy order, the best ask for a sell order).
+    labels:
+      source: fixed
+      fixed:
+        cancel: Cancel the order.
+        amend: 'Amend the order: re-price it to the best price on its side.'
+        leave: Leave the order as it is.
+      subset: false
+    abstain_labels: []
+    calibration:
+      data: hf://mstrasser/jeff-adapter-trading-desk@v1.4/calibration.jsonl
+      rows: 200
+      target_precision: 0.99
+      threshold: 0.999338
+      precision_at_threshold: 1.0
+      coverage_at_threshold: 1.0
+routes_to: []
+tests:
+  published: hf://mstrasser/jeff-adapter-trading-desk@v1.4/test.jsonl
+  calibration: hf://mstrasser/jeff-adapter-trading-desk@v1.4/calibration.jsonl
+  function_by: id_suffix
+hub:
+  title: Trading desk decisions
+  summary: Applies a trading desk's written rules to the live order book - buy, sell or hold; size; venue; open orders; risk-off.
+  task: finance
+  kind: official
+  maintainer:
+    name: Jeff maintainers
+    github: firelex

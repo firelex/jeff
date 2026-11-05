@@ -1,0 +1,90 @@
+id: jeff.operations.sample
+version: 1.4.0
+aliases:
+- sample
+licence:
+  kind: proprietary
+  adapter: Example proprietary
+weights:
+  local: {}
+base:
+  id: jeff-base
+  version: v1.4
+  max_options: 15
+context:
+- key: desk
+  description: 'Our firm: its name, its operations teams, and its policy on what goes to a person.'
+  required: true
+- key: reviewer's note on the draft
+  description: A note from the reviewer, when there is one.
+  required: false
+input:
+  key: thread
+  description: 'The conversation so far between our operations team and the other firm, oldest first: a list of messages,
+    each with `from` and `text`.'
+  form: fields
+functions:
+  route:
+    interface: route
+    type: choice
+    instructions: Who must act next on this query?
+    labels:
+      source: fixed
+      fixed:
+        counterparty: 'The other firm: they must act or answer next.'
+        ours: 'Our operations team must act next.'
+        person: 'A person must decide: the records cannot settle it.'
+      subset: false
+    abstain_labels: []
+    calibration:
+      data: hf://datasets/teamsuzie/jeff-data@main/apps/sample/calibration.jsonl
+      data_mirror:
+        path: /mnt/d/jeff-data/apps/sample/calibration.jsonl
+        sha256: 5ad1e0000000000000000000000000000000000000000000000000000000000a
+      rows: 100
+      target_precision: 0.99
+      threshold: 0.8
+      precision_at_threshold: 0.99
+      coverage_at_threshold: 0.9
+  reply:
+    interface: classify
+    type: choice
+    instructions: What does the other firm's latest message mean for this query?
+    labels:
+      source: fixed
+      fixed:
+        agreed: They accept our version.
+        rejected: They dispute our version.
+      subset: false
+    abstain_labels: []
+    calibration:
+      data: hf://datasets/teamsuzie/jeff-data@main/apps/sample/calibration.jsonl
+      data_mirror:
+        path: /mnt/d/jeff-data/apps/sample/calibration.jsonl
+        sha256: 5ad1e0000000000000000000000000000000000000000000000000000000000a
+      rows: 100
+      target_precision: 0.99
+      threshold: 0.8
+      precision_at_threshold: 0.99
+      coverage_at_threshold: 0.9
+    context:
+    - key: page
+      description: The page the message is about.
+      required: true
+    input:
+      key: message
+      description: The other firm's latest message.
+      form: fields
+routes_to: []
+tests:
+  published: null
+  calibration: null
+  internal: hf://datasets/teamsuzie/jeff-data@main/apps/sample/test.jsonl
+  internal_calibration: hf://datasets/teamsuzie/jeff-data@main/apps/sample/calibration.jsonl
+  function_by: id_suffix
+hub:
+  title: sample
+  summary: 'An example API-only adapter for the tests. After each message in a query between two firms'' operations teams,
+    it answers who must act next and what the other firm''s latest message means.'
+  source: local adapter folder sample (not on Hugging Face)
+  notes: []

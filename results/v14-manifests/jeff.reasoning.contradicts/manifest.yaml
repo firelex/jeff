@@ -1,0 +1,74 @@
+id: jeff.reasoning.contradicts
+version: 1.4.0
+aliases:
+- oss-contradicts
+- contradicts
+licence:
+  kind: open
+  adapter: Apache-2.0
+weights:
+  local: {}
+base:
+  id: jeff-base
+  version: v1.4
+  max_options: 3
+context:
+- key: setting
+  description: 'Who is asking: a sentence naming the team and organisation the statements come from.'
+  required: true
+- key: statement_a
+  description: 'The first statement or record: an object with `source` (for example record entry, email, report) and `text`.'
+  required: true
+input:
+  key: statement_b
+  description: The second statement or record, in the same form as statement_a.
+  form: fields
+functions:
+  contradicts:
+    interface: classify
+    type: choice
+    instructions: 'Do these two statements or records conflict? Answer yes when they cannot both be true about the same thing
+      at the same time, whether the conflict is stated outright or follows from what they say. Answer no when both can be
+      true, including when they are about different things or different times, or one only adds detail. Answer unclear only
+      when they conflict under one reasonable reading and not under another, and neither settles which: for example when it
+      is not clear whether they refer to the same item, when a date or quantity can be read two ways, or when it is not clear
+      who holds a role.'
+    labels:
+      source: fixed
+      fixed:
+        'no': 'No: they can both be true.'
+        unclear: 'Unclear: whether they conflict depends on something neither one settles.'
+        'yes': 'Yes: they cannot both be true.'
+      subset: false
+    abstain_labels: []
+    calibration:
+      data: hf://datasets/teamsuzie/jeff-data@main/apps/oss-contradicts/calibration.jsonl
+      data_mirror:
+        path: /mnt/d/jeff-data/apps/oss-contradicts/calibration.jsonl
+        sha256: 1534f109bbd6e42b18ddde1abeec6e75842bc31360e0e12c3778431d0982ae7f
+      rows: 1933
+      target_precision: 0.98
+      threshold: 0.662106
+      precision_at_threshold: 0.980351
+      coverage_at_threshold: 0.974133
+routes_to: []
+tests:
+  published: null
+  calibration: null
+  internal: hf://datasets/teamsuzie/jeff-data@main/apps/oss-contradicts/test.jsonl
+  internal_calibration: hf://datasets/teamsuzie/jeff-data@main/apps/oss-contradicts/calibration.jsonl
+  function_by: only
+hub:
+  title: oss-contradicts
+  summary: 'Jeff v1.4 adapter `contradicts`. Checks whether two statements or records conflict: yes, no, or unclear (for example
+    a date that can be read two ways).'
+  source: local adapter folder oss-contradicts (not on Hugging Face)
+  notes:
+  - 'contradicts: instructions are the one text of the 1352 test rows marked canonical (source.instructions); the other 579
+    ask the same question reworded or with no instructions (as trained), and are rebuilt with the canonical text in template
+    mode.'
+  - 'contradicts: every test row has the same 3 labels in varying orders (training shuffled them), so they are listed by key.'
+  - 'base: jeff-base v1.4, identified by the SHA-256 of its model.safetensors, which the adapter''s decision_config.json records
+    for its base checkpoint.'
+  - 'tests: the test set is the private hf://datasets/teamsuzie/jeff-data@main/apps/oss-contradicts/test.jsonl, so tests.published
+    is null; the calibration of each function is filled in later by `jeff calibrate`.'

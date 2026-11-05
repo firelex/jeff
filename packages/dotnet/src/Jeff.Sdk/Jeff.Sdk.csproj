@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+    <RootNamespace>Jeff.Sdk</RootNamespace>
+    <PackageId>Jeff.Sdk</PackageId>
+    <Version>1.4.0</Version>
+    <Description>The Jeff SDK for .NET: call Jeff's decision functions, route, escalate and run decision graphs, against an engine on this machine or a Jeff server.</Description>
+    <Authors>Casperaki Multimedia Solutions Ltd.</Authors>
+    <Company>Casperaki Multimedia Solutions Ltd.</Company>
+    <PackageTags>jeff;decision-functions;classification;llm;adapters;routing;sdk</PackageTags>
+    <PackageProjectUrl>https://jeffhub.ai</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/firelex/jeff</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <!-- no commit id in the package: this repository's commits are not the public mirror's -->
+    <EnableSourceControlManagerQueries>false</EnableSourceControlManagerQueries>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <IsPackable>true</IsPackable>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="Jeff.Sdk.Tests" />
+    <InternalsVisibleTo Include="Jeff.Sdk.GoldenTests" />
+    <InternalsVisibleTo Include="Jeff.Sdk.ProcessCheck" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="YamlDotNet" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="../../README.md" Pack="true" PackagePath="/" />
+    <None Include="../../LICENSE" Pack="true" PackagePath="/" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="../../shipped/**/*" LogicalName="shipped/%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+</Project>

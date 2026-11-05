@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jeff.dev/schemas/health_response.schema.json",
+  "title": "Jeff GET /health response",
+  "description": "On a public server (JEFF_PUBLIC=1), a caller with no credentials gets only {\"status\": ...}; a signed-in caller, and any caller on a private server, gets the full report. status: 'ready' (every engine is ready and they agree on which adapters they serve), 'degraded' (some engine is down or broken, but the ready ones agree and still answer requests), or 'broken' (no engine is ready, or the ready ones disagree on which adapters they serve: then only requests for adapters every engine serves are answered, and GET /v1/adapters and adapter changes that check the served set fail). checkpoint, max_options and modalities describe the base model loaded by the first ready engine (null when no engine is ready); authentication says whether /v1 routes need credentials.",
+  "oneOf": [
+    {"type": "object", "additionalProperties": false, "required": ["status"],
+     "properties": {"status": {"$ref": "#/$defs/status"}}},
+    {"type": "object", "additionalProperties": false,
+     "required": ["status", "engines", "model", "checkpoint", "max_options", "authentication", "modalities"],
+     "properties": {
+       "status": {"$ref": "#/$defs/status"},
+       "engines": {"type": "array", "items": {"$ref": "#/$defs/engine"}},
+       "model": {"type": "string", "description": "The server's JEFF_MODEL_NAME."},
+       "checkpoint": {"type": ["string", "null"]},
+       "max_options": {"type": ["integer", "null"]},
+       "authentication": {"type": "boolean"},
+       "modalities": {"type": ["array", "null"], "items": {"enum": ["text", "image"]}},
+       "cause": {"type": "string", "description": "Present when status is 'broken': why no engine can answer."}
+     }}
+  ],
+  "$defs": {
+    "status": {"enum": ["ready", "degraded", "broken"]},
+    "engine": {
+      "type": "object", "additionalProperties": false,
+      "required": ["socket", "status", "backend", "adapters_version", "adapters"],
+      "properties": {
+        "socket": {"type": "string", "description": "The engine's socket path."},
+        "status": {"enum": ["ready", "broken", "down"], "description": "down: the API could not reach this engine's process."},
+        "backend": {"type": ["string", "null"]},
+        "adapters_version": {"type": ["integer", "null"]},
+        "adapters": {"type": ["array", "null"], "items": {"type": "string"}},
+        "cause": {"type": "string", "description": "Present when status is 'broken' or 'down'."}
+      }
+    }
+  }
+}

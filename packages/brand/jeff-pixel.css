@@ -1,0 +1,14 @@
+/*
+ * Jeff Pixel, the pixel display font drawn on the logo's grid (fonts/jeff-pixel/README.md; SIL Open Font License
+ * 1.1, fonts/jeff-pixel/LICENSE). One weight, one file. font-display: block, not swap: the file is 1.8 KB and every
+ * page preloads it, so it is almost always there before the first paint; with swap, a slow first load would show
+ * headings in another face and then jump to this one (a different width, so the layout moves too). With block the
+ * text stays invisible for that moment instead and appears once, in this face.
+ */
+@font-face {
+  font-family: 'Jeff Pixel';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url('./fonts/jeff-pixel/JeffPixel.woff2') format('woff2');
+}

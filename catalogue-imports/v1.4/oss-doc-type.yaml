@@ -1,0 +1,17 @@
+# oss-doc-type, v1.4 (RTX /mnt/d/jeff-adapters/v1.4/oss-doc-type, data teamsuzie/jeff-data apps/oss-doc-type).
+path: apps/oss-doc-type
+adapter_path: oss-doc-type
+id: jeff.retrieval.doc-type
+aliases: [oss-doc-type, doc-type]
+version: 1.4.0
+function_by: only
+context:
+  - key: sorting_desk
+    description: "Where the document arrived: a sentence describing the inbox or team that sorts it."
+input:
+  key: document
+  description: "The document's text."
+  form: fields
+functions:
+  # classify: picks one document type from a list with descriptions (the caller's list), or other
+  doc_type: {interface: classify}

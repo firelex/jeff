@@ -1,0 +1,72 @@
+id: jeff.security.soc
+version: 1.4.0
+aliases:
+- soc
+licence:
+  kind: open
+  adapter: CC-BY-NC-4.0
+weights:
+  local: {}
+base:
+  id: jeff-base
+  version: v1.4
+  max_options: 5
+context:
+- key: organisation
+  description: One line on the organisation, its sector and which alert source this queue handles.
+  required: true
+- key: playbook
+  description: 'The playbook: numbered rules (the first that matches decides), thresholds, severity table, asset inventory
+    or office policy, allowed actions, and what to do when a rule calls for an action the team may not take.'
+  required: true
+input:
+  key: alert
+  description: The new alert as the security tools report it - what fired, on which host or user, the evidence and any lookups.
+  form: fields
+functions:
+  action:
+    interface: classify
+    type: choice
+    instructions: You are the first-line analyst in a security operations centre. Apply the organisation's playbook to the
+      new alert and choose the action the playbook requires. The playbook's rules are checked in order and the first rule
+      that matches decides.
+    labels:
+      source: fixed
+      fixed:
+        block: 'Block: block the outside address, file or account involved.'
+        isolate: 'Isolate: cut the affected internal computer off the network.'
+        escalate: 'Escalate: hand the alert at once to the senior responder.'
+        investigate: 'Investigate: open a case for an analyst; no containment now.'
+        ignore: 'Ignore: close the alert because no action at all is needed.'
+      subset: true
+    abstain_labels: []
+    calibration:
+      data: hf://datasets/teamsuzie/jeff-data@main/apps/soc/calibration.jsonl
+      data_mirror:
+        path: /mnt/d/jeff-data/apps/soc/calibration.jsonl
+        sha256: 63646e3f8d7999fa58255a46f34d13894427eec7952a23ba12836859fd4d4a19
+      rows: 991
+      target_precision: 0.98
+      threshold: 0.731224
+      precision_at_threshold: 0.98
+      coverage_at_threshold: 0.958628
+routes_to: []
+tests:
+  published: null
+  calibration: null
+  internal: hf://datasets/teamsuzie/jeff-data@main/apps/soc/test.jsonl
+  internal_calibration: hf://datasets/teamsuzie/jeff-data@main/apps/soc/calibration.jsonl
+  function_by: only
+hub:
+  title: soc
+  summary: 'Jeff v1.4 adapter `soc`. Applies a security team''s playbook to a new alert: ignore, investigate, isolate, block
+    or escalate.'
+  source: local adapter folder soc (not on Hugging Face)
+  notes:
+  - 'action: the labels in the order the import file gives (block, isolate, escalate, investigate, ignore); the test rows
+    offer them in 168 different orders (training shuffled them), and 1245 of the 4929 test rows offer only some of them, so
+    the caller may offer a subset (subset true), shown in this order.'
+  - 'base: jeff-base v1.4, identified by the SHA-256 of its model.safetensors, which the adapter''s decision_config.json records
+    for its base checkpoint.'
+  - 'tests: the test set is the private hf://datasets/teamsuzie/jeff-data@main/apps/soc/test.jsonl, so tests.published is
+    null; the calibration of each function is filled in later by `jeff calibrate`.'

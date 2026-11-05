@@ -1,0 +1,33 @@
+{
+ "stage_ms_p50_two_runs": {
+  "before": [
+   0.0495,
+   0.0494
+  ],
+  "list_index": [
+   0.1078,
+   0.1071
+  ],
+  "pinned_index": [
+   0.1634,
+   0.1639
+  ],
+  "pinned_out": [
+   0.2031,
+   0.1982
+  ],
+  "slice": [
+   0.0582,
+   0.0576
+  ],
+  "triton_list": [
+   0.0708,
+   0.071
+  ],
+  "triton_pinned": [
+   0.1211,
+   0.1191
+  ]
+ },
+ "gpu": "NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition"
+}

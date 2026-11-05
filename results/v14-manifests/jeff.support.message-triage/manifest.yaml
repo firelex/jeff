@@ -1,0 +1,175 @@
+id: jeff.support.message-triage
+version: 1.4.0
+aliases:
+- oss-message-triage
+- message-triage
+licence:
+  kind: open
+  adapter: Apache-2.0
+weights:
+  local: {}
+base:
+  id: jeff-base
+  version: v1.4
+  max_options: 10
+context:
+- key: recipient
+  description: 'Whose inbox it is: an object with the recipient''s name, address, role and organisation.'
+  required: true
+- key: message_kinds
+  description: 'The recipient''s own sorting list: an object of message kind -> description.'
+  required: true
+- key: routing_table
+  description: 'Who handles what: a list of entries, each with key, name, address and the topics it handles.'
+  required: true
+- key: routing_rules
+  description: Rules that override the routing table, a list of sentences.
+  required: true
+- key: now
+  description: The current date and time (for example 'Monday 8 February 2027, 12:15').
+  required: true
+input:
+  key: message
+  description: 'The newest message: an object with channel, from, to, cc, received, subject and body (it may quote or forward
+    earlier messages).'
+  form: fields
+functions:
+  route_to:
+    interface: route
+    type: choice
+    instructions: Who should deal with this message? Choose the routing table entry whose responsibilities cover the topic
+      of the newest message (for a forwarded message, the forwarded content), or self if it is a topic the recipient deals
+      with personally. A routing rule that matches the message overrides the topic. Choose the entry that should deal with
+      it even if it is already in the To or Cc, or if the message only informs.
+    labels:
+      source: caller
+      fixed_first: {}
+      caller_keys: null
+      max: 8
+    abstain_labels: []
+    calibration:
+      data: hf://datasets/teamsuzie/jeff-data@main/apps/oss-message-triage/calibration.jsonl
+      data_mirror:
+        path: /mnt/d/jeff-data/apps/oss-message-triage/calibration.jsonl
+        sha256: 40eb4f69a5c61b6406cf36f42201199e727eb186d5e1968e521ed1b35d2a262e
+      rows: 520
+      target_precision: 0.95
+      threshold: 0.502408
+      precision_at_threshold: 0.969231
+      coverage_at_threshold: 1.0
+  action_needed:
+    interface: classify
+    type: choice
+    instructions: 'What must the recipient do with this message? Go by the newest message. ignore_spam: unsolicited bulk advertising,
+      a scam or a phishing attempt, whatever it claims. Otherwise first decide who deals with it (the routing table entry
+      for its topic, unless a routing rule matches the message, or the recipient for topics they deal with). If that is a
+      team or person in the routing table: forward when they are not already in the To or Cc of the message, fyi_only when
+      they are. If it is the recipient: fyi_only when the message only informs and asks nothing; reply when the sender needs
+      only a written answer, decision or confirmation; do_task when the recipient must do something beyond writing an answer,
+      such as preparing or sending a document, changing a booking or record, fixing something, or approving or paying in a
+      system.'
+    labels:
+      source: fixed
+      fixed:
+        do_task: 'Do a task: the recipient deals with it and must do something beyond writing an answer (prepare or send a
+          document, change a booking or record, fix something, approve or pay in a system).'
+        forward: 'Forward: a team or person in the routing table should deal with it and is not already in the To or Cc of
+          the message.'
+        fyi_only: 'For information only: nothing is asked of the recipient: the message only informs, or the team or person
+          who should deal with it is already in the To or Cc.'
+        ignore_spam: 'Ignore as spam: unsolicited bulk advertising, a scam or a phishing attempt.'
+        reply: 'Reply: the recipient deals with it, and the sender needs only a written answer, decision or confirmation.'
+      subset: false
+    abstain_labels: []
+    calibration:
+      data: hf://datasets/teamsuzie/jeff-data@main/apps/oss-message-triage/calibration.jsonl
+      data_mirror:
+        path: /mnt/d/jeff-data/apps/oss-message-triage/calibration.jsonl
+        sha256: 40eb4f69a5c61b6406cf36f42201199e727eb186d5e1968e521ed1b35d2a262e
+      rows: 540
+      target_precision: 0.95
+      threshold: 0.497015
+      precision_at_threshold: 0.951852
+      coverage_at_threshold: 1.0
+  intent:
+    interface: classify
+    type: choice
+    instructions: Which kind of message is this, using the recipient's own sorting list (the options)? Judge the newest message;
+      earlier messages in the thread are context only. For a forwarded message, judge the forwarded content that is being
+      passed on. Go by what the message actually asks or says, not by its subject line, which may be out of date or misleading.
+    labels:
+      source: caller
+      fixed_first: {}
+      caller_keys: null
+      max: 10
+    abstain_labels: []
+    calibration:
+      data: hf://datasets/teamsuzie/jeff-data@main/apps/oss-message-triage/calibration.jsonl
+      data_mirror:
+        path: /mnt/d/jeff-data/apps/oss-message-triage/calibration.jsonl
+        sha256: 40eb4f69a5c61b6406cf36f42201199e727eb186d5e1968e521ed1b35d2a262e
+      rows: 540
+      target_precision: 0.95
+      threshold: 0.442941
+      precision_at_threshold: 0.953704
+      coverage_at_threshold: 1.0
+  urgency:
+    interface: classify
+    type: choice
+    instructions: 'How soon must this message be acted on, judged against the current date and time given? now: something
+      is broken, stopped or blocked right now, or the action is needed within the next two hours. today: needed before the
+      end of today but more than two hours from now. this_week: needed after today and within the next seven days. no_deadline:
+      no deadline stated or implied, or the deadline is more than seven days away. Spam, and messages that only inform and
+      ask nothing of anyone, are no_deadline. A request addressed to someone else keeps its own deadline. Go by the facts:
+      a polite or relaxed tone does not lower urgency, and words like ''urgent'' in a subject line or a disclaimer do not
+      raise it.'
+    labels:
+      source: fixed
+      fixed:
+        no_deadline: 'No deadline: no deadline stated or implied, a deadline more than seven days away, or nothing needs doing.'
+        now: 'Now: something is broken, stopped or blocked right now, or the action is needed within the next two hours.'
+        this_week: 'This week: needed after today and within the next seven days.'
+        today: 'Today: needed before the end of today, but more than two hours from now.'
+      subset: false
+    abstain_labels: []
+    calibration:
+      data: hf://datasets/teamsuzie/jeff-data@main/apps/oss-message-triage/calibration.jsonl
+      data_mirror:
+        path: /mnt/d/jeff-data/apps/oss-message-triage/calibration.jsonl
+        sha256: 40eb4f69a5c61b6406cf36f42201199e727eb186d5e1968e521ed1b35d2a262e
+      rows: 400
+      target_precision: 0.95
+      threshold: 0.485835
+      precision_at_threshold: 0.9825
+      coverage_at_threshold: 1.0
+routes_to: []
+tests:
+  published: null
+  calibration: null
+  internal: hf://datasets/teamsuzie/jeff-data@main/apps/oss-message-triage/test.jsonl
+  internal_calibration: hf://datasets/teamsuzie/jeff-data@main/apps/oss-message-triage/calibration.jsonl
+  function_by: id_suffix
+hub:
+  title: oss-message-triage
+  summary: 'Jeff v1.4 adapter `message-triage`. Triages a message using the inbox''s own message kinds, routing table and
+    rules: what it is, what action it needs, how urgent it is and who should handle it.'
+  source: local adapter folder oss-message-triage (not on Hugging Face)
+  notes:
+  - 'route_to: instructions are the one text of the 359 test rows marked canonical (source.instructions); the other 161 ask
+    the same question reworded or with no instructions (as trained), and are rebuilt with the canonical text in template mode.'
+  - 'route_to: max 8 is the largest number of caller labels in the test rows (nothing documents a training limit).'
+  - 'action_needed: instructions are the one text of the 365 test rows marked canonical (source.instructions); the other 175
+    ask the same question reworded or with no instructions (as trained), and are rebuilt with the canonical text in template
+    mode.'
+  - 'action_needed: every test row has the same 5 labels in varying orders (training shuffled them), so they are listed by
+    key.'
+  - 'intent: instructions are the one text of the 371 test rows marked canonical (source.instructions); the other 169 ask
+    the same question reworded or with no instructions (as trained), and are rebuilt with the canonical text in template mode.'
+  - 'intent: max 10 is the largest number of caller labels in the test rows (nothing documents a training limit).'
+  - 'urgency: instructions are the one text of the 278 test rows marked canonical (source.instructions); the other 122 ask
+    the same question reworded or with no instructions (as trained), and are rebuilt with the canonical text in template mode.'
+  - 'urgency: every test row has the same 4 labels in varying orders (training shuffled them), so they are listed by key.'
+  - 'base: jeff-base v1.4, identified by the SHA-256 of its model.safetensors, which the adapter''s decision_config.json records
+    for its base checkpoint.'
+  - 'tests: the test set is the private hf://datasets/teamsuzie/jeff-data@main/apps/oss-message-triage/test.jsonl, so tests.published
+    is null; the calibration of each function is filled in later by `jeff calibrate`.'

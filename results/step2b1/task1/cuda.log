@@ -1,0 +1,19 @@
+============================= test session starts ==============================
+platform linux -- Python 3.13.13, pytest-9.1.1, pluggy-1.7.0
+rootdir: /home/roli79/jeff-dev-next
+configfile: pyproject.toml
+plugins: platformdirs-4.13.5, anyio-4.15.1
+collected 10 items / 8 deselected / 2 selected
+
+runtime/python/tests/test_fast_path_cuda.py Loading weights:   0%|          | 0/473 [00:00<?, ?it/s]Loading weights:  20%|█▉        | 93/473 [00:00<00:00, 924.07it/s]Loading weights:  41%|████      | 194/473 [00:00<00:00, 968.02it/s]Loading weights:  67%|██████▋   | 315/473 [00:00<00:00, 1077.53it/s]Loading weights: 100%|██████████| 473/473 [00:00<00:00, 1492.16it/s]
+Loading weights:   0%|          | 0/473 [00:00<?, ?it/s]Loading weights:  20%|█▉        | 94/473 [00:00<00:00, 930.59it/s]Loading weights:  41%|████      | 194/473 [00:00<00:00, 969.58it/s]Loading weights:  66%|██████▌   | 313/473 [00:00<00:00, 1066.97it/s]Loading weights: 100%|██████████| 473/473 [00:00<00:00, 1455.65it/s]
+[transformers] `causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+agreement with the standard path out of 388: {'triage-sf after triage': 388, 'triage after triage-sf': 386}
+.
+runtime/python/tests/test_local_engine.py Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]Fetching 10 files: 100%|██████████| 10/10 [00:00<00:00, 1204.05it/s]
+Fetching 9 files:   0%|          | 0/9 [00:00<?, ?it/s]Fetching 9 files: 100%|██████████| 9/9 [00:00<00:00, 1109.93it/s]
+Loading weights:   0%|          | 0/473 [00:00<?, ?it/s]Loading weights:  23%|██▎       | 108/473 [00:00<00:00, 1076.93it/s]Loading weights:  49%|████▉     | 231/473 [00:00<00:00, 1165.01it/s]Loading weights: 100%|██████████| 473/473 [00:00<00:00, 1832.42it/s]
+Loading weights:   0%|          | 0/473 [00:00<?, ?it/s]Loading weights:  31%|███       | 145/473 [00:00<00:00, 1449.03it/s]Loading weights: 100%|██████████| 473/473 [00:00<00:00, 2384.15it/s]
+.
+
+================== 2 passed, 8 deselected in 79.38s (0:01:19) ==================

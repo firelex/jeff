@@ -1,0 +1,23 @@
+# oss-tool-route, v1.4 (RTX /mnt/d/jeff-adapters/v1.4/oss-tool-route, data teamsuzie/jeff-data apps/oss-tool-route).
+path: apps/oss-tool-route
+adapter_path: oss-tool-route
+id: jeff.agents.tool-route
+aliases: [oss-tool-route, tool-route]
+version: 1.4.0
+function_by: only
+context:
+  - key: app
+    description: "The application the agent works in: its name and a description of what it does and for whom."
+  - key: today
+    description: "Today's date, written out (for example 'Wednesday 23 June 2027')."
+  - key: tools
+    description: "The tool menu, in any common format (Python signatures, JSON schemas and so on)."
+  - key: conversation
+    description: "The conversation so far, a list of messages (user, assistant, tool calls and tool results)."
+input:
+  key: request
+  description: "The user's latest message."
+  form: fields
+functions:
+  # route: picks which tool on the caller's menu to call next (or none, or ask_user)
+  tool: {interface: route}

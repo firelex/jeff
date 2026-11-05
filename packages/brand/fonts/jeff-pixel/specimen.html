@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jeff Pixel Specimen</title>
+<style>
+  @font-face {
+    font-family: 'Jeff Pixel';
+    src: url('./JeffPixel.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: block;
+  }
+  :root {
+    --bg: #f9f9fb; --panel: #ffffff; --line: #e6e6ec; --text: #2a2e35; --mute: #6d7380; --v: #7547fe; --vl: #f4f2ff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg: #16171b; --panel: #1f2026; --line: #34363f; --text: #eceef3; --mute: #a3a8b4; --v: #a68bff; --vl: #262238; }
+  }
+  :root[data-theme="dark"] { --bg: #16171b; --panel: #1f2026; --line: #34363f; --text: #eceef3; --mute: #a3a8b4; --v: #a68bff; --vl: #262238; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 14px/1.5 ui-sans-serif, system-ui, sans-serif; }
+  main { max-width: 1200px; margin: 0 auto; padding: 32px 16px 64px; }
+  h2 { font: 600 13px/1 ui-sans-serif, system-ui, sans-serif; letter-spacing: .08em; text-transform: uppercase; color: var(--mute); margin: 48px 0 16px; }
+  p.note { color: var(--mute); max-width: 72ch; }
+  code { font-family: ui-monospace, monospace; font-size: 13px; }
+  /* Pixel text: font-size = 10 x cell px (one cell is 100 of the 1000 units per em). line-height 1.1 = 11 cells. */
+  .px { font-family: 'Jeff Pixel'; font-weight: 400; line-height: 1.1; -webkit-font-smoothing: antialiased; font-kerning: none; font-synthesis: none; }
+  .c2 { font-size: 20px; } .c3 { font-size: 30px; } .c4 { font-size: 40px; } .c6 { font-size: 60px; }
+  .glyphs { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; }
+  .glyph { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 12px 8px 8px; text-align: center; }
+  .glyph .px { display: block; font-size: 40px; color: var(--text); }
+  .glyph small { color: var(--mute); font: 12px ui-monospace, monospace; }
+  .size { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 24px; margin-bottom: 16px; overflow-x: auto; }
+  .size .label { color: var(--mute); font: 12px ui-monospace, monospace; margin-bottom: 12px; }
+  .size .px { margin: 0; }
+  .accent { color: var(--v); }
+  #compare { background: #ffffff; color: #000000; padding: 0; display: inline-block; }
+  #compare .row { display: flex; align-items: flex-start; gap: 48px; padding: 24px; }
+  #compare .cap { font: 12px ui-monospace, monospace; color: #555; margin-bottom: 8px; }
+  #logo svg { display: block; width: 294px; height: 78px; }
+  #fontjeff { display: block; font-size: 60px; padding: 18px; line-height: 1.1; }
+</style>
+</head>
+<body>
+<main>
+  <div class="px c6">JEFF PIXEL<span class="accent">&#x25AE;</span></div>
+  <p class="note">Pixel capitals on the square-cell grid of the Jeff logo: 7 cells tall, 2-cell vertical strokes, 1-cell horizontal strokes, square corners, letters 2 cells apart. One cell is 100 of the 1000 font units per em, so <code>font-size = 10 &times; cell</code> px gives whole-pixel cells: 20&nbsp;px (2&nbsp;px cells), 30&nbsp;px (3), 40&nbsp;px (4), 60&nbsp;px (6). Lowercase letters draw the capitals.</p>
+
+  <h2>Every glyph (4 px cells)</h2>
+  <div class="glyphs" id="glyphs"></div>
+
+  <h2>Headings at 2, 3, 4 and 6 px cells</h2>
+  <div id="sizes"></div>
+
+  <h2>Logo against the font, 6 px cells</h2>
+  <div id="compare">
+    <div class="row">
+      <div><div class="cap">logo (jeff_logo_v4.svg at half size)</div><div id="logo"><!-- Inline copy of apps/hub/app/assets/jeff_logo_v4.svg, cursor not blinking. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="588" height="156" viewBox="0 0 588 156" aria-hidden="true">
+<g fill="currentColor" shape-rendering="crispEdges">
+<rect x="60" y="36" width="12" height="12"/><rect x="72" y="36" width="12" height="12"/><rect x="84" y="36" width="12" height="12"/><rect x="96" y="36" width="12" height="12"/><rect x="108" y="36" width="12" height="12"/><rect x="96" y="48" width="12" height="12"/><rect x="108" y="48" width="12" height="12"/><rect x="96" y="60" width="12" height="12"/><rect x="108" y="60" width="12" height="12"/><rect x="96" y="72" width="12" height="12"/><rect x="108" y="72" width="12" height="12"/><rect x="36" y="84" width="12" height="12"/><rect x="48" y="84" width="12" height="12"/><rect x="96" y="84" width="12" height="12"/><rect x="108" y="84" width="12" height="12"/><rect x="36" y="96" width="12" height="12"/><rect x="48" y="96" width="12" height="12"/><rect x="96" y="96" width="12" height="12"/><rect x="108" y="96" width="12" height="12"/><rect x="48" y="108" width="12" height="12"/><rect x="60" y="108" width="12" height="12"/><rect x="72" y="108" width="12" height="12"/><rect x="84" y="108" width="12" height="12"/><rect x="96" y="108" width="12" height="12"/><rect x="144" y="36" width="12" height="12"/><rect x="156" y="36" width="12" height="12"/><rect x="168" y="36" width="12" height="12"/><rect x="180" y="36" width="12" height="12"/><rect x="192" y="36" width="12" height="12"/><rect x="204" y="36" width="12" height="12"/><rect x="216" y="36" width="12" height="12"/><rect x="144" y="48" width="12" height="12"/><rect x="156" y="48" width="12" height="12"/><rect x="144" y="60" width="12" height="12"/><rect x="156" y="60" width="12" height="12"/><rect x="144" y="72" width="12" height="12"/><rect x="156" y="72" width="12" height="12"/><rect x="168" y="72" width="12" height="12"/><rect x="180" y="72" width="12" height="12"/><rect x="192" y="72" width="12" height="12"/><rect x="204" y="72" width="12" height="12"/><rect x="144" y="84" width="12" height="12"/><rect x="156" y="84" width="12" height="12"/><rect x="144" y="96" width="12" height="12"/><rect x="156" y="96" width="12" height="12"/><rect x="144" y="108" width="12" height="12"/><rect x="156" y="108" width="12" height="12"/><rect x="168" y="108" width="12" height="12"/><rect x="180" y="108" width="12" height="12"/><rect x="192" y="108" width="12" height="12"/><rect x="204" y="108" width="12" height="12"/><rect x="216" y="108" width="12" height="12"/><rect x="252" y="36" width="12" height="12"/><rect x="264" y="36" width="12" height="12"/><rect x="276" y="36" width="12" height="12"/><rect x="288" y="36" width="12" height="12"/><rect x="300" y="36" width="12" height="12"/><rect x="312" y="36" width="12" height="12"/><rect x="324" y="36" width="12" height="12"/><rect x="252" y="48" width="12" height="12"/><rect x="264" y="48" width="12" height="12"/><rect x="252" y="60" width="12" height="12"/><rect x="264" y="60" width="12" height="12"/><rect x="252" y="72" width="12" height="12"/><rect x="264" y="72" width="12" height="12"/><rect x="276" y="72" width="12" height="12"/><rect x="288" y="72" width="12" height="12"/><rect x="300" y="72" width="12" height="12"/><rect x="312" y="72" width="12" height="12"/><rect x="252" y="84" width="12" height="12"/><rect x="264" y="84" width="12" height="12"/><rect x="252" y="96" width="12" height="12"/><rect x="264" y="96" width="12" height="12"/><rect x="252" y="108" width="12" height="12"/><rect x="264" y="108" width="12" height="12"/><rect x="360" y="36" width="12" height="12"/><rect x="372" y="36" width="12" height="12"/><rect x="384" y="36" width="12" height="12"/><rect x="396" y="36" width="12" height="12"/><rect x="408" y="36" width="12" height="12"/><rect x="420" y="36" width="12" height="12"/><rect x="432" y="36" width="12" height="12"/><rect x="360" y="48" width="12" height="12"/><rect x="372" y="48" width="12" height="12"/><rect x="360" y="60" width="12" height="12"/><rect x="372" y="60" width="12" height="12"/><rect x="360" y="72" width="12" height="12"/><rect x="372" y="72" width="12" height="12"/><rect x="384" y="72" width="12" height="12"/><rect x="396" y="72" width="12" height="12"/><rect x="408" y="72" width="12" height="12"/><rect x="420" y="72" width="12" height="12"/><rect x="360" y="84" width="12" height="12"/><rect x="372" y="84" width="12" height="12"/><rect x="360" y="96" width="12" height="12"/><rect x="372" y="96" width="12" height="12"/><rect x="360" y="108" width="12" height="12"/><rect x="372" y="108" width="12" height="12"/>
+<rect x="468" y="36" width="84" height="84"/>
+</g>
+</svg></div></div>
+      <div><div class="cap">Jeff Pixel, font-size 60px</div><div class="px" id="fontjeff">JEFF&#x25AE;</div></div>
+    </div>
+  </div>
+</main>
+<script>
+  const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,:;!?\'"-_()/&+#@%*=<>[]▮';
+  const grid = document.getElementById('glyphs');
+  for (const ch of CHARS) {
+    const cell = document.createElement('div');
+    cell.className = 'glyph';
+    const g = document.createElement('span');
+    g.className = 'px';
+    g.textContent = ch;
+    const label = document.createElement('small');
+    label.textContent = 'U+' + ch.codePointAt(0).toString(16).toUpperCase().padStart(4, '0');
+    cell.append(g, label);
+    grid.append(cell);
+  }
+  const SAMPLES = ['MILLISECOND DECISIONS, ANY DOMAIN', 'OPEN-SOURCE ADAPTERS', 'THE SWARM', 'API REFERENCE', '0123456789',
+    'THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG!', 'pick: yes/no? 95% [top-3] (a+b=c) #1 @jeff & co; "ok" it\'s <fast> *_*'];
+  const sizes = document.getElementById('sizes');
+  for (const [cls, px] of [['c2', 20], ['c3', 30], ['c4', 40], ['c6', 60]]) {
+    const box = document.createElement('section');
+    box.className = 'size';
+    const label = document.createElement('div');
+    label.className = 'label';
+    label.textContent = `${px / 10} px cells: font-size ${px}px`;
+    box.append(label);
+    for (const s of SAMPLES) {
+      const p = document.createElement('p');
+      p.className = `px ${cls}`;
+      p.textContent = s;
+      box.append(p);
+    }
+    sizes.append(box);
+  }
+</script>
+</body>
+</html>

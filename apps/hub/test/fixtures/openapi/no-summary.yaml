@@ -1,0 +1,10 @@
+openapi: 3.1.0
+info:
+  title: Fixture
+  version: '1.0.0'
+paths:
+  /v1/decide:
+    post:
+      responses:
+        '200':
+          description: ok

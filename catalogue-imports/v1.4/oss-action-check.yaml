@@ -1,0 +1,29 @@
+# oss-action-check, v1.4 (RTX /mnt/d/jeff-adapters/v1.4/oss-action-check, data teamsuzie/jeff-data apps/oss-action-check).
+path: apps/oss-action-check
+adapter_path: oss-action-check
+id: jeff.agents.action-check
+aliases: [oss-action-check, action-check]
+version: 1.4.0
+function_by: only
+context:
+  - key: app
+    description: "The application the agent works in: its name and a description of what it does and for whom."
+  - key: today
+    description: "Today's date, written out (for example 'Wednesday 23 June 2027')."
+  - key: rules
+    description: "The app's rules for the agent, a list of sentences (for example which actions need the user's explicit yes, or who may receive personal data)."
+  - key: people
+    description: "The people the agent knows about, a list of strings 'Name <email> (relationship)'."
+  - key: tools
+    description: "The tools the agent can call, written as Python function signatures with docstrings."
+  - key: conversation
+    description: "The conversation so far: a list of messages with role (user or assistant) and content."
+  - key: latest_user_message
+    description: "The user's latest message, which led to the proposed call."
+input:
+  key: proposed_call
+  description: "The tool call the agent proposes to make next: an object with `tool` (its name) and `arguments`."
+  form: fields
+functions:
+  # classify: picks one verdict from a fixed set: approve, wrong_action, unsafe, ask_user
+  action: {interface: classify, option_order: shuffled}

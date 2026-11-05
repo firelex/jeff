@@ -1,0 +1,16 @@
+============================= test session starts ==============================
+platform linux -- Python 3.13.13, pytest-9.1.1, pluggy-1.7.0
+rootdir: /home/roli79/jeff-dev-next
+configfile: pyproject.toml
+plugins: platformdirs-4.13.5, anyio-4.15.1
+collected 14 items / 8 deselected / 6 selected
+
+[transformers] `causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+agreement with the standard path out of 388: {'triage-sf after triage': 388, 'triage after triage-sf': 386}
+300 rows: largest probability difference 0.000000; 300 rows bit-for-bit equal
+.
+runtime/python/tests/test_local_engine.py Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]Fetching 10 files: 100%|██████████| 10/10 [00:00<00:00, 1107.06it/s]
+Fetching 9 files:   0%|          | 0/9 [00:00<?, ?it/s]Fetching 9 files: 100%|██████████| 9/9 [00:00<00:00, 1084.45it/s]
+.
+
+================= 6 passed, 8 deselected in 182.81s (0:03:02) ==================

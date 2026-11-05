@@ -1,0 +1,626 @@
+{
+ "32": {
+  "per_shape": {
+   "gdn_proj": {
+    "count": 18,
+    "tiles": {
+     "bm": 16,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 128,
+     "nc": 1,
+     "out_warps": 8,
+     "split": 16,
+     "bk": 64
+    },
+    "pair_us": 4.64,
+    "before_us": 6.418,
+    "pair_bit_equal": true
+   },
+   "gdn_out": {
+    "count": 18,
+    "tiles": {
+     "bm": 16,
+     "mid_warps": 2,
+     "out_bm": 16,
+     "bn": 32,
+     "nc": 1,
+     "out_warps": 8,
+     "split": 32,
+     "bk": 64
+    },
+    "pair_us": 4.64,
+    "before_us": 5.148,
+    "pair_bit_equal": true
+   },
+   "attn_proj": {
+    "count": 6,
+    "tiles": {
+     "bm": 16,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 128,
+     "nc": 1,
+     "out_warps": 8,
+     "split": 16,
+     "bk": 64
+    },
+    "pair_us": 5.394,
+    "before_us": 8.024,
+    "pair_bit_equal": true
+   },
+   "attn_out": {
+    "count": 6,
+    "tiles": {
+     "bm": 16,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 32,
+     "nc": 1,
+     "out_warps": 8,
+     "split": 32,
+     "bk": 64
+    },
+    "pair_us": 4.642,
+    "before_us": 5.162,
+    "pair_bit_equal": true
+   },
+   "mlp_in": {
+    "count": 24,
+    "tiles": {
+     "bm": 16,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 128,
+     "nc": 1,
+     "out_warps": 8,
+     "split": 16,
+     "bk": 64
+    },
+    "pair_us": 4.392,
+    "before_us": 5.976,
+    "pair_bit_equal": true
+   },
+   "mlp_down": {
+    "count": 24,
+    "tiles": {
+     "bm": 16,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 32,
+     "nc": 1,
+     "out_warps": 8,
+     "split": 56,
+     "bk": 64
+    },
+    "pair_us": 5.874,
+    "before_us": 6.474,
+    "pair_bit_equal": true
+   }
+  },
+  "per_decision_ms": {
+   "before_us": 0.5861,
+   "pair_us": 0.4736
+  }
+ },
+ "64": {
+  "per_shape": {
+   "gdn_proj": {
+    "count": 18,
+    "tiles": {
+     "bm": 16,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 256,
+     "nc": 1,
+     "out_warps": 8,
+     "split": 16,
+     "bk": 64
+    },
+    "pair_us": 4.904,
+    "before_us": 8.735,
+    "pair_bit_equal": true
+   },
+   "gdn_out": {
+    "count": 18,
+    "tiles": {
+     "bm": 16,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 32,
+     "nc": 1,
+     "out_warps": 8,
+     "split": 32,
+     "bk": 64
+    },
+    "pair_us": 4.65,
+    "before_us": 7.201,
+    "pair_bit_equal": true
+   },
+   "attn_proj": {
+    "count": 6,
+    "tiles": {
+     "bm": 16,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 128,
+     "nc": 1,
+     "out_warps": 8,
+     "split": 16,
+     "bk": 64
+    },
+    "pair_us": 5.918,
+    "before_us": 10.088,
+    "pair_bit_equal": true
+   },
+   "attn_out": {
+    "count": 6,
+    "tiles": {
+     "bm": 16,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 32,
+     "nc": 1,
+     "out_warps": 8,
+     "split": 32,
+     "bk": 64
+    },
+    "pair_us": 4.644,
+    "before_us": 7.212,
+    "pair_bit_equal": true
+   },
+   "mlp_in": {
+    "count": 24,
+    "tiles": {
+     "bm": 16,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 256,
+     "nc": 1,
+     "out_warps": 8,
+     "split": 16,
+     "bk": 64
+    },
+    "pair_us": 4.901,
+    "before_us": 8.343,
+    "pair_bit_equal": true
+   },
+   "mlp_down": {
+    "count": 24,
+    "tiles": {
+     "bm": 32,
+     "mid_warps": 2,
+     "out_bm": 16,
+     "bn": 32,
+     "nc": 1,
+     "out_warps": 8,
+     "split": 56,
+     "bk": 64
+    },
+    "pair_us": 6.015,
+    "before_us": 9.75,
+    "pair_bit_equal": true
+   }
+  },
+  "per_decision_ms": {
+   "before_us": 0.8249,
+   "pair_us": 0.4973
+  }
+ },
+ "128": {
+  "per_shape": {
+   "gdn_proj": {
+    "count": 18,
+    "tiles": {
+     "bm": 16,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 256,
+     "nc": 1,
+     "out_warps": 8,
+     "split": 16,
+     "bk": 64
+    },
+    "pair_us": 5.922,
+    "before_us": 10.502,
+    "pair_bit_equal": true
+   },
+   "gdn_out": {
+    "count": 18,
+    "tiles": {
+     "bm": 32,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 64,
+     "nc": 1,
+     "out_warps": 8,
+     "split": 32,
+     "bk": 64
+    },
+    "pair_us": 4.899,
+    "before_us": 7.215,
+    "pair_bit_equal": true
+   },
+   "attn_proj": {
+    "count": 6,
+    "tiles": {
+     "bm": 16,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 256,
+     "nc": 1,
+     "out_warps": 8,
+     "split": 16,
+     "bk": 64
+    },
+    "pair_us": 6.693,
+    "before_us": 12.138,
+    "pair_bit_equal": true
+   },
+   "attn_out": {
+    "count": 6,
+    "tiles": {
+     "bm": 32,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 64,
+     "nc": 1,
+     "out_warps": 8,
+     "split": 32,
+     "bk": 64
+    },
+    "pair_us": 4.891,
+    "before_us": 7.225,
+    "pair_bit_equal": true
+   },
+   "mlp_in": {
+    "count": 24,
+    "tiles": {
+     "bm": 16,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 256,
+     "nc": 1,
+     "out_warps": 8,
+     "split": 16,
+     "bk": 64
+    },
+    "pair_us": 5.676,
+    "before_us": 10.027,
+    "pair_bit_equal": true
+   },
+   "mlp_down": {
+    "count": 24,
+    "tiles": {
+     "bm": 32,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 64,
+     "nc": 1,
+     "out_warps": 8,
+     "split": 28,
+     "bk": 64
+    },
+    "pair_us": 4.894,
+    "before_us": 7.146,
+    "pair_bit_equal": true
+   }
+  },
+  "per_decision_ms": {
+   "before_us": 0.8472,
+   "pair_us": 0.518
+  }
+ },
+ "256": {
+  "per_shape": {
+   "gdn_proj": {
+    "count": 18,
+    "tiles": {
+     "bm": 32,
+     "mid_warps": 8,
+     "out_bm": 16,
+     "bn": 128,
+     "nc": 4,
+     "out_warps": 8,
+     "split": 16,
+     "bk": 64
+    },
+    "pair_us": 8.004,
+    "before_us": 15.131,
+    "pair_bit_equal": true
+   },
+   "gdn_out": {
+    "count": 18,
+    "tiles": {
+     "bm": 32,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 128,
+     "nc": 1,
+     "out_warps": 8,
+     "split": 16,
+     "bk": 64
+    },
+    "pair_us": 4.39,
+    "before_us": 5.924,
+    "pair_bit_equal": true
+   },
+   "attn_proj": {
+    "count": 6,
+    "tiles": {
+     "bm": 32,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 128,
+     "nc": 4,
+     "out_warps": 8,
+     "split": 16,
+     "bk": 64
+    },
+    "pair_us": 8.501,
+    "before_us": 17.612,
+    "pair_bit_equal": true
+   },
+   "attn_out": {
+    "count": 6,
+    "tiles": {
+     "bm": 32,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 128,
+     "nc": 1,
+     "out_warps": 8,
+     "split": 16,
+     "bk": 64
+    },
+    "pair_us": 4.385,
+    "before_us": 5.931,
+    "pair_bit_equal": true
+   },
+   "mlp_in": {
+    "count": 24,
+    "tiles": {
+     "bm": 32,
+     "mid_warps": 8,
+     "out_bm": 16,
+     "bn": 128,
+     "nc": 4,
+     "out_warps": 8,
+     "split": 16,
+     "bk": 64
+    },
+    "pair_us": 7.716,
+    "before_us": 14.111,
+    "pair_bit_equal": true
+   },
+   "mlp_down": {
+    "count": 24,
+    "tiles": {
+     "bm": 32,
+     "mid_warps": 2,
+     "out_bm": 16,
+     "bn": 128,
+     "nc": 1,
+     "out_warps": 8,
+     "split": 14,
+     "bk": 64
+    },
+    "pair_us": 4.651,
+    "before_us": 6.171,
+    "pair_bit_equal": true
+   }
+  },
+  "per_decision_ms": {
+   "before_us": 1.007,
+   "pair_us": 0.5972
+  }
+ },
+ "512": {
+  "per_shape": {
+   "gdn_proj": {
+    "count": 18,
+    "tiles": {
+     "bm": 32,
+     "mid_warps": 4,
+     "out_bm": 32,
+     "bn": 128,
+     "nc": 4,
+     "out_warps": 8,
+     "split": 8,
+     "bk": 64
+    },
+    "pair_us": 9.534,
+    "before_us": 16.732,
+    "pair_bit_equal": true
+   },
+   "gdn_out": {
+    "count": 18,
+    "tiles": {
+     "bm": 32,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 128,
+     "nc": 1,
+     "out_warps": 8,
+     "split": 8,
+     "bk": 64
+    },
+    "pair_us": 4.636,
+    "before_us": 5.423,
+    "pair_bit_equal": true
+   },
+   "attn_proj": {
+    "count": 6,
+    "tiles": {
+     "bm": 32,
+     "mid_warps": 4,
+     "out_bm": 32,
+     "bn": 128,
+     "nc": 4,
+     "out_warps": 8,
+     "split": 8,
+     "bk": 64
+    },
+    "pair_us": 9.994,
+    "before_us": 19.534,
+    "pair_bit_equal": true
+   },
+   "attn_out": {
+    "count": 6,
+    "tiles": {
+     "bm": 32,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 128,
+     "nc": 1,
+     "out_warps": 8,
+     "split": 8,
+     "bk": 64
+    },
+    "pair_us": 4.644,
+    "before_us": 5.415,
+    "pair_bit_equal": true
+   },
+   "mlp_in": {
+    "count": 24,
+    "tiles": {
+     "bm": 32,
+     "mid_warps": 8,
+     "out_bm": 32,
+     "bn": 128,
+     "nc": 4,
+     "out_warps": 8,
+     "split": 8,
+     "bk": 64
+    },
+    "pair_us": 9.006,
+    "before_us": 14.68,
+    "pair_bit_equal": true
+   },
+   "mlp_down": {
+    "count": 24,
+    "tiles": {
+     "bm": 32,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 128,
+     "nc": 1,
+     "out_warps": 8,
+     "split": 8,
+     "bk": 64
+    },
+    "pair_us": 5.186,
+    "before_us": 6.184,
+    "pair_bit_equal": true
+   }
+  },
+  "per_decision_ms": {
+   "before_us": 1.0492,
+   "pair_us": 0.6835
+  }
+ },
+ "1024": {
+  "per_shape": {
+   "gdn_proj": {
+    "count": 18,
+    "tiles": {
+     "bm": 32,
+     "mid_warps": 4,
+     "out_bm": 32,
+     "bn": 128,
+     "nc": 4,
+     "out_warps": 4,
+     "split": 4,
+     "bk": 64
+    },
+    "pair_us": 12.945,
+    "before_us": 19.794,
+    "pair_bit_equal": true
+   },
+   "gdn_out": {
+    "count": 18,
+    "tiles": {
+     "bm": 32,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 128,
+     "nc": 1,
+     "out_warps": 4,
+     "split": 4,
+     "bk": 64
+    },
+    "pair_us": 5.668,
+    "before_us": 6.444,
+    "pair_bit_equal": true
+   },
+   "attn_proj": {
+    "count": 6,
+    "tiles": {
+     "bm": 32,
+     "mid_warps": 4,
+     "out_bm": 64,
+     "bn": 128,
+     "nc": 4,
+     "out_warps": 8,
+     "split": 4,
+     "bk": 64
+    },
+    "pair_us": 13.423,
+    "before_us": 22.119,
+    "pair_bit_equal": true
+   },
+   "attn_out": {
+    "count": 6,
+    "tiles": {
+     "bm": 32,
+     "mid_warps": 2,
+     "out_bm": 16,
+     "bn": 128,
+     "nc": 1,
+     "out_warps": 4,
+     "split": 4,
+     "bk": 64
+    },
+    "pair_us": 5.677,
+    "before_us": 6.446,
+    "pair_bit_equal": true
+   },
+   "mlp_in": {
+    "count": 24,
+    "tiles": {
+     "bm": 32,
+     "mid_warps": 8,
+     "out_bm": 32,
+     "bn": 128,
+     "nc": 4,
+     "out_warps": 8,
+     "split": 4,
+     "bk": 64
+    },
+    "pair_us": 11.866,
+    "before_us": 17.845,
+    "pair_bit_equal": true
+   },
+   "mlp_down": {
+    "count": 24,
+    "tiles": {
+     "bm": 32,
+     "mid_warps": 2,
+     "out_bm": 16,
+     "bn": 128,
+     "nc": 1,
+     "out_warps": 2,
+     "split": 4,
+     "bk": 64
+    },
+    "pair_us": 6.778,
+    "before_us": 7.728,
+    "pair_bit_equal": true
+   }
+  },
+  "per_decision_ms": {
+   "before_us": 1.2574,
+   "pair_us": 0.8971
+  }
+ }
+}

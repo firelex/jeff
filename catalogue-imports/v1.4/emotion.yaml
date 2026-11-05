@@ -1,0 +1,20 @@
+# The emotion adapter, v1.4 (RTX /mnt/d/jeff-adapters/v1.4/emotion, data teamsuzie/jeff-data apps/emotion).
+# Same ID, key and interface as the v1.3 catalogue manifest jeff.language.emotion.
+path: apps/emotion
+adapter_path: emotion
+id: jeff.language.emotion
+aliases: [emotion]
+version: 1.4.0
+function_by: only
+context:
+  - key: source
+    description: >-
+      One short phrase on where the text comes from. In training this was always "Reddit comment ([NAME] and [RELIGION]
+      replace removed names)".
+input:
+  key: comment
+  description: The comment or message to read.
+  form: fields
+functions:
+  # emotion: the strongest of 28 fixed emotions (or neutral).
+  emotion: {interface: classify, option_order: shuffled}

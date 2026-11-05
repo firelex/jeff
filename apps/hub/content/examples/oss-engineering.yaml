@@ -1,0 +1,108 @@
+# The "Engineering" page's examples (guides/oss-engineering.md): why a CI run failed, and who owns a new issue.
+# Format and recording: scripts/hub_examples.py. The `recorded` blocks are written by
+# `scripts/hub_examples.py --record`, never by hand. Every input here was written for the page.
+- id: oss-ci-failure
+  name: CSV test missing rows
+  function: jeff.engineering.ci-failure.failure
+  context:
+    project: tidepool, an open-source Python library for reading and writing tide-gauge data files.
+    ci_run:
+      job: tests (python 3.12)
+      trigger: pull request 412
+      commit: 9f3c2e1
+      date: 2 November 2026
+    change:
+      title: Speed up the CSV reader
+      description: Reads rows in blocks of 4,096 instead of one at a time. No behaviour change intended.
+    ci_facts:
+      attempts_on_this_commit: 2, both failed the same way
+      same_test_on_main: passed in each of the last 30 runs
+      other_jobs_in_this_run: lint passed; docs passed
+      dependency_versions: unchanged since the last passing run
+      duration: 3 min 40 s (usual 3 min 30 s)
+  input: |-
+    tests/test_csv.py::test_reads_last_row FAILED
+    E   AssertionError: expected 1,000 rows, got 904
+    E   assert 904 == 1000
+    ========== 1 failed, 213 passed in 41.2s ==========
+  recorded:
+    value: real_regression
+    confidence: 0.996
+    top_options:
+    - option: real_regression
+      probability: 0.996
+    - option: dependency_change
+      probability: 0.001
+    - option: environment_or_infra
+      probability: 0.001
+    server: v1.4
+    at: '2026-11-03'
+- id: oss-issue-route-owner
+  name: 'Crash on missing timestamps: who owns it'
+  function: jeff.engineering.issue-route.owner
+  context:
+    project: |-
+      tidepool is an open-source Python library for reading and writing tide-gauge data files. Components:
+      - readers (team io): file readers for CSV, NetCDF and the station formats; paths tidepool/readers/
+      - plotting (team viz): charts and maps; paths tidepool/plot/
+      - cli (team tools): the tidepool command; paths tidepool/cli/
+      - docs (team docs): the documentation site; paths docs/
+    open_issues:
+    - '#398 [plotting] Map legend overlaps the colour bar'
+    - '#405 [cli] Add a --quiet flag'
+  input:
+    type: issue
+    number: 417
+    title: tidepool plot crashes on a NetCDF file with missing timestamps
+    body: >-
+      Running `tidepool plot station.nc` stops with "KeyError: 'time'" in tidepool/readers/netcdf.py line 88, before
+      any chart appears. The same file opens fine in other tools.
+    labels: []
+  labels:
+    readers: File readers for CSV, NetCDF and the station formats (tidepool/readers/)
+    plotting: Charts and maps (tidepool/plot/)
+    cli: The tidepool command (tidepool/cli/)
+    docs: The documentation site (docs/)
+  recorded:
+    value: readers
+    confidence: 1.0
+    top_options:
+    - option: readers
+      probability: 1.0
+    - option: plotting
+      probability: 0.0
+    - option: docs
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-03'
+- id: oss-issue-route-kind
+  name: Request to silence progress output
+  function: jeff.engineering.issue-route.kind
+  context:
+    project: |-
+      tidepool is an open-source Python library for reading and writing tide-gauge data files. Components:
+      - readers (team io): file readers for CSV, NetCDF and the station formats; paths tidepool/readers/
+      - plotting (team viz): charts and maps; paths tidepool/plot/
+      - cli (team tools): the tidepool command; paths tidepool/cli/
+      - docs (team docs): the documentation site; paths docs/
+    open_issues:
+    - '#398 [plotting] Map legend overlaps the colour bar'
+    - '#405 [cli] Add a --quiet flag'
+  input:
+    type: issue
+    number: 418
+    title: Option to silence progress output
+    body: When I run tidepool in a cron job it prints progress bars into my logs. Could there be a way to turn the output off?
+    labels: []
+  recorded:
+    value: feature
+    confidence: 0.564
+    top_options:
+    - option: feature
+      probability: 0.564
+    - option: question
+      probability: 0.433
+    - option: duplicate_candidate
+      probability: 0.001
+    server: v1.4
+    at: '2026-11-03'

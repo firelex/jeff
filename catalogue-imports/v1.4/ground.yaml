@@ -1,0 +1,30 @@
+# Retrieval-augmented generation checks, v1.4 (RTX /mnt/d/jeff-adapters/v1.4/ground, data teamsuzie/jeff-data
+# apps/ground). Same ID and grounding function as the v1.3 catalogue manifest jeff.retrieval.ground. Two request
+# shapes: grounding reads the sources and then the answer (sources, answer); rerank reads the question alone (question)
+# and its options are the passages. Row ids are hashes, so the functions are told apart by request shape.
+path: apps/ground
+adapter_path: ground
+id: jeff.retrieval.ground
+aliases: [ground]
+version: 1.4.0
+function_by: state_shape
+context:
+  - key: sources
+    description: >-
+      The source passages the answer was written from, each with a short label such as "Document A: Title" or
+      "Source 1".
+input:
+  key: answer
+  description: The answer to check.
+  form: fields
+functions:
+  # is_supported: supported / partly_supported / contradicted / unsupported, exactly the interface's values.
+  grounding: {interface: is_supported, option_order: shuffled}
+  # classify: picks the passage (from the caller's passages p1, p2, ...) that answers the question, or none.
+  rerank:
+    interface: classify
+    context: []
+    input:
+      key: question
+      description: The question to find an answering passage for; the passages are the options, each as p1, p2, ... with its text.
+      form: fields

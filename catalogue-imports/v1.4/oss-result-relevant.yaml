@@ -1,0 +1,23 @@
+# oss-result-relevant, v1.4 (RTX /mnt/d/jeff-adapters/v1.4/oss-result-relevant, data teamsuzie/jeff-data apps/oss-result-relevant).
+path: apps/oss-result-relevant
+adapter_path: oss-result-relevant
+id: jeff.agents.result-relevant
+aliases: [oss-result-relevant, result-relevant]
+version: 1.4.0
+function_by: only
+context:
+  - key: app
+    description: "The application the agent works in: its name and a description of what it does and for whom."
+  - key: today
+    description: "Today's date, written out (for example 'Wednesday 23 June 2027')."
+  - key: sub_question
+    description: "The agent's current sub-question."
+  - key: call
+    description: "The tool call made: an object with tool, its description and arguments."
+input:
+  key: result
+  description: "The tool's result, as returned."
+  form: fields
+functions:
+  # classify: fixed answer set yes / partly / no
+  relevant: {interface: classify, option_order: shuffled}

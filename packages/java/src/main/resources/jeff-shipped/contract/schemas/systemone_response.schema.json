@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jeff.dev/schemas/systemone_response.schema.json",
+  "title": "Jeff POST /v1/systemone response (the legacy jeff-server API)",
+  "description": "One answer per question, under the question's key. 'model' is the base's name for a request to the base, otherwise the adapter as the request named it. usage.input_tokens counts the prompt tokens of every pass (both orders when 'orders' is 2); output_tokens is always 0. timing.server_ms is the time from the request reaching the handler to the response being ready; the other timing fields come from the engine.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["model", "answers", "usage", "timing"],
+  "properties": {
+    "model": {"type": "string"},
+    "answers": {"type": "object", "additionalProperties": {"oneOf": [
+      {"type": "object", "additionalProperties": false, "required": ["type", "choice", "probabilities", "confidence"],
+       "properties": {"type": {"const": "choice"}, "choice": {"type": "string"},
+                      "probabilities": {"$ref": "#/$defs/probabilities"}, "confidence": {"$ref": "#/$defs/unit"}}},
+      {"type": "object", "additionalProperties": false,
+       "required": ["type", "score", "probabilities", "legend", "confidence"],
+       "properties": {"type": {"const": "score"}, "score": {"type": "number", "minimum": 0},
+                      "probabilities": {"$ref": "#/$defs/probabilities"},
+                      "legend": {"type": "object", "additionalProperties": {"type": ["string", "object", "array", "null"]}},
+                      "confidence": {"$ref": "#/$defs/unit"}}},
+      {"type": "object", "additionalProperties": false, "required": ["type", "noul"],
+       "properties": {"type": {"const": "noul"}, "noul": {"$ref": "#/$defs/unit"}}}
+    ]}},
+    "usage": {"type": "object", "additionalProperties": false, "required": ["input_tokens", "output_tokens", "orders"],
+              "properties": {"input_tokens": {"type": "integer", "minimum": 0}, "output_tokens": {"const": 0},
+                             "orders": {"enum": [1, 2]}}},
+    "timing": {"type": "object", "required": ["server_ms"], "properties": {"server_ms": {"type": "number", "minimum": 0}}}
+  },
+  "$defs": {
+    "unit": {"type": "number", "minimum": 0, "maximum": 1},
+    "probabilities": {"type": "object", "additionalProperties": {"$ref": "#/$defs/unit"}}
+  }
+}

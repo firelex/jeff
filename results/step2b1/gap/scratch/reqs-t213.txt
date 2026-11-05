@@ -1,0 +1,114 @@
+accelerate==1.15.0 ; sys_platform == 'darwin' or sys_platform == 'linux'
+annotated-doc==0.0.5
+annotated-types==0.8.0
+anyio==4.15.1
+ast-serialize==0.13.1
+attrs==26.1.0
+certifi==2026.10.19
+cffi==2.1.1 ; platform_python_implementation != 'PyPy'
+charset-normalizer==3.5.2 ; sys_platform == 'linux'
+click==8.5.0
+colorama==0.4.6 ; sys_platform == 'win32'
+cryptography==50.0.2
+dnspython==2.9.0 ; sys_platform == 'linux'
+einops==0.8.2 ; sys_platform == 'linux'
+email-validator==2.3.0 ; sys_platform == 'linux'
+fastapi==0.141.1
+filelock==4.2.4
+fla-core==0.5.2 ; sys_platform == 'linux'
+flash-linear-attention==0.5.2 ; sys_platform == 'linux'
+fsspec==2026.9.0
+h11==0.16.0
+hf-xet==1.7.0 ; platform_machine == 'AMD64' or platform_machine == 'aarch64' or platform_machine == 'amd64' or platform_machine == 'arm64' or platform_machine == 'x86_64'
+httpcore==1.0.9
+httpcore2==2.16.0 ; sys_platform != 'emscripten'
+httpx==0.28.1
+httpx2==2.16.0
+httpx2-jsfetch==1.0 ; sys_platform == 'emscripten'
+huggingface-hub==1.31.0
+id==1.6.1 ; sys_platform == 'linux'
+idna==3.20
+iniconfig==2.3.1
+jinja2==3.1.6 ; sys_platform == 'darwin' or sys_platform == 'linux'
+jsonschema==4.26.0
+jsonschema-path==0.5.0
+jsonschema-specifications==2025.9.1
+kernels==0.16.1 ; sys_platform == 'linux'
+kernels-data==0.16.2 ; sys_platform == 'linux'
+lazy-object-proxy==1.13.0
+librt==0.16.0 ; platform_python_implementation != 'PyPy'
+markdown-it-py==4.2.0 ; sys_platform == 'darwin' or sys_platform == 'linux'
+markupsafe==3.0.4 ; sys_platform == 'darwin' or sys_platform == 'linux'
+maxminddb==3.2.0
+mcp==2.3.0
+mcp-types==2.3.0
+mdurl==0.1.2 ; sys_platform == 'darwin' or sys_platform == 'linux'
+mlx==0.32.4 ; sys_platform == 'darwin'
+mlx-lm==0.31.3 ; sys_platform == 'darwin'
+mlx-metal==0.32.4 ; sys_platform == 'darwin'
+mpmath==1.3.0 ; sys_platform == 'darwin' or sys_platform == 'linux'
+msgpack==1.2.3
+mypy==2.4.0
+mypy-extensions==1.1.0
+networkx==3.7 ; sys_platform == 'darwin' or sys_platform == 'linux'
+numpy==2.5.3 ; sys_platform == 'darwin' or sys_platform == 'linux'
+openapi-schema-validator==0.9.0
+openapi-spec-validator==0.9.0
+opentelemetry-api==1.45.1
+packaging==26.3
+pathable==0.6.0
+pathspec==1.1.1
+peft==0.21.1 ; sys_platform == 'darwin' or sys_platform == 'linux'
+pillow==12.3.0 ; sys_platform == 'darwin' or sys_platform == 'linux'
+platformdirs==4.13.5 ; sys_platform == 'linux'
+pluggy==1.7.0
+protobuf==7.36.2 ; sys_platform == 'darwin'
+psutil==7.2.2 ; sys_platform == 'darwin' or sys_platform == 'linux'
+pycparser==3.11 ; implementation_name != 'PyPy' and platform_python_implementation != 'PyPy'
+pydantic==2.14.1
+pydantic-core==2.50.1
+pydantic-settings==2.16.1
+pygments==2.21.0
+pyjwt==2.15.1
+pytest==9.1.1
+python-dotenv==1.2.4
+python-multipart==0.0.32
+pywin32==312 ; sys_platform == 'win32'
+pyyaml==6.0.3
+referencing==0.37.0
+regex==2026.9.29 ; sys_platform == 'darwin' or sys_platform == 'linux'
+requests==2.34.2 ; sys_platform == 'linux'
+rfc3161-client==1.0.9 ; sys_platform == 'linux'
+rfc3339-validator==0.1.4
+rfc8785==0.1.4 ; sys_platform == 'linux'
+rich==15.0.0 ; sys_platform == 'darwin' or sys_platform == 'linux'
+rpds-py==2026.9.1
+ruamel-yaml==0.19.1
+safetensors==0.8.0 ; sys_platform == 'darwin' or sys_platform == 'linux'
+securesystemslib==1.6.0 ; sys_platform == 'linux'
+sentencepiece==0.2.2 ; sys_platform == 'darwin'
+setuptools==84.2.1 ; sys_platform == 'darwin' or sys_platform == 'linux'
+shellingham==1.5.4 ; sys_platform == 'darwin' or sys_platform == 'linux'
+sigstore==4.5.1 ; sys_platform == 'linux'
+sigstore-models==0.0.6 ; sys_platform == 'linux'
+sigstore-rekor-types==0.0.18 ; sys_platform == 'linux'
+six==1.17.0
+sse-starlette==3.5.0
+starlette==1.9.0
+sympy==1.14.0 ; sys_platform == 'darwin' or sys_platform == 'linux'
+tokenizers==0.23.3 ; sys_platform == 'darwin' or sys_platform == 'linux'
+tomlkit==0.15.2 ; sys_platform == 'linux'
+tqdm==4.70.1
+transformers==5.17.0 ; sys_platform == 'darwin' or sys_platform == 'linux'
+truststore==0.10.5 ; sys_platform != 'emscripten'
+tuf==7.0.1 ; sys_platform == 'linux'
+typer==0.27.3 ; sys_platform == 'darwin' or sys_platform == 'linux'
+types-jsonschema==4.26.0.20261006
+types-pyyaml==6.0.12.20260906
+typing-extensions==4.16.0
+typing-inspection==0.4.4
+urllib3==2.8.0 ; sys_platform == 'linux'
+uvicorn==0.52.4
+websockets==17.3
+torch==2.13.0
+torchvision==0.28.0

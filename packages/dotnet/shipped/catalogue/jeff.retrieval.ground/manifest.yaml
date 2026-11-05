@@ -1,0 +1,81 @@
+id: jeff.retrieval.ground
+version: 1.4.0
+aliases:
+- ground
+licence:
+  kind: open
+  adapter: Apache-2.0
+weights:
+  open:
+    repo: mstrasser/jeff-adapter-ground
+    revision: v1.4
+base:
+  id: jeff-base
+  version: v1.4
+  max_options: 41
+context:
+- key: sources
+  description: 'The source passages the answer was written from, each with a short label such as "Document A: Title" or "Source
+    1".'
+  required: true
+input:
+  key: answer
+  description: The answer to check.
+  form: fields
+functions:
+  grounding:
+    interface: is_supported
+    type: choice
+    instructions: Is the answer supported by the sources? Judge only from the sources, not from outside knowledge.
+    labels:
+      source: fixed
+      fixed:
+        supported: Everything the answer claims is stated in or follows directly from the sources
+        partly_supported: Some claims are supported, but at least one is not in the sources
+        contradicted: The sources state something that conflicts with the answer
+        unsupported: The answer's main claim is not in the sources at all
+      subset: false
+    abstain_labels: []
+    calibration:
+      data: hf://mstrasser/jeff-adapter-ground@v1.4/calibration.jsonl
+      rows: 720
+      target_precision: 0.98
+      threshold: 0.634066
+      precision_at_threshold: 0.98017
+      coverage_at_threshold: 0.980556
+  rerank:
+    interface: classify
+    type: choice
+    instructions: Which passage answers the question? If none of them does, choose none.
+    labels:
+      source: caller
+      fixed_first: {}
+      caller_keys: null
+      max: 41
+    abstain_labels: []
+    calibration:
+      data: hf://mstrasser/jeff-adapter-ground@v1.4/calibration.jsonl
+      rows: 720
+      target_precision: 0.98
+      threshold: 0.797359
+      precision_at_threshold: 0.980153
+      coverage_at_threshold: 0.909722
+    context: []
+    input:
+      key: question
+      description: The question to find an answering passage for; the passages are the options, each as p1, p2, ... with its
+        text.
+      form: fields
+routes_to: []
+tests:
+  published: hf://mstrasser/jeff-adapter-ground@v1.4/test.jsonl
+  calibration: hf://mstrasser/jeff-adapter-ground@v1.4/calibration.jsonl
+  function_by: state_shape
+hub:
+  title: Passage re-ranking and answer grounding
+  summary: Picks the passage that answers a question, and checks whether an answer is supported by its sources.
+  task: retrieval
+  kind: official
+  maintainer:
+    name: Jeff maintainers
+    github: firelex

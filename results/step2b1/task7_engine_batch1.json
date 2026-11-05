@@ -1,0 +1,143 @@
+{
+ "script": "scripts/bench_engine_batch1.py",
+ "date": "2026-10-24 19:04",
+ "versions": {
+  "torch": "2.14.0+cu130",
+  "cuda": "13.0",
+  "gpu": "NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition",
+  "triton": "3.8.0",
+  "flash-linear-attention": "0.5.2"
+ },
+ "setup": {
+  "adapters_loaded": 9,
+  "warmup": 100,
+  "reps": 1000,
+  "before": "LocalEngine._validated, then FastPath.prepare + FastPath.decide (model_ms around those two): LocalEngine.predict before Task 7",
+  "now": "LocalEngine.predict: prepare (check, split, tokenise), then predict_many on the batched path (model_ms: the decision only)",
+  "order": "alternating call after call, the first of each pair swapped on every iteration",
+  "other_servers": "the other Jeff servers on datigator stay resident on the GPU"
+ },
+ "batch1": {
+  "32": {
+   "adapter": "nav",
+   "new_tokens": 32,
+   "before": {
+    "wall_ms": {
+     "p50": 3.0654,
+     "p99": 3.2334,
+     "mean": 3.0763
+    },
+    "model_ms": {
+     "p50": 3.0614,
+     "p99": 3.229,
+     "mean": 3.0722
+    }
+   },
+   "now": {
+    "wall_ms": {
+     "p50": 2.5907,
+     "p99": 2.7509,
+     "mean": 2.5931
+    },
+    "model_ms": {
+     "p50": 2.393,
+     "p99": 2.445,
+     "mean": 2.392
+    }
+   },
+   "largest_probability_difference": 2e-05,
+   "same_top_option": true
+  },
+  "64": {
+   "adapter": "spam",
+   "new_tokens": 64,
+   "before": {
+    "wall_ms": {
+     "p50": 3.0438,
+     "p99": 3.2205,
+     "mean": 3.0519
+    },
+    "model_ms": {
+     "p50": 3.0398,
+     "p99": 3.216,
+     "mean": 3.0478
+    }
+   },
+   "now": {
+    "wall_ms": {
+     "p50": 2.8705,
+     "p99": 3.0529,
+     "mean": 2.8743
+    },
+    "model_ms": {
+     "p50": 2.659,
+     "p99": 2.716,
+     "mean": 2.6582
+    }
+   },
+   "largest_probability_difference": 0.00017,
+   "same_top_option": true
+  },
+  "128": {
+   "adapter": "legal-clauses",
+   "new_tokens": 128,
+   "before": {
+    "wall_ms": {
+     "p50": 4.7644,
+     "p99": 4.9369,
+     "mean": 4.7734
+    },
+    "model_ms": {
+     "p50": 4.7595,
+     "p99": 4.9284,
+     "mean": 4.7686
+    }
+   },
+   "now": {
+    "wall_ms": {
+     "p50": 3.3609,
+     "p99": 3.5429,
+     "mean": 3.3667
+    },
+    "model_ms": {
+     "p50": 3.064,
+     "p99": 3.121,
+     "mean": 3.064
+    }
+   },
+   "largest_probability_difference": 8e-05,
+   "same_top_option": true
+  },
+  "256": {
+   "adapter": "spam",
+   "new_tokens": 256,
+   "before": {
+    "wall_ms": {
+     "p50": 4.1821,
+     "p99": 4.4303,
+     "mean": 4.193
+    },
+    "model_ms": {
+     "p50": 4.177,
+     "p99": 4.4234,
+     "mean": 4.1878
+    }
+   },
+   "now": {
+    "wall_ms": {
+     "p50": 4.0931,
+     "p99": 4.3307,
+     "mean": 4.1027
+    },
+    "model_ms": {
+     "p50": 3.7135,
+     "p99": 3.766,
+     "mean": 3.7136
+    }
+   },
+   "largest_probability_difference": 0.00035,
+   "same_top_option": true
+  }
+ },
+ "failures": []
+}

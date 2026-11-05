@@ -1,0 +1,729 @@
+delegate Ask (System.ICloneable, System.Runtime.Serialization.ISerializable)
+  Ask: public .ctor(System.Object object, System.IntPtr method)
+  Ask: public virtual System.IAsyncResult BeginInvoke(Question question, System.Threading.CancellationToken cancellationToken, System.AsyncCallback callback, System.Object object)
+  Ask: public virtual System.Threading.Tasks.Task<System.String> EndInvoke(System.IAsyncResult result)
+  Ask: public virtual System.Threading.Tasks.Task<System.String> Invoke(Question question, System.Threading.CancellationToken cancellationToken)
+sealed class AskStep : Step (System.IEquatable<AskStep>, System.IEquatable<Step>)
+  AskStep: protected override System.Boolean PrintMembers(System.Text.StringBuilder builder)
+  AskStep: protected override System.Type EqualityContract { get; }
+  AskStep: public Ask Ask { get; }
+  AskStep: public System.Boolean Equals(AskStep other)
+  AskStep: public override System.Boolean Equals(System.Object obj)
+  AskStep: public override System.Int32 GetHashCode()
+  AskStep: public override System.String ToString()
+  AskStep: public sealed override System.Boolean Equals(Step other)
+  AskStep: public static System.Boolean op_Equality(AskStep left, AskStep right)
+  AskStep: public static System.Boolean op_Inequality(AskStep left, AskStep right)
+  AskStep: public virtual AskStep <Clone>$()
+sealed class BackendUnavailable : JeffError (System.Runtime.Serialization.ISerializable)
+  BackendUnavailable: public .ctor(System.String message, System.Text.Json.Nodes.JsonObject details = null)
+sealed class BaseFormat (System.IEquatable<BaseFormat>)
+  BaseFormat: public .ctor(System.String Format, System.String FormatId = null)
+  BaseFormat: public BaseFormat <Clone>$()
+  BaseFormat: public System.Boolean Equals(BaseFormat other)
+  BaseFormat: public System.String Format { get; init; }
+  BaseFormat: public System.String FormatId { get; init; }
+  BaseFormat: public System.Text.Json.Nodes.JsonObject ToJson()
+  BaseFormat: public System.Void Deconstruct(out System.String Format, out System.String FormatId)
+  BaseFormat: public override System.Boolean Equals(System.Object obj)
+  BaseFormat: public override System.Int32 GetHashCode()
+  BaseFormat: public override System.String ToString()
+  BaseFormat: public static BaseFormat FromJson(System.Text.Json.Nodes.JsonObject data, System.String where)
+  BaseFormat: public static System.Boolean op_Equality(BaseFormat left, BaseFormat right)
+  BaseFormat: public static System.Boolean op_Inequality(BaseFormat left, BaseFormat right)
+class BoundFunction (System.IAsyncDisposable)
+  BoundFunction: public JeffClient Client { get; }
+  BoundFunction: public virtual System.Threading.Tasks.Task<Decision> CallAsync(System.Text.Json.Nodes.JsonNode input, System.Threading.CancellationToken cancellationToken = null)
+  BoundFunction: public virtual System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<Decision>> ManyAsync(System.Collections.Generic.IReadOnlyList<System.Text.Json.Nodes.JsonNode> inputs, System.Threading.CancellationToken cancellationToken = null)
+  BoundFunction: public virtual System.Threading.Tasks.ValueTask DisposeAsync()
+sealed class Busy : JeffError (System.Runtime.Serialization.ISerializable)
+  Busy: public .ctor(System.String message, System.Text.Json.Nodes.JsonObject details = null)
+  Busy: public System.Double RetryAfterS { get; }
+sealed class Calibration (System.IEquatable<Calibration>)
+  Calibration: public .ctor(System.String Data, System.Int64 Rows, System.Double TargetPrecision, System.Double Threshold, System.Double PrecisionAtThreshold, System.Double CoverageAtThreshold, DataMirror DataMirror, System.String Excluded)
+  Calibration: public Calibration <Clone>$()
+  Calibration: public DataMirror DataMirror { get; init; }
+  Calibration: public System.Boolean Equals(Calibration other)
+  Calibration: public System.Double CoverageAtThreshold { get; init; }
+  Calibration: public System.Double PrecisionAtThreshold { get; init; }
+  Calibration: public System.Double TargetPrecision { get; init; }
+  Calibration: public System.Double Threshold { get; init; }
+  Calibration: public System.Int64 Rows { get; init; }
+  Calibration: public System.String Data { get; init; }
+  Calibration: public System.String Excluded { get; init; }
+  Calibration: public System.Void Deconstruct(out System.String Data, out System.Int64 Rows, out System.Double TargetPrecision, out System.Double Threshold, out System.Double PrecisionAtThreshold, out System.Double CoverageAtThreshold, out DataMirror DataMirror, out System.String Excluded)
+  Calibration: public override System.Boolean Equals(System.Object obj)
+  Calibration: public override System.Int32 GetHashCode()
+  Calibration: public override System.String ToString()
+  Calibration: public static System.Boolean op_Equality(Calibration left, Calibration right)
+  Calibration: public static System.Boolean op_Inequality(Calibration left, Calibration right)
+sealed class CalibrationError : JeffError (System.Runtime.Serialization.ISerializable)
+  CalibrationError: public .ctor(System.String message, System.Text.Json.Nodes.JsonObject details = null)
+sealed class Call
+  Call: public .ctor(System.String function, System.Text.Json.Nodes.JsonNode input, System.Text.Json.Nodes.JsonObject context = null, System.Text.Json.Nodes.JsonNode labels = null)
+  Call: public System.String Function { get; }
+  Call: public System.Text.Json.Nodes.JsonNode Input { get; }
+  Call: public System.Text.Json.Nodes.JsonNode Labels { get; }
+  Call: public System.Text.Json.Nodes.JsonObject Context { get; }
+class CallOptions
+  CallOptions: public .ctor()
+  CallOptions: public Policy OnLowConfidence { get; init; }
+  CallOptions: public System.Text.Json.Nodes.JsonNode Labels { get; init; }
+  CallOptions: public System.Text.Json.Nodes.JsonObject Context { get; init; }
+sealed class Catalogue
+  Catalogue: public .ctor(System.Collections.Generic.IEnumerable<Manifest> manifests, System.Text.Json.Nodes.JsonObject bases)
+  Catalogue: public Catalogue Replacing(System.Collections.Generic.IEnumerable<Manifest> manifests)
+  Catalogue: public FunctionSpec Function(System.String reference)
+  Catalogue: public Manifest Adapter(System.String reference)
+  Catalogue: public Manifest ManifestOf(FunctionSpec fn)
+  Catalogue: public System.Collections.Generic.IReadOnlyList<FunctionSpec> Implementing(System.String iface)
+  Catalogue: public System.Collections.Generic.IReadOnlyList<Manifest> Manifests()
+  Catalogue: public System.Collections.Generic.IReadOnlyList<System.ValueTuple<System.String, System.String>> BaseVersions()
+  Catalogue: public System.Collections.Generic.IReadOnlySet<System.String> Names()
+  Catalogue: public System.Text.Json.Nodes.JsonObject Base(System.String baseId, System.String version)
+  Catalogue: public System.Text.Json.Nodes.JsonObject Bases { get; }
+  Catalogue: public static Catalogue FromDir(System.String path)
+  Catalogue: public static Catalogue Shipped()
+sealed class ChannelBoundFunction : RemoteBoundFunction (System.IAsyncDisposable)
+  ChannelBoundFunction: protected override System.Void Finalize()
+  ChannelBoundFunction: public override System.Threading.Tasks.Task<Decision> CallAsync(System.Text.Json.Nodes.JsonNode input, System.Threading.CancellationToken cancellationToken = null)
+  ChannelBoundFunction: public override System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<Decision>> ManyAsync(System.Collections.Generic.IReadOnlyList<System.Text.Json.Nodes.JsonNode> inputs, System.Threading.CancellationToken cancellationToken = null)
+  ChannelBoundFunction: public override System.Threading.Tasks.ValueTask DisposeAsync()
+sealed class ChannelJeffClient : RemoteJeffClient (IDecider, System.IAsyncDisposable)
+  ChannelJeffClient: protected override System.Void Finalize()
+  ChannelJeffClient: public override System.Threading.Tasks.Task<BoundFunction> FunctionAsync(System.String reference, CallOptions options = null, System.Threading.CancellationToken cancellationToken = null)
+  ChannelJeffClient: public override System.Threading.Tasks.ValueTask DisposeAsync()
+sealed class CodeCall (System.IEquatable<CodeCall>)
+  CodeCall: public .ctor(System.Text.Json.Nodes.JsonNode Input, System.Text.Json.Nodes.JsonObject Params, OrderedMap<NodeResult> Nodes)
+  CodeCall: public CodeCall <Clone>$()
+  CodeCall: public OrderedMap<NodeResult> Nodes { get; init; }
+  CodeCall: public System.Boolean Equals(CodeCall other)
+  CodeCall: public System.Text.Json.Nodes.JsonNode Input { get; init; }
+  CodeCall: public System.Text.Json.Nodes.JsonObject Params { get; init; }
+  CodeCall: public System.Void Deconstruct(out System.Text.Json.Nodes.JsonNode Input, out System.Text.Json.Nodes.JsonObject Params, out OrderedMap<NodeResult> Nodes)
+  CodeCall: public override System.Boolean Equals(System.Object obj)
+  CodeCall: public override System.Int32 GetHashCode()
+  CodeCall: public override System.String ToString()
+  CodeCall: public static System.Boolean op_Equality(CodeCall left, CodeCall right)
+  CodeCall: public static System.Boolean op_Inequality(CodeCall left, CodeCall right)
+delegate CodeFunction (System.ICloneable, System.Runtime.Serialization.ISerializable)
+  CodeFunction: public .ctor(System.Object object, System.IntPtr method)
+  CodeFunction: public virtual System.IAsyncResult BeginInvoke(CodeCall call, System.Threading.CancellationToken cancellationToken, System.AsyncCallback callback, System.Object object)
+  CodeFunction: public virtual System.Threading.Tasks.Task<System.Text.Json.Nodes.JsonNode> EndInvoke(System.IAsyncResult result)
+  CodeFunction: public virtual System.Threading.Tasks.Task<System.Text.Json.Nodes.JsonNode> Invoke(CodeCall call, System.Threading.CancellationToken cancellationToken)
+sealed class CodeResult : NodeResult (System.IEquatable<CodeResult>, System.IEquatable<NodeResult>)
+  CodeResult: protected override System.Boolean PrintMembers(System.Text.StringBuilder builder)
+  CodeResult: protected override System.Type EqualityContract { get; }
+  CodeResult: public .ctor(System.Text.Json.Nodes.JsonNode Value)
+  CodeResult: public System.Boolean Equals(CodeResult other)
+  CodeResult: public System.Text.Json.Nodes.JsonNode Value { get; init; }
+  CodeResult: public System.Void Deconstruct(out System.Text.Json.Nodes.JsonNode Value)
+  CodeResult: public override System.Boolean Equals(System.Object obj)
+  CodeResult: public override System.Int32 GetHashCode()
+  CodeResult: public override System.String ToString()
+  CodeResult: public override System.Text.Json.Nodes.JsonObject ToJson()
+  CodeResult: public sealed override System.Boolean Equals(NodeResult other)
+  CodeResult: public static System.Boolean op_Equality(CodeResult left, CodeResult right)
+  CodeResult: public static System.Boolean op_Inequality(CodeResult left, CodeResult right)
+  CodeResult: public virtual CodeResult <Clone>$()
+sealed class Conflict : JeffError (System.Runtime.Serialization.ISerializable)
+  Conflict: public .ctor(System.String message, System.Text.Json.Nodes.JsonObject details = null)
+sealed class ContextField (System.IEquatable<ContextField>)
+  ContextField: public .ctor(System.String Key, System.String Description, System.Boolean Required, System.String CodeName)
+  ContextField: public ContextField <Clone>$()
+  ContextField: public System.Boolean Equals(ContextField other)
+  ContextField: public System.Boolean Required { get; init; }
+  ContextField: public System.String CodeName { get; init; }
+  ContextField: public System.String Description { get; init; }
+  ContextField: public System.String Key { get; init; }
+  ContextField: public System.Void Deconstruct(out System.String Key, out System.String Description, out System.Boolean Required, out System.String CodeName)
+  ContextField: public override System.Boolean Equals(System.Object obj)
+  ContextField: public override System.Int32 GetHashCode()
+  ContextField: public override System.String ToString()
+  ContextField: public static System.Boolean op_Equality(ContextField left, ContextField right)
+  ContextField: public static System.Boolean op_Inequality(ContextField left, ContextField right)
+sealed class ContractError : JeffError (System.Runtime.Serialization.ISerializable)
+  ContractError: public .ctor(System.String message, System.Text.Json.Nodes.JsonObject details = null)
+sealed class DataMirror (System.IEquatable<DataMirror>)
+  DataMirror: public .ctor(System.String Path, System.String Sha256)
+  DataMirror: public DataMirror <Clone>$()
+  DataMirror: public System.Boolean Equals(DataMirror other)
+  DataMirror: public System.String Path { get; init; }
+  DataMirror: public System.String Sha256 { get; init; }
+  DataMirror: public System.Void Deconstruct(out System.String Path, out System.String Sha256)
+  DataMirror: public override System.Boolean Equals(System.Object obj)
+  DataMirror: public override System.Int32 GetHashCode()
+  DataMirror: public override System.String ToString()
+  DataMirror: public static System.Boolean op_Equality(DataMirror left, DataMirror right)
+  DataMirror: public static System.Boolean op_Inequality(DataMirror left, DataMirror right)
+sealed class DeadlineExceeded : JeffError (System.Runtime.Serialization.ISerializable)
+  DeadlineExceeded: public .ctor(System.String message, System.Text.Json.Nodes.JsonObject details = null)
+sealed class Decision (System.IEquatable<Decision>)
+  Decision: public .ctor()
+  Decision: public Decision <Clone>$()
+  Decision: public OrderedMap<System.Double> Probabilities { get; init; }
+  Decision: public System.Boolean Abstained { get; init; }
+  Decision: public System.Boolean Calibrated { get; init; }
+  Decision: public System.Boolean Equals(Decision other)
+  Decision: public System.Collections.Generic.IReadOnlyList<EscalationRecord> Escalations { get; init; }
+  Decision: public System.Collections.Generic.IReadOnlyList<RouteStep> Route { get; init; }
+  Decision: public System.Collections.Generic.IReadOnlyList<System.String> EvidenceRefs { get; init; }
+  Decision: public System.Double? Confidence { get; init; }
+  Decision: public System.Double? Score { get; init; }
+  Decision: public System.String DecidedBy { get; init; }
+  Decision: public System.String Function { get; init; }
+  Decision: public System.String Interface { get; init; }
+  Decision: public System.String Version { get; init; }
+  Decision: public System.Text.Json.Nodes.JsonObject Timing { get; init; }
+  Decision: public System.Text.Json.Nodes.JsonObject ToJson()
+  Decision: public System.Text.Json.Nodes.JsonValue Value { get; init; }
+  Decision: public override System.Boolean Equals(System.Object obj)
+  Decision: public override System.Int32 GetHashCode()
+  Decision: public override System.String ToString()
+  Decision: public static Decision FromJson(System.Text.Json.Nodes.JsonObject data)
+  Decision: public static System.Boolean op_Equality(Decision left, Decision right)
+  Decision: public static System.Boolean op_Inequality(Decision left, Decision right)
+sealed class DecisionResult : NodeResult (System.IEquatable<DecisionResult>, System.IEquatable<NodeResult>)
+  DecisionResult: protected override System.Boolean PrintMembers(System.Text.StringBuilder builder)
+  DecisionResult: protected override System.Type EqualityContract { get; }
+  DecisionResult: public .ctor(Decision Decision)
+  DecisionResult: public Decision Decision { get; init; }
+  DecisionResult: public System.Boolean Equals(DecisionResult other)
+  DecisionResult: public System.Void Deconstruct(out Decision Decision)
+  DecisionResult: public override System.Boolean Equals(System.Object obj)
+  DecisionResult: public override System.Int32 GetHashCode()
+  DecisionResult: public override System.String ToString()
+  DecisionResult: public override System.Text.Json.Nodes.JsonObject ToJson()
+  DecisionResult: public sealed override System.Boolean Equals(NodeResult other)
+  DecisionResult: public static System.Boolean op_Equality(DecisionResult left, DecisionResult right)
+  DecisionResult: public static System.Boolean op_Inequality(DecisionResult left, DecisionResult right)
+  DecisionResult: public virtual DecisionResult <Clone>$()
+sealed class DispatchOptions : CallOptions
+  DispatchOptions: public .ctor()
+  DispatchOptions: public System.String Interface { get; init; }
+  DispatchOptions: public System.String Router { get; init; }
+sealed class EngineError : JeffError (System.Runtime.Serialization.ISerializable)
+  EngineError: public .ctor(System.String message, System.Text.Json.Nodes.JsonObject details = null)
+sealed class EngineResult (System.IEquatable<EngineResult>)
+  EngineResult: public .ctor(System.Collections.Generic.IReadOnlyList<System.Collections.Generic.IReadOnlyList<System.Double>> Probabilities, System.Text.Json.Nodes.JsonObject Timing, System.Collections.Generic.IReadOnlyList<System.Int64> InputTokens)
+  EngineResult: public EngineResult <Clone>$()
+  EngineResult: public System.Boolean Equals(EngineResult other)
+  EngineResult: public System.Collections.Generic.IReadOnlyList<System.Collections.Generic.IReadOnlyList<System.Double>> Probabilities { get; init; }
+  EngineResult: public System.Collections.Generic.IReadOnlyList<System.Int64> InputTokens { get; init; }
+  EngineResult: public System.Text.Json.Nodes.JsonObject Timing { get; init; }
+  EngineResult: public System.Void Deconstruct(out System.Collections.Generic.IReadOnlyList<System.Collections.Generic.IReadOnlyList<System.Double>> Probabilities, out System.Text.Json.Nodes.JsonObject Timing, out System.Collections.Generic.IReadOnlyList<System.Int64> InputTokens)
+  EngineResult: public override System.Boolean Equals(System.Object obj)
+  EngineResult: public override System.Int32 GetHashCode()
+  EngineResult: public override System.String ToString()
+  EngineResult: public static System.Boolean op_Equality(EngineResult left, EngineResult right)
+  EngineResult: public static System.Boolean op_Inequality(EngineResult left, EngineResult right)
+sealed class EscalatePolicy : Policy (System.IEquatable<EscalatePolicy>, System.IEquatable<Policy>)
+  EscalatePolicy: protected override System.Boolean PrintMembers(System.Text.StringBuilder builder)
+  EscalatePolicy: protected override System.Type EqualityContract { get; }
+  EscalatePolicy: public .ctor(System.Collections.Generic.IReadOnlyList<Step> Steps, System.TimeSpan? Budget)
+  EscalatePolicy: public System.Boolean Equals(EscalatePolicy other)
+  EscalatePolicy: public System.Collections.Generic.IReadOnlyList<Step> Steps { get; init; }
+  EscalatePolicy: public System.TimeSpan? Budget { get; init; }
+  EscalatePolicy: public System.Void Deconstruct(out System.Collections.Generic.IReadOnlyList<Step> Steps, out System.TimeSpan? Budget)
+  EscalatePolicy: public override System.Boolean Equals(System.Object obj)
+  EscalatePolicy: public override System.Int32 GetHashCode()
+  EscalatePolicy: public override System.String ToString()
+  EscalatePolicy: public sealed override System.Boolean Equals(Policy other)
+  EscalatePolicy: public static System.Boolean op_Equality(EscalatePolicy left, EscalatePolicy right)
+  EscalatePolicy: public static System.Boolean op_Inequality(EscalatePolicy left, EscalatePolicy right)
+  EscalatePolicy: public virtual EscalatePolicy <Clone>$()
+sealed class EscalationBudgetExceeded : JeffError (System.Runtime.Serialization.ISerializable)
+  EscalationBudgetExceeded: public .ctor(System.String message, System.Text.Json.Nodes.JsonObject details = null)
+sealed class EscalationFailed : JeffError (System.Runtime.Serialization.ISerializable)
+  EscalationFailed: public .ctor(System.String message, System.Text.Json.Nodes.JsonObject details = null, System.Exception innerException = null)
+  EscalationFailed: public System.String Step { get; }
+sealed class EscalationRecord (System.IEquatable<EscalationRecord>)
+  EscalationRecord: public .ctor(System.String DecidedBy, System.Text.Json.Nodes.JsonValue Value, System.Double? Confidence, System.String Reason)
+  EscalationRecord: public EscalationRecord <Clone>$()
+  EscalationRecord: public System.Boolean Equals(EscalationRecord other)
+  EscalationRecord: public System.Double? Confidence { get; init; }
+  EscalationRecord: public System.String DecidedBy { get; init; }
+  EscalationRecord: public System.String Reason { get; init; }
+  EscalationRecord: public System.Text.Json.Nodes.JsonValue Value { get; init; }
+  EscalationRecord: public System.Void Deconstruct(out System.String DecidedBy, out System.Text.Json.Nodes.JsonValue Value, out System.Double? Confidence, out System.String Reason)
+  EscalationRecord: public override System.Boolean Equals(System.Object obj)
+  EscalationRecord: public override System.Int32 GetHashCode()
+  EscalationRecord: public override System.String ToString()
+  EscalationRecord: public static System.Boolean op_Equality(EscalationRecord left, EscalationRecord right)
+  EscalationRecord: public static System.Boolean op_Inequality(EscalationRecord left, EscalationRecord right)
+sealed class FactoryOff : JeffError (System.Runtime.Serialization.ISerializable)
+  FactoryOff: public .ctor(System.String message, System.Text.Json.Nodes.JsonObject details = null)
+sealed class FunctionSpec (System.IEquatable<FunctionSpec>)
+  FunctionSpec: public .ctor(System.String AdapterId, System.String Key, System.String Id, System.String Interface, QuestionType Type, System.String Instructions, LabelSpec Labels, System.Collections.Generic.IReadOnlyList<System.String> AbstainLabels, Calibration Calibration, System.Collections.Generic.IReadOnlyList<ContextField> Context, InputField Input, OrderedMap<Calibration> CalibrationByFormat)
+  FunctionSpec: public Calibration Calibration { get; init; }
+  FunctionSpec: public FunctionSpec <Clone>$()
+  FunctionSpec: public InputField Input { get; init; }
+  FunctionSpec: public LabelSpec Labels { get; init; }
+  FunctionSpec: public OrderedMap<Calibration> CalibrationByFormat { get; init; }
+  FunctionSpec: public QuestionType Type { get; init; }
+  FunctionSpec: public System.Boolean Equals(FunctionSpec other)
+  FunctionSpec: public System.Collections.Generic.IReadOnlyList<ContextField> Context { get; init; }
+  FunctionSpec: public System.Collections.Generic.IReadOnlyList<System.String> AbstainLabels { get; init; }
+  FunctionSpec: public System.String AdapterId { get; init; }
+  FunctionSpec: public System.String Id { get; init; }
+  FunctionSpec: public System.String Instructions { get; init; }
+  FunctionSpec: public System.String Interface { get; init; }
+  FunctionSpec: public System.String Key { get; init; }
+  FunctionSpec: public System.Void Deconstruct(out System.String AdapterId, out System.String Key, out System.String Id, out System.String Interface, out QuestionType Type, out System.String Instructions, out LabelSpec Labels, out System.Collections.Generic.IReadOnlyList<System.String> AbstainLabels, out Calibration Calibration, out System.Collections.Generic.IReadOnlyList<ContextField> Context, out InputField Input, out OrderedMap<Calibration> CalibrationByFormat)
+  FunctionSpec: public override System.Boolean Equals(System.Object obj)
+  FunctionSpec: public override System.Int32 GetHashCode()
+  FunctionSpec: public override System.String ToString()
+  FunctionSpec: public static System.Boolean op_Equality(FunctionSpec left, FunctionSpec right)
+  FunctionSpec: public static System.Boolean op_Inequality(FunctionSpec left, FunctionSpec right)
+sealed class FunctionStep : Step (System.IEquatable<FunctionStep>, System.IEquatable<Step>)
+  FunctionStep: protected override System.Boolean PrintMembers(System.Text.StringBuilder builder)
+  FunctionStep: protected override System.Type EqualityContract { get; }
+  FunctionStep: public System.Boolean Equals(FunctionStep other)
+  FunctionStep: public System.String Ref { get; }
+  FunctionStep: public override System.Boolean Equals(System.Object obj)
+  FunctionStep: public override System.Int32 GetHashCode()
+  FunctionStep: public override System.String ToString()
+  FunctionStep: public sealed override System.Boolean Equals(Step other)
+  FunctionStep: public static System.Boolean op_Equality(FunctionStep left, FunctionStep right)
+  FunctionStep: public static System.Boolean op_Inequality(FunctionStep left, FunctionStep right)
+  FunctionStep: public virtual FunctionStep <Clone>$()
+sealed class Graph (System.IEquatable<Graph>)
+  Graph: public .ctor(System.String Id, System.String Version, System.String Input, System.Collections.Generic.IReadOnlyList<System.String> Params, OrderedMap<GraphNode> Nodes, System.Collections.Generic.IReadOnlyList<System.String> Outputs, System.Collections.Generic.IReadOnlyList<System.String> Order)
+  Graph: public Graph <Clone>$()
+  Graph: public OrderedMap<GraphNode> Nodes { get; init; }
+  Graph: public System.Boolean Equals(Graph other)
+  Graph: public System.Collections.Generic.IReadOnlyList<System.String> Order { get; init; }
+  Graph: public System.Collections.Generic.IReadOnlyList<System.String> Outputs { get; init; }
+  Graph: public System.Collections.Generic.IReadOnlyList<System.String> Params { get; init; }
+  Graph: public System.String Id { get; init; }
+  Graph: public System.String Input { get; init; }
+  Graph: public System.String Version { get; init; }
+  Graph: public System.Void Deconstruct(out System.String Id, out System.String Version, out System.String Input, out System.Collections.Generic.IReadOnlyList<System.String> Params, out OrderedMap<GraphNode> Nodes, out System.Collections.Generic.IReadOnlyList<System.String> Outputs, out System.Collections.Generic.IReadOnlyList<System.String> Order)
+  Graph: public override System.Boolean Equals(System.Object obj)
+  Graph: public override System.Int32 GetHashCode()
+  Graph: public override System.String ToString()
+  Graph: public static System.Boolean op_Equality(Graph left, Graph right)
+  Graph: public static System.Boolean op_Inequality(Graph left, Graph right)
+sealed class GraphError : JeffError (System.Runtime.Serialization.ISerializable)
+  GraphError: public .ctor(System.String message, System.Text.Json.Nodes.JsonObject details = null, System.Exception innerException = null)
+sealed class GraphNode (System.IEquatable<GraphNode>)
+  GraphNode: public .ctor(System.String Name, System.String Call, System.String Code, System.Collections.Generic.IReadOnlyList<System.String> After, OrderedMap<System.String> Context, System.String Labels, System.Text.Json.Nodes.JsonObject When, System.String OnLowConfidence)
+  GraphNode: public GraphNode <Clone>$()
+  GraphNode: public OrderedMap<System.String> Context { get; init; }
+  GraphNode: public System.Boolean Equals(GraphNode other)
+  GraphNode: public System.Collections.Generic.IReadOnlyList<System.String> After { get; init; }
+  GraphNode: public System.String Call { get; init; }
+  GraphNode: public System.String Code { get; init; }
+  GraphNode: public System.String Labels { get; init; }
+  GraphNode: public System.String Name { get; init; }
+  GraphNode: public System.String OnLowConfidence { get; init; }
+  GraphNode: public System.Text.Json.Nodes.JsonObject When { get; init; }
+  GraphNode: public System.Void Deconstruct(out System.String Name, out System.String Call, out System.String Code, out System.Collections.Generic.IReadOnlyList<System.String> After, out OrderedMap<System.String> Context, out System.String Labels, out System.Text.Json.Nodes.JsonObject When, out System.String OnLowConfidence)
+  GraphNode: public override System.Boolean Equals(System.Object obj)
+  GraphNode: public override System.Int32 GetHashCode()
+  GraphNode: public override System.String ToString()
+  GraphNode: public static System.Boolean op_Equality(GraphNode left, GraphNode right)
+  GraphNode: public static System.Boolean op_Inequality(GraphNode left, GraphNode right)
+sealed class GraphResult
+  GraphResult: public .ctor(OrderedMap<NodeResult> nodes, OrderedMap<NodeResult> outputs, System.Int64 stages)
+  GraphResult: public OrderedMap<NodeResult> Nodes { get; }
+  GraphResult: public OrderedMap<NodeResult> Outputs { get; }
+  GraphResult: public System.Int64 Stages { get; }
+  GraphResult: public System.Text.Json.Nodes.JsonObject ToJson()
+  GraphResult: public static GraphResult FromJson(System.Text.Json.Nodes.JsonObject data)
+static class Graphs
+  Graphs: public const System.Int32 MaxDepth
+  Graphs: public static Graph FromDict(System.Text.Json.Nodes.JsonNode raw, System.String where)
+  Graphs: public static Graph Load(System.String path)
+  Graphs: public static System.Collections.Generic.HashSet<System.String> Dependencies(GraphNode node)
+  Graphs: public static System.Text.Json.Nodes.JsonObject ToDict(Graph graph)
+interface IDecider
+  IDecider: public abstract System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<Decision>> DecideAsync(System.Collections.Generic.IReadOnlyList<Call> calls, System.Threading.CancellationToken cancellationToken = null)
+interface IEngine (System.IAsyncDisposable)
+  IEngine: public abstract BaseFormat BaseFormat { get; }
+  IEngine: public abstract System.Threading.Tasks.Task<EngineResult> PredictAsync(System.String adapterId, System.Collections.Generic.IReadOnlyList<Row> rows, System.Threading.CancellationToken cancellationToken = null)
+  IEngine: public abstract System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlySet<System.String>> InstalledAsync(System.Boolean refresh = False, System.Threading.CancellationToken cancellationToken = null)
+sealed class InputField (System.IEquatable<InputField>)
+  InputField: public .ctor(System.String Key, System.String Description, System.String CodeName, System.String Form)
+  InputField: public InputField <Clone>$()
+  InputField: public System.Boolean Equals(InputField other)
+  InputField: public System.String CodeName { get; init; }
+  InputField: public System.String Description { get; init; }
+  InputField: public System.String Form { get; init; }
+  InputField: public System.String Key { get; init; }
+  InputField: public System.Void Deconstruct(out System.String Key, out System.String Description, out System.String CodeName, out System.String Form)
+  InputField: public override System.Boolean Equals(System.Object obj)
+  InputField: public override System.Int32 GetHashCode()
+  InputField: public override System.String ToString()
+  InputField: public static System.Boolean op_Equality(InputField left, InputField right)
+  InputField: public static System.Boolean op_Inequality(InputField left, InputField right)
+sealed class InputTooLong : JeffError (System.Runtime.Serialization.ISerializable)
+  InputTooLong: public .ctor(System.String message, System.Text.Json.Nodes.JsonObject details = null)
+sealed class InterfaceMismatch : JeffError (System.Runtime.Serialization.ISerializable)
+  InterfaceMismatch: public .ctor(System.String message, System.Text.Json.Nodes.JsonObject details = null)
+sealed class InvalidLabels : JeffError (System.Runtime.Serialization.ISerializable)
+  InvalidLabels: public .ctor(System.String message, System.Text.Json.Nodes.JsonObject details = null)
+sealed class InvalidPolicy : JeffError (System.Runtime.Serialization.ISerializable)
+  InvalidPolicy: public .ctor(System.String message, System.Text.Json.Nodes.JsonObject details = null)
+sealed class InvalidReference : JeffError (System.Runtime.Serialization.ISerializable)
+  InvalidReference: public .ctor(System.String message, System.Text.Json.Nodes.JsonObject details = null)
+sealed class InvalidRequest : JeffError (System.Runtime.Serialization.ISerializable)
+  InvalidRequest: public .ctor(System.String message, System.Text.Json.Nodes.JsonObject details = null)
+class JeffClient (IDecider, System.IAsyncDisposable)
+  JeffClient: public BaseFormat BaseFormat { get; }
+  JeffClient: public Catalogue Catalogue { get; }
+  JeffClient: public IEngine Engine { get; }
+  JeffClient: public System.String FormatId { get; }
+  JeffClient: public System.Threading.Tasks.Task<Decision> ClassifyAsync(System.Text.Json.Nodes.JsonNode input, ShorthandOptions options = null, System.Threading.CancellationToken cancellationToken = null)
+  JeffClient: public System.Threading.Tasks.Task<Decision> DetectAsync(System.Text.Json.Nodes.JsonNode input, ShorthandOptions options = null, System.Threading.CancellationToken cancellationToken = null)
+  JeffClient: public System.Threading.Tasks.Task<Decision> EquivalentAsync(System.Text.Json.Nodes.JsonNode input, ShorthandOptions options = null, System.Threading.CancellationToken cancellationToken = null)
+  JeffClient: public System.Threading.Tasks.Task<Decision> IsSupportedAsync(System.Text.Json.Nodes.JsonNode input, ShorthandOptions options = null, System.Threading.CancellationToken cancellationToken = null)
+  JeffClient: public System.Threading.Tasks.Task<Decision> RateAsync(System.Text.Json.Nodes.JsonNode input, ShorthandOptions options = null, System.Threading.CancellationToken cancellationToken = null)
+  JeffClient: public System.Threading.Tasks.Task<Decision> RequiresEscalationAsync(System.Text.Json.Nodes.JsonNode input, ShorthandOptions options = null, System.Threading.CancellationToken cancellationToken = null)
+  JeffClient: public System.Threading.Tasks.Task<Decision> RouteAsync(System.Text.Json.Nodes.JsonNode input, ShorthandOptions options = null, System.Threading.CancellationToken cancellationToken = null)
+  JeffClient: public System.Threading.Tasks.Task<GraphResult> RunGraphAsync(System.String path, System.Text.Json.Nodes.JsonNode input, System.Text.Json.Nodes.JsonObject parameters, System.Collections.Generic.IReadOnlyDictionary<System.String, CodeFunction> code = null, System.Collections.Generic.IReadOnlyDictionary<System.String, Policy> policies = null, System.Threading.CancellationToken cancellationToken = null)
+  JeffClient: public System.Threading.Tasks.Task<GraphResult> RunGraphAsync(System.Text.Json.Nodes.JsonObject document, System.Text.Json.Nodes.JsonNode input, System.Text.Json.Nodes.JsonObject parameters, System.Collections.Generic.IReadOnlyDictionary<System.String, CodeFunction> code = null, System.Collections.Generic.IReadOnlyDictionary<System.String, Policy> policies = null, System.Threading.CancellationToken cancellationToken = null)
+  JeffClient: public static System.Threading.Tasks.Task<JeffClient> CreateAsync(IEngine engine, Catalogue catalogue, System.Threading.CancellationToken cancellationToken = null)
+  JeffClient: public static System.Threading.Tasks.Task<JeffClient> LocalAsync(System.String socketPath, LocalOptions options, System.Threading.CancellationToken cancellationToken = null)
+  JeffClient: public static System.Threading.Tasks.Task<RemoteJeffClient> RemoteAsync(System.String url, TokenSource token, RemoteOptions options, System.Threading.CancellationToken cancellationToken = null)
+  JeffClient: public virtual System.Threading.Tasks.Task<BoundFunction> FunctionAsync(System.String reference, CallOptions options = null, System.Threading.CancellationToken cancellationToken = null)
+  JeffClient: public virtual System.Threading.Tasks.Task<Decision> DispatchAsync(System.Text.Json.Nodes.JsonNode input, DispatchOptions options, System.Threading.CancellationToken cancellationToken = null)
+  JeffClient: public virtual System.Threading.Tasks.Task<GraphResult> RunGraphAsync(Graph graph, System.Text.Json.Nodes.JsonNode input, System.Text.Json.Nodes.JsonObject parameters, System.Collections.Generic.IReadOnlyDictionary<System.String, CodeFunction> code = null, System.Collections.Generic.IReadOnlyDictionary<System.String, Policy> policies = null, System.Threading.CancellationToken cancellationToken = null)
+  JeffClient: public virtual System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<Decision>> DecideAsync(System.Collections.Generic.IReadOnlyList<Call> calls, System.Threading.CancellationToken cancellationToken = null)
+  JeffClient: public virtual System.Threading.Tasks.ValueTask DisposeAsync()
+class JeffError : System.Exception (System.Runtime.Serialization.ISerializable)
+  JeffError: public .ctor(System.String message, System.Text.Json.Nodes.JsonObject details = null, System.Exception innerException = null)
+  JeffError: public System.Collections.Generic.List<System.String> Notes { get; }
+  JeffError: public System.String RequestId { get; set; }
+  JeffError: public System.String Type { get; }
+  JeffError: public System.Text.Json.Nodes.JsonObject Details { get; }
+sealed class LabelSpec (System.IEquatable<LabelSpec>)
+  LabelSpec: public .ctor(System.String Source, OrderedMap<System.Text.Json.Nodes.JsonNode> Fixed, System.Collections.Generic.IReadOnlyList<System.String> Levels, OrderedMap<System.Text.Json.Nodes.JsonNode> FixedFirst, System.String CallerKeys, System.Int64? Max, System.Collections.Generic.IReadOnlyList<System.String> Required, System.Collections.Generic.IReadOnlyList<System.String> Keys, System.Boolean? Subset)
+  LabelSpec: public LabelSpec <Clone>$()
+  LabelSpec: public OrderedMap<System.Text.Json.Nodes.JsonNode> Fixed { get; init; }
+  LabelSpec: public OrderedMap<System.Text.Json.Nodes.JsonNode> FixedFirst { get; init; }
+  LabelSpec: public System.Boolean Equals(LabelSpec other)
+  LabelSpec: public System.Boolean? Subset { get; init; }
+  LabelSpec: public System.Collections.Generic.IReadOnlyList<System.String> Keys { get; init; }
+  LabelSpec: public System.Collections.Generic.IReadOnlyList<System.String> Levels { get; init; }
+  LabelSpec: public System.Collections.Generic.IReadOnlyList<System.String> Required { get; init; }
+  LabelSpec: public System.Int64? Max { get; init; }
+  LabelSpec: public System.String CallerKeys { get; init; }
+  LabelSpec: public System.String Source { get; init; }
+  LabelSpec: public System.Void Deconstruct(out System.String Source, out OrderedMap<System.Text.Json.Nodes.JsonNode> Fixed, out System.Collections.Generic.IReadOnlyList<System.String> Levels, out OrderedMap<System.Text.Json.Nodes.JsonNode> FixedFirst, out System.String CallerKeys, out System.Int64? Max, out System.Collections.Generic.IReadOnlyList<System.String> Required, out System.Collections.Generic.IReadOnlyList<System.String> Keys, out System.Boolean? Subset)
+  LabelSpec: public override System.Boolean Equals(System.Object obj)
+  LabelSpec: public override System.Int32 GetHashCode()
+  LabelSpec: public override System.String ToString()
+  LabelSpec: public static System.Boolean op_Equality(LabelSpec left, LabelSpec right)
+  LabelSpec: public static System.Boolean op_Inequality(LabelSpec left, LabelSpec right)
+sealed class LocalOptions
+  LocalOptions: public .ctor()
+  LocalOptions: public Catalogue Catalogue { get; init; }
+  LocalOptions: public System.TimeSpan Timeout { get; init; }
+sealed class LowConfidence : JeffError (System.Runtime.Serialization.ISerializable)
+  LowConfidence: public .ctor(System.String message, System.Text.Json.Nodes.JsonObject details = null)
+  LowConfidence: public Decision Decision { get; }
+sealed class Manifest (System.IEquatable<Manifest>)
+  Manifest: public .ctor(System.String Id, System.String Version, System.Collections.Generic.IReadOnlyList<System.String> Aliases, System.String LicenceKind, System.Text.Json.Nodes.JsonObject Weights, System.String BaseId, System.String BaseVersion, System.Int64 MaxOptions, System.Collections.Generic.IReadOnlyList<ContextField> Context, InputField Input, OrderedMap<FunctionSpec> Functions, System.Collections.Generic.IReadOnlyList<System.String> RoutesTo, System.Text.Json.Nodes.JsonObject Tests, System.Text.Json.Nodes.JsonObject Raw, System.String Path)
+  Manifest: public InputField Input { get; init; }
+  Manifest: public Manifest <Clone>$()
+  Manifest: public OrderedMap<FunctionSpec> Functions { get; init; }
+  Manifest: public System.Boolean Equals(Manifest other)
+  Manifest: public System.Boolean IsRouter { get; }
+  Manifest: public System.Collections.Generic.IReadOnlyList<ContextField> Context { get; init; }
+  Manifest: public System.Collections.Generic.IReadOnlyList<System.String> Aliases { get; init; }
+  Manifest: public System.Collections.Generic.IReadOnlyList<System.String> RoutesTo { get; init; }
+  Manifest: public System.Int64 MaxOptions { get; init; }
+  Manifest: public System.String BaseId { get; init; }
+  Manifest: public System.String BaseVersion { get; init; }
+  Manifest: public System.String Id { get; init; }
+  Manifest: public System.String LicenceKind { get; init; }
+  Manifest: public System.String Path { get; init; }
+  Manifest: public System.String Version { get; init; }
+  Manifest: public System.Text.Json.Nodes.JsonObject Raw { get; init; }
+  Manifest: public System.Text.Json.Nodes.JsonObject Tests { get; init; }
+  Manifest: public System.Text.Json.Nodes.JsonObject Weights { get; init; }
+  Manifest: public System.Void Deconstruct(out System.String Id, out System.String Version, out System.Collections.Generic.IReadOnlyList<System.String> Aliases, out System.String LicenceKind, out System.Text.Json.Nodes.JsonObject Weights, out System.String BaseId, out System.String BaseVersion, out System.Int64 MaxOptions, out System.Collections.Generic.IReadOnlyList<ContextField> Context, out InputField Input, out OrderedMap<FunctionSpec> Functions, out System.Collections.Generic.IReadOnlyList<System.String> RoutesTo, out System.Text.Json.Nodes.JsonObject Tests, out System.Text.Json.Nodes.JsonObject Raw, out System.String Path)
+  Manifest: public override System.Boolean Equals(System.Object obj)
+  Manifest: public override System.Int32 GetHashCode()
+  Manifest: public override System.String ToString()
+  Manifest: public static Calibration CalibrationFor(FunctionSpec fn, System.String formatId)
+  Manifest: public static Manifest FromDict(System.Text.Json.Nodes.JsonNode raw, System.String path)
+  Manifest: public static Manifest Load(System.String text, System.String path)
+  Manifest: public static Manifest LoadFile(System.String path)
+  Manifest: public static System.Boolean op_Equality(Manifest left, Manifest right)
+  Manifest: public static System.Boolean op_Inequality(Manifest left, Manifest right)
+  Manifest: public static System.String CodeNameOf(System.String key)
+  Manifest: public static System.String UnversionedId(System.String adapterId)
+  Manifest: public static readonly System.Text.RegularExpressions.Regex CodeName
+sealed class ManifestError : JeffError (System.Runtime.Serialization.ISerializable)
+  ManifestError: public .ctor(System.String message, System.Text.Json.Nodes.JsonObject details = null)
+sealed class MissingContext : JeffError (System.Runtime.Serialization.ISerializable)
+  MissingContext: public .ctor(System.String message, System.Text.Json.Nodes.JsonObject details = null)
+  MissingContext: public System.Collections.Generic.List<System.String> Fields { get; }
+  MissingContext: public System.String FunctionId { get; }
+sealed class MissingLabels : JeffError (System.Runtime.Serialization.ISerializable)
+  MissingLabels: public .ctor(System.String message, System.Text.Json.Nodes.JsonObject details = null)
+  MissingLabels: public System.String FunctionId { get; }
+sealed class NamedPolicy : Policy (System.IEquatable<NamedPolicy>, System.IEquatable<Policy>)
+  NamedPolicy: protected override System.Boolean PrintMembers(System.Text.StringBuilder builder)
+  NamedPolicy: protected override System.Type EqualityContract { get; }
+  NamedPolicy: public .ctor(System.String Name)
+  NamedPolicy: public System.Boolean Equals(NamedPolicy other)
+  NamedPolicy: public System.String Name { get; init; }
+  NamedPolicy: public System.Void Deconstruct(out System.String Name)
+  NamedPolicy: public override System.Boolean Equals(System.Object obj)
+  NamedPolicy: public override System.Int32 GetHashCode()
+  NamedPolicy: public override System.String ToString()
+  NamedPolicy: public sealed override System.Boolean Equals(Policy other)
+  NamedPolicy: public static System.Boolean op_Equality(NamedPolicy left, NamedPolicy right)
+  NamedPolicy: public static System.Boolean op_Inequality(NamedPolicy left, NamedPolicy right)
+  NamedPolicy: public virtual NamedPolicy <Clone>$()
+abstract class NodeResult (System.IEquatable<NodeResult>)
+  NodeResult: protected .ctor(NodeResult original)
+  NodeResult: protected virtual System.Boolean PrintMembers(System.Text.StringBuilder builder)
+  NodeResult: protected virtual System.Type EqualityContract { get; }
+  NodeResult: public abstract NodeResult <Clone>$()
+  NodeResult: public abstract System.Text.Json.Nodes.JsonObject ToJson()
+  NodeResult: public override System.Boolean Equals(System.Object obj)
+  NodeResult: public override System.Int32 GetHashCode()
+  NodeResult: public override System.String ToString()
+  NodeResult: public static NodeResult FromJson(System.Text.Json.Nodes.JsonObject data)
+  NodeResult: public static System.Boolean op_Equality(NodeResult left, NodeResult right)
+  NodeResult: public static System.Boolean op_Inequality(NodeResult left, NodeResult right)
+  NodeResult: public virtual System.Boolean Equals(NodeResult other)
+sealed class NotInstalled : JeffError (System.Runtime.Serialization.ISerializable)
+  NotInstalled: public .ctor(System.String message, System.Text.Json.Nodes.JsonObject details = null)
+  NotInstalled: public System.String FunctionId { get; }
+sealed class NotLicensed : JeffError (System.Runtime.Serialization.ISerializable)
+  NotLicensed: public .ctor(System.String message, System.Text.Json.Nodes.JsonObject details = null)
+sealed class NotReady : JeffError (System.Runtime.Serialization.ISerializable)
+  NotReady: public .ctor(System.String message, System.Text.Json.Nodes.JsonObject details = null)
+sealed class OrderedMap<TValue> (System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<System.String, TValue>>, System.Collections.Generic.IReadOnlyCollection<System.Collections.Generic.KeyValuePair<System.String, TValue>>, System.Collections.Generic.IReadOnlyList<System.Collections.Generic.KeyValuePair<System.String, TValue>>, System.Collections.IEnumerable)
+  OrderedMap<TValue>: public .ctor()
+  OrderedMap<TValue>: public .ctor(System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<System.String, TValue>> items)
+  OrderedMap<TValue>: public OrderedMap<TValue> Copy()
+  OrderedMap<TValue>: public System.Boolean ContainsKey(System.String key)
+  OrderedMap<TValue>: public System.Boolean TryGetValue(System.String key, out TValue value)
+  OrderedMap<TValue>: public System.Collections.Generic.IEnumerator<System.Collections.Generic.KeyValuePair<System.String, TValue>> GetEnumerator()
+  OrderedMap<TValue>: public System.Collections.Generic.IReadOnlyList<System.String> Keys { get; }
+  OrderedMap<TValue>: public System.Collections.Generic.IReadOnlyList<TValue> Values { get; }
+  OrderedMap<TValue>: public System.Collections.Generic.KeyValuePair<System.String, TValue> Item[System.Int32 position] { get; }
+  OrderedMap<TValue>: public System.Int32 Count { get; }
+  OrderedMap<TValue>: public TValue Item[System.String key] { get; }
+abstract class Policy (System.IEquatable<Policy>)
+  Policy: protected .ctor(Policy original)
+  Policy: protected virtual System.Boolean PrintMembers(System.Text.StringBuilder builder)
+  Policy: protected virtual System.Type EqualityContract { get; }
+  Policy: public abstract Policy <Clone>$()
+  Policy: public override System.Boolean Equals(System.Object obj)
+  Policy: public override System.Int32 GetHashCode()
+  Policy: public override System.String ToString()
+  Policy: public static EscalatePolicy Escalate(System.Collections.Generic.IReadOnlyList<Step> steps, System.TimeSpan? budget)
+  Policy: public static EscalatePolicy Escalate(params Step[] steps)
+  Policy: public static Policy Named(System.String name)
+  Policy: public static System.Boolean op_Equality(Policy left, Policy right)
+  Policy: public static System.Boolean op_Inequality(Policy left, Policy right)
+  Policy: public static readonly Policy Error
+  Policy: public static readonly Policy Return
+  Policy: public virtual System.Boolean Equals(Policy other)
+sealed class ProprietaryWeights : JeffError (System.Runtime.Serialization.ISerializable)
+  ProprietaryWeights: public .ctor(System.String message, System.Text.Json.Nodes.JsonObject details = null)
+  ProprietaryWeights: public System.String AdapterId { get; }
+sealed class ProtocolMismatch : JeffError (System.Runtime.Serialization.ISerializable)
+  ProtocolMismatch: public .ctor(System.String message, System.Text.Json.Nodes.JsonObject details = null)
+sealed class Question (System.IEquatable<Question>)
+  Question: public .ctor(System.String Function, System.String Instructions, System.Text.Json.Nodes.JsonNode State, System.Collections.Generic.IReadOnlyList<System.Collections.Generic.KeyValuePair<System.String, System.Text.Json.Nodes.JsonNode>> StateEntries, System.Collections.Generic.IReadOnlyList<System.Collections.Generic.KeyValuePair<System.String, System.Text.Json.Nodes.JsonNode>> OptionEntries)
+  Question: public Question <Clone>$()
+  Question: public System.Boolean Equals(Question other)
+  Question: public System.Collections.Generic.IReadOnlyList<System.Collections.Generic.KeyValuePair<System.String, System.Text.Json.Nodes.JsonNode>> OptionEntries { get; init; }
+  Question: public System.Collections.Generic.IReadOnlyList<System.Collections.Generic.KeyValuePair<System.String, System.Text.Json.Nodes.JsonNode>> StateEntries { get; init; }
+  Question: public System.String Function { get; init; }
+  Question: public System.String Instructions { get; init; }
+  Question: public System.Text.Json.Nodes.JsonNode State { get; init; }
+  Question: public System.Text.Json.Nodes.JsonObject Options { get; }
+  Question: public System.Text.Json.Nodes.JsonObject ToJson()
+  Question: public System.Void Deconstruct(out System.String Function, out System.String Instructions, out System.Text.Json.Nodes.JsonNode State, out System.Collections.Generic.IReadOnlyList<System.Collections.Generic.KeyValuePair<System.String, System.Text.Json.Nodes.JsonNode>> StateEntries, out System.Collections.Generic.IReadOnlyList<System.Collections.Generic.KeyValuePair<System.String, System.Text.Json.Nodes.JsonNode>> OptionEntries)
+  Question: public override System.Boolean Equals(System.Object obj)
+  Question: public override System.Int32 GetHashCode()
+  Question: public override System.String ToString()
+  Question: public static System.Boolean op_Equality(Question left, Question right)
+  Question: public static System.Boolean op_Inequality(Question left, Question right)
+enum QuestionType (System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable)
+  QuestionType: public const QuestionType Choice
+  QuestionType: public const QuestionType Noul
+  QuestionType: public const QuestionType Score
+sealed class RateLimited : JeffError (System.Runtime.Serialization.ISerializable)
+  RateLimited: public .ctor(System.String message, System.Text.Json.Nodes.JsonObject details = null)
+  RateLimited: public System.Double RetryAfterS { get; }
+class RemoteBoundFunction : BoundFunction (System.IAsyncDisposable)
+  RemoteBoundFunction: public override System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<Decision>> ManyAsync(System.Collections.Generic.IReadOnlyList<System.Text.Json.Nodes.JsonNode> inputs, System.Threading.CancellationToken cancellationToken = null)
+class RemoteJeffClient : JeffClient (IDecider, System.IAsyncDisposable)
+  RemoteJeffClient: public System.String Url { get; }
+  RemoteJeffClient: public System.Threading.Tasks.Task<GraphResult> RunServerGraphAsync(System.String graphId, System.Text.Json.Nodes.JsonNode input, System.Text.Json.Nodes.JsonObject parameters, System.Collections.Generic.IReadOnlyDictionary<System.String, Policy> policies = null, System.Threading.CancellationToken cancellationToken = null)
+  RemoteJeffClient: public override System.Threading.Tasks.Task<BoundFunction> FunctionAsync(System.String reference, CallOptions options = null, System.Threading.CancellationToken cancellationToken = null)
+  RemoteJeffClient: public override System.Threading.Tasks.Task<Decision> DispatchAsync(System.Text.Json.Nodes.JsonNode input, DispatchOptions options, System.Threading.CancellationToken cancellationToken = null)
+  RemoteJeffClient: public override System.Threading.Tasks.Task<GraphResult> RunGraphAsync(Graph graph, System.Text.Json.Nodes.JsonNode input, System.Text.Json.Nodes.JsonObject parameters, System.Collections.Generic.IReadOnlyDictionary<System.String, CodeFunction> code = null, System.Collections.Generic.IReadOnlyDictionary<System.String, Policy> policies = null, System.Threading.CancellationToken cancellationToken = null)
+  RemoteJeffClient: public override System.Threading.Tasks.ValueTask DisposeAsync()
+sealed class RemoteOptions
+  RemoteOptions: public .ctor()
+  RemoteOptions: public Catalogue Catalogue { get; init; }
+  RemoteOptions: public System.Boolean Channel { get; init; }
+  RemoteOptions: public System.TimeSpan Timeout { get; init; }
+sealed class RemoteStep : Step (System.IEquatable<RemoteStep>, System.IEquatable<Step>)
+  RemoteStep: protected override System.Boolean PrintMembers(System.Text.StringBuilder builder)
+  RemoteStep: protected override System.Type EqualityContract { get; }
+  RemoteStep: public IDecider Client { get; }
+  RemoteStep: public System.Boolean Equals(RemoteStep other)
+  RemoteStep: public override System.Boolean Equals(System.Object obj)
+  RemoteStep: public override System.Int32 GetHashCode()
+  RemoteStep: public override System.String ToString()
+  RemoteStep: public sealed override System.Boolean Equals(Step other)
+  RemoteStep: public static System.Boolean op_Equality(RemoteStep left, RemoteStep right)
+  RemoteStep: public static System.Boolean op_Inequality(RemoteStep left, RemoteStep right)
+  RemoteStep: public virtual RemoteStep <Clone>$()
+sealed class RestTransport (System.IAsyncDisposable)
+  RestTransport: public .ctor(System.String url, TokenSource token, System.TimeSpan timeout)
+  RestTransport: public System.String Url { get; }
+  RestTransport: public System.Threading.Tasks.Task<System.Text.Json.Nodes.JsonArray> DecideCallsAsync(System.Text.Json.Nodes.JsonArray calls, System.Text.Json.Nodes.JsonNode policy, System.Threading.CancellationToken cancellationToken)
+  RestTransport: public System.Threading.Tasks.ValueTask DisposeAsync()
+sealed class RouteStep (System.IEquatable<RouteStep>)
+  RouteStep: public .ctor(System.String Router, System.String Chose, System.Double Confidence)
+  RouteStep: public RouteStep <Clone>$()
+  RouteStep: public System.Boolean Equals(RouteStep other)
+  RouteStep: public System.Double Confidence { get; init; }
+  RouteStep: public System.String Chose { get; init; }
+  RouteStep: public System.String Router { get; init; }
+  RouteStep: public System.Void Deconstruct(out System.String Router, out System.String Chose, out System.Double Confidence)
+  RouteStep: public override System.Boolean Equals(System.Object obj)
+  RouteStep: public override System.Int32 GetHashCode()
+  RouteStep: public override System.String ToString()
+  RouteStep: public static System.Boolean op_Equality(RouteStep left, RouteStep right)
+  RouteStep: public static System.Boolean op_Inequality(RouteStep left, RouteStep right)
+static class Routing
+  Routing: public const System.Int32 MaxDepth
+  Routing: public const System.String DefaultRouter
+sealed class Row (System.IEquatable<Row>)
+  Row: public .ctor(System.Text.Json.Nodes.JsonNode State, RowQuestion Question)
+  Row: public Row <Clone>$()
+  Row: public RowQuestion Question { get; init; }
+  Row: public System.Boolean Equals(Row other)
+  Row: public System.Text.Json.Nodes.JsonNode State { get; init; }
+  Row: public System.Text.Json.Nodes.JsonObject ToJson()
+  Row: public System.Void Deconstruct(out System.Text.Json.Nodes.JsonNode State, out RowQuestion Question)
+  Row: public override System.Boolean Equals(System.Object obj)
+  Row: public override System.Int32 GetHashCode()
+  Row: public override System.String ToString()
+  Row: public static System.Boolean op_Equality(Row left, Row right)
+  Row: public static System.Boolean op_Inequality(Row left, Row right)
+sealed class RowQuestion (System.IEquatable<RowQuestion>)
+  RowQuestion: public .ctor(QuestionType Type, System.String Instructions, System.Text.Json.Nodes.JsonNode Criteria)
+  RowQuestion: public QuestionType Type { get; init; }
+  RowQuestion: public RowQuestion <Clone>$()
+  RowQuestion: public System.Boolean Equals(RowQuestion other)
+  RowQuestion: public System.String Instructions { get; init; }
+  RowQuestion: public System.Text.Json.Nodes.JsonNode Criteria { get; init; }
+  RowQuestion: public System.Void Deconstruct(out QuestionType Type, out System.String Instructions, out System.Text.Json.Nodes.JsonNode Criteria)
+  RowQuestion: public override System.Boolean Equals(System.Object obj)
+  RowQuestion: public override System.Int32 GetHashCode()
+  RowQuestion: public override System.String ToString()
+  RowQuestion: public static System.Boolean op_Equality(RowQuestion left, RowQuestion right)
+  RowQuestion: public static System.Boolean op_Inequality(RowQuestion left, RowQuestion right)
+sealed class RuntimeMissing : JeffError (System.Runtime.Serialization.ISerializable)
+  RuntimeMissing: public .ctor(System.String message, System.Text.Json.Nodes.JsonObject details = null)
+class ShorthandOptions : CallOptions
+  ShorthandOptions: public .ctor()
+  ShorthandOptions: public System.String Function { get; init; }
+sealed class SkippedResult : NodeResult (System.IEquatable<NodeResult>, System.IEquatable<SkippedResult>)
+  SkippedResult: protected override System.Boolean PrintMembers(System.Text.StringBuilder builder)
+  SkippedResult: protected override System.Type EqualityContract { get; }
+  SkippedResult: public .ctor(System.String Reason)
+  SkippedResult: public System.Boolean Equals(SkippedResult other)
+  SkippedResult: public System.String Reason { get; init; }
+  SkippedResult: public System.Void Deconstruct(out System.String Reason)
+  SkippedResult: public override System.Boolean Equals(System.Object obj)
+  SkippedResult: public override System.Int32 GetHashCode()
+  SkippedResult: public override System.String ToString()
+  SkippedResult: public override System.Text.Json.Nodes.JsonObject ToJson()
+  SkippedResult: public sealed override System.Boolean Equals(NodeResult other)
+  SkippedResult: public static System.Boolean op_Equality(SkippedResult left, SkippedResult right)
+  SkippedResult: public static System.Boolean op_Inequality(SkippedResult left, SkippedResult right)
+  SkippedResult: public virtual SkippedResult <Clone>$()
+sealed class SocketEngine (IEngine, System.IAsyncDisposable)
+  SocketEngine: public BaseFormat BaseFormat { get; }
+  SocketEngine: public System.Int32 Reconnects { get; }
+  SocketEngine: public System.Int64 AdaptersVersion { get; }
+  SocketEngine: public System.String Path { get; }
+  SocketEngine: public System.Threading.Tasks.Task<EngineResult> PredictAsync(System.String adapterId, System.Collections.Generic.IReadOnlyList<Row> rows, System.Int64? deadlineMs, System.Threading.CancellationToken cancellationToken = null)
+  SocketEngine: public System.Threading.Tasks.Task<EngineResult> PredictAsync(System.String adapterId, System.Collections.Generic.IReadOnlyList<Row> rows, System.Threading.CancellationToken cancellationToken = null)
+  SocketEngine: public System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlySet<System.String>> InstalledAsync(System.Boolean refresh = False, System.Threading.CancellationToken cancellationToken = null)
+  SocketEngine: public System.Threading.Tasks.Task<System.Text.Json.Nodes.JsonObject> HealthAsync(System.TimeSpan? timeout = null, System.Threading.CancellationToken cancellationToken = null)
+  SocketEngine: public System.Threading.Tasks.Task<System.Text.Json.Nodes.JsonObject> StatsAsync(System.TimeSpan? timeout = null, System.Threading.CancellationToken cancellationToken = null)
+  SocketEngine: public System.Threading.Tasks.Task<System.ValueTuple<System.Int64, System.Collections.Generic.IReadOnlySet<System.String>>> InstalledVersionAsync(System.TimeSpan? timeout = null, System.Threading.CancellationToken cancellationToken = null)
+  SocketEngine: public System.Threading.Tasks.ValueTask DisposeAsync()
+  SocketEngine: public System.TimeSpan Timeout { get; }
+  SocketEngine: public System.ValueTuple<System.String, System.String> Base { get; }
+  SocketEngine: public static System.Threading.Tasks.Task<SocketEngine> ConnectAsync(System.String path, System.TimeSpan timeout, System.Threading.CancellationToken cancellationToken = null)
+  SocketEngine: public static readonly System.TimeSpan ReconnectInterval
+abstract class Step (System.IEquatable<Step>)
+  Step: protected .ctor(Step original)
+  Step: protected virtual System.Boolean PrintMembers(System.Text.StringBuilder builder)
+  Step: protected virtual System.Type EqualityContract { get; }
+  Step: public System.String Name { get; }
+  Step: public abstract Step <Clone>$()
+  Step: public override System.Boolean Equals(System.Object obj)
+  Step: public override System.Int32 GetHashCode()
+  Step: public override System.String ToString()
+  Step: public static System.Boolean op_Equality(Step left, Step right)
+  Step: public static System.Boolean op_Inequality(Step left, Step right)
+  Step: public virtual System.Boolean Equals(Step other)
+static class Steps
+  Steps: public static AskStep Human(Ask ask)
+  Steps: public static AskStep Llm(Ask ask)
+  Steps: public static FunctionStep Function(System.String reference)
+  Steps: public static RemoteStep Remote(IDecider client)
+sealed class Jeff.Sdk.Testing.FakeEngine (IEngine, System.IAsyncDisposable)
+  Jeff.Sdk.Testing.FakeEngine: public .ctor(System.Func<System.String, Row, System.Collections.Generic.IReadOnlyList<System.Double>> answers, System.Collections.Generic.IEnumerable<System.String> installed, BaseFormat baseFormat = null)
+  Jeff.Sdk.Testing.FakeEngine: public BaseFormat BaseFormat { get; }
+  Jeff.Sdk.Testing.FakeEngine: public System.Collections.Generic.IReadOnlyList<System.ValueTuple<System.String, System.Collections.Generic.IReadOnlyList<Row>>> Calls { get; }
+  Jeff.Sdk.Testing.FakeEngine: public System.Threading.Tasks.Task<EngineResult> PredictAsync(System.String adapterId, System.Collections.Generic.IReadOnlyList<Row> rows, System.Threading.CancellationToken cancellationToken = null)
+  Jeff.Sdk.Testing.FakeEngine: public System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlySet<System.String>> InstalledAsync(System.Boolean refresh = False, System.Threading.CancellationToken cancellationToken = null)
+  Jeff.Sdk.Testing.FakeEngine: public System.Threading.Tasks.ValueTask DisposeAsync()
+static class Jeff.Sdk.Testing.Golden
+  Jeff.Sdk.Testing.Golden: public static System.Collections.Generic.IReadOnlyList<System.String> Problems(Jeff.Sdk.Testing.GoldenCase item, Decision decision, System.Double? threshold)
+sealed class Jeff.Sdk.Testing.GoldenCase (System.IEquatable<Jeff.Sdk.Testing.GoldenCase>)
+  Jeff.Sdk.Testing.GoldenCase: public .ctor(System.String Name, Call Call, System.Text.Json.Nodes.JsonObject Expected, System.Text.Json.Nodes.JsonNode Tolerance)
+  Jeff.Sdk.Testing.GoldenCase: public Call Call { get; init; }
+  Jeff.Sdk.Testing.GoldenCase: public Jeff.Sdk.Testing.GoldenCase <Clone>$()
+  Jeff.Sdk.Testing.GoldenCase: public System.Boolean Equals(Jeff.Sdk.Testing.GoldenCase other)
+  Jeff.Sdk.Testing.GoldenCase: public System.String Name { get; init; }
+  Jeff.Sdk.Testing.GoldenCase: public System.Text.Json.Nodes.JsonNode Tolerance { get; init; }
+  Jeff.Sdk.Testing.GoldenCase: public System.Text.Json.Nodes.JsonObject Expected { get; init; }
+  Jeff.Sdk.Testing.GoldenCase: public System.Void Deconstruct(out System.String Name, out Call Call, out System.Text.Json.Nodes.JsonObject Expected, out System.Text.Json.Nodes.JsonNode Tolerance)
+  Jeff.Sdk.Testing.GoldenCase: public override System.Boolean Equals(System.Object obj)
+  Jeff.Sdk.Testing.GoldenCase: public override System.Int32 GetHashCode()
+  Jeff.Sdk.Testing.GoldenCase: public override System.String ToString()
+  Jeff.Sdk.Testing.GoldenCase: public static Jeff.Sdk.Testing.GoldenCase FromJson(System.Text.Json.Nodes.JsonObject data)
+  Jeff.Sdk.Testing.GoldenCase: public static System.Boolean op_Equality(Jeff.Sdk.Testing.GoldenCase left, Jeff.Sdk.Testing.GoldenCase right)
+  Jeff.Sdk.Testing.GoldenCase: public static System.Boolean op_Inequality(Jeff.Sdk.Testing.GoldenCase left, Jeff.Sdk.Testing.GoldenCase right)
+abstract class TokenSource
+  TokenSource: public override System.String ToString()
+  TokenSource: public static TokenSource From(System.Func<System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<System.String>> current)
+  TokenSource: public static TokenSource Of(System.String token)
+  TokenSource: public static TokenSource op_Implicit(System.String token)
+sealed class TooManyHandles : JeffError (System.Runtime.Serialization.ISerializable)
+  TooManyHandles: public .ctor(System.String message, System.Text.Json.Nodes.JsonObject details = null)
+sealed class TooManyLabels : JeffError (System.Runtime.Serialization.ISerializable)
+  TooManyLabels: public .ctor(System.String message, System.Text.Json.Nodes.JsonObject details = null)
+sealed class Unauthorised : JeffError (System.Runtime.Serialization.ISerializable)
+  Unauthorised: public .ctor(System.String message, System.Text.Json.Nodes.JsonObject details = null)
+sealed class UnknownContext : JeffError (System.Runtime.Serialization.ISerializable)
+  UnknownContext: public .ctor(System.String message, System.Text.Json.Nodes.JsonObject details = null)
+sealed class UnknownFunction : JeffError (System.Runtime.Serialization.ISerializable)
+  UnknownFunction: public .ctor(System.String message, System.Text.Json.Nodes.JsonObject details = null)
+sealed class UsageLimitReached : JeffError (System.Runtime.Serialization.ISerializable)
+  UsageLimitReached: public .ctor(System.String message, System.Text.Json.Nodes.JsonObject details = null)
+  UsageLimitReached: public System.Int64 Allowance { get; }
+  UsageLimitReached: public System.Int64 Used { get; }
+  UsageLimitReached: public System.String Account { get; }
+  UsageLimitReached: public System.String PeriodEnd { get; }

@@ -1,0 +1,55 @@
+id: jeff.retrieval.section-id
+version: 1.4.0
+aliases:
+- oss-section-id
+- section-id
+licence:
+  kind: open
+  adapter: Apache-2.0
+weights:
+  open:
+    repo: mstrasser/jeff-adapter-section-id
+    revision: v1.4
+base:
+  id: jeff-base
+  version: v1.4
+  max_options: 12
+context:
+- key: document
+  description: 'What the document is: its kind and parties, one line.'
+  required: true
+input:
+  key: passage
+  description: The passage's text.
+  form: fields
+functions:
+  section:
+    interface: classify
+    type: choice
+    instructions: 'Which section of the document is this passage from? Choose the section kind whose main purpose the passage
+      serves, using the descriptions. Judge by its content, not by topics it mentions in passing: a termination clause that
+      mentions unpaid fees is still about termination. Headings may be missing, numbered or worded differently from the section
+      names. none: the passage serves none of the listed section kinds (for example a kind of section that is not on the list),
+      even when a listed kind is similar.'
+    labels:
+      source: caller
+      fixed_first: {}
+      caller_keys: null
+      max: 11
+    abstain_labels: []
+    calibration:
+      data: hf://mstrasser/jeff-adapter-section-id@v1.4/calibration.jsonl
+      rows: 2000
+      target_precision: 0.95
+      threshold: 0.533367
+      precision_at_threshold: 0.9975
+      coverage_at_threshold: 1.0
+routes_to: []
+tests:
+  published: hf://mstrasser/jeff-adapter-section-id@v1.4/test.jsonl
+  calibration: hf://mstrasser/jeff-adapter-section-id@v1.4/calibration.jsonl
+  function_by: only
+hub:
+  title: oss-section-id
+  summary: Jeff v1.4 adapter `section-id`. Says which section of a document a passage comes from, from a list of section kinds
+    with descriptions, or none.

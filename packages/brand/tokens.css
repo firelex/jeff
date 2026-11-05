@@ -1,0 +1,55 @@
+/*
+ * The pitch deck's design tokens (jeff-pitches/main/pitch-v2.html, :root), verbatim.
+ * Consumers import this file once, from their Tailwind entry point, alongside
+ * `@import "tailwindcss"`. It defines the raw CSS custom properties AND a Tailwind 4
+ * `@theme` block that turns them into utility classes (bg-primary, rounded-card, shadow-violet, bg-grad, ...).
+ */
+
+:root {
+  --bg: #f9f9fb;
+  --panel: #ffffff;
+  --line: #e6e6ec;
+  --text: #2a2e35;
+  --soft: #4b515c;
+  --mute: #6d7380;
+  --faint: #8b909b;
+  --v: #7547fe;
+  --vd: #611fe2;
+  --vl: #f4f2ff;
+  --vb: #beb1ff;
+  --g: #059669;
+  --a: #b45309;
+  --r: #dc2626;
+  --grad: linear-gradient(78deg, #7438fe -47.47%, #d267ff 100%);
+}
+
+@theme {
+  --color-background: var(--bg);
+  --color-panel: var(--panel);
+  --color-line: var(--line);
+  --color-text: var(--text);
+  --color-soft: var(--soft);
+  --color-mute: var(--mute);
+  --color-faint: var(--faint);
+  --color-primary: var(--v);
+  --color-primary-dark: var(--vd);
+  --color-primary-light: var(--vl);
+  --color-primary-border: var(--vb);
+  --color-success: var(--g);
+  --color-warning: var(--a);
+  --color-danger: var(--r);
+
+  --radius-card: 14px;
+  --radius-button: 9px;
+  --radius-nav: 8px;
+  --radius-tag: 4px;
+  --radius-status: 5px;
+  --radius-pill: 999px;
+
+  --shadow-card: 0 1px 2px rgba(16, 24, 40, .04);
+  --shadow-violet: 0 12px 32px -12px rgba(117, 71, 254, .45);
+  --shadow-nav: 0 12px 32px -12px rgba(117, 71, 254, .35);
+  --shadow-modal: 0 20px 60px rgba(17, 24, 39, .18);
+
+  --background-image-grad: var(--grad);
+}

@@ -1,0 +1,732 @@
+# More worked examples for the support, trading desk and engineering adapters' catalogue pages (/catalogue/<adapter
+# id>): with each adapter's examples on the "Support" and "Engineering" pages (oss-support.yaml, oss-engineering.yaml)
+# and the swarm page (swarm.yaml), five cases per adapter, each with a different outcome where the adapter has several.
+# content/catalogue-examples.yaml says which page shows which and what each one shows. Format and recording:
+# scripts/hub_examples.py. The `recorded` blocks are written by `scripts/hub_examples.py --record`, never by hand.
+# Every input here was written for the page; every company and person in it is invented.
+- id: more-message-triage-route
+  name: Broken printer, who deals with it
+  function: jeff.support.message-triage.route_to
+  context:
+    recipient: &holloway_recipient
+      name: Lena Brandt
+      address: lena.brandt@hollowayarch.example
+      role: Office manager
+      organisation: Holloway Architects
+    message_kinds: &holloway_kinds
+      invoice: A supplier's bill or a question about one
+      booking: Meeting room, travel or event bookings
+      it_problem: Something broken with computers, phones or the network
+      newsletter: Bulk mail and marketing
+    routing_table: &holloway_routing
+    - key: finance
+      name: Finance team
+      address: finance@hollowayarch.example
+      topics: Supplier invoices, payments, expenses
+    - key: it
+      name: IT support
+      address: it@hollowayarch.example
+      topics: Computers, phones, printers, network and accounts
+    routing_rules: &holloway_rules
+    - Anything about a client project's fees goes to the partner on the project, never to finance.
+    now: &holloway_now Monday 2 November 2026, 09:40
+  input:
+    channel: email
+    from: tom.reyes@hollowayarch.example
+    to: lena.brandt@hollowayarch.example
+    cc: ''
+    received: Monday 2 November 2026, 09:31
+    subject: Printer on the second floor
+    body: Hi Lena, the big printer on the second floor shows "fuser error" and won't print anything. Who can fix it? Tom
+  labels:
+    finance: Finance team (supplier invoices, payments, expenses)
+    it: IT support (computers, phones, printers, network and accounts)
+    self: Lena Brandt deals with it herself
+  recorded:
+    value: it
+    confidence: 0.965
+    top_options:
+    - option: it
+      probability: 0.965
+    - option: self
+      probability: 0.03
+    - option: finance
+      probability: 0.005
+    server: v1.4
+    at: '2026-11-04'
+- id: more-message-triage-booking
+  name: Meeting room request, sorted by kind
+  function: jeff.support.message-triage.intent
+  context:
+    recipient: *holloway_recipient
+    message_kinds: *holloway_kinds
+    routing_table: *holloway_routing
+    routing_rules: *holloway_rules
+    now: *holloway_now
+  input:
+    channel: email
+    from: ada.mensah@hollowayarch.example
+    to: lena.brandt@hollowayarch.example
+    cc: ''
+    received: Monday 2 November 2026, 09:12
+    subject: Room for Thursday
+    body: Morning Lena, could you book the big meeting room for Thursday from 2 to 4 pm? I have the Ashgrove Homes team coming in. Thanks, Ada
+  labels:
+    invoice: A supplier's bill or a question about one
+    booking: Meeting room, travel or event bookings
+    it_problem: Something broken with computers, phones or the network
+    newsletter: Bulk mail and marketing
+  recorded:
+    value: booking
+    confidence: 0.999
+    top_options:
+    - option: booking
+      probability: 0.999
+    - option: invoice
+      probability: 0.0
+    - option: newsletter
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-04'
+- id: more-message-triage-urgency
+  name: Shared drive down before an 11:00 deadline
+  function: jeff.support.message-triage.urgency
+  context:
+    recipient: *holloway_recipient
+    message_kinds: *holloway_kinds
+    routing_table: *holloway_routing
+    routing_rules: *holloway_rules
+    now: *holloway_now
+  input:
+    channel: email
+    from: ada.mensah@hollowayarch.example
+    to: lena.brandt@hollowayarch.example
+    cc: it@hollowayarch.example
+    received: Monday 2 November 2026, 09:35
+    subject: Can't reach the project drive
+    body: Lena, nobody on the third floor can open the project drive. We have to send the Mill Brook drawings to the client by 11:00 this morning. Ada
+  recorded:
+    value: now
+    confidence: 0.941
+    top_options:
+    - option: now
+      probability: 0.941
+    - option: no_deadline
+      probability: 0.047
+    - option: today
+      probability: 0.006
+    server: v1.4
+    at: '2026-11-04'
+- id: more-requires-action-no
+  name: Thank-you note for a repaired road
+  function: jeff.support.requires-action.requires_action
+  context:
+    team: &westmoor_team
+      organisation: Westmoor Borough Council
+      name: Highways team
+    policy: &westmoor_policy
+    - The team handles potholes, damaged road signs, blocked drains on roads and broken street lights.
+    - Any report of an immediate danger to people (for example an exposed cable or a collapsed road) must be escalated to the duty officer.
+    - Bin collections and parking fines belong to other teams.
+  input:
+    from: r.osei@mailbox.example
+    to: highways@westmoor.example
+    date: 4 November 2026
+    subject: Mill Lane
+    body: Just wanted to say thanks for filling the pothole on Mill Lane so quickly. Much appreciated!
+  recorded:
+    value: 'no'
+    confidence: 0.991
+    top_options:
+    - option: 'no'
+      probability: 0.991
+    - option: unclear
+      probability: 0.007
+    - option: 'yes'
+      probability: 0.003
+    server: v1.4
+    at: '2026-11-04'
+- id: more-requires-action-other-team
+  name: Missed bin collection
+  function: jeff.support.requires-action.requires_action
+  context:
+    team: *westmoor_team
+    policy: *westmoor_policy
+  input:
+    from: j.pike@mailbox.example
+    to: highways@westmoor.example
+    date: 3 November 2026
+    subject: Bins not collected
+    body: Our street's green bins were not emptied this morning, the second week running. Please send the lorry back.
+  recorded:
+    value: 'no'
+    confidence: 0.995
+    top_options:
+    - option: 'no'
+      probability: 0.995
+    - option: unclear
+      probability: 0.004
+    - option: 'yes'
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-04'
+- id: more-requires-action-escalate
+  name: Exposed cable by a school
+  function: jeff.support.requires-action.requires_escalation
+  context:
+    team: *westmoor_team
+    policy: *westmoor_policy
+  input:
+    from: head@westmoorprimary.example
+    to: highways@westmoor.example
+    date: 3 November 2026
+    subject: Live cable on the pavement
+    body: A street light outside our school gate has been knocked over and there are bare wires on the pavement. Children arrive in 30 minutes.
+  recorded:
+    value: 'yes'
+    confidence: 0.996
+    top_options:
+    - option: 'yes'
+      probability: 0.996
+    - option: 'no'
+      probability: 0.002
+    - option: unclear
+      probability: 0.002
+    server: v1.4
+    at: '2026-11-04'
+- id: more-requires-action-no-escalation
+  name: Faded road sign
+  function: jeff.support.requires-action.requires_escalation
+  context:
+    team: *westmoor_team
+    policy: *westmoor_policy
+  input:
+    from: m.lowe@mailbox.example
+    to: highways@westmoor.example
+    date: 3 November 2026
+    subject: Sign on Station Road
+    body: The 'No through road' sign at the top of Station Road has faded and is hard to read. Could it be replaced at some point?
+  recorded:
+    value: 'no'
+    confidence: 0.975
+    top_options:
+    - option: 'no'
+      probability: 0.975
+    - option: unclear
+      probability: 0.021
+    - option: 'yes'
+      probability: 0.004
+    server: v1.4
+    at: '2026-11-04'
+- id: more-support-intents-track
+  name: Where is my parcel?
+  function: jeff.support.support-intents.intent
+  context:
+    service: &shop_service Customer support chat of an online shop
+  input: hiya, I ordered a rain jacket last Tuesday and it still hasn't come, can you tell me where it is?
+  labels: &shop_intents
+    cancel_order: Cancel an order that has not been delivered yet
+    track_order: Find out where an order is
+    change_address: Change the delivery address of an order
+    return_item: Return an item that was delivered
+    track_refund: Find out the status of a refund
+  recorded:
+    value: track_order
+    confidence: 0.998
+    top_options:
+    - option: track_order
+      probability: 0.998
+    - option: cancel_order
+      probability: 0.002
+    - option: change_address
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-04'
+- id: more-support-intents-address
+  name: Send it to my office instead
+  function: jeff.support.support-intents.intent
+  context:
+    service: *shop_service
+  input: I won't be home on Friday, can you deliver my order to my office at 4 Canal Street instead?
+  labels: *shop_intents
+  recorded:
+    value: change_address
+    confidence: 1.0
+    top_options:
+    - option: change_address
+      probability: 1.0
+    - option: track_order
+      probability: 0.0
+    - option: return_item
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-04'
+- id: more-support-intents-return
+  name: Boots that are too small
+  function: jeff.support.support-intents.intent
+  context:
+    service: *shop_service
+  input: The walking boots arrived yesterday but they're a size too small. How do I send them back?
+  labels: *shop_intents
+  recorded:
+    value: return_item
+    confidence: 1.0
+    top_options:
+    - option: return_item
+      probability: 1.0
+    - option: track_order
+      probability: 0.0
+    - option: change_address
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-04'
+- id: more-support-intents-refund
+  name: Refund not yet received
+  function: jeff.support.support-intents.intent
+  context:
+    service: *shop_service
+  input: I sent the tent back two weeks ago and you said you got it, but the money still isn't on my card. What's happening with my refund?
+  labels: *shop_intents
+  recorded:
+    value: track_refund
+    confidence: 1.0
+    top_options:
+    - option: track_refund
+      probability: 1.0
+    - option: return_item
+      probability: 0.0
+    - option: track_order
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-04'
+- id: more-triage-payments
+  name: Charged twice for one order
+  function: jeff.support.triage.route
+  context:
+    company: &outdoor_shop An online shop selling outdoor clothing and camping gear across Europe.
+    channel: email
+  input: |-
+    Subject: Double charge
+    Hello, my card was charged twice for order 88340, 129.00 each time, but I only placed one order. Please refund the extra payment. Regards, Henrik
+  labels: &outdoor_teams
+    orders: Orders, deliveries, returns and exchanges
+    payments: Payments, refunds and invoices
+    product: Product questions, sizing advice and stock
+    account: Customer accounts, passwords and newsletters
+  recorded:
+    value: payments
+    confidence: 1.0
+    top_options:
+    - option: payments
+      probability: 1.0
+    - option: orders
+      probability: 0.0
+    - option: product
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-04'
+- id: more-triage-product
+  name: Which sleeping bag for winter?
+  function: jeff.support.triage.route
+  context:
+    company: *outdoor_shop
+    channel: web form
+  input: Is the Fjellbu 600 sleeping bag warm enough for camping in the mountains in February, around minus 10? Or should I take the 900?
+  labels: *outdoor_teams
+  recorded:
+    value: product
+    confidence: 1.0
+    top_options:
+    - option: product
+      probability: 1.0
+    - option: orders
+      probability: 0.0
+    - option: account
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-04'
+- id: more-triage-needs-human
+  name: Stove that caught fire
+  function: jeff.support.triage.needs_human
+  context:
+    company: *outdoor_shop
+    channel: email
+  input: |-
+    Subject: Your stove set my tent on fire
+    The gas stove I bought from you (order 87112) flared up on its first use and burned a hole in my tent. My hand was burned too. I want to know what you are going to do about this.
+  recorded:
+    value: true
+    confidence: 1.0
+    top_options:
+    - option: 'true'
+      probability: 1.0
+    - option: 'false'
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-04'
+- id: more-triage-no-human
+  name: Password reset question
+  function: jeff.support.triage.needs_human
+  context:
+    company: *outdoor_shop
+    channel: chat
+  input: hi how do I reset my password? the link on the login page is where?
+  recorded:
+    value: false
+    confidence: 1.0
+    top_options:
+    - option: 'false'
+      probability: 1.0
+    - option: 'true'
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-04'
+- id: more-trading-desk-no-trigger
+  name: Calm afternoon inside every limit
+  function: jeff.finance.trading-desk.risk_off
+  context:
+    desk: &meanrev_desk |-
+      Strategy: mean reversion on one stock. Buy when the mid is more than 0.6% below its 20-minute average, sell when more than 0.6% above.
+      Clip size: 500 shares. Position limit: 3,000 shares either way.
+      Filters: no new trades when the spread is wider than 8 basis points, or after 15:45.
+      Routing: send each order to the venue with the lowest fee whose displayed size on the order's side covers the whole order.
+      Risk-off triggers: (1) the day's loss on this stock exceeds 25,000; (2) realised volatility over 5 minutes is above 60% annualised; (3) a trading halt or a news alert flagged "material" on this stock.
+      Venues: venue_a (lit exchange, fee 0.3 bp, 0.4 ms), venue_b (lit exchange, rebate 0.1 bp, 1.1 ms), venue_c (dark pool, fee 0.1 bp, 2.0 ms).
+    market_context: &meanrev_day 'Stock: a mid-cap European industrial. Date: 2 November 2026. Opening mid 41.20; morning range 40.95 to 41.60; typical spread 4 bp; trading normal.'
+  input: |-
+    Time 14:05:10. Mid 41.18, 20-minute average 41.22. Spread 4 bp.
+    Order-flow imbalance +0.05. Realised volatility (5 min) 22% annualised.
+    Position: long 500 shares, average price 41.05. Day P&L on this stock: +1,850.
+    Open orders: none. News: none flagged.
+  recorded:
+    value: 'no'
+    confidence: 1.0
+    top_options:
+    - option: 'no'
+      probability: 1.0
+    - option: 'yes'
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-04'
+- id: more-trading-desk-buy
+  name: Mid well below its average
+  function: jeff.finance.trading-desk.direction
+  context:
+    desk: *meanrev_desk
+    market_context: *meanrev_day
+  input: |-
+    Time 11:20:30. Mid 40.80, 20-minute average 41.25 (mid 1.1% below). Spread 4 bp.
+    Order-flow imbalance -0.10. Realised volatility (5 min) 25% annualised.
+    Position: flat. Day P&L on this stock: +300.
+    Open orders: none. News: none flagged.
+  recorded:
+    value: buy
+    confidence: 0.956
+    top_options:
+    - option: buy
+      probability: 0.956
+    - option: hold
+      probability: 0.03
+    - option: sell
+      probability: 0.014
+    server: v1.4
+    at: '2026-11-04'
+- id: more-trading-desk-hold
+  name: Buy signal blocked by a wide spread
+  function: jeff.finance.trading-desk.direction
+  context:
+    desk: *meanrev_desk
+    market_context: *meanrev_day
+  input: |-
+    Time 11:24:02. Mid 40.78, 20-minute average 41.25 (mid 1.1% below). Spread 12 bp.
+    Order-flow imbalance -0.30. Realised volatility (5 min) 31% annualised.
+    Position: flat. Day P&L on this stock: +300.
+    Open orders: none. News: none flagged.
+  recorded:
+    value: hold
+    confidence: 1.0
+    top_options:
+    - option: hold
+      probability: 1.0
+    - option: sell
+      probability: 0.0
+    - option: buy
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-04'
+- id: more-trading-desk-route
+  name: Only one lit venue shows enough size
+  function: jeff.finance.trading-desk.route
+  context:
+    desk: *meanrev_desk
+    market_context: *meanrev_day
+  input: |-
+    Time 11:20:31. Request: route a new buy order for 500 shares at the ask.
+    Displayed size on the ask: venue_a 900 shares at 40.82; venue_b 200 shares at 40.82; venue_c 100 shares at 40.82.
+    Spread 4 bp.
+  labels:
+    venue_a: Lit exchange, fee 0.3 bp, 0.4 ms
+    venue_b: Lit exchange, rebate 0.1 bp, 1.1 ms
+    venue_c: Dark pool, fee 0.1 bp, 2.0 ms
+  recorded:
+    value: venue_a
+    confidence: 0.759
+    top_options:
+    - option: venue_a
+      probability: 0.759
+    - option: venue_b
+      probability: 0.171
+    - option: venue_c
+      probability: 0.071
+    server: v1.4
+    at: '2026-11-04'
+- id: more-ci-failure-flaky
+  name: Test that passed on a rerun
+  function: jeff.engineering.ci-failure.failure
+  context:
+    project: &tidepool_project tidepool, an open-source Python library for reading and writing tide-gauge data files.
+    ci_run:
+      job: tests (python 3.12)
+      trigger: pull request 415
+      commit: 4b7d0aa
+      date: 3 November 2026
+    change:
+      title: Fix a typo in the README
+      description: Documentation only.
+    ci_facts:
+      attempts_on_this_commit: 2; the first failed, the rerun passed
+      same_test_on_main: failed 3 times in the last 30 runs, with no code change in between
+      other_jobs_in_this_run: lint passed; docs passed
+      dependency_versions: unchanged since the last passing run
+  input: |-
+    tests/test_download.py::test_parallel_fetch FAILED
+    E   AssertionError: expected 8 files, got 7 (one worker finished late)
+    ========== 1 failed, 213 passed in 40.8s ==========
+  recorded:
+    value: flaky_test
+    confidence: 1.0
+    top_options:
+    - option: flaky_test
+      probability: 1.0
+    - option: dependency_change
+      probability: 0.0
+    - option: environment_or_infra
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-04'
+- id: more-ci-failure-infra
+  name: Package mirror unreachable
+  function: jeff.engineering.ci-failure.failure
+  context:
+    project: *tidepool_project
+    ci_run:
+      job: tests (python 3.11)
+      trigger: push to main
+      commit: 7e21c90
+      date: 3 November 2026
+    change:
+      title: Add a reader for the Kelso station format
+      description: New reader module with its tests.
+    ci_facts:
+      attempts_on_this_commit: 1
+      same_test_on_main: not reached
+      other_jobs_in_this_run: docs failed with the same network error
+      dependency_versions: could not be resolved
+  input: |-
+    Collecting numpy>=1.26
+    ERROR: Could not install packages due to an OSError: HTTPSConnectionPool(host='pypi-mirror.ci.example', port=443): Max retries exceeded (Caused by NameResolutionError: Failed to resolve 'pypi-mirror.ci.example')
+    Error: Process completed with exit code 1.
+  recorded:
+    value: environment_or_infra
+    confidence: 1.0
+    top_options:
+    - option: environment_or_infra
+      probability: 1.0
+    - option: dependency_change
+      probability: 0.0
+    - option: build_or_config
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-04'
+- id: more-ci-failure-test-update
+  name: Behaviour changed on purpose, test not updated
+  function: jeff.engineering.ci-failure.failure
+  context:
+    project: *tidepool_project
+    ci_run:
+      job: tests (python 3.12)
+      trigger: pull request 420
+      commit: c03e5b2
+      date: 3 November 2026
+    change:
+      title: Report heights in metres instead of feet
+      description: All readers now return heights in metres by default, as agreed in issue 401. Breaking change, noted in the changelog.
+    ci_facts:
+      attempts_on_this_commit: 2, both failed the same way
+      same_test_on_main: passed in each of the last 30 runs
+      other_jobs_in_this_run: lint passed; docs passed
+      dependency_versions: unchanged since the last passing run
+  input: |-
+    tests/test_units.py::test_default_height_unit FAILED
+    E   AssertionError: assert 'm' == 'ft'
+    ========== 1 failed, 213 passed in 41.0s ==========
+  recorded:
+    value: test_needs_update
+    confidence: 0.996
+    top_options:
+    - option: test_needs_update
+      probability: 0.996
+    - option: real_regression
+      probability: 0.003
+    - option: timeout_or_resource
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-04'
+- id: more-ci-failure-build
+  name: Type check fails before the tests
+  function: jeff.engineering.ci-failure.failure
+  context:
+    project: *tidepool_project
+    ci_run:
+      job: typecheck and tests
+      trigger: pull request 421
+      commit: 18aa4f9
+      date: 3 November 2026
+    change:
+      title: Add a timezone option to the CSV reader
+      description: New tz argument for read_csv.
+    ci_facts:
+      attempts_on_this_commit: 1
+      same_test_on_main: not reached
+      other_jobs_in_this_run: lint passed
+      dependency_versions: unchanged since the last passing run
+  input: |-
+    Running mypy...
+    tidepool/readers/csv.py:52: error: Argument "tz" to "localize" has incompatible type "str | None"; expected "str"  [arg-type]
+    Found 1 error in 1 file (checked 41 source files)
+    Error: Process completed with exit code 1. Tests were not run.
+  recorded:
+    value: build_or_config
+    confidence: 0.995
+    top_options:
+    - option: build_or_config
+      probability: 0.995
+    - option: dependency_change
+      probability: 0.001
+    - option: test_needs_update
+      probability: 0.001
+    server: v1.4
+    at: '2026-11-04'
+- id: more-issue-route-docs
+  name: Wrong example in the docs
+  function: jeff.engineering.issue-route.kind
+  context:
+    project: &tidepool_components |-
+      tidepool is an open-source Python library for reading and writing tide-gauge data files. Components:
+      - readers (team io): file readers for CSV, NetCDF and the station formats; paths tidepool/readers/
+      - plotting (team viz): charts and maps; paths tidepool/plot/
+      - cli (team tools): the tidepool command; paths tidepool/cli/
+      - docs (team docs): the documentation site; paths docs/
+    open_issues: &tidepool_issues
+    - '#398 [plotting] Map legend overlaps the colour bar'
+    - '#405 [cli] Add a --quiet flag'
+  input:
+    type: issue
+    number: 419
+    title: Quick start page uses a function that does not exist
+    body: The quick start says to call tidepool.load_station(), but the library has tidepool.read_station() and that works fine. Only the page is wrong.
+    labels: []
+  recorded:
+    value: docs
+    confidence: 0.961
+    top_options:
+    - option: docs
+      probability: 0.961
+    - option: bug
+      probability: 0.038
+    - option: duplicate_candidate
+      probability: 0.001
+    server: v1.4
+    at: '2026-11-04'
+- id: more-issue-route-duplicate
+  name: Legend covering the colour bar, again
+  function: jeff.engineering.issue-route.kind
+  context:
+    project: *tidepool_components
+    open_issues: *tidepool_issues
+  input:
+    type: issue
+    number: 422
+    title: Colour scale hidden behind the legend on station maps
+    body: When I draw a station map, the legend box sits on top of the colour scale so I can't read the values.
+    labels: []
+  recorded:
+    value: duplicate_candidate
+    confidence: 0.896
+    top_options:
+    - option: duplicate_candidate
+      probability: 0.896
+    - option: bug
+      probability: 0.102
+    - option: docs
+      probability: 0.001
+    server: v1.4
+    at: '2026-11-04'
+- id: more-issue-route-plotting
+  name: Chart axis labels cut off, who owns it
+  function: jeff.engineering.issue-route.owner
+  context:
+    project: *tidepool_components
+    open_issues: *tidepool_issues
+  input:
+    type: issue
+    number: 423
+    title: Y axis label cut off in tide charts
+    body: Charts made with tidepool.plot.tide_chart() cut off the left half of the y axis label when the figure is narrow. The data itself is read correctly.
+    labels: []
+  labels:
+    readers: File readers for CSV, NetCDF and the station formats (tidepool/readers/)
+    plotting: Charts and maps (tidepool/plot/)
+    cli: The tidepool command (tidepool/cli/)
+    docs: The documentation site (docs/)
+  recorded:
+    value: plotting
+    confidence: 0.997
+    top_options:
+    - option: plotting
+      probability: 0.997
+    - option: readers
+      probability: 0.001
+    - option: cli
+      probability: 0.001
+    server: v1.4
+    at: '2026-11-04'
+- id: more-message-triage-spam
+  name: Fake parcel notice in the inbox
+  function: jeff.support.message-triage.action_needed
+  context:
+    recipient: *holloway_recipient
+    message_kinds: *holloway_kinds
+    routing_table: *holloway_routing
+    routing_rules: *holloway_rules
+    now: *holloway_now
+  input:
+    channel: email
+    from: delivery-notice@parcel-track-help.example
+    to: lena.brandt@hollowayarch.example
+    cc: ''
+    received: Monday 2 November 2026, 07:58
+    subject: Your parcel is on hold
+    body: We tried to deliver your parcel but customs fees of 2.99 are unpaid. Pay within 12 hours at http://parcel-track-help.example/pay or your parcel will be returned.
+  recorded:
+    value: ignore_spam
+    confidence: 0.995
+    top_options:
+    - option: ignore_spam
+      probability: 0.995
+    - option: forward
+      probability: 0.003
+    - option: fyi_only
+      probability: 0.001
+    server: v1.4
+    at: '2026-11-04'

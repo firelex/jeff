@@ -1,0 +1,625 @@
+# More worked examples for the retrieval and document adapters' catalogue pages (/catalogue/<adapter id>): with each
+# adapter's examples on the "Retrieval" page (oss-retrieval.yaml), the swarm page (swarm.yaml) and its catalogue example
+# (catalogue-open.yaml), five cases per adapter, each with a different outcome where the adapter has several.
+# content/catalogue-examples.yaml says which page shows which and what each one shows. Format and recording:
+# scripts/hub_examples.py. The `recorded` blocks are written by `scripts/hub_examples.py --record`, never by hand.
+# Every input here was written for the page; every company and person in it is invented.
+- id: more-doc-type-invoice
+  name: Bill for brackets already delivered
+  function: jeff.retrieval.doc-type.doc_type
+  context:
+    sorting_desk: &fenwick_desk The shared inbox of a home energy installer's office, where suppliers, customers and partners send documents.
+  input: |-
+    INVOICE INV-55190
+    To: Fenwick Home Energy, 12 Quay Street
+    For 40 outdoor mounting brackets (model MB-6) delivered on 28 October 2026: 1,280.00 plus VAT 256.00, total 1,536.00.
+    Payment due within 30 days to account 20-44-91 31877265.
+  labels: &fenwick_doc_labels
+    invoice: A bill for goods or services already supplied, asking for payment
+    quote: An offer of a price for goods or services, before any order
+    purchase_order: The buyer's order to a supplier, placing an order at agreed prices
+    delivery_note: A note listing goods delivered, signed on receipt
+    other: None of these types
+  recorded:
+    value: invoice
+    confidence: 0.992
+    top_options:
+    - option: invoice
+      probability: 0.992
+    - option: delivery_note
+      probability: 0.003
+    - option: quote
+      probability: 0.002
+    server: v1.4
+    at: '2026-11-04'
+- id: more-doc-type-purchase-order
+  name: Order placed with a supplier
+  function: jeff.retrieval.doc-type.doc_type
+  context:
+    sorting_desk: *fenwick_desk
+  input: |-
+    PURCHASE ORDER PO-3108
+    From: Fenwick Home Energy, 12 Quay Street
+    To: Brightwell Fixings Ltd
+    Please supply 40 outdoor mounting brackets (model MB-6) at 32.00 each, as in your quotation Q-2291. Deliver to our Quay Street store by 6 November 2026.
+  labels: *fenwick_doc_labels
+  recorded:
+    value: purchase_order
+    confidence: 0.994
+    top_options:
+    - option: purchase_order
+      probability: 0.994
+    - option: quote
+      probability: 0.004
+    - option: other
+      probability: 0.001
+    server: v1.4
+    at: '2026-11-04'
+- id: more-doc-type-delivery-note
+  name: Goods signed for at the store
+  function: jeff.retrieval.doc-type.doc_type
+  context:
+    sorting_desk: *fenwick_desk
+  input: |-
+    DELIVERY NOTE DN-77412
+    Brightwell Fixings Ltd to Fenwick Home Energy, Quay Street store
+    Order PO-3108: 40 x outdoor mounting bracket MB-6. Delivered 28 October 2026, 10:40.
+    Received in good condition: signed K. Doyle (stores)
+  labels: *fenwick_doc_labels
+  recorded:
+    value: delivery_note
+    confidence: 0.998
+    top_options:
+    - option: delivery_note
+      probability: 0.998
+    - option: quote
+      probability: 0.001
+    - option: purchase_order
+      probability: 0.001
+    server: v1.4
+    at: '2026-11-04'
+- id: more-doc-type-other
+  name: Newsletter about a trade show
+  function: jeff.retrieval.doc-type.doc_type
+  context:
+    sorting_desk: *fenwick_desk
+  input: |-
+    Brightwell Fixings - November news
+    Come and see our new range of heat pump brackets at the Northern Installers Show, stand 14, on 19 and 20 November. Free coffee and a prize draw for every visitor.
+  labels: *fenwick_doc_labels
+  recorded:
+    value: other
+    confidence: 0.994
+    top_options:
+    - option: other
+      probability: 0.994
+    - option: quote
+      probability: 0.004
+    - option: delivery_note
+      probability: 0.001
+    server: v1.4
+    at: '2026-11-04'
+- id: more-evidence-insufficient
+  name: Passages about the wrong model
+  function: jeff.retrieval.evidence-sufficient.sufficient
+  context:
+    question: &aster2_question How long is the warranty on an Aster 2 heat pump installed on or after 1 March 2026?
+  input:
+  - Aster 1 heat pumps carry a five-year parts and labour warranty from the date of installation, provided the unit is serviced every year by an approved engineer.
+  - Our boilers come with a two-year warranty as standard.
+  recorded:
+    value: insufficient
+    confidence: 1.0
+    top_options:
+    - option: insufficient
+      probability: 1.0
+    - option: sufficient
+      probability: 0.0
+    - option: conflicting
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-04'
+- id: more-evidence-conflicting
+  name: Two passages give different terms
+  function: jeff.retrieval.evidence-sufficient.sufficient
+  context:
+    question: *aster2_question
+  input:
+  - For Aster 2 units installed on or after 1 March 2026 the warranty is seven years, parts and labour.
+  - Aster 2 heat pumps installed from 1 March 2026 onwards are covered by a ten-year parts and labour warranty.
+  recorded:
+    value: conflicting
+    confidence: 0.951
+    top_options:
+    - option: conflicting
+      probability: 0.951
+    - option: sufficient
+      probability: 0.044
+    - option: insufficient
+      probability: 0.005
+    server: v1.4
+    at: '2026-11-04'
+- id: more-evidence-two-passages
+  name: Answer that needs two passages together
+  function: jeff.retrieval.evidence-sufficient.sufficient
+  context:
+    question: What does a missed annual service do to the warranty on an Aster 2 installed in April 2026, and how is a service booked?
+  input:
+  - The Aster 2 warranty remains valid only if the unit is serviced at least once every 12 months. If a service is missed, the warranty ends on the date the service was due.
+  - To book a service, call 0161 496 0123 or use the customer portal.
+  recorded:
+    value: sufficient
+    confidence: 0.924
+    top_options:
+    - option: sufficient
+      probability: 0.924
+    - option: insufficient
+      probability: 0.063
+    - option: conflicting
+      probability: 0.013
+    server: v1.4
+    at: '2026-11-04'
+- id: more-evidence-cost-missing
+  name: Price question with no price given
+  function: jeff.retrieval.evidence-sufficient.sufficient
+  context:
+    question: How much does an annual service of an Aster 2 heat pump cost?
+  input:
+  - The Aster 2 warranty remains valid only if the unit is serviced at least once every 12 months by an approved engineer.
+  - To book a service, call 0161 496 0123 or use the customer portal. Services are available Monday to Saturday, 8:00 to 18:00.
+  recorded:
+    value: insufficient
+    confidence: 0.999
+    top_options:
+    - option: insufficient
+      probability: 0.999
+    - option: sufficient
+      probability: 0.001
+    - option: conflicting
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-04'
+- id: more-extract-check-correct
+  name: Total due in another format
+  function: jeff.retrieval.extract-check.check
+  context:
+    document: &fenwick_invoice |-
+      INVOICE 7781
+      Issued: 14 October 2026    Due: 13 November 2026
+      Fenwick Home Energy, 12 Quay Street
+      Aster 2 heat pump, supplied and installed: 8,400.00
+      VAT (5%): 420.00
+      Total due: 8,820.00
+  input:
+    field: total
+    value: '8820'
+  recorded:
+    value: correct
+    confidence: 0.98
+    top_options:
+    - option: correct
+      probability: 0.98
+    - option: ambiguous
+      probability: 0.008
+    - option: wrong_field
+      probability: 0.006
+    server: v1.4
+    at: '2026-11-04'
+- id: more-extract-check-wrong-value
+  name: Due date read wrongly
+  function: jeff.retrieval.extract-check.check
+  context:
+    document: *fenwick_invoice
+  input:
+    field: due_date
+    value: 13 December 2026
+  recorded:
+    value: wrong_value
+    confidence: 0.99
+    top_options:
+    - option: wrong_value
+      probability: 0.99
+    - option: ambiguous
+      probability: 0.005
+    - option: not_in_document
+      probability: 0.002
+    server: v1.4
+    at: '2026-11-04'
+- id: more-extract-check-missing
+  name: Purchase order number the invoice never gives
+  function: jeff.retrieval.extract-check.check
+  context:
+    document: *fenwick_invoice
+  input:
+    field: purchase_order_number
+    value: PO-3108
+  recorded:
+    value: not_in_document
+    confidence: 0.999
+    top_options:
+    - option: not_in_document
+      probability: 0.999
+    - option: wrong_value
+      probability: 0.0
+    - option: ambiguous
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-04'
+- id: more-extract-check-ambiguous
+  name: Two different phone numbers
+  function: jeff.retrieval.extract-check.check
+  context:
+    document: |-
+      Fenwick Home Energy - service visit confirmation
+      Customer: Alan Brierley, 7 Moor Lane
+      Visit: Thursday 12 November 2026, morning
+      Phone: 0161 496 0555
+      Engineer's notes: customer asks us to call on 0161 496 0777 on the day, not the number above.
+  input:
+    field: customer_phone
+    value: 0161 496 0555
+  recorded:
+    value: ambiguous
+    confidence: 0.924
+    top_options:
+    - option: ambiguous
+      probability: 0.924
+    - option: wrong_field
+      probability: 0.067
+    - option: correct
+      probability: 0.004
+    server: v1.4
+    at: '2026-11-04'
+- id: more-ground-partly
+  name: Answer that adds a promise the sources do not make
+  function: jeff.retrieval.ground.grounding
+  context:
+    sources: &aster2_sources
+    - 'Passage 1: Aster 1 heat pumps carry a five-year parts and labour warranty from the date of installation.'
+    - 'Passage 2: For Aster 2 units installed on or after 1 March 2026 the warranty is extended to seven years, parts and labour, provided the unit is serviced every year by an approved engineer.'
+  input: An Aster 2 installed after March 2026 has a seven-year parts and labour warranty, and the annual service is free during that time.
+  recorded:
+    value: partly_supported
+    confidence: 0.994
+    top_options:
+    - option: partly_supported
+      probability: 0.994
+    - option: contradicted
+      probability: 0.003
+    - option: supported
+      probability: 0.001
+    server: v1.4
+    at: '2026-11-04'
+- id: more-ground-contradicted
+  name: Answer with the wrong number of years
+  function: jeff.retrieval.ground.grounding
+  context:
+    sources: *aster2_sources
+  input: An Aster 2 installed after March 2026 has a five-year parts and labour warranty.
+  recorded:
+    value: contradicted
+    confidence: 0.943
+    top_options:
+    - option: contradicted
+      probability: 0.943
+    - option: supported
+      probability: 0.044
+    - option: partly_supported
+      probability: 0.01
+    server: v1.4
+    at: '2026-11-04'
+- id: more-passage-relevant-yes
+  name: Passage that gives the full answer
+  function: jeff.retrieval.passage-relevant.relevant
+  context:
+    source: &warranty_source 'warranty_terms: the warranty terms for each heat pump and boiler a home energy installer sells'
+    question: How long is the warranty on an Aster 2 heat pump installed after March 2026, and what does it cover?
+  input: For Aster 2 units installed on or after 1 March 2026 the warranty is seven years and covers parts and labour.
+  recorded:
+    value: 'yes'
+    confidence: 0.713
+    top_options:
+    - option: 'yes'
+      probability: 0.713
+    - option: partly
+      probability: 0.15
+    - option: 'no'
+      probability: 0.136
+    server: v1.4
+    at: '2026-11-04'
+- id: more-passage-relevant-partly
+  name: Length of the warranty, but not what it covers
+  function: jeff.retrieval.passage-relevant.relevant
+  context:
+    source: *warranty_source
+    question: How long is the warranty on an Aster 2 heat pump installed after March 2026, and what does it cover?
+  input: For Aster 2 units installed on or after 1 March 2026 the warranty runs for seven years.
+  recorded:
+    value: partly
+    confidence: 0.823
+    top_options:
+    - option: partly
+      probability: 0.823
+    - option: 'yes'
+      probability: 0.143
+    - option: 'no'
+      probability: 0.035
+    server: v1.4
+    at: '2026-11-04'
+- id: more-passage-relevant-period
+  name: Right model, earlier installations
+  function: jeff.retrieval.passage-relevant.relevant
+  context:
+    source: *warranty_source
+    question: How long is the warranty on an Aster 2 heat pump installed after March 2026?
+  input: Aster 2 heat pumps installed before 1 March 2026 carry a five-year parts and labour warranty.
+  recorded:
+    value: 'no'
+    confidence: 0.956
+    top_options:
+    - option: 'no'
+      probability: 0.956
+    - option: 'yes'
+      probability: 0.04
+    - option: partly
+      probability: 0.003
+    server: v1.4
+    at: '2026-11-04'
+- id: more-query-route-orders
+  name: When is my engineer coming?
+  function: jeff.retrieval.query-route.source
+  context:
+    menu: &fenwick_menu |-
+      - product_manuals: installation and user manuals for every heat pump and boiler the company sells
+      - warranty_terms: the warranty terms for each product, by model and installation date
+      - customer_orders: each customer's orders, installations and visits (a database)
+      - pricing: current prices and offers
+  input: When is the engineer booked to come to my house, order FH-20871?
+  labels: &fenwick_menu_labels
+    product_manuals: Installation and user manuals for every heat pump and boiler the company sells
+    warranty_terms: The warranty terms for each product, by model and installation date
+    customer_orders: Each customer's orders, installations and visits (a database)
+    pricing: Current prices and offers
+    none: No source on the menu holds what the query needs, or no lookup is needed
+    several: The answer needs facts from two or more of these sources
+  recorded:
+    value: customer_orders
+    confidence: 0.793
+    top_options:
+    - option: customer_orders
+      probability: 0.793
+    - option: none
+      probability: 0.198
+    - option: several
+      probability: 0.004
+    server: v1.4
+    at: '2026-11-04'
+- id: more-query-route-manual
+  name: Error code in the installation manual
+  function: jeff.retrieval.query-route.source
+  context:
+    menu: *fenwick_menu
+  input: What does error code E4 on the Aster 2 heat pump mean, and what does the installation manual say to do about it?
+  labels: *fenwick_menu_labels
+  recorded:
+    value: product_manuals
+    confidence: 0.88
+    top_options:
+    - option: product_manuals
+      probability: 0.88
+    - option: several
+      probability: 0.08
+    - option: none
+      probability: 0.032
+    server: v1.4
+    at: '2026-11-04'
+- id: more-query-route-pricing
+  name: Price of a new boiler
+  function: jeff.retrieval.query-route.source
+  context:
+    menu: *fenwick_menu
+  input: How much is the Corrin 30 combi boiler at the moment, and is there an offer on?
+  labels: *fenwick_menu_labels
+  recorded:
+    value: pricing
+    confidence: 0.995
+    top_options:
+    - option: pricing
+      probability: 0.995
+    - option: customer_orders
+      probability: 0.002
+    - option: several
+      probability: 0.001
+    server: v1.4
+    at: '2026-11-04'
+- id: more-query-route-none
+  name: Weather forecast for the weekend
+  function: jeff.retrieval.query-route.source
+  context:
+    menu: *fenwick_menu
+  input: Will it rain in Manchester on Saturday?
+  labels: *fenwick_menu_labels
+  recorded:
+    value: none
+    confidence: 0.928
+    top_options:
+    - option: none
+      probability: 0.928
+    - option: pricing
+      probability: 0.062
+    - option: customer_orders
+      probability: 0.005
+    server: v1.4
+    at: '2026-11-04'
+- id: more-section-id-payment
+  name: When invoices fall due
+  function: jeff.retrieval.section-id.section
+  context:
+    document: &install_agreement An installation services agreement between a home energy installer and a housing developer.
+  input: The installer will invoice the developer at the end of each month for the units installed in that month. Each invoice is payable within 30 days of its date.
+  labels: &install_sections
+    scope: What work the installer will do, and where
+    payment: Prices, invoicing and when payment is due
+    termination: How and when either party may end the agreement
+    liability: Who is responsible for loss or damage, and the limits
+    none: None of these sections
+  recorded:
+    value: payment
+    confidence: 1.0
+    top_options:
+    - option: payment
+      probability: 1.0
+    - option: none
+      probability: 0.0
+    - option: scope
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-04'
+- id: more-section-id-scope
+  name: Which homes the installer fits
+  function: jeff.retrieval.section-id.section
+  context:
+    document: *install_agreement
+  input: The installer will supply and fit one Aster 2 heat pump in each of the 48 homes on the Mill Brook site, plots 1 to 48, and commission each unit.
+  labels: *install_sections
+  recorded:
+    value: scope
+    confidence: 0.927
+    top_options:
+    - option: scope
+      probability: 0.927
+    - option: none
+      probability: 0.073
+    - option: payment
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-04'
+- id: more-section-id-liability
+  name: Cap on the installer's liability
+  function: jeff.retrieval.section-id.section
+  context:
+    document: *install_agreement
+  input: The installer's total liability for any loss or damage arising under this agreement is limited to the price of the units installed in the 12 months before the claim.
+  labels: *install_sections
+  recorded:
+    value: liability
+    confidence: 1.0
+    top_options:
+    - option: liability
+      probability: 1.0
+    - option: payment
+      probability: 0.0
+    - option: none
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-04'
+- id: more-section-id-none
+  name: Signatures and date
+  function: jeff.retrieval.section-id.section
+  context:
+    document: *install_agreement
+  input: 'Signed for and on behalf of Fenwick Home Energy Ltd: R. Fenwick, Director. Signed for and on behalf of Ashgrove Homes Ltd: P. Mensah, Director. Date: 2 November 2026.'
+  labels: *install_sections
+  recorded:
+    value: none
+    confidence: 1.0
+    top_options:
+    - option: none
+      probability: 1.0
+    - option: termination
+      probability: 0.0
+    - option: liability
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-04'
+- id: more-legal-clauses-notices
+  name: How notices must be given
+  function: jeff.legal.legal-clauses.clause_type
+  context:
+    document: &sec_contract A commercial contract filed with the U.S. Securities and Exchange Commission (SEC)
+  input: All notices under this Agreement shall be in writing and shall be deemed given when delivered by hand, or three business days after being sent by certified mail, return receipt requested, to the addresses set out on the signature page.
+  recorded:
+    value: notices
+    confidence: 0.998
+    top_options:
+    - option: notices
+      probability: 0.998
+    - option: intellectual_property
+      probability: 0.0
+    - option: no_defaults
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-04'
+- id: more-legal-clauses-confidentiality
+  name: Keeping the other side's information secret
+  function: jeff.legal.legal-clauses.clause_type
+  context:
+    document: *sec_contract
+  input: Each party shall hold in confidence all non-public information received from the other party in connection with this Agreement and shall not disclose it to any third party except its advisers who are bound by similar obligations.
+  recorded:
+    value: confidentiality
+    confidence: 0.973
+    top_options:
+    - option: confidentiality
+      probability: 0.973
+    - option: disclosures
+      probability: 0.009
+    - option: general
+      probability: 0.003
+    server: v1.4
+    at: '2026-11-04'
+- id: more-legal-clauses-severability
+  name: An invalid term does not sink the rest
+  function: jeff.legal.legal-clauses.clause_type
+  context:
+    document: *sec_contract
+  input: If any provision of this Agreement is held invalid or unenforceable, the remaining provisions shall continue in full force and effect.
+  recorded:
+    value: severability
+    confidence: 0.972
+    top_options:
+    - option: severability
+      probability: 0.972
+    - option: interpretations
+      probability: 0.011
+    - option: amendments
+      probability: 0.002
+    server: v1.4
+    at: '2026-11-04'
+- id: more-legal-clauses-counterparts
+  name: Signing in separate copies
+  function: jeff.legal.legal-clauses.clause_type
+  context:
+    document: *sec_contract
+  input: This Agreement may be executed in any number of counterparts, each of which shall be deemed an original, and all of which together shall constitute one and the same instrument.
+  recorded:
+    value: counterparts
+    confidence: 0.994
+    top_options:
+    - option: counterparts
+      probability: 0.994
+    - option: miscellaneous
+      probability: 0.002
+    - option: effective_dates
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-04'
+- id: more-passage-relevant-boiler
+  name: Boiler terms for a boiler question
+  function: jeff.retrieval.passage-relevant.relevant
+  context:
+    source: *warranty_source
+    question: How long is the standard warranty on the company's boilers?
+  input: Our boilers come with a two-year warranty as standard, which can be extended to five years with an annual service plan.
+  recorded:
+    value: 'yes'
+    confidence: 0.997
+    top_options:
+    - option: 'yes'
+      probability: 0.997
+    - option: 'no'
+      probability: 0.003
+    - option: partly
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-04'

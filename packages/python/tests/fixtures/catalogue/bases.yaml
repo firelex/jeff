@@ -1,0 +1,4 @@
+# Base models: id -> version -> where the weights are, and the date the version was released (YYYY-MM-DD; GET
+# /v1/models reports it).
+jeff-base:
+  v1.3: { repo: mstrasser/jeff-base, revision: v1.3, released: "2026-10-05" }

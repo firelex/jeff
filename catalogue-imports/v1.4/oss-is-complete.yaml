@@ -1,0 +1,19 @@
+# oss-is_complete, v1.4 (RTX /mnt/d/jeff-adapters/v1.4/oss-is_complete, data teamsuzie/jeff-data apps/oss-is_complete).
+path: apps/oss-is_complete
+adapter_path: oss-is_complete
+id: jeff.reasoning.is-complete
+aliases: [oss-is-complete, is-complete]
+version: 1.4.0
+function_by: only
+context:
+  - key: context
+    description: "The review: an object with the organisation, the reviewer, the kind of pack, its purpose and the date of the review."
+  - key: checklist
+    description: "The checklist: a list of required documents and conditions (some only for some cases)."
+input:
+  key: submission
+  description: "The pack received: an object with the case (name, reference) and the documents received, each described (kind, date, pages, signatures)."
+  form: fields
+functions:
+  # classify: fixed answer set complete / incomplete / unclear
+  is_complete: {interface: classify, option_order: shuffled}

@@ -1,0 +1,72 @@
+{
+  "name": "jeff-sdk",
+  "version": "1.4.0",
+  "type": "module",
+  "description": "The Jeff SDK for Node: call Jeff's decision functions, route, escalate and run decision graphs, against an engine on this machine or a Jeff server.",
+  "keywords": [
+    "jeff",
+    "decision functions",
+    "classification",
+    "llm",
+    "adapters",
+    "routing",
+    "sdk"
+  ],
+  "homepage": "https://jeffhub.ai",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/firelex/jeff.git",
+    "directory": "packages/node"
+  },
+  "bugs": {
+    "url": "https://github.com/firelex/jeff/issues"
+  },
+  "license": "MIT",
+  "author": "Casperaki Multimedia Solutions Ltd.",
+  "engines": {
+    "node": ">=22"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./testing": {
+      "types": "./dist/testing.d.ts",
+      "import": "./dist/testing.js"
+    }
+  },
+  "files": [
+    "dist",
+    "shipped",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "prepack": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\" && tsc -p tsconfig.build.json",
+    "sync": "tsx scripts/sync-shipped.ts",
+    "build": "tsc -p tsconfig.build.json",
+    "test": "vitest run",
+    "test:slow": "vitest run --config vitest.slow.config.ts",
+    "typecheck": "tsc --noEmit",
+    "bench": "tsx bench/latency.ts"
+  },
+  "dependencies": {
+    "@msgpack/msgpack": "3.1.3",
+    "ajv": "8.20.0",
+    "undici": "7.30.1",
+    "ws": "8.22.1",
+    "yaml": "2.9.1"
+  },
+  "devDependencies": {
+    "@types/node": "22.20.5",
+    "@types/ws": "8.18.2",
+    "tsx": "4.23.15",
+    "typescript": "5.8.3",
+    "vitest": "5.0.5"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}

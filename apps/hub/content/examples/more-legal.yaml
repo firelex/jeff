@@ -1,0 +1,83 @@
+# More worked examples for the knowledge-qa adapter's catalogue page (/catalogue/jeff.knowledge.knowledge-qa): with
+# its example in api-adapters.yaml, five cases. The hidden adapters' examples that were here are in
+# content/owner-only/examples/more-legal.yaml. content/catalogue-examples.yaml says which page shows which and what
+# each one shows. Format and recording: scripts/hub_examples.py. The `recorded` blocks are written by
+# `scripts/hub_examples.py --record`, never by hand. Every input here was written for the page; every company and
+# person in it is invented.
+- id: more-knowledge-qa-salt
+  name: Why the sea is salty
+  function: jeff.knowledge.knowledge-qa.question
+  input: Where does most of the salt in the oceans come from?
+  labels:
+    A: Rain and rivers wearing down rocks on land and carrying dissolved minerals to the sea.
+    B: Salt left behind by ships over thousands of years.
+    C: Fish producing salt as they breathe.
+    D: Salt falling from space in meteorites.
+  recorded:
+    value: A
+    confidence: 0.993
+    top_options:
+    - option: A
+      probability: 0.993
+    - option: B
+      probability: 0.003
+    - option: D
+      probability: 0.003
+    server: v1.4
+    at: '2026-11-04'
+- id: more-knowledge-qa-blank
+  name: Fill the blank in a sentence
+  function: jeff.knowledge.knowledge-qa.blank
+  input: The trophy would not fit in the suitcase because the _ was too small.
+  labels:
+    A: trophy
+    B: suitcase
+  recorded:
+    value: B
+    confidence: 0.999
+    top_options:
+    - option: B
+      probability: 0.999
+    - option: A
+      probability: 0.001
+    server: v1.4
+    at: '2026-11-04'
+- id: more-knowledge-qa-solution
+  name: Keeping a cut apple from browning
+  function: jeff.knowledge.knowledge-qa.solution
+  input: Stop a cut apple from turning brown before lunch.
+  labels:
+    A: Brush the cut sides with lemon juice and keep them covered.
+    B: Leave the pieces on a sunny windowsill so they dry out.
+  recorded:
+    value: A
+    confidence: 0.97
+    top_options:
+    - option: A
+      probability: 0.97
+    - option: B
+      probability: 0.03
+    server: v1.4
+    at: '2026-11-04'
+- id: more-knowledge-qa-social
+  name: Why a friend brought soup
+  function: jeff.knowledge.knowledge-qa.social
+  context:
+    situation: Ravi heard that his neighbour Mei had the flu, so he cooked a pot of soup and left it on her doorstep with a note.
+  input: Why did Ravi leave the soup?
+  labels:
+    A: He wanted Mei to feel better while she was ill.
+    B: He wanted to get rid of food he did not like.
+    C: He was angry with Mei.
+  recorded:
+    value: A
+    confidence: 0.992
+    top_options:
+    - option: A
+      probability: 0.992
+    - option: B
+      probability: 0.005
+    - option: C
+      probability: 0.003
+    server: v1.4
+    at: '2026-11-04'

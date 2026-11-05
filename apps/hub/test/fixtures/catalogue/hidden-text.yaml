@@ -1,0 +1,5 @@
+jeff.operations.sample:
+  title: Operations query sample
+  summary: Reads a query between two firms' operations teams and decides who must act next.
+  use_when: [A query between two firms' operations teams needs routing.]
+  avoid_when: []

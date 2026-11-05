@@ -1,0 +1,390 @@
+{
+ "__tool__": {
+  "type": "choice",
+  "instructions": "What is the user asking the trading assistant to do?",
+  "criteria": {
+   "list_symbols": "The user wants to know which symbols or how much history is loaded, not to see any particular chart or number",
+   "market_summary": "The user wants one line per symbol showing how the whole board moved, with no single symbol singled out",
+   "plot_price": "The user wants to look at one symbol's price over time as a chart",
+   "intraday_pattern": "The user asks how a typical trading day goes for one symbol - what happens at the open, at midday, into the close",
+   "compare_returns": "The user wants two or more symbols on the same chart to see which did better",
+   "rolling_correlation": "The user wants to see how closely two symbols have been moving together, and how that has changed",
+   "summary_stats": "The user wants a table of numbers for one symbol - highs, lows, average move, total return",
+   "volatility": "The user asks how volatile, choppy, or risky one symbol has been",
+   "top_movers": "The user wants a ranked list of which symbols rose or fell the most",
+   "drawdown": "The user asks how far one symbol fell from a peak, its worst decline"
+  }
+ },
+ "market_summary.window": {
+  "type": "choice",
+  "instructions": "How far back is the user asking about - today, the past week, the past month, or the past three months?",
+  "criteria": {
+   "1d": "today, the latest trading session only",
+   "1w": "the past week",
+   "1mo": "the past month",
+   "3mo": "the past three months, a quarter"
+  }
+ },
+ "market_summary.window?": {
+  "type": "noul",
+  "instructions": "Does the user say how far back to look, such as today, this week, this month, or this quarter?"
+ },
+ "plot_price.symbol": {
+  "type": "choice",
+  "instructions": "Which company's stock is the user asking about?",
+  "criteria": {
+   "SPY": "SPY, the S&P 500 index ETF, the market as a whole",
+   "NVDA": "Nvidia, often written NVDA",
+   "AMD": "AMD, Advanced Micro Devices",
+   "AAPL": "Apple, often written AAPL",
+   "MSFT": "Microsoft, often written MSFT",
+   "TSLA": "Tesla, often written TSLA"
+  }
+ },
+ "plot_price.style": {
+  "type": "choice",
+  "instructions": "Does the user want a plain line or candles?",
+  "criteria": {
+   "line": "a simple line through the closing prices",
+   "candles": "a candlestick or OHLC chart, showing each bar's open, high, low and close"
+  }
+ },
+ "plot_price.style?": {
+  "type": "noul",
+  "instructions": "Does the user say how the chart should be drawn, such as a line, candles, or OHLC bars?"
+ },
+ "plot_price.resolution": {
+  "type": "choice",
+  "instructions": "How coarse should each bar be - one minute, five minutes, fifteen minutes, one hour, or one day?",
+  "criteria": {
+   "1m": "one-minute bars",
+   "5m": "five-minute bars",
+   "15m": "fifteen-minute bars",
+   "1h": "hourly bars",
+   "1d": "daily bars"
+  }
+ },
+ "plot_price.resolution?": {
+  "type": "noul",
+  "instructions": "Does the user say what bar size or interval they want, such as 1m, 15m, hourly, or daily?"
+ },
+ "plot_price.window": {
+  "type": "choice",
+  "instructions": "How far back is the user asking about - today, the past week, the past month, or the past three months?",
+  "criteria": {
+   "1d": "today, the latest trading session only",
+   "1w": "the past week",
+   "1mo": "the past month",
+   "3mo": "the past three months, a quarter"
+  }
+ },
+ "plot_price.window?": {
+  "type": "noul",
+  "instructions": "Does the user say how far back to look, such as today, this week, this month, or this quarter?"
+ },
+ "plot_price.include_volume": {
+  "type": "noul",
+  "instructions": "Does the user ask to see traded volume as well as the price?"
+ },
+ "plot_price.include_volume?": {
+  "type": "noul",
+  "instructions": "Does the user say anything about volume?"
+ },
+ "plot_price.moving_average": {
+  "type": "choice",
+  "instructions": "How many bars should the moving average cover - nine, twenty, or fifty?",
+  "criteria": {
+   "9": "a nine-bar moving average, a fast one",
+   "20": "a twenty-bar moving average",
+   "50": "a fifty-bar moving average, a slow one"
+  }
+ },
+ "plot_price.moving_average?": {
+  "type": "noul",
+  "instructions": "Does the user ask for a moving average or a smoothed line over the candles?"
+ },
+ "plot_price.log_scale": {
+  "type": "noul",
+  "instructions": "Does the user ask for a logarithmic price axis?"
+ },
+ "plot_price.log_scale?": {
+  "type": "noul",
+  "instructions": "Does the user say anything about the scale of the price axis, such as log or linear?"
+ },
+ "intraday_pattern.symbol": {
+  "type": "choice",
+  "instructions": "Which company's stock is the user asking about?",
+  "criteria": {
+   "SPY": "SPY, the S&P 500 index ETF, the market as a whole",
+   "NVDA": "Nvidia, often written NVDA",
+   "AMD": "AMD, Advanced Micro Devices",
+   "AAPL": "Apple, often written AAPL",
+   "MSFT": "Microsoft, often written MSFT",
+   "TSLA": "Tesla, often written TSLA"
+  }
+ },
+ "intraday_pattern.window": {
+  "type": "choice",
+  "instructions": "How far back is the user asking about - today, the past week, the past month, or the past three months?",
+  "criteria": {
+   "1d": "today, the latest trading session only",
+   "1w": "the past week",
+   "1mo": "the past month",
+   "3mo": "the past three months, a quarter"
+  }
+ },
+ "intraday_pattern.window?": {
+  "type": "noul",
+  "instructions": "Does the user say how far back to look, such as today, this week, this month, or this quarter?"
+ },
+ "intraday_pattern.metric": {
+  "type": "choice",
+  "instructions": "Is the user asking about how much gets traded, how choppy it is, or which way it tends to move?",
+  "criteria": {
+   "volume": "how many shares change hands",
+   "volatility": "how much the price jumps around, how choppy it is",
+   "return": "which way it tends to move, up or down"
+  }
+ },
+ "intraday_pattern.metric?": {
+  "type": "noul",
+  "instructions": "Does the user say which of trading activity, choppiness, or direction they are asking about?"
+ },
+ "compare_returns.symbols.SPY": {
+  "type": "noul",
+  "instructions": "Does the user want SPY in the comparison?",
+  "criteria": {
+   "true": "SPY, the S&P 500 index ETF, the market as a whole"
+  }
+ },
+ "compare_returns.symbols.NVDA": {
+  "type": "noul",
+  "instructions": "Does the user want NVDA in the comparison?",
+  "criteria": {
+   "true": "Nvidia, often written NVDA"
+  }
+ },
+ "compare_returns.symbols.AMD": {
+  "type": "noul",
+  "instructions": "Does the user want AMD in the comparison?",
+  "criteria": {
+   "true": "AMD, Advanced Micro Devices"
+  }
+ },
+ "compare_returns.symbols.AAPL": {
+  "type": "noul",
+  "instructions": "Does the user want AAPL in the comparison?",
+  "criteria": {
+   "true": "Apple, often written AAPL"
+  }
+ },
+ "compare_returns.symbols.MSFT": {
+  "type": "noul",
+  "instructions": "Does the user want MSFT in the comparison?",
+  "criteria": {
+   "true": "Microsoft, often written MSFT"
+  }
+ },
+ "compare_returns.symbols.TSLA": {
+  "type": "noul",
+  "instructions": "Does the user want TSLA in the comparison?",
+  "criteria": {
+   "true": "Tesla, often written TSLA"
+  }
+ },
+ "compare_returns.window": {
+  "type": "choice",
+  "instructions": "How far back is the user asking about - today, the past week, the past month, or the past three months?",
+  "criteria": {
+   "1d": "today, the latest trading session only",
+   "1w": "the past week",
+   "1mo": "the past month",
+   "3mo": "the past three months, a quarter"
+  }
+ },
+ "compare_returns.window?": {
+  "type": "noul",
+  "instructions": "Does the user say how far back to look, such as today, this week, this month, or this quarter?"
+ },
+ "compare_returns.normalize": {
+  "type": "noul",
+  "instructions": "Does the user want the lines as percentage moves from the start rather than as raw prices?"
+ },
+ "compare_returns.normalize?": {
+  "type": "noul",
+  "instructions": "Does the user say whether to show percentage returns or raw share prices?"
+ },
+ "rolling_correlation.symbol": {
+  "type": "choice",
+  "instructions": "Which stock is the user asking about - the one being measured, named first?",
+  "criteria": {
+   "SPY": "SPY, the S&P 500 index ETF, the market as a whole",
+   "NVDA": "Nvidia, often written NVDA",
+   "AMD": "AMD, Advanced Micro Devices",
+   "AAPL": "Apple, often written AAPL",
+   "MSFT": "Microsoft, often written MSFT",
+   "TSLA": "Tesla, often written TSLA"
+  }
+ },
+ "rolling_correlation.benchmark": {
+  "type": "choice",
+  "instructions": "Which stock is it being compared against - the second one named, the yardstick?",
+  "criteria": {
+   "SPY": "SPY, the S&P 500 index ETF, the market as a whole",
+   "NVDA": "Nvidia, often written NVDA",
+   "AMD": "AMD, Advanced Micro Devices",
+   "AAPL": "Apple, often written AAPL",
+   "MSFT": "Microsoft, often written MSFT",
+   "TSLA": "Tesla, often written TSLA"
+  }
+ },
+ "rolling_correlation.benchmark?": {
+  "type": "noul",
+  "instructions": "Does the user name a second symbol to compare against?"
+ },
+ "rolling_correlation.window": {
+  "type": "choice",
+  "instructions": "How far back is the user asking about - today, the past week, the past month, or the past three months?",
+  "criteria": {
+   "1d": "today, the latest trading session only",
+   "1w": "the past week",
+   "1mo": "the past month",
+   "3mo": "the past three months, a quarter"
+  }
+ },
+ "rolling_correlation.window?": {
+  "type": "noul",
+  "instructions": "Does the user say how far back to look, such as today, this week, this month, or this quarter?"
+ },
+ "rolling_correlation.resolution": {
+  "type": "choice",
+  "instructions": "What bar size should the returns be measured on - one minute, five minutes, fifteen minutes, one hour, or one day?",
+  "criteria": {
+   "1m": "one-minute returns",
+   "5m": "five-minute returns",
+   "15m": "fifteen-minute returns",
+   "1h": "hourly returns",
+   "1d": "daily returns"
+  }
+ },
+ "rolling_correlation.resolution?": {
+  "type": "noul",
+  "instructions": "Does the user say what bar size or interval to measure returns on?"
+ },
+ "summary_stats.symbol": {
+  "type": "choice",
+  "instructions": "Which company's stock is the user asking about?",
+  "criteria": {
+   "SPY": "SPY, the S&P 500 index ETF, the market as a whole",
+   "NVDA": "Nvidia, often written NVDA",
+   "AMD": "AMD, Advanced Micro Devices",
+   "AAPL": "Apple, often written AAPL",
+   "MSFT": "Microsoft, often written MSFT",
+   "TSLA": "Tesla, often written TSLA"
+  }
+ },
+ "summary_stats.window": {
+  "type": "choice",
+  "instructions": "How far back is the user asking about - today, the past week, the past month, or the past three months?",
+  "criteria": {
+   "1d": "today, the latest trading session only",
+   "1w": "the past week",
+   "1mo": "the past month",
+   "3mo": "the past three months, a quarter"
+  }
+ },
+ "summary_stats.window?": {
+  "type": "noul",
+  "instructions": "Does the user say how far back to look, such as today, this week, this month, or this quarter?"
+ },
+ "volatility.symbol": {
+  "type": "choice",
+  "instructions": "Which company's stock is the user asking about?",
+  "criteria": {
+   "SPY": "SPY, the S&P 500 index ETF, the market as a whole",
+   "NVDA": "Nvidia, often written NVDA",
+   "AMD": "AMD, Advanced Micro Devices",
+   "AAPL": "Apple, often written AAPL",
+   "MSFT": "Microsoft, often written MSFT",
+   "TSLA": "Tesla, often written TSLA"
+  }
+ },
+ "volatility.window": {
+  "type": "choice",
+  "instructions": "How far back is the user asking about - today, the past week, the past month, or the past three months?",
+  "criteria": {
+   "1d": "today, the latest trading session only",
+   "1w": "the past week",
+   "1mo": "the past month",
+   "3mo": "the past three months, a quarter"
+  }
+ },
+ "volatility.window?": {
+  "type": "noul",
+  "instructions": "Does the user say how far back to look, such as today, this week, this month, or this quarter?"
+ },
+ "volatility.annualized": {
+  "type": "noul",
+  "instructions": "Does the user want the figure as a yearly rate rather than per bar?"
+ },
+ "volatility.annualized?": {
+  "type": "noul",
+  "instructions": "Does the user say whether they want volatility annualized or per bar?"
+ },
+ "top_movers.window": {
+  "type": "choice",
+  "instructions": "How far back is the user asking about - today, the past week, the past month, or the past three months?",
+  "criteria": {
+   "1d": "today, the latest trading session only",
+   "1w": "the past week",
+   "1mo": "the past month",
+   "3mo": "the past three months, a quarter"
+  }
+ },
+ "top_movers.window?": {
+  "type": "noul",
+  "instructions": "Does the user say how far back to look, such as today, this week, this month, or this quarter?"
+ },
+ "top_movers.direction": {
+  "type": "choice",
+  "instructions": "Is the user asking about the ones that went up or the ones that went down?",
+  "criteria": {
+   "gainers": "the ones that rose the most, winners, best performers",
+   "losers": "the ones that fell the most, worst performers"
+  }
+ },
+ "drawdown.symbol": {
+  "type": "choice",
+  "instructions": "Which company's stock is the user asking about?",
+  "criteria": {
+   "SPY": "SPY, the S&P 500 index ETF, the market as a whole",
+   "NVDA": "Nvidia, often written NVDA",
+   "AMD": "AMD, Advanced Micro Devices",
+   "AAPL": "Apple, often written AAPL",
+   "MSFT": "Microsoft, often written MSFT",
+   "TSLA": "Tesla, often written TSLA"
+  }
+ },
+ "drawdown.window": {
+  "type": "choice",
+  "instructions": "How far back is the user asking about - today, the past week, the past month, or the past three months?",
+  "criteria": {
+   "1d": "today, the latest trading session only",
+   "1w": "the past week",
+   "1mo": "the past month",
+   "3mo": "the past three months, a quarter"
+  }
+ },
+ "drawdown.window?": {
+  "type": "noul",
+  "instructions": "Does the user say how far back to look, such as today, this week, this month, or this quarter?"
+ },
+ "drawdown.plot": {
+  "type": "noul",
+  "instructions": "Does the user ask to see the drawdown drawn as a chart rather than just told the number?"
+ },
+ "drawdown.plot?": {
+  "type": "noul",
+  "instructions": "Does the user say whether they want a chart or just the figure?"
+ }
+}

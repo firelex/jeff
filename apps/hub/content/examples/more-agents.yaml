@@ -1,0 +1,774 @@
+# More worked examples for the agent adapters' catalogue pages (/catalogue/<adapter id>): with each adapter's example
+# on the "Agents" page (oss-agents.yaml) and the assistant-routing adapter's (api-adapters.yaml), five cases per
+# adapter, each with a different outcome where the adapter has several. content/catalogue-examples.yaml says which page
+# shows which and what each one shows. Format and recording: scripts/hub_examples.py. The `recorded` blocks are
+# written by `scripts/hub_examples.py --record`, never by hand. Every input here was written for the page; every
+# company and person in it is invented.
+
+- id: more-action-check-approve
+  name: Bill paid for the amount on it
+  function: jeff.agents.action-check.action
+  context:
+    app: &pinecrest_app Pinecrest Books, a bookkeeping assistant for a small design studio. It keeps the studio's invoices, clients and supplier bills, emails invoices and pays bills on request.
+    today: &pinecrest_today Monday 2 November 2026
+    rules: &pinecrest_rules
+    - Invoices may be emailed only to an address on the client's record or one the user gives in the conversation.
+    - Before deleting an invoice, show it to the user and get a yes to "Delete this invoice?".
+    - Pay a supplier bill only for the amount on the bill.
+    people: &pinecrest_people
+    - Sam Whitley <sam@pinecrest.example> (the user, studio owner)
+    - Orbit Print accounts <accounts@orbitprint.example> (client)
+    - Inkwell Paper Co billing <billing@inkwellpaper.example> (supplier)
+    tools: &pinecrest_tools |-
+      def find_invoice(client: str, month: str) -> dict:
+          """Finds the studio's invoice for a client and month."""
+      def send_invoice(invoice_id: str, to: str, cc: list[str] = []) -> dict:
+          """Emails an invoice to a recipient, with optional copies."""
+      def delete_invoice(invoice_id: str) -> dict:
+          """Deletes an invoice for good."""
+      def pay_bill(bill_id: str, amount: float) -> dict:
+          """Pays a supplier bill from the studio's bank account."""
+    conversation:
+    - role: user
+      content: Please pay the Inkwell Paper bill, BILL-881, for 480.00.
+    latest_user_message: Please pay the Inkwell Paper bill, BILL-881, for 480.00.
+  input:
+    tool: pay_bill
+    arguments:
+      bill_id: BILL-881
+      amount: 480.00
+  recorded:
+    value: approve
+    confidence: 1.0
+    top_options:
+    - option: approve
+      probability: 1.0
+    - option: ask_user
+      probability: 0.0
+    - option: wrong_action
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-05'
+- id: more-action-check-unsafe-delete
+  name: Delete proposed when the user only asked to see
+  function: jeff.agents.action-check.action
+  context:
+    app: *pinecrest_app
+    today: *pinecrest_today
+    rules: *pinecrest_rules
+    people: *pinecrest_people
+    tools: *pinecrest_tools
+    conversation:
+    - role: user
+      content: Which of my invoices are still unpaid?
+    latest_user_message: Which of my invoices are still unpaid?
+  input:
+    tool: delete_invoice
+    arguments:
+      invoice_id: INV-2026-0412
+  recorded:
+    value: unsafe
+    confidence: 0.999
+    top_options:
+    - option: unsafe
+      probability: 0.999
+    - option: wrong_action
+      probability: 0.0
+    - option: ask_user
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-04'
+- id: more-action-check-wrong-invoice
+  name: Wrong invoice sent
+  function: jeff.agents.action-check.action
+  context:
+    app: *pinecrest_app
+    today: *pinecrest_today
+    rules: *pinecrest_rules
+    people: *pinecrest_people
+    tools: *pinecrest_tools
+    conversation:
+    - role: user
+      content: Please send Orbit Print their September invoice, INV-2026-0388, at accounts@orbitprint.example.
+    latest_user_message: Please send Orbit Print their September invoice, INV-2026-0388, at accounts@orbitprint.example.
+  input:
+    tool: send_invoice
+    arguments:
+      invoice_id: INV-2026-0412
+      to: accounts@orbitprint.example
+      cc: []
+  recorded:
+    value: wrong_action
+    confidence: 0.993
+    top_options:
+    - option: wrong_action
+      probability: 0.993
+    - option: unsafe
+      probability: 0.006
+    - option: ask_user
+      probability: 0.001
+    server: v1.4
+    at: '2026-11-04'
+- id: more-action-check-unsafe-amount
+  name: Bill paid at ten times its amount
+  function: jeff.agents.action-check.action
+  context:
+    app: *pinecrest_app
+    today: *pinecrest_today
+    rules: *pinecrest_rules
+    people: *pinecrest_people
+    tools: *pinecrest_tools
+    conversation:
+    - role: user
+      content: Please pay the Inkwell Paper bill, BILL-881, for 480.00.
+    latest_user_message: Please pay the Inkwell Paper bill, BILL-881, for 480.00.
+  input:
+    tool: pay_bill
+    arguments:
+      bill_id: BILL-881
+      amount: 4800.00
+  recorded:
+    value: unsafe
+    confidence: 0.998
+    top_options:
+    - option: unsafe
+      probability: 0.998
+    - option: approve
+      probability: 0.001
+    - option: ask_user
+      probability: 0.001
+    server: v1.4
+    at: '2026-11-05'
+- id: more-after-result-continue
+  name: Invoice found, email still to send
+  function: jeff.agents.after-result.next
+  context:
+    app: *pinecrest_app
+    today: *pinecrest_today
+    tools: &pinecrest_tool_list
+    - 'find_invoice: finds the studio''s invoice for a client and month'
+    - 'send_invoice: emails an invoice to a recipient, with optional copies'
+    retry_limit: &pinecrest_retry Retry a failed call at most 3 times.
+    goal: &pinecrest_goal Send the October invoice for Orbit Print to accounts@orbitprint.example and copy me.
+    plan:
+    - 1. Find the October invoice for Orbit Print (current step)
+    - 2. Email it to accounts@orbitprint.example with a copy to sam@pinecrest.example (still to do)
+    - 3. Tell the user it was sent (still to do)
+    steps_so_far: []
+    latest_call:
+      tool: find_invoice
+      arguments: {client: Orbit Print, month: 2026-10}
+      attempt: 1
+  input:
+    status: ok
+    data: {invoice_id: INV-2026-0412, total: 2350.00, status: unpaid}
+  recorded:
+    value: continue
+    confidence: 1.0
+    top_options:
+    - option: continue
+      probability: 1.0
+    - option: change_approach
+      probability: 0.0
+    - option: retry
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-05'
+- id: more-after-result-wrong-month
+  name: Month written in a format the tool refuses
+  function: jeff.agents.after-result.next
+  context:
+    app: *pinecrest_app
+    today: *pinecrest_today
+    tools: *pinecrest_tool_list
+    retry_limit: *pinecrest_retry
+    goal: *pinecrest_goal
+    plan:
+    - 1. Find the October invoice for Orbit Print (current step)
+    - 2. Email it to accounts@orbitprint.example with a copy to sam@pinecrest.example (still to do)
+    - 3. Tell the user it was sent (still to do)
+    steps_so_far: []
+    latest_call:
+      tool: find_invoice
+      arguments: {client: Orbit Print, month: October}
+      attempt: 1
+  input:
+    status: error
+    code: 400
+    message: 'Invalid month "October": use the form YYYY-MM, for example 2026-10.'
+  recorded:
+    value: change_approach
+    confidence: 1.0
+    top_options:
+    - option: change_approach
+      probability: 1.0
+    - option: stop
+      probability: 0.0
+    - option: continue
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-04'
+- id: more-after-result-done
+  name: Last step of the plan worked
+  function: jeff.agents.after-result.next
+  context:
+    app: *pinecrest_app
+    today: *pinecrest_today
+    tools: *pinecrest_tool_list
+    retry_limit: *pinecrest_retry
+    goal: *pinecrest_goal
+    plan:
+    - 1. Find the October invoice for Orbit Print (done)
+    - 2. Email it to accounts@orbitprint.example with a copy to sam@pinecrest.example (current step)
+    steps_so_far:
+    - call:
+        tool: find_invoice
+        arguments: {client: Orbit Print, month: 2026-10}
+      result: {invoice_id: INV-2026-0412, total: 2350.00, status: unpaid}
+    latest_call:
+      tool: send_invoice
+      arguments: {invoice_id: INV-2026-0412, to: accounts@orbitprint.example, cc: [sam@pinecrest.example]}
+      attempt: 1
+  input:
+    status: ok
+    data: {status: sent, message_id: m-77120}
+  recorded:
+    value: stop
+    confidence: 1.0
+    top_options:
+    - option: stop
+      probability: 1.0
+    - option: retry
+      probability: 0.0
+    - option: change_approach
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-05'
+- id: more-after-result-login-expired
+  name: Mail account signed out
+  function: jeff.agents.after-result.next
+  context:
+    app: *pinecrest_app
+    today: *pinecrest_today
+    tools: *pinecrest_tool_list
+    retry_limit: *pinecrest_retry
+    goal: *pinecrest_goal
+    plan:
+    - 1. Find the October invoice for Orbit Print (done)
+    - 2. Email it to accounts@orbitprint.example with a copy to sam@pinecrest.example (current step)
+    - 3. Tell the user it was sent (still to do)
+    steps_so_far:
+    - call:
+        tool: find_invoice
+        arguments: {client: Orbit Print, month: 2026-10}
+      result: {invoice_id: INV-2026-0412, total: 2350.00, status: unpaid}
+    latest_call:
+      tool: send_invoice
+      arguments: {invoice_id: INV-2026-0412, to: accounts@orbitprint.example, cc: [sam@pinecrest.example]}
+      attempt: 1
+  input:
+    status: error
+    code: 401
+    message: The studio's mail account login has expired. The account owner must sign in again in Settings before mail can be sent.
+  recorded:
+    value: escalate
+    confidence: 1.0
+    top_options:
+    - option: escalate
+      probability: 1.0
+    - option: retry
+      probability: 0.0
+    - option: change_approach
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-05'
+- id: more-result-relevant-yes
+  name: October invoice with its number and total
+  function: jeff.agents.result-relevant.relevant
+  context:
+    app: *pinecrest_app
+    today: *pinecrest_today
+    sub_question: &pinecrest_subq What is the invoice number and total of Orbit Print's October 2026 invoice?
+    call: &pinecrest_find_call
+      tool: find_invoice
+      description: Finds the studio's invoice for a client and month.
+      arguments: {client: Orbit Print, month: 2026-10}
+  input:
+    invoice_id: INV-2026-0412
+    client: Orbit Print
+    month: 2026-10
+    total: 2350.00
+    status: unpaid
+  recorded:
+    value: 'yes'
+    confidence: 0.998
+    top_options:
+    - option: 'yes'
+      probability: 0.998
+    - option: partly
+      probability: 0.001
+    - option: 'no'
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-05'
+- id: more-result-relevant-partly
+  name: Right invoice, but no total
+  function: jeff.agents.result-relevant.relevant
+  context:
+    app: *pinecrest_app
+    today: *pinecrest_today
+    sub_question: *pinecrest_subq
+    call: *pinecrest_find_call
+  input:
+    invoice_id: INV-2026-0412
+    client: Orbit Print
+    month: 2026-10
+    status: unpaid
+  recorded:
+    value: partly
+    confidence: 0.998
+    top_options:
+    - option: partly
+      probability: 0.998
+    - option: 'yes'
+      probability: 0.001
+    - option: 'no'
+      probability: 0.001
+    server: v1.4
+    at: '2026-11-04'
+- id: more-result-relevant-error
+  name: Tool answered with an error
+  function: jeff.agents.result-relevant.relevant
+  context:
+    app: *pinecrest_app
+    today: *pinecrest_today
+    sub_question: *pinecrest_subq
+    call: *pinecrest_find_call
+  input:
+    status: error
+    message: No invoice found for client "Orbit Print" in 2026-10.
+  recorded:
+    value: 'no'
+    confidence: 0.999
+    top_options:
+    - option: 'no'
+      probability: 0.999
+    - option: partly
+      probability: 0.001
+    - option: 'yes'
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-04'
+- id: more-result-relevant-list
+  name: First page of a list the question needs whole
+  function: jeff.agents.result-relevant.relevant
+  context:
+    app: *pinecrest_app
+    today: *pinecrest_today
+    sub_question: Which of the studio's invoices issued in October 2026 are still unpaid? List all of them.
+    call:
+      tool: list_invoices
+      description: Lists the studio's invoices for a month, 3 per page.
+      arguments: {month: 2026-10, status: unpaid, page: 1}
+  input:
+    invoices:
+    - {invoice_id: INV-2026-0412, client: Orbit Print, total: 2350.00}
+    - {invoice_id: INV-2026-0415, client: Moss & Gale, total: 880.00}
+    - {invoice_id: INV-2026-0419, client: Harbour Lane Cafe, total: 640.00}
+    page: 1
+    pages: 2
+  recorded:
+    value: partly
+    confidence: 0.963
+    top_options:
+    - option: partly
+      probability: 0.963
+    - option: 'yes'
+      probability: 0.022
+    - option: 'no'
+      probability: 0.015
+    server: v1.4
+    at: '2026-11-05'
+- id: more-task-complete-answered
+  name: Question answered with the right total
+  function: jeff.agents.task-complete.complete
+  context:
+    app: *pinecrest_app
+    today: *pinecrest_today
+    request: What is the total of Orbit Print's October invoice?
+    transcript:
+    - call:
+        tool: find_invoice
+        arguments: {client: Orbit Print, month: 2026-10}
+      result: {invoice_id: INV-2026-0412, total: 2350.00, status: unpaid}
+  input: Orbit Print's October invoice, INV-2026-0412, comes to 2,350.00.
+  recorded:
+    value: complete
+    confidence: 0.999
+    top_options:
+    - option: complete
+      probability: 0.999
+    - option: incomplete
+      probability: 0.001
+    - option: unclear
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-05'
+- id: more-task-complete-queued
+  name: Email only queued, never confirmed
+  function: jeff.agents.task-complete.complete
+  context:
+    app: *pinecrest_app
+    today: *pinecrest_today
+    request: *pinecrest_goal
+    transcript:
+    - call:
+        tool: find_invoice
+        arguments: {client: Orbit Print, month: 2026-10}
+      result: {invoice_id: INV-2026-0412, total: 2350.00, status: unpaid}
+    - call:
+        tool: send_invoice
+        arguments: {invoice_id: INV-2026-0412, to: accounts@orbitprint.example, cc: [sam@pinecrest.example]}
+      result: {status: queued, note: The message is waiting in the outbox; delivery is not yet confirmed.}
+  input: The October invoice has been sent to Orbit Print, with a copy to you.
+  recorded:
+    value: unclear
+    confidence: 0.997
+    top_options:
+    - option: unclear
+      probability: 0.997
+    - option: incomplete
+      probability: 0.003
+    - option: complete
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-05'
+- id: more-task-complete-wrong-total
+  name: Right invoice, wrong total told to the user
+  function: jeff.agents.task-complete.complete
+  context:
+    app: *pinecrest_app
+    today: *pinecrest_today
+    request: What is the total of Orbit Print's October invoice?
+    transcript:
+    - call:
+        tool: find_invoice
+        arguments: {client: Orbit Print, month: 2026-10}
+      result: {invoice_id: INV-2026-0412, total: 2350.00, status: unpaid}
+  input: Orbit Print's October invoice, INV-2026-0412, comes to 3,250.00.
+  recorded:
+    value: incomplete
+    confidence: 1.0
+    top_options:
+    - option: incomplete
+      probability: 1.0
+    - option: complete
+      probability: 0.0
+    - option: unclear
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-05'
+- id: more-task-complete-two-invoices
+  name: Both invoices sent as asked
+  function: jeff.agents.task-complete.complete
+  context:
+    app: *pinecrest_app
+    today: *pinecrest_today
+    request: Send Moss & Gale their September and October invoices at hello@mossgale.example.
+    transcript:
+    - call:
+        tool: find_invoice
+        arguments: {client: Moss & Gale, month: 2026-09}
+      result: {invoice_id: INV-2026-0391, total: 720.00, status: unpaid}
+    - call:
+        tool: find_invoice
+        arguments: {client: Moss & Gale, month: 2026-10}
+      result: {invoice_id: INV-2026-0415, total: 880.00, status: unpaid}
+    - call:
+        tool: send_invoice
+        arguments: {invoice_id: INV-2026-0391, to: hello@mossgale.example, cc: []}
+      result: {status: sent, message_id: m-77131}
+    - call:
+        tool: send_invoice
+        arguments: {invoice_id: INV-2026-0415, to: hello@mossgale.example, cc: []}
+      result: {status: sent, message_id: m-77132}
+  input: Both invoices, INV-2026-0391 and INV-2026-0415, have been sent to hello@mossgale.example.
+  recorded:
+    value: complete
+    confidence: 0.955
+    top_options:
+    - option: complete
+      probability: 0.955
+    - option: incomplete
+      probability: 0.044
+    - option: unclear
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-05'
+- id: more-tool-route-find
+  name: Look up an invoice
+  function: jeff.agents.tool-route.tool
+  context:
+    app: *pinecrest_app
+    today: *pinecrest_today
+    tools: &pinecrest_route_tools |-
+      def find_invoice(client: str, month: str) -> dict:
+          """Finds the studio's invoice for a client and month."""
+      def send_invoice(invoice_id: str, to: str, cc: list[str] = []) -> dict:
+          """Emails an invoice to a recipient, with optional copies."""
+      def create_invoice(client: str, items: list[dict]) -> dict:
+          """Creates a new draft invoice."""
+    conversation: []
+  input: How much did we bill Moss & Gale in September 2026?
+  labels: &pinecrest_route_labels
+    find_invoice: Finds the studio's invoice for a client and month.
+    send_invoice: Emails an invoice to a recipient, with optional copies.
+    create_invoice: Creates a new draft invoice.
+    none: No tool is needed, or no tool on the menu can do what the user asks.
+    ask_user: A tool fits, but a required detail is missing and the agent must ask the user.
+  recorded:
+    value: find_invoice
+    confidence: 0.811
+    top_options:
+    - option: find_invoice
+      probability: 0.811
+    - option: none
+      probability: 0.166
+    - option: ask_user
+      probability: 0.018
+    server: v1.4
+    at: '2026-11-04'
+- id: more-tool-route-ask
+  name: Send an invoice, but which one?
+  function: jeff.agents.tool-route.tool
+  context:
+    app: *pinecrest_app
+    today: *pinecrest_today
+    tools: *pinecrest_route_tools
+    conversation: []
+  input: Send the invoice to the client, please.
+  labels: *pinecrest_route_labels
+  recorded:
+    value: ask_user
+    confidence: 0.991
+    top_options:
+    - option: ask_user
+      probability: 0.991
+    - option: send_invoice
+      probability: 0.004
+    - option: find_invoice
+      probability: 0.002
+    server: v1.4
+    at: '2026-11-04'
+- id: more-tool-route-thanks
+  name: The user says thanks
+  function: jeff.agents.tool-route.tool
+  context:
+    app: *pinecrest_app
+    today: *pinecrest_today
+    tools: *pinecrest_route_tools
+    conversation:
+    - role: user
+      content: Send the October invoice for Orbit Print to accounts@orbitprint.example.
+    - role: assistant
+      content: Done, INV-2026-0412 has been sent to accounts@orbitprint.example.
+  input: Perfect, thank you!
+  labels: *pinecrest_route_labels
+  recorded:
+    value: none
+    confidence: 1.0
+    top_options:
+    - option: none
+      probability: 1.0
+    - option: ask_user
+      probability: 0.0
+    - option: send_invoice
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-04'
+- id: more-tool-route-create
+  name: Draft a new invoice with its items
+  function: jeff.agents.tool-route.tool
+  context:
+    app: *pinecrest_app
+    today: *pinecrest_today
+    tools: *pinecrest_route_tools
+    conversation: []
+  input: Make a new invoice for Harbour Lane Cafe for the menu design, 2 days at 450.00 a day.
+  labels: *pinecrest_route_labels
+  recorded:
+    value: create_invoice
+    confidence: 0.821
+    top_options:
+    - option: create_invoice
+      probability: 0.821
+    - option: ask_user
+      probability: 0.168
+    - option: none
+      probability: 0.006
+    server: v1.4
+    at: '2026-11-04'
+- id: more-tools-train
+  name: Book the 7:10 train to Leeds
+  function: jeff.routing.tools.tool
+  context:
+    agent: &travel_agent A travel desk assistant for a consulting firm that books trains and hotels for staff and checks the travel policy.
+    conversation: []
+  input: Please book me the 7:10 train from London to Leeds next Tuesday, returning on the 18:30 on Wednesday.
+  labels: &travel_labels
+    book_train: Books a train ticket for a traveller, given the route, date and time.
+    book_hotel: Books a hotel room for a traveller, given the city or address and the nights.
+    check_policy: Looks up what the firm's travel policy allows (classes of travel, nightly hotel limits).
+    cancel_booking: Cancels an existing booking by its reference.
+  recorded:
+    value: book_train
+    confidence: 0.992
+    top_options:
+    - option: book_train
+      probability: 0.992
+    - option: ask_user
+      probability: 0.007
+    - option: answer_directly
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-04'
+- id: more-tools-policy
+  name: May I travel first class?
+  function: jeff.routing.tools.tool
+  context:
+    agent: *travel_agent
+    conversation: []
+  input: Am I allowed to travel first class on a trip longer than three hours?
+  labels: *travel_labels
+  recorded:
+    value: check_policy
+    confidence: 0.965
+    top_options:
+    - option: check_policy
+      probability: 0.965
+    - option: ask_user
+      probability: 0.028
+    - option: answer_directly
+      probability: 0.003
+    server: v1.4
+    at: '2026-11-04'
+- id: more-tools-ask
+  name: Cancel a booking with no reference
+  function: jeff.routing.tools.tool
+  context:
+    agent: *travel_agent
+    conversation:
+    - role: user
+      text: I have three trips booked this month.
+    - role: assistant
+      text: I can see them. What would you like to do?
+  input: Cancel one of them, please.
+  labels: *travel_labels
+  recorded:
+    value: ask_user
+    confidence: 0.999
+    top_options:
+    - option: ask_user
+      probability: 0.999
+    - option: answer_directly
+      probability: 0.0
+    - option: check_policy
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-04'
+- id: more-tools-answer
+  name: Question the conversation already answers
+  function: jeff.routing.tools.tool
+  context:
+    agent: *travel_agent
+    conversation:
+    - role: user
+      text: Book me a hotel in Leeds for Tuesday night.
+    - role: assistant
+      text: Done. You are booked at the Canal Wharf Hotel, Leeds, for Tuesday 10 November, reference HB-55102.
+  input: Sorry, what was the name of the hotel again?
+  labels: *travel_labels
+  recorded:
+    value: answer_directly
+    confidence: 1.0
+    top_options:
+    - option: answer_directly
+      probability: 1.0
+    - option: ask_user
+      probability: 0.0
+    - option: book_hotel
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-04'
+- id: more-assistant-routing-plan
+  name: Plan a week around three clashing meetings
+  function: jeff.agents.assistant-routing.needs_thinking
+  context:
+    accounts: &assistant_accounts Work account [work], Personal account [personal]
+    date_and_time_zone: &assistant_now It is Tuesday 3 November 2026, 16:20, and the user is in London (UK time).
+    conversation: 'User: Next week I have the board meeting on Monday 10:00-12:00, a client workshop in Leeds on Tuesday all day, and the dentist on Wednesday 9:00. The Leeds train takes 2 h 20 min. Our new hire, Priya, needs two hours with me before Wednesday, and I never take calls before 9 or after 18. Can you find a slot and tell me which other meetings have to move? Assistant: (calls calendar.list_events for 9-13 November) Result: 14 events, including a 1:1 with Tom on Monday 14:00-15:00, a supplier call on Monday 16:00-17:30 and a team lunch on Wednesday 12:00-13:30.'
+  input: Reply to the user in words.
+  recorded:
+    value: true
+    confidence: 0.721
+    top_options:
+    - option: 'true'
+      probability: 0.721
+    - option: 'false'
+      probability: 0.279
+    server: v1.4
+    at: '2026-11-04'
+- id: more-assistant-routing-greeting
+  name: A simple good morning
+  function: jeff.agents.assistant-routing.needs_thinking
+  context:
+    accounts: *assistant_accounts
+    date_and_time_zone: It is Wednesday 4 November 2026, 08:05, and the user is in London (UK time).
+    conversation: 'User: Good morning!'
+  input: Reply to the user in words.
+  recorded:
+    value: false
+    confidence: 0.556
+    top_options:
+    - option: 'false'
+      probability: 0.556
+    - option: 'true'
+      probability: 0.444
+    server: v1.4
+    at: '2026-11-04'
+- id: more-assistant-routing-contract
+  name: Compare two offers against a budget
+  function: jeff.agents.assistant-routing.needs_thinking
+  context:
+    accounts: *assistant_accounts
+    date_and_time_zone: *assistant_now
+    conversation: 'User: Two caterers quoted for our 120-person summer party. Brightfork: 38 a head, plus 450 for staff, plus 12% service, drinks not included. Larder & Lime: 44 a head all in, drinks included up to 15 a head, but a 1,200 deposit we lose if we cancel within 30 days. Our budget is 6,000 and we may need to cancel if the venue falls through. Which should we choose, and why?'
+  input: Reply to the user in words.
+  recorded:
+    value: true
+    confidence: 0.876
+    top_options:
+    - option: 'true'
+      probability: 0.876
+    - option: 'false'
+      probability: 0.124
+    server: v1.4
+    at: '2026-11-04'
+- id: more-assistant-routing-confirm
+  name: Confirm a reminder was set
+  function: jeff.agents.assistant-routing.needs_thinking
+  context:
+    accounts: *assistant_accounts
+    date_and_time_zone: *assistant_now
+    conversation: 'User: Remind me to call the plumber at 5 pm. Assistant: (calls reminders.create) Result: reminder created for 17:00 today, "Call the plumber".'
+  input: Reply to the user in words.
+  recorded:
+    value: false
+    confidence: 0.962
+    top_options:
+    - option: 'false'
+      probability: 0.962
+    - option: 'true'
+      probability: 0.038
+    server: v1.4
+    at: '2026-11-04'

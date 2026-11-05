@@ -1,0 +1,32 @@
+[project]
+name = "jeff-server"
+version = "0.1.0"
+description = "jeff-server: the HTTP API in front of Jeff's engine processes"
+requires-python = ">=3.13"
+dependencies = [
+    "jeff-sdk",
+    "fastapi==0.141.1",
+    "uvicorn==0.52.4",
+    "pyjwt[crypto]==2.15.1",
+    "maxminddb==3.2.0",
+    "websockets==17.3",
+    "mcp>=2.3.0,<2.4",
+    # tests/test_accounts.py reads httpx internals (the client's SSL context): check it when upgrading httpx
+    "httpx==0.28.1",
+]
+
+[project.optional-dependencies]
+# `jeff-server factory worker`: its score job runs the engine in process (jeff_runtime.LocalEngine), it counts tokens
+# with the base's tokenizer (transformers) and checks free GPU memory (torch). The API alone needs none of these.
+# Pins as in jeff-runtime.
+factory = ["jeff-runtime", "torch==2.14.0", "transformers==5.17.0"]
+
+[project.scripts]
+jeff-server = "jeff_server.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/jeff_server"]

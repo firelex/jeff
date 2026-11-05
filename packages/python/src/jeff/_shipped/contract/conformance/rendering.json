@@ -1,0 +1,166 @@
+{
+ "description": "How the engine writes a row's numbers in the text the model reads (contract/socket.md, 'How the engine writes a row's numbers for the model'). A number means its value, never the way it was written. Each case lists rows as the exact JSON text a client sent (a string, so the way each number was written is kept: 189 and 189.0 differ here as they do on the wire), the prompt layout and the answer codes; every one of those rows must give exactly 'text', the text of the model's user message (jeff_runtime.engine.model.decision_messages), and so the same answer. The texts were written from the rule, not recorded from the engine.",
+ "cases": [
+  {
+   "name": "a whole-number amount is written 189 however the client wrote it (189, 189.0, 189.00, 1.89e2, 18900e-2)",
+   "layout": "state-first",
+   "codes": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "rows_json": [
+    "{\"state\": {\"proposed_call\": {\"tool\": \"refund\", \"arguments\": {\"order_id\": \"4471\", \"amount\": 189, \"card_last4\": \"3054\"}}}, \"question\": {\"type\": \"choice\", \"instructions\": \"Should the agent's proposed tool call go ahead?\", \"criteria\": {\"approve\": \"the call does exactly what the user asked\", \"wrong_action\": \"the call does something else\", \"unsafe\": \"the call could cause harm\", \"ask_user\": \"the user must confirm first\"}}}",
+    "{\"state\": {\"proposed_call\": {\"tool\": \"refund\", \"arguments\": {\"order_id\": \"4471\", \"amount\": 189.0, \"card_last4\": \"3054\"}}}, \"question\": {\"type\": \"choice\", \"instructions\": \"Should the agent's proposed tool call go ahead?\", \"criteria\": {\"approve\": \"the call does exactly what the user asked\", \"wrong_action\": \"the call does something else\", \"unsafe\": \"the call could cause harm\", \"ask_user\": \"the user must confirm first\"}}}",
+    "{\"state\": {\"proposed_call\": {\"tool\": \"refund\", \"arguments\": {\"order_id\": \"4471\", \"amount\": 189.00, \"card_last4\": \"3054\"}}}, \"question\": {\"type\": \"choice\", \"instructions\": \"Should the agent's proposed tool call go ahead?\", \"criteria\": {\"approve\": \"the call does exactly what the user asked\", \"wrong_action\": \"the call does something else\", \"unsafe\": \"the call could cause harm\", \"ask_user\": \"the user must confirm first\"}}}",
+    "{\"state\": {\"proposed_call\": {\"tool\": \"refund\", \"arguments\": {\"order_id\": \"4471\", \"amount\": 1.89e2, \"card_last4\": \"3054\"}}}, \"question\": {\"type\": \"choice\", \"instructions\": \"Should the agent's proposed tool call go ahead?\", \"criteria\": {\"approve\": \"the call does exactly what the user asked\", \"wrong_action\": \"the call does something else\", \"unsafe\": \"the call could cause harm\", \"ask_user\": \"the user must confirm first\"}}}",
+    "{\"state\": {\"proposed_call\": {\"tool\": \"refund\", \"arguments\": {\"order_id\": \"4471\", \"amount\": 18900e-2, \"card_last4\": \"3054\"}}}, \"question\": {\"type\": \"choice\", \"instructions\": \"Should the agent's proposed tool call go ahead?\", \"criteria\": {\"approve\": \"the call does exactly what the user asked\", \"wrong_action\": \"the call does something else\", \"unsafe\": \"the call could cause harm\", \"ask_user\": \"the user must confirm first\"}}}"
+   ],
+   "text": "State:\n{\"proposed_call\": {\"tool\": \"refund\", \"arguments\": {\"order_id\": \"4471\", \"amount\": 189, \"card_last4\": \"3054\"}}}\n\nQuestion:\nShould the agent's proposed tool call go ahead?\n\nOptions:\nA: approve: the call does exactly what the user asked\nB: wrong_action: the call does something else\nC: unsafe: the call could cause harm\nD: ask_user: the user must confirm first\n\nReturn only the letter code of the best option."
+  },
+  {
+   "name": "a number with a fractional part is written as Python writes the float (189.5)",
+   "layout": "state-first",
+   "codes": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "rows_json": [
+    "{\"state\": {\"value\": 189.5}, \"question\": {\"type\": \"choice\", \"instructions\": \"Should the agent's proposed tool call go ahead?\", \"criteria\": {\"approve\": \"the call does exactly what the user asked\", \"wrong_action\": \"the call does something else\", \"unsafe\": \"the call could cause harm\", \"ask_user\": \"the user must confirm first\"}}}",
+    "{\"state\": {\"value\": 189.50}, \"question\": {\"type\": \"choice\", \"instructions\": \"Should the agent's proposed tool call go ahead?\", \"criteria\": {\"approve\": \"the call does exactly what the user asked\", \"wrong_action\": \"the call does something else\", \"unsafe\": \"the call could cause harm\", \"ask_user\": \"the user must confirm first\"}}}",
+    "{\"state\": {\"value\": 1.895e2}, \"question\": {\"type\": \"choice\", \"instructions\": \"Should the agent's proposed tool call go ahead?\", \"criteria\": {\"approve\": \"the call does exactly what the user asked\", \"wrong_action\": \"the call does something else\", \"unsafe\": \"the call could cause harm\", \"ask_user\": \"the user must confirm first\"}}}"
+   ],
+   "text": "State:\n{\"value\": 189.5}\n\nQuestion:\nShould the agent's proposed tool call go ahead?\n\nOptions:\nA: approve: the call does exactly what the user asked\nB: wrong_action: the call does something else\nC: unsafe: the call could cause harm\nD: ask_user: the user must confirm first\n\nReturn only the letter code of the best option."
+  },
+  {
+   "name": "a small fraction keeps Python's shortest form (0.1)",
+   "layout": "state-first",
+   "codes": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "rows_json": [
+    "{\"state\": {\"value\": 0.1}, \"question\": {\"type\": \"choice\", \"instructions\": \"Should the agent's proposed tool call go ahead?\", \"criteria\": {\"approve\": \"the call does exactly what the user asked\", \"wrong_action\": \"the call does something else\", \"unsafe\": \"the call could cause harm\", \"ask_user\": \"the user must confirm first\"}}}",
+    "{\"state\": {\"value\": 0.10}, \"question\": {\"type\": \"choice\", \"instructions\": \"Should the agent's proposed tool call go ahead?\", \"criteria\": {\"approve\": \"the call does exactly what the user asked\", \"wrong_action\": \"the call does something else\", \"unsafe\": \"the call could cause harm\", \"ask_user\": \"the user must confirm first\"}}}",
+    "{\"state\": {\"value\": 1e-1}, \"question\": {\"type\": \"choice\", \"instructions\": \"Should the agent's proposed tool call go ahead?\", \"criteria\": {\"approve\": \"the call does exactly what the user asked\", \"wrong_action\": \"the call does something else\", \"unsafe\": \"the call could cause harm\", \"ask_user\": \"the user must confirm first\"}}}"
+   ],
+   "text": "State:\n{\"value\": 0.1}\n\nQuestion:\nShould the agent's proposed tool call go ahead?\n\nOptions:\nA: approve: the call does exactly what the user asked\nB: wrong_action: the call does something else\nC: unsafe: the call could cause harm\nD: ask_user: the user must confirm first\n\nReturn only the letter code of the best option."
+  },
+  {
+   "name": "a very small number is written with Python's exponent form (1.5e-07)",
+   "layout": "state-first",
+   "codes": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "rows_json": [
+    "{\"state\": {\"value\": 1.5e-7}, \"question\": {\"type\": \"choice\", \"instructions\": \"Should the agent's proposed tool call go ahead?\", \"criteria\": {\"approve\": \"the call does exactly what the user asked\", \"wrong_action\": \"the call does something else\", \"unsafe\": \"the call could cause harm\", \"ask_user\": \"the user must confirm first\"}}}",
+    "{\"state\": {\"value\": 0.00000015}, \"question\": {\"type\": \"choice\", \"instructions\": \"Should the agent's proposed tool call go ahead?\", \"criteria\": {\"approve\": \"the call does exactly what the user asked\", \"wrong_action\": \"the call does something else\", \"unsafe\": \"the call could cause harm\", \"ask_user\": \"the user must confirm first\"}}}",
+    "{\"state\": {\"value\": 15E-8}, \"question\": {\"type\": \"choice\", \"instructions\": \"Should the agent's proposed tool call go ahead?\", \"criteria\": {\"approve\": \"the call does exactly what the user asked\", \"wrong_action\": \"the call does something else\", \"unsafe\": \"the call could cause harm\", \"ask_user\": \"the user must confirm first\"}}}"
+   ],
+   "text": "State:\n{\"value\": 1.5e-07}\n\nQuestion:\nShould the agent's proposed tool call go ahead?\n\nOptions:\nA: approve: the call does exactly what the user asked\nB: wrong_action: the call does something else\nC: unsafe: the call could cause harm\nD: ask_user: the user must confirm first\n\nReturn only the letter code of the best option."
+  },
+  {
+   "name": "a negative whole number loses its .0 (-3)",
+   "layout": "state-first",
+   "codes": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "rows_json": [
+    "{\"state\": {\"value\": -3}, \"question\": {\"type\": \"choice\", \"instructions\": \"Should the agent's proposed tool call go ahead?\", \"criteria\": {\"approve\": \"the call does exactly what the user asked\", \"wrong_action\": \"the call does something else\", \"unsafe\": \"the call could cause harm\", \"ask_user\": \"the user must confirm first\"}}}",
+    "{\"state\": {\"value\": -3.0}, \"question\": {\"type\": \"choice\", \"instructions\": \"Should the agent's proposed tool call go ahead?\", \"criteria\": {\"approve\": \"the call does exactly what the user asked\", \"wrong_action\": \"the call does something else\", \"unsafe\": \"the call could cause harm\", \"ask_user\": \"the user must confirm first\"}}}",
+    "{\"state\": {\"value\": -3e0}, \"question\": {\"type\": \"choice\", \"instructions\": \"Should the agent's proposed tool call go ahead?\", \"criteria\": {\"approve\": \"the call does exactly what the user asked\", \"wrong_action\": \"the call does something else\", \"unsafe\": \"the call could cause harm\", \"ask_user\": \"the user must confirm first\"}}}"
+   ],
+   "text": "State:\n{\"value\": -3}\n\nQuestion:\nShould the agent's proposed tool call go ahead?\n\nOptions:\nA: approve: the call does exactly what the user asked\nB: wrong_action: the call does something else\nC: unsafe: the call could cause harm\nD: ask_user: the user must confirm first\n\nReturn only the letter code of the best option."
+  },
+  {
+   "name": "zero and negative zero are both written 0",
+   "layout": "state-first",
+   "codes": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "rows_json": [
+    "{\"state\": {\"value\": 0}, \"question\": {\"type\": \"choice\", \"instructions\": \"Should the agent's proposed tool call go ahead?\", \"criteria\": {\"approve\": \"the call does exactly what the user asked\", \"wrong_action\": \"the call does something else\", \"unsafe\": \"the call could cause harm\", \"ask_user\": \"the user must confirm first\"}}}",
+    "{\"state\": {\"value\": 0.0}, \"question\": {\"type\": \"choice\", \"instructions\": \"Should the agent's proposed tool call go ahead?\", \"criteria\": {\"approve\": \"the call does exactly what the user asked\", \"wrong_action\": \"the call does something else\", \"unsafe\": \"the call could cause harm\", \"ask_user\": \"the user must confirm first\"}}}",
+    "{\"state\": {\"value\": -0}, \"question\": {\"type\": \"choice\", \"instructions\": \"Should the agent's proposed tool call go ahead?\", \"criteria\": {\"approve\": \"the call does exactly what the user asked\", \"wrong_action\": \"the call does something else\", \"unsafe\": \"the call could cause harm\", \"ask_user\": \"the user must confirm first\"}}}",
+    "{\"state\": {\"value\": -0.0}, \"question\": {\"type\": \"choice\", \"instructions\": \"Should the agent's proposed tool call go ahead?\", \"criteria\": {\"approve\": \"the call does exactly what the user asked\", \"wrong_action\": \"the call does something else\", \"unsafe\": \"the call could cause harm\", \"ask_user\": \"the user must confirm first\"}}}"
+   ],
+   "text": "State:\n{\"value\": 0}\n\nQuestion:\nShould the agent's proposed tool call go ahead?\n\nOptions:\nA: approve: the call does exactly what the user asked\nB: wrong_action: the call does something else\nC: unsafe: the call could cause harm\nD: ask_user: the user must confirm first\n\nReturn only the letter code of the best option."
+  },
+  {
+   "name": "a whole number too large for a float's plain text is written in plain digits (1e21)",
+   "layout": "state-first",
+   "codes": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "rows_json": [
+    "{\"state\": {\"value\": 1000000000000000000000}, \"question\": {\"type\": \"choice\", \"instructions\": \"Should the agent's proposed tool call go ahead?\", \"criteria\": {\"approve\": \"the call does exactly what the user asked\", \"wrong_action\": \"the call does something else\", \"unsafe\": \"the call could cause harm\", \"ask_user\": \"the user must confirm first\"}}}",
+    "{\"state\": {\"value\": 1e21}, \"question\": {\"type\": \"choice\", \"instructions\": \"Should the agent's proposed tool call go ahead?\", \"criteria\": {\"approve\": \"the call does exactly what the user asked\", \"wrong_action\": \"the call does something else\", \"unsafe\": \"the call could cause harm\", \"ask_user\": \"the user must confirm first\"}}}",
+    "{\"state\": {\"value\": 1.0E+21}, \"question\": {\"type\": \"choice\", \"instructions\": \"Should the agent's proposed tool call go ahead?\", \"criteria\": {\"approve\": \"the call does exactly what the user asked\", \"wrong_action\": \"the call does something else\", \"unsafe\": \"the call could cause harm\", \"ask_user\": \"the user must confirm first\"}}}"
+   ],
+   "text": "State:\n{\"value\": 1000000000000000000000}\n\nQuestion:\nShould the agent's proposed tool call go ahead?\n\nOptions:\nA: approve: the call does exactly what the user asked\nB: wrong_action: the call does something else\nC: unsafe: the call could cause harm\nD: ask_user: the user must confirm first\n\nReturn only the letter code of the best option."
+  },
+  {
+   "name": "true, false and text are never changed; numbers inside lists and nested objects are",
+   "layout": "state-first",
+   "codes": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "rows_json": [
+    "{\"state\": {\"paid\": true, \"refunded\": false, \"note\": \"189.00\", \"count\": 1, \"lines\": [[1, [2]], {\"a\": {\"b\": 3}}]}, \"question\": {\"type\": \"choice\", \"instructions\": \"Should the agent's proposed tool call go ahead?\", \"criteria\": {\"approve\": \"the call does exactly what the user asked\", \"wrong_action\": \"the call does something else\", \"unsafe\": \"the call could cause harm\", \"ask_user\": \"the user must confirm first\"}}}",
+    "{\"state\": {\"paid\": true, \"refunded\": false, \"note\": \"189.00\", \"count\": 1.0, \"lines\": [[1.0, [2.0]], {\"a\": {\"b\": 3.0}}]}, \"question\": {\"type\": \"choice\", \"instructions\": \"Should the agent's proposed tool call go ahead?\", \"criteria\": {\"approve\": \"the call does exactly what the user asked\", \"wrong_action\": \"the call does something else\", \"unsafe\": \"the call could cause harm\", \"ask_user\": \"the user must confirm first\"}}}",
+    "{\"state\": {\"paid\": true, \"refunded\": false, \"note\": \"189.00\", \"count\": 1e0, \"lines\": [[1.00, [2e0]], {\"a\": {\"b\": 3.000}}]}, \"question\": {\"type\": \"choice\", \"instructions\": \"Should the agent's proposed tool call go ahead?\", \"criteria\": {\"approve\": \"the call does exactly what the user asked\", \"wrong_action\": \"the call does something else\", \"unsafe\": \"the call could cause harm\", \"ask_user\": \"the user must confirm first\"}}}"
+   ],
+   "text": "State:\n{\"paid\": true, \"refunded\": false, \"note\": \"189.00\", \"count\": 1, \"lines\": [[1, [2]], {\"a\": {\"b\": 3}}]}\n\nQuestion:\nShould the agent's proposed tool call go ahead?\n\nOptions:\nA: approve: the call does exactly what the user asked\nB: wrong_action: the call does something else\nC: unsafe: the call could cause harm\nD: ask_user: the user must confirm first\n\nReturn only the letter code of the best option."
+  },
+  {
+   "name": "the live-last layout writes the earlier state and the latest field by the same rule",
+   "layout": "live-last",
+   "codes": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "rows_json": [
+    "{\"state\": {\"invoice\": {\"total\": 2350}, \"latest\": [1, 2.5, 3]}, \"question\": {\"type\": \"choice\", \"instructions\": \"Is the latest result what the user asked for?\", \"criteria\": {\"yes\": \"it is\", \"no\": \"it is not\"}}}",
+    "{\"state\": {\"invoice\": {\"total\": 2350.0}, \"latest\": [1.0, 2.5, 3.0]}, \"question\": {\"type\": \"choice\", \"instructions\": \"Is the latest result what the user asked for?\", \"criteria\": {\"yes\": \"it is\", \"no\": \"it is not\"}}}"
+   ],
+   "text": "Question:\nIs the latest result what the user asked for?\n\nState:\n{\"invoice\": {\"total\": 2350}}\n\nOptions:\nA: yes: it is\nB: no: it is not\n\nLatest:\n{\"latest\": [1, 2.5, 3]}\n\nReturn only the letter code of the best option."
+  },
+  {
+   "name": "a criteria description that is not text is written by the same rule",
+   "layout": "state-first",
+   "codes": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "rows_json": [
+    "{\"state\": \"An order of 120 units.\", \"question\": {\"type\": \"choice\", \"instructions\": \"Which size band is the order in?\", \"criteria\": {\"small\": {\"max\": 100}, \"large\": {\"min\": 100}}}}",
+    "{\"state\": \"An order of 120 units.\", \"question\": {\"type\": \"choice\", \"instructions\": \"Which size band is the order in?\", \"criteria\": {\"small\": {\"max\": 100.0}, \"large\": {\"min\": 1e2}}}}"
+   ],
+   "text": "State:\nAn order of 120 units.\n\nQuestion:\nWhich size band is the order in?\n\nOptions:\nA: small: {\"max\": 100}\nB: large: {\"min\": 100}\n\nReturn only the letter code of the best option."
+  }
+ ]
+}

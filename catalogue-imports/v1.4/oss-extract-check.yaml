@@ -1,0 +1,17 @@
+# oss-extract-check, v1.4 (RTX /mnt/d/jeff-adapters/v1.4/oss-extract-check, data teamsuzie/jeff-data apps/oss-extract-check).
+path: apps/oss-extract-check
+adapter_path: oss-extract-check
+id: jeff.retrieval.extract-check
+aliases: [oss-extract-check, extract-check]
+version: 1.4.0
+function_by: only
+context:
+  - key: document
+    description: "The document's text."
+input:
+  key: extracted
+  description: "The extracted value to check: an object with `field` (the field's name) and `value`."
+  form: fields
+functions:
+  # classify: fixed verdict set correct / wrong_value / wrong_field / not_in_document / ambiguous
+  check: {interface: classify, option_order: shuffled}

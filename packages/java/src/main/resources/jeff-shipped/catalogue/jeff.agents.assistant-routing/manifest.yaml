@@ -1,0 +1,55 @@
+id: jeff.agents.assistant-routing
+version: 1.4.0
+aliases:
+- assistant-routing
+licence:
+  kind: open
+  adapter: Apache-2.0
+weights:
+  open:
+    repo: mstrasser/jeff-adapter-assistant-routing
+    revision: v1.4
+base:
+  id: jeff-base
+  version: v1.4
+  max_options: 2
+context:
+- key: accounts
+  description: The user's accounts the assistant can act on, as one text (for example "Work account [work], Personal account
+    [personal]").
+  required: true
+- key: date_and_time_zone
+  description: Today's date and time and the user's time zone, as one sentence.
+  required: true
+- key: conversation
+  description: The conversation so far as one text, including the user's messages and the tool calls and results.
+  required: true
+input:
+  key: turn
+  description: What the main assistant must do next in this turn (for example "Reply to the user in words.").
+  form: fields
+functions:
+  needs_thinking:
+    interface: detect
+    type: noul
+    instructions: Does the main assistant need to think carefully before writing this turn, rather than answering straight
+      away?
+    labels:
+      source: fixed
+    abstain_labels: []
+    calibration:
+      data: hf://mstrasser/jeff-adapter-assistant-routing@v1.4/calibration.jsonl
+      rows: 341
+      target_precision: 0.95
+      threshold: 0.881711
+      precision_at_threshold: 0.951872
+      coverage_at_threshold: 0.548387
+routes_to: []
+tests:
+  published: hf://mstrasser/jeff-adapter-assistant-routing@v1.4/test.jsonl
+  calibration: hf://mstrasser/jeff-adapter-assistant-routing@v1.4/calibration.jsonl
+  function_by: only
+hub:
+  title: assistant-routing
+  summary: Jeff v1.4 adapter `assistant-routing`. For the turns a Jeff-routed assistant hands to the large model, predicts
+    whether the turn needs careful thinking or can be answered straight away, so easy turns go to a cheaper path.

@@ -1,0 +1,190 @@
+{
+ "label": "dev-t214-fla052",
+ "versions": {
+  "torch": "2.14.0+cu130",
+  "cuda": "13.0",
+  "gpu": "NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition",
+  "triton": "3.8.0",
+  "flash-linear-attention": "0.5.2",
+  "fla-core": "0.5.2",
+  "transformers": "5.17.0",
+  "vllm": "not installed"
+ },
+ "adapters_loaded": 25,
+ "use": "nav",
+ "warmup": 100,
+ "reps": 1000,
+ "gpu_before_load": {
+  "samples": 49,
+  "utilization_pct": {
+   "mean": 0.0,
+   "max": 0.0
+  },
+  "sm_clock_mhz": {
+   "median": 180.0,
+   "min": 180.0,
+   "max": 480.0
+  },
+  "power_w": {
+   "mean": 43.0,
+   "max": 73.48
+  },
+  "pstates": [
+   "P3"
+  ],
+  "memory_used_mib_max": 33767.0
+ },
+ "engine_start_s": 31.9,
+ "prefix_tokens": 1000,
+ "batch1": {
+  "32": {
+   "decide_ms": {
+    "p50": 3.291,
+    "p99": 3.36,
+    "mean": 3.308
+   },
+   "replay_ms": {
+    "p50": 3.2407,
+    "p99": 3.2762,
+    "mean": 3.2414
+   },
+   "gpu_ms": {
+    "p50": 3.1185,
+    "p99": 3.1388,
+    "mean": 3.1193
+   },
+   "gpu_watch": {
+    "samples": 106,
+    "utilization_pct": {
+     "mean": 93.0,
+     "max": 97.0
+    },
+    "sm_clock_mhz": {
+     "median": 2332.0,
+     "min": 427.0,
+     "max": 2332.0
+    },
+    "power_w": {
+     "mean": 166.1,
+     "max": 177.58
+    },
+    "pstates": [
+     "P1",
+     "P3"
+    ],
+    "memory_used_mib_max": 40230.0
+   }
+  },
+  "64": {
+   "decide_ms": {
+    "p50": 4.0205,
+    "p99": 4.0873,
+    "mean": 4.0237
+   },
+   "replay_ms": {
+    "p50": 3.9713,
+    "p99": 4.0088,
+    "mean": 3.9718
+   },
+   "gpu_ms": {
+    "p50": 3.8462,
+    "p99": 3.8663,
+    "mean": 3.8473
+   },
+   "gpu_watch": {
+    "samples": 130,
+    "utilization_pct": {
+     "mean": 95.7,
+     "max": 98.0
+    },
+    "sm_clock_mhz": {
+     "median": 2332.0,
+     "min": 2332.0,
+     "max": 2332.0
+    },
+    "power_w": {
+     "mean": 174.7,
+     "max": 178.44
+    },
+    "pstates": [
+     "P1"
+    ],
+    "memory_used_mib_max": 40230.0
+   }
+  },
+  "128": {
+   "decide_ms": {
+    "p50": 4.0119,
+    "p99": 4.076,
+    "mean": 4.0157
+   },
+   "replay_ms": {
+    "p50": 3.959,
+    "p99": 3.9942,
+    "mean": 3.9593
+   },
+   "gpu_ms": {
+    "p50": 3.8378,
+    "p99": 3.8612,
+    "mean": 3.8385
+   },
+   "gpu_watch": {
+    "samples": 129,
+    "utilization_pct": {
+     "mean": 95.3,
+     "max": 98.0
+    },
+    "sm_clock_mhz": {
+     "median": 2340.0,
+     "min": 2332.0,
+     "max": 2340.0
+    },
+    "power_w": {
+     "mean": 218.7,
+     "max": 226.5
+    },
+    "pstates": [
+     "P1"
+    ],
+    "memory_used_mib_max": 40230.0
+   }
+  },
+  "256": {
+   "decide_ms": {
+    "p50": 4.6242,
+    "p99": 4.6852,
+    "mean": 4.6271
+   },
+   "replay_ms": {
+    "p50": 4.5726,
+    "p99": 4.6259,
+    "mean": 4.5713
+   },
+   "gpu_ms": {
+    "p50": 4.4434,
+    "p99": 4.4692,
+    "mean": 4.4444
+   },
+   "gpu_watch": {
+    "samples": 149,
+    "utilization_pct": {
+     "mean": 96.3,
+     "max": 98.0
+    },
+    "sm_clock_mhz": {
+     "median": 2340.0,
+     "min": 2340.0,
+     "max": 2340.0
+    },
+    "power_w": {
+     "mean": 275.4,
+     "max": 284.37
+    },
+    "pstates": [
+     "P1"
+    ],
+    "memory_used_mib_max": 40230.0
+   }
+  }
+ }
+}

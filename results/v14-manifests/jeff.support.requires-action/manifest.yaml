@@ -1,0 +1,110 @@
+id: jeff.support.requires-action
+version: 1.4.0
+aliases:
+- oss-requires-action
+- requires-action
+licence:
+  kind: open
+  adapter: Apache-2.0
+weights:
+  local: {}
+base:
+  id: jeff-base
+  version: v1.4
+  max_options: 3
+context:
+- key: team
+  description: 'The team: an object with the organisation and the team''s name.'
+  required: true
+- key: policy
+  description: 'The team''s policy: a list of sentences saying what the team handles and when a message must be escalated.'
+  required: true
+input:
+  key: message
+  description: 'The message: an object with from, to, date, subject and body.'
+  form: fields
+functions:
+  requires_action:
+    interface: classify
+    type: choice
+    instructions: 'Given the team''s policy, does this message require action from the team? yes: the message asks the team,
+      openly or by clear implication, to do something about a matter the policy gives to this team, or one of the policy''s
+      escalation rules applies to it (escalating is an action). no: the message only shares information and no escalation
+      rule applies, or it concerns a matter the policy gives to another team, or the policy says the team does not act on
+      it (for example below a stated amount). unclear: the answer depends on something the policy and the message do not settle,
+      for example a matter the policy gives to no team, or an amount that a rule depends on but the message does not state.
+      Judge what the message actually asks and the facts it gives, not its tone, its claims of urgency or other misleading
+      cues.'
+    labels:
+      source: fixed
+      fixed:
+        'no': The team does not need to act on this message.
+        unclear: The policy and the message do not settle whether the team must act.
+        'yes': The team must act on this message.
+      subset: false
+    abstain_labels: []
+    calibration:
+      data: hf://datasets/teamsuzie/jeff-data@main/apps/oss-requires_action/calibration.jsonl
+      data_mirror:
+        path: /mnt/d/jeff-data/apps/oss-requires_action/calibration.jsonl
+        sha256: 9be60908ca5d538bbe7bf8695e211f510646f0c9715f62134f79aefac732c757
+      rows: 1087
+      target_precision: 0.98
+      threshold: 0.502426
+      precision_at_threshold: 0.982521
+      coverage_at_threshold: 1.0
+  requires_escalation:
+    interface: classify
+    type: choice
+    instructions: 'Given the team''s policy, must this message be escalated? yes: one of the policy''s escalation rules applies,
+      for example the message raises a kind of matter that the policy says must always be escalated, or a request''s amount
+      is above the limit the policy sets. no: no escalation rule applies, for example an amount at or below the limit when
+      the rule says ''above'', or nothing of the kinds the rules list. unclear: whether a rule applies depends on something
+      the message does not settle, for example the amount a rule depends on is not stated, or the message only hints vaguely
+      at a matter that must be escalated. Judge the facts the message gives, not its tone, its claims of urgency or other
+      misleading cues.'
+    labels:
+      source: fixed
+      fixed:
+        'no': No escalation rule of the policy applies to this message.
+        unclear: The policy and the message do not settle whether an escalation rule applies.
+        'yes': The policy requires this message to be escalated.
+      subset: false
+    abstain_labels: []
+    calibration:
+      data: hf://datasets/teamsuzie/jeff-data@main/apps/oss-requires_action/calibration.jsonl
+      data_mirror:
+        path: /mnt/d/jeff-data/apps/oss-requires_action/calibration.jsonl
+        sha256: 9be60908ca5d538bbe7bf8695e211f510646f0c9715f62134f79aefac732c757
+      rows: 1087
+      target_precision: 0.98
+      threshold: 0.48902
+      precision_at_threshold: 0.9908
+      coverage_at_threshold: 1.0
+routes_to: []
+tests:
+  published: null
+  calibration: null
+  internal: hf://datasets/teamsuzie/jeff-data@main/apps/oss-requires_action/test.jsonl
+  internal_calibration: hf://datasets/teamsuzie/jeff-data@main/apps/oss-requires_action/calibration.jsonl
+  function_by: id_suffix
+hub:
+  title: oss-requires_action
+  summary: 'Jeff v1.4 adapter `requires_action`. Reads a message against a team''s policy and decides whether the team must
+    act on it, and whether it must be escalated: yes, no or unclear.'
+  source: local adapter folder oss-requires_action (not on Hugging Face)
+  notes:
+  - 'requires_action: instructions are the one text of the 760 test rows marked canonical (source.instructions); the other
+    308 ask the same question reworded or with no instructions (as trained), and are rebuilt with the canonical text in template
+    mode.'
+  - 'requires_action: every test row has the same 3 labels in varying orders (training shuffled them), so they are listed
+    by key.'
+  - 'requires_escalation: instructions are the one text of the 736 test rows marked canonical (source.instructions); the other
+    332 ask the same question reworded or with no instructions (as trained), and are rebuilt with the canonical text in template
+    mode.'
+  - 'requires_escalation: every test row has the same 3 labels in varying orders (training shuffled them), so they are listed
+    by key.'
+  - 'base: jeff-base v1.4, identified by the SHA-256 of its model.safetensors, which the adapter''s decision_config.json records
+    for its base checkpoint.'
+  - 'tests: the test set is the private hf://datasets/teamsuzie/jeff-data@main/apps/oss-requires_action/test.jsonl, so tests.published
+    is null; the calibration of each function is filled in later by `jeff calibrate`.'

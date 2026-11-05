@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jeff.dev/schemas/graphs_response.schema.json",
+  "title": "Jeff GET /v1/graphs response",
+  "description": "The decision graphs registered on the server (none of them has code nodes), callable through POST /v1/decide with {\"graph\": {\"id\": ...}}.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["graphs"],
+  "properties": {
+    "graphs": {"type": "array", "items": {"$ref": "https://jeff.dev/schemas/graph.schema.json"}}
+  }
+}

@@ -1,0 +1,25 @@
+# The prompt-injection guard, v1.4 (RTX /mnt/d/jeff-adapters/v1.4/guard, data teamsuzie/jeff-data apps/guard).
+# Same ID, keys and interfaces as the v1.3 catalogue manifest jeff.safety.guard (rows end in -noul and -choice, so the
+# functions are told apart by question type).
+path: apps/guard
+adapter_path: guard
+id: jeff.safety.guard
+aliases: [guard]
+version: 1.4.0
+function_by: question_type
+context:
+  - key: application
+    description: One sentence on what the AI model that will read the text is used for.
+  - key: source
+    description: >-
+      Where the text came from, for example user message, web page, email body, document, tool result, search result or
+      code comment.
+input:
+  key: text
+  description: The text to check, from a few words to about 2,000 words.
+  form: fields
+functions:
+  # attempt: yes/no, is the text an attempt to take control of the model (an instance of an attack).
+  attempt: {interface: detect}
+  # kind: benign, direct_injection, indirect_injection, jailbreak or exfiltration, a fixed set.
+  kind: {interface: classify, option_order: shuffled}

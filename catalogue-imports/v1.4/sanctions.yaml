@@ -1,0 +1,21 @@
+# Sanctions screening, v1.4 (RTX /mnt/d/jeff-adapters/v1.4/sanctions, data apps/sanctions).
+path: apps/sanctions
+adapter_path: sanctions
+id: jeff.compliance.sanctions
+aliases: [sanctions]
+version: 1.4.0
+function_by: only
+context:
+  - key: watch_list_entry
+    description: >-
+      One sanctions or watch-list entry, as text: the listed name and aliases, type (person or entity), date of birth
+      or registration, countries and the lists it is on.
+input:
+  key: customer_record
+  description: >-
+    The customer, or a party named in a payment, as text: name, party type, date of birth, nationality and other
+    details the bank holds (some may be "not recorded").
+  form: fields
+functions:
+  # screening: match / possible_match / no_match, exactly the equivalent interface's values -> equivalent.
+  screening: {interface: equivalent}

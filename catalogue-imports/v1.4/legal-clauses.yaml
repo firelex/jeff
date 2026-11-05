@@ -1,0 +1,20 @@
+# The LEDGAR clause-type adapter, v1.4 (RTX /mnt/d/jeff-adapters/v1.4/legal-clauses, data teamsuzie/jeff-data
+# apps/legal-clauses). Same ID, alias, function key and interface as the v1.3 catalogue manifest.
+path: apps/legal-clauses
+adapter_path: legal-clauses
+id: jeff.legal.legal-clauses
+aliases: [legal-clauses]
+version: 1.4.0
+function_by: only
+context:
+  - key: document
+    description: >-
+      What the provision comes from, in a few words (for example "A commercial contract filed with the U.S. Securities
+      and Exchange Commission (SEC)").
+input:
+  key: provision
+  description: One provision (a clause) of a contract, as plain text.
+  form: fields
+functions:
+  # classify: one of LEDGAR's 100 fixed clause types.
+  clause_type: {interface: classify, option_order: shuffled}

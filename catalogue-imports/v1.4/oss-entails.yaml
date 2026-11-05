@@ -1,0 +1,19 @@
+# oss-entails, v1.4 (RTX /mnt/d/jeff-adapters/v1.4/oss-entails, data teamsuzie/jeff-data apps/oss-entails).
+path: apps/oss-entails
+adapter_path: oss-entails
+id: jeff.reasoning.entails
+aliases: [oss-entails, entails]
+version: 1.4.0
+function_by: only
+context:
+  - key: setting
+    description: "Who is asking: a sentence naming the team and organisation the evidence comes from."
+  - key: evidence
+    description: "The evidence: a list of documents, messages or records, each with `source` and `text`."
+input:
+  key: claim
+  description: "The claim to check against the evidence, one sentence."
+  form: fields
+functions:
+  # classify: fixed answer set supported / unsupported / unclear, not the four is_supported values
+  entails: {interface: classify, option_order: shuffled}

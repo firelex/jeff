@@ -1,0 +1,47 @@
+id: jeff.routing.router-open-v14
+version: 1.4.0
+aliases:
+- jeff-router-open-v14
+- jeff.routing.router-open
+- router-open-v14
+licence:
+  kind: open
+  adapter: Apache-2.0
+weights:
+  open:
+    repo: mstrasser/jeff-adapter-router-open-v14
+    revision: v1.4
+base:
+  id: jeff-base
+  version: v1.4
+  max_options: 32
+context: []
+input:
+  key: request
+  description: 'The request to route, as a JSON object: the `instructions` of the question, its `options` (the label keys)
+    and its `state` (the input, as JSON text).'
+  form: fields
+functions:
+  specialist:
+    interface: route
+    type: choice
+    instructions: Which specialist should answer this request? Pick the specialist whose task matches what the request asks,
+      or base if no specialist fits and the general model should answer.
+    labels:
+      source: caller
+      fixed_first: {}
+      caller_keys: null
+      max: 32
+    abstain_labels: []
+    calibration: null
+routes_to: []
+tests:
+  published: hf://mstrasser/jeff-adapter-router-open-v14@v1.4/test.jsonl
+  calibration: hf://mstrasser/jeff-adapter-router-open-v14@v1.4/calibration.jsonl
+  function_by: only
+hub:
+  title: jeff-router-open-v14
+  summary: '**Jeff v1.4 router over the open adapters only.** It picks which of the 31 open v1.4 specialists should answer
+    a request, or `base` (the base model with no adapter). One router, no sub-router: `legal-clauses` is a plain specialist.
+    It is open, and its weights are published at launch with the open adapters it routes to (owner decision, 4 November
+    2026).'

@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jeff.dev/schemas/decision.schema.json",
+  "title": "Jeff decision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["value", "confidence", "abstained", "calibrated", "interface", "function", "version", "probabilities",
+               "score", "route", "decided_by", "escalations", "timing", "evidence_refs"],
+  "properties": {
+    "value": {"type": ["string", "boolean", "integer"]},
+    "confidence": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+    "abstained": {"type": "boolean"},
+    "calibrated": {"type": "boolean"},
+    "interface": {"type": "string"},
+    "function": {"type": "string", "description": "The function that decided, by its own ID (the adapter's ID, a dot, the function's key): the versioned ID even when the call named the function through an alias, so jeff.routing.router-open.specialist is answered with jeff.routing.router-open-v14.specialist."},
+    "version": {"type": "string", "description": "The version of the adapter that decided."},
+    "probabilities": {"type": "object", "additionalProperties": {"type": "number", "minimum": 0, "maximum": 1}},
+    "score": {"type": ["number", "null"]},
+    "route": {"type": "array", "items": {
+      "type": "object", "additionalProperties": false, "required": ["router", "chose", "confidence"],
+      "properties": {"router": {"type": "string"}, "chose": {"type": "string"}, "confidence": {"type": "number"}}}},
+    "decided_by": {"type": "string"},
+    "escalations": {"type": "array", "items": {
+      "type": "object", "additionalProperties": false, "required": ["decided_by", "value", "confidence", "reason"],
+      "properties": {"decided_by": {"type": "string"}, "value": {"type": ["string", "boolean", "integer"]},
+                     "confidence": {"type": ["number", "null"]}, "reason": {"type": "string"}}}},
+    "timing": {"type": "object"},
+    "evidence_refs": {"type": "array", "items": {"type": "string"}}
+  }
+}

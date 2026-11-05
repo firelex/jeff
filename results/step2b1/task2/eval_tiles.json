@@ -1,0 +1,632 @@
+{
+ "32": {
+  "per_shape": {
+   "gdn_proj": {
+    "count": 18,
+    "tiles": {
+     "bm": 16,
+     "split": 16,
+     "bk": 64,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 128,
+     "nc": 1,
+     "out_warps": 8
+    },
+    "us": 4.651,
+    "before_us": 6.399,
+    "bit_equal_to_before": true
+   },
+   "gdn_out": {
+    "count": 18,
+    "tiles": {
+     "bm": 16,
+     "split": 32,
+     "bk": 64,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 32,
+     "nc": 1,
+     "out_warps": 8
+    },
+    "us": 4.657,
+    "before_us": 5.163,
+    "bit_equal_to_before": true
+   },
+   "attn_proj": {
+    "count": 6,
+    "tiles": {
+     "bm": 16,
+     "split": 16,
+     "bk": 64,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 128,
+     "nc": 1,
+     "out_warps": 8
+    },
+    "us": 5.364,
+    "before_us": 7.997,
+    "bit_equal_to_before": true
+   },
+   "attn_out": {
+    "count": 6,
+    "tiles": {
+     "bm": 16,
+     "split": 32,
+     "bk": 64,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 32,
+     "nc": 1,
+     "out_warps": 8
+    },
+    "us": 4.643,
+    "before_us": 5.161,
+    "bit_equal_to_before": true
+   },
+   "mlp_in": {
+    "count": 24,
+    "tiles": {
+     "bm": 16,
+     "split": 16,
+     "bk": 64,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 128,
+     "nc": 1,
+     "out_warps": 8
+    },
+    "us": 4.4,
+    "before_us": 5.941,
+    "bit_equal_to_before": true
+   },
+   "mlp_down": {
+    "count": 24,
+    "tiles": {
+     "bm": 16,
+     "split": 56,
+     "bk": 64,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 32,
+     "nc": 1,
+     "out_warps": 8
+    },
+    "us": 5.889,
+    "before_us": 6.5,
+    "bit_equal_to_before": true
+   }
+  },
+  "per_decision_ms": {
+   "us": 0.4745,
+   "before_us": 0.5856
+  },
+  "all_bit_equal": true
+ },
+ "64": {
+  "per_shape": {
+   "gdn_proj": {
+    "count": 18,
+    "tiles": {
+     "bm": 16,
+     "split": 16,
+     "bk": 64,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 128,
+     "nc": 2,
+     "out_warps": 8
+    },
+    "us": 5.168,
+    "before_us": 8.539,
+    "bit_equal_to_before": true
+   },
+   "gdn_out": {
+    "count": 18,
+    "tiles": {
+     "bm": 16,
+     "split": 32,
+     "bk": 64,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 32,
+     "nc": 1,
+     "out_warps": 8
+    },
+    "us": 4.641,
+    "before_us": 7.182,
+    "bit_equal_to_before": true
+   },
+   "attn_proj": {
+    "count": 6,
+    "tiles": {
+     "bm": 16,
+     "split": 16,
+     "bk": 64,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 128,
+     "nc": 2,
+     "out_warps": 8
+    },
+    "us": 6.191,
+    "before_us": 10.291,
+    "bit_equal_to_before": true
+   },
+   "attn_out": {
+    "count": 6,
+    "tiles": {
+     "bm": 16,
+     "split": 32,
+     "bk": 64,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 32,
+     "nc": 1,
+     "out_warps": 8
+    },
+    "us": 4.645,
+    "before_us": 7.2,
+    "bit_equal_to_before": true
+   },
+   "mlp_in": {
+    "count": 24,
+    "tiles": {
+     "bm": 16,
+     "split": 16,
+     "bk": 64,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 128,
+     "nc": 2,
+     "out_warps": 8
+    },
+    "us": 5.149,
+    "before_us": 8.388,
+    "bit_equal_to_before": true
+   },
+   "mlp_down": {
+    "count": 24,
+    "tiles": {
+     "bm": 16,
+     "split": 56,
+     "bk": 64,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 32,
+     "nc": 1,
+     "out_warps": 8
+    },
+    "us": 6.001,
+    "before_us": 9.746,
+    "bit_equal_to_before": true
+   }
+  },
+  "per_decision_ms": {
+   "us": 0.5092,
+   "before_us": 0.8231
+  },
+  "all_bit_equal": true
+ },
+ "128": {
+  "per_shape": {
+   "gdn_proj": {
+    "count": 18,
+    "tiles": {
+     "bm": 16,
+     "split": 16,
+     "bk": 64,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 128,
+     "nc": 2,
+     "out_warps": 8
+    },
+    "us": 6.444,
+    "before_us": 10.575,
+    "bit_equal_to_before": true
+   },
+   "gdn_out": {
+    "count": 18,
+    "tiles": {
+     "bm": 16,
+     "split": 32,
+     "bk": 64,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 64,
+     "nc": 1,
+     "out_warps": 8
+    },
+    "us": 4.901,
+    "before_us": 7.221,
+    "bit_equal_to_before": true
+   },
+   "attn_proj": {
+    "count": 6,
+    "tiles": {
+     "bm": 16,
+     "split": 16,
+     "bk": 64,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 128,
+     "nc": 2,
+     "out_warps": 8
+    },
+    "us": 6.913,
+    "before_us": 12.09,
+    "bit_equal_to_before": true
+   },
+   "attn_out": {
+    "count": 6,
+    "tiles": {
+     "bm": 16,
+     "split": 32,
+     "bk": 64,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 64,
+     "nc": 1,
+     "out_warps": 8
+    },
+    "us": 4.912,
+    "before_us": 7.227,
+    "bit_equal_to_before": true
+   },
+   "mlp_in": {
+    "count": 24,
+    "tiles": {
+     "bm": 16,
+     "split": 16,
+     "bk": 64,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 128,
+     "nc": 2,
+     "out_warps": 8
+    },
+    "us": 6.027,
+    "before_us": 10.037,
+    "bit_equal_to_before": true
+   },
+   "mlp_down": {
+    "count": 24,
+    "tiles": {
+     "bm": 16,
+     "split": 28,
+     "bk": 64,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 64,
+     "nc": 1,
+     "out_warps": 8
+    },
+    "us": 5.073,
+    "before_us": 7.122,
+    "bit_equal_to_before": true
+   }
+  },
+  "per_decision_ms": {
+   "us": 0.5416,
+   "before_us": 0.848
+  },
+  "all_bit_equal": true
+ },
+ "256": {
+  "per_shape": {
+   "gdn_proj": {
+    "count": 18,
+    "tiles": {
+     "bm": 32,
+     "split": 16,
+     "bk": 64,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 128,
+     "nc": 4,
+     "out_warps": 8
+    },
+    "us": 8.087,
+    "before_us": 15.963,
+    "bit_equal_to_before": true
+   },
+   "gdn_out": {
+    "count": 18,
+    "tiles": {
+     "bm": 32,
+     "split": 16,
+     "bk": 64,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 128,
+     "nc": 1,
+     "out_warps": 8
+    },
+    "us": 4.399,
+    "before_us": 5.922,
+    "bit_equal_to_before": true
+   },
+   "attn_proj": {
+    "count": 6,
+    "tiles": {
+     "bm": 32,
+     "split": 16,
+     "bk": 64,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 128,
+     "nc": 4,
+     "out_warps": 8
+    },
+    "us": 8.518,
+    "before_us": 17.407,
+    "bit_equal_to_before": true
+   },
+   "attn_out": {
+    "count": 6,
+    "tiles": {
+     "bm": 32,
+     "split": 16,
+     "bk": 64,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 128,
+     "nc": 1,
+     "out_warps": 8
+    },
+    "us": 4.388,
+    "before_us": 5.936,
+    "bit_equal_to_before": true
+   },
+   "mlp_in": {
+    "count": 24,
+    "tiles": {
+     "bm": 32,
+     "split": 16,
+     "bk": 64,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 128,
+     "nc": 4,
+     "out_warps": 8
+    },
+    "us": 7.725,
+    "before_us": 14.019,
+    "bit_equal_to_before": true
+   },
+   "mlp_down": {
+    "count": 24,
+    "tiles": {
+     "bm": 32,
+     "split": 14,
+     "bk": 64,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 128,
+     "nc": 1,
+     "out_warps": 8
+    },
+    "us": 4.642,
+    "before_us": 6.111,
+    "bit_equal_to_before": true
+   }
+  },
+  "per_decision_ms": {
+   "us": 0.599,
+   "before_us": 1.0171
+  },
+  "all_bit_equal": true
+ },
+ "512": {
+  "per_shape": {
+   "gdn_proj": {
+    "count": 18,
+    "tiles": {
+     "bm": 32,
+     "split": 8,
+     "bk": 64,
+     "mid_warps": 4,
+     "out_bm": 32,
+     "bn": 128,
+     "nc": 4,
+     "out_warps": 8
+    },
+    "us": 9.48,
+    "before_us": 17.225,
+    "bit_equal_to_before": true
+   },
+   "gdn_out": {
+    "count": 18,
+    "tiles": {
+     "bm": 32,
+     "split": 8,
+     "bk": 64,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 128,
+     "nc": 1,
+     "out_warps": 8
+    },
+    "us": 4.652,
+    "before_us": 5.426,
+    "bit_equal_to_before": true
+   },
+   "attn_proj": {
+    "count": 6,
+    "tiles": {
+     "bm": 32,
+     "split": 8,
+     "bk": 64,
+     "mid_warps": 4,
+     "out_bm": 32,
+     "bn": 128,
+     "nc": 4,
+     "out_warps": 8
+    },
+    "us": 10.053,
+    "before_us": 19.767,
+    "bit_equal_to_before": true
+   },
+   "attn_out": {
+    "count": 6,
+    "tiles": {
+     "bm": 32,
+     "split": 8,
+     "bk": 64,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 128,
+     "nc": 1,
+     "out_warps": 8
+    },
+    "us": 4.653,
+    "before_us": 5.432,
+    "bit_equal_to_before": true
+   },
+   "mlp_in": {
+    "count": 24,
+    "tiles": {
+     "bm": 32,
+     "split": 8,
+     "bk": 64,
+     "mid_warps": 4,
+     "out_bm": 32,
+     "bn": 128,
+     "nc": 4,
+     "out_warps": 8
+    },
+    "us": 9.006,
+    "before_us": 14.744,
+    "bit_equal_to_before": true
+   },
+   "mlp_down": {
+    "count": 24,
+    "tiles": {
+     "bm": 32,
+     "split": 8,
+     "bk": 64,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 128,
+     "nc": 1,
+     "out_warps": 8
+    },
+    "us": 5.168,
+    "before_us": 6.183,
+    "bit_equal_to_before": true
+   }
+  },
+  "per_decision_ms": {
+   "us": 0.6828,
+   "before_us": 1.0612
+  },
+  "all_bit_equal": true
+ },
+ "1024": {
+  "per_shape": {
+   "gdn_proj": {
+    "count": 18,
+    "tiles": {
+     "bm": 32,
+     "split": 4,
+     "bk": 64,
+     "mid_warps": 4,
+     "out_bm": 32,
+     "bn": 128,
+     "nc": 4,
+     "out_warps": 8
+    },
+    "us": 12.825,
+    "before_us": 19.395,
+    "bit_equal_to_before": true
+   },
+   "gdn_out": {
+    "count": 18,
+    "tiles": {
+     "bm": 32,
+     "split": 4,
+     "bk": 64,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 128,
+     "nc": 1,
+     "out_warps": 8
+    },
+    "us": 5.687,
+    "before_us": 6.436,
+    "bit_equal_to_before": true
+   },
+   "attn_proj": {
+    "count": 6,
+    "tiles": {
+     "bm": 32,
+     "split": 4,
+     "bk": 64,
+     "mid_warps": 4,
+     "out_bm": 32,
+     "bn": 128,
+     "nc": 4,
+     "out_warps": 8
+    },
+    "us": 13.124,
+    "before_us": 22.047,
+    "bit_equal_to_before": true
+   },
+   "attn_out": {
+    "count": 6,
+    "tiles": {
+     "bm": 32,
+     "split": 4,
+     "bk": 64,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 128,
+     "nc": 1,
+     "out_warps": 8
+    },
+    "us": 5.682,
+    "before_us": 6.449,
+    "bit_equal_to_before": true
+   },
+   "mlp_in": {
+    "count": 24,
+    "tiles": {
+     "bm": 32,
+     "split": 4,
+     "bk": 64,
+     "mid_warps": 4,
+     "out_bm": 32,
+     "bn": 128,
+     "nc": 4,
+     "out_warps": 8
+    },
+    "us": 11.803,
+    "before_us": 17.443,
+    "bit_equal_to_before": true
+   },
+   "mlp_down": {
+    "count": 24,
+    "tiles": {
+     "bm": 32,
+     "split": 4,
+     "bk": 64,
+     "mid_warps": 4,
+     "out_bm": 16,
+     "bn": 128,
+     "nc": 1,
+     "out_warps": 8
+    },
+    "us": 6.768,
+    "before_us": 7.72,
+    "bit_equal_to_before": true
+   }
+  },
+  "per_decision_ms": {
+   "us": 0.8918,
+   "before_us": 1.2398
+  },
+  "all_bit_equal": true
+ }
+}

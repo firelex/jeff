@@ -1,0 +1,60 @@
+# The benchmark sets the docs' results tables name, each described once. A page links a set's name to its description
+# with [name](#benchmark-<id>); the docs loader (app/lib/docs.server.ts) refuses a link to an id not listed here, and
+# the page opens the description in a small dialog when the name is clicked (components/docs/BenchmarkTerm.tsx).
+# Every fact here comes from the build scripts and notes of the sets; where a fact is not recorded, the text says less.
+- id: business-mix
+  name: business-mix
+  rows: 4814
+  what: >-
+    Requests of the kinds the router's specialists were trained for, set aside before the router was trained. For
+    each specialist, 30 requests from its own held-out test data as written, and up to 30 more whose instructions a
+    language model reworded (each rewording checked by a second call). Added to them, 1,000 general requests drawn
+    from the dev set, which no part of the router's training uses.
+  measures: >-
+    Whether routing helps where it is meant to: the share of requests the swarm (the router's first pick, then that
+    specialist) answers correctly, against the base model answering every request itself.
+- id: panel
+  name: panel
+  rows: 4599
+  what: >-
+    Questions from five public benchmarks: BBH (BIG-Bench Hard), Financial PhraseBank, JudgeBench, RAGTruth and
+    WinoGrande. Jeff's training data is checked against them and any overlapping question is removed, and the panel
+    is never used to choose or tune a model.
+  measures: >-
+    Accuracy on general questions of these benchmarks' kinds, with no adapter made for them; none of the questions
+    themselves is in training.
+- id: voice
+  name: voice
+  rows: 3324
+  what: >-
+    Voice-navigation commands, each to be matched to the option it asks for. Training data is checked against it
+    and any overlapping row is removed.
+  measures: >-
+    Accuracy on voice-navigation commands.
+- id: longlists-v2
+  name: longlists-v2
+  rows: 1886
+  what: >-
+    Choices from long lists of 20 to 254 options. 989 rows are intent lists from Amazon MASSIVE (English requests to
+    a voice assistant); the other 897 are made-up lists of destinations, people, products, order numbers, settings
+    and meeting slots, whose messages do not appear in training. MASSIVE's training split is in Jeff's training
+    data, so that part is not zero-shot.
+  measures: >-
+    Accuracy when the right answer is one option among many: whether the model still picks well as the list grows.
+- id: documents
+  name: documents
+  rows: 2009
+  what: >-
+    Long real documents with labels written by people: merger agreements from MAUD (1,080 rows), commercial
+    contracts from CUAD (406) and non-disclosure agreements from ContractNLI (366), and a smaller part from other
+    long documents. Training data is checked against the same contracts and documents, and overlaps are removed.
+  measures: >-
+    Accuracy on decisions that need a long document read, such as what a contract clause provides.
+- id: dev
+  name: dev
+  rows: 1497
+  what: >-
+    The development set of the base model's main training mix (kept since base v1.2): questions held out from
+    training, of the same kinds as the training data. 1,000 of them are also the general part of business-mix.
+  measures: >-
+    Accuracy on the kinds of question the base model was trained for.

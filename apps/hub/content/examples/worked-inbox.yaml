@@ -1,0 +1,151 @@
+# The "A shared inbox that sorts itself" worked example (guides/worked-inbox.md): a dental practice's front-desk inbox,
+# each new message sorted three ways against the practice's own routing table. Format and recording:
+# scripts/hub_examples.py. The `recorded` blocks are written by `scripts/hub_examples.py --record-new`, never by hand.
+# Every input here was written for the page.
+- id: worked-inbox-swelling-route
+  name: Swelling after a filling, who handles it
+  function: jeff.support.message-triage.route_to
+  context: &inbox
+    recipient:
+      name: Front desk
+      address: frontdesk@fernhilldental.example
+      role: Shared inbox of the reception team
+      organisation: Fernhill Dental
+    message_kinds:
+      appointment: Booking, moving or cancelling an appointment
+      clinical: A question about treatment, pain or recovery
+      billing: Invoices, payments and insurance claims
+      supplier: Orders and bills from the practice's suppliers
+    routing_table:
+    - key: reception
+      name: Reception team
+      address: frontdesk@fernhilldental.example
+      topics: Appointments, reminders, patient details
+    - key: clinical
+      name: Duty dentist
+      address: dutydentist@fernhilldental.example
+      topics: Pain, swelling, bleeding or any question about treatment
+    - key: billing
+      name: Practice accounts
+      address: accounts@fernhilldental.example
+      topics: Patient invoices, payments, insurance claims, supplier bills
+    routing_rules:
+    - Any message about pain, swelling or bleeding after treatment goes to the duty dentist, whatever else it asks.
+    now: Wednesday 4 November 2026, 19:45
+  input: &swelling
+    channel: email
+    from: priya.anand@example.com
+    to: frontdesk@fernhilldental.example
+    cc: ''
+    received: Wednesday 4 November 2026, 19:38
+    subject: Filling yesterday, and Friday's appointment
+    body: Hi, I had a filling yesterday and tonight my jaw is swollen and throbbing, and it is getting worse. Could someone call me back tonight on 07700 900412? Also, could I move my cleaning on Friday to next week? Thanks, Priya Anand
+  labels: &inbox-labels
+    reception: Reception team (appointments, reminders, patient details)
+    clinical: Duty dentist (pain, swelling, bleeding or any question about treatment)
+    billing: Practice accounts (patient invoices, payments, insurance claims, supplier bills)
+  recorded:
+    value: clinical
+    confidence: 0.968
+    top_options:
+    - option: clinical
+      probability: 0.968
+    - option: reception
+      probability: 0.028
+    - option: billing
+      probability: 0.005
+    server: v1.4
+    at: '2026-11-04'
+- id: worked-inbox-swelling-action
+  name: Swelling after a filling, what to do
+  function: jeff.support.message-triage.action_needed
+  context: *inbox
+  input: *swelling
+  recorded:
+    value: forward
+    confidence: 0.957
+    top_options:
+    - option: forward
+      probability: 0.957
+    - option: do_task
+      probability: 0.034
+    - option: fyi_only
+      probability: 0.004
+    server: v1.4
+    at: '2026-11-04'
+- id: worked-inbox-swelling-urgency
+  name: Swelling after a filling, how soon
+  function: jeff.support.message-triage.urgency
+  context: *inbox
+  input: *swelling
+  recorded:
+    value: today
+    confidence: 0.783
+    top_options:
+    - option: today
+      probability: 0.783
+    - option: this_week
+      probability: 0.144
+    - option: no_deadline
+      probability: 0.063
+    server: v1.4
+    at: '2026-11-04'
+- id: worked-inbox-invoice-route
+  name: A supplier's bill, who handles it
+  function: jeff.support.message-triage.route_to
+  context: *inbox
+  input: &invoice
+    channel: email
+    from: billing@brightsmile-supplies.example
+    to: frontdesk@fernhilldental.example
+    cc: ''
+    received: Wednesday 4 November 2026, 11:02
+    subject: Invoice BS-5521, due Friday 6 November
+    body: 'Dear Fernhill Dental, please find attached invoice BS-5521 for 412.80 for the October order of gloves and impression trays. Please arrange payment by Friday 6 November. Brightsmile Supplies'
+  labels: *inbox-labels
+  recorded:
+    value: billing
+    confidence: 0.996
+    top_options:
+    - option: billing
+      probability: 0.996
+    - option: reception
+      probability: 0.002
+    - option: clinical
+      probability: 0.002
+    server: v1.4
+    at: '2026-11-04'
+- id: worked-inbox-invoice-action
+  name: A supplier's bill, what to do
+  function: jeff.support.message-triage.action_needed
+  context: *inbox
+  input: *invoice
+  recorded:
+    value: forward
+    confidence: 0.889
+    top_options:
+    - option: forward
+      probability: 0.889
+    - option: do_task
+      probability: 0.106
+    - option: fyi_only
+      probability: 0.003
+    server: v1.4
+    at: '2026-11-04'
+- id: worked-inbox-invoice-urgency
+  name: A supplier's bill, how soon
+  function: jeff.support.message-triage.urgency
+  context: *inbox
+  input: *invoice
+  recorded:
+    value: this_week
+    confidence: 0.989
+    top_options:
+    - option: this_week
+      probability: 0.989
+    - option: no_deadline
+      probability: 0.005
+    - option: today
+      probability: 0.004
+    server: v1.4
+    at: '2026-11-04'

@@ -1,0 +1,22 @@
+# The spam and phishing adapter, v1.4 (RTX /mnt/d/jeff-adapters/v1.4/spam, data teamsuzie/jeff-data apps/spam).
+# Same ID, keys and interfaces as the v1.3 catalogue manifest jeff.safety.spam.
+path: apps/spam
+adapter_path: spam
+id: jeff.safety.spam
+aliases: [spam]
+version: 1.4.0
+function_by: id_suffix
+context:
+  - key: channel
+    description: 'Where the message came from: "sms" or "email", as in training.'
+input:
+  key: message
+  description: >-
+    The text of the message as received. For an email, its subject and readable body (no other headers, no
+    attachments).
+  form: fields
+functions:
+  # is_spam: yes/no, is the message spam or phishing (an instance of unwanted mail).
+  is_spam: {interface: detect}
+  # message_type: legitimate / spam / phishing, a fixed set.
+  message_type: {interface: classify, option_order: shuffled}

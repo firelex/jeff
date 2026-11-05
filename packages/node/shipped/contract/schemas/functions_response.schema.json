@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jeff.dev/schemas/functions_response.schema.json",
+  "title": "Jeff GET /v1/functions response",
+  "description": "Every function of every adapter the server's engine has loaded, with what a caller needs to call it (the same fields as the adapter's manifest), and the weight format of the base it serves.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["base_format", "functions"],
+  "properties": {
+    "base_format": {
+      "type": "object", "additionalProperties": false, "required": ["format"],
+      "description": "The weight format of the base the server's engines serve (as their health's base.format and base.format_id): {\"format\": \"bf16\"}, or for an INT4 base {\"format\": \"int4-g64\", \"format_id\": <that INT4 base's name>}. On an INT4 base a function decides with its calibration_by_format entry for format_id, not with calibration.",
+      "properties": {"format": {"type": "string", "minLength": 1}, "format_id": {"type": "string", "minLength": 1}}
+    },
+    "functions": {"type": "array", "items": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "interface", "type", "labels", "context", "input", "calibration", "adapter_version", "licence"],
+      "properties": {
+        "id": {"type": "string", "description": "The function's own ID: the adapter's ID, a dot, the function's key."},
+        "aliases": {"type": "array", "items": {"type": "string"}, "description": "The other references that name this function: each of its adapter's aliases (in its manifest's order), a dot and the function's key, for example jeff.routing.router-open.specialist for jeff.routing.router-open-v14.specialist, or spam.is_spam for jeff.safety.spam.is_spam. A decision made through one of them still reports id. This server always sends it; it is not required, so a client still reads the answer of a server from before the field (read a missing one as an empty list)."},
+        "interface": {"type": "string"},
+        "type": {"enum": ["choice", "noul", "score"]},
+        "labels": {"$ref": "https://jeff.dev/schemas/manifest.schema.json#/$defs/labels"},
+        "context": {"allOf": [{"$ref": "https://jeff.dev/schemas/manifest.schema.json#/$defs/context"},
+                              {"type": "array", "items": {"required": ["code_name"]}}],
+                    "description": "The function's context fields (its own when the manifest declares them for the function, else the adapter's), each with its code_name always given (declared or derived): callers pass context by code name; key is the field as the prompt shows it."},
+        "input": {"allOf": [{"$ref": "https://jeff.dev/schemas/manifest.schema.json#/$defs/input"},
+                            {"required": ["code_name"]}],
+                  "description": "The function's input field (its own when the manifest declares it for the function, else the adapter's), with its code_name always given (declared or derived)."},
+        "calibration": {"oneOf": [{"type": "null"}, {"$ref": "https://jeff.dev/schemas/manifest.schema.json#/$defs/calibration"}]},
+        "calibration_by_format": {"$ref": "https://jeff.dev/schemas/manifest.schema.json#/$defs/calibration_by_format"},
+        "adapter_version": {"type": "string"},
+        "licence": {"$ref": "https://jeff.dev/schemas/manifest.schema.json#/properties/licence"}
+      }
+    }}
+  }
+}

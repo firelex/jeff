@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jeff.dev/schemas/served_request.schema.json",
+  "title": "Jeff PUT /v1/adapters/served request",
+  "description": "The adapters every engine should serve from now on: each engine's whole served list is replaced with exactly this set (never added to it). Each entry is a catalogue adapter ID or alias; aliases are resolved to IDs and repeats are ignored. An empty list serves no adapters (the base only).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["adapters"],
+  "properties": {
+    "adapters": {"type": "array", "items": {"type": "string", "minLength": 1}}
+  }
+}

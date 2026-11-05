@@ -1,0 +1,29 @@
+# The security operations centre triage adapter, v1.4 (RTX /mnt/d/jeff-adapters/v1.4/soc, data teamsuzie/jeff-data apps/soc).
+# Same ID, key and interface as the v1.3 catalogue manifest jeff.security.soc.
+path: apps/soc
+adapter_path: soc
+id: jeff.security.soc
+aliases: [soc]
+version: 1.4.0
+function_by: only
+context:
+  - key: organisation
+    description: One line on the organisation, its sector and which alert source this queue handles.
+  - key: playbook
+    description: >-
+      The playbook: numbered rules (the first that matches decides), thresholds, severity table, asset inventory or
+      office policy, allowed actions, and what to do when a rule calls for an action the team may not take.
+input:
+  key: alert
+  description: The new alert as the security tools report it - what fired, on which host or user, the evidence and any lookups.
+  form: fields
+functions:
+  # classify: the playbook's action, one label from a defined set. Training shuffled the options in every row and some
+  # rows offer only four of the five, so nothing in the rows orders them: the order is the owner's (2026-10-26), and
+  # a caller may offer a subset of the labels.
+  action:
+    interface: classify
+    option_order: shuffled
+    labels:
+      fixed: [block, isolate, escalate, investigate, ignore]
+      subset: true

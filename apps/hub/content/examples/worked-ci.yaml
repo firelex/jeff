@@ -1,0 +1,125 @@
+# The "CI failures routed to the right person" worked example (guides/worked-ci.md): an open-source library's failed
+# CI runs, each sorted by cause, and the issue filed for a real regression routed to the team that owns the code.
+# Format and recording: scripts/hub_examples.py. The `recorded` blocks are written by
+# `scripts/hub_examples.py --record-new`, never by hand. Every input here was written for the page.
+- id: worked-ci-regression
+  name: A test fails after a code change
+  function: jeff.engineering.ci-failure.failure
+  context:
+    project: quillmark, an open-source Python library that turns Markdown into print-ready PDF files.
+    ci_run:
+      job: tests (python 3.13)
+      trigger: pull request 512
+      commit: 9e41c2b
+      date: 4 November 2026
+    change:
+      title: Rewrite the table layout to measure columns once
+      description: Replaces the column-width loop in quillmark/layout/tables.py with a single measuring pass.
+    ci_facts:
+      attempts_on_this_commit: 2; both failed with the same error
+      same_test_on_main: passed in each of the last 50 runs
+      other_jobs_in_this_run: lint passed; docs passed
+      dependency_versions: unchanged since the last passing run
+  input: |-
+    tests/test_tables.py::test_wide_table_wraps FAILED
+    E   AssertionError: column 3 width 212.0 exceeds page width 180.0
+    ========== 1 failed, 388 passed in 52.3s ==========
+  recorded:
+    value: real_regression
+    confidence: 0.999
+    top_options:
+    - option: real_regression
+      probability: 0.999
+    - option: dependency_change
+      probability: 0.0
+    - option: environment_or_infra
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-04'
+- id: worked-ci-flaky
+  name: A test fails once and passes on rerun
+  function: jeff.engineering.ci-failure.failure
+  context:
+    project: quillmark, an open-source Python library that turns Markdown into print-ready PDF files.
+    ci_run:
+      job: tests (python 3.12)
+      trigger: pull request 514
+      commit: 1c07f3e
+      date: 4 November 2026
+    change:
+      title: Fix a broken link in the contributing guide
+      description: Documentation only.
+    ci_facts:
+      attempts_on_this_commit: 2; the first failed, the rerun passed
+      same_test_on_main: failed 4 times in the last 40 runs, with no code change in between
+      other_jobs_in_this_run: lint passed; docs passed
+      dependency_versions: unchanged since the last passing run
+  input: |-
+    tests/test_fonts.py::test_font_cache_concurrent FAILED
+    E   TimeoutError: font cache lock not released after 5.0 s
+    ========== 1 failed, 388 passed in 49.1s ==========
+  recorded:
+    value: flaky_test
+    confidence: 1.0
+    top_options:
+    - option: flaky_test
+      probability: 1.0
+    - option: dependency_change
+      probability: 0.0
+    - option: environment_or_infra
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-04'
+- id: worked-ci-issue-kind
+  name: The regression, filed as an issue
+  function: jeff.engineering.issue-route.kind
+  context: &project
+    project: |-
+      quillmark is an open-source Python library that turns Markdown into print-ready PDF files. Components:
+      - parser (team syntax): the Markdown reader; paths quillmark/parser/
+      - layout (team layout): pages, tables and line breaking; paths quillmark/layout/
+      - fonts (team type): font loading and the font cache; paths quillmark/fonts/
+      - docs (team docs): the documentation site; paths docs/
+    open_issues:
+    - '#498 [fonts] Font cache test times out now and then'
+    - '#503 [parser] Support footnotes inside tables'
+  input: &issue
+    type: issue
+    number: 515
+    title: Wide tables overflow the page since pull request 512
+    body: 'After pull request 512 (measure table columns once), test_wide_table_wraps fails: a wide table''s third column is 212 points wide on a 180-point page instead of wrapping. Main passed before the change.'
+    labels: []
+  recorded:
+    value: bug
+    confidence: 0.993
+    top_options:
+    - option: bug
+      probability: 0.993
+    - option: duplicate_candidate
+      probability: 0.006
+    - option: docs
+      probability: 0.001
+    server: v1.4
+    at: '2026-11-04'
+- id: worked-ci-issue-owner
+  name: The regression, who owns it
+  function: jeff.engineering.issue-route.owner
+  context: *project
+  input: *issue
+  labels:
+    parser: The Markdown reader (quillmark/parser/)
+    layout: Pages, tables and line breaking (quillmark/layout/)
+    fonts: Font loading and the font cache (quillmark/fonts/)
+    docs: The documentation site (docs/)
+  recorded:
+    value: layout
+    confidence: 0.995
+    top_options:
+    - option: layout
+      probability: 0.995
+    - option: parser
+      probability: 0.004
+    - option: fonts
+      probability: 0.001
+    server: v1.4
+    at: '2026-11-04'

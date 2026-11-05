@@ -1,0 +1,264 @@
+id: jeff.knowledge.knowledge-qa
+version: 1.4.0
+aliases:
+- knowledge-qa-v2
+- knowledge-qa
+licence:
+  kind: open
+  adapter: CC-BY-NC-4.0
+weights:
+  local: {}
+base:
+  id: jeff-base
+  version: v1.4
+  max_options: 8
+context: []
+input:
+  key: question
+  description: A question or statement to complete, as plain text; the options are the possible answers (A, B, ...).
+  form: text
+functions:
+  blank:
+    interface: classify
+    type: choice
+    instructions: Which option correctly fills the blank (_) in the sentence?
+    labels:
+      source: describe
+      keys:
+      - A
+      - B
+    abstain_labels: []
+    calibration:
+      data: hf://datasets/teamsuzie/jeff-data@main/apps/knowledge-qa-v2/calibration.jsonl
+      data_mirror:
+        path: /mnt/d/jeff-data/apps/knowledge-qa-v2/calibration.jsonl
+        sha256: ed2622ccf4e87b9c36196c16274982fe1d03dabccd3f9065076f22fef8d56516
+      rows: 165
+      target_precision: 0.9
+      threshold: 0.515191
+      precision_at_threshold: 0.957576
+      coverage_at_threshold: 1.0
+    context: []
+    input:
+      key: sentence
+      description: A sentence with one blank written as _, as plain text; the options are the two candidate fillers.
+      form: text
+  question:
+    interface: classify
+    type: choice
+    instructions: Choose the option that correctly answers the question or completes the statement.
+    labels:
+      source: caller
+      fixed_first: {}
+      caller_keys: null
+      max: 8
+    abstain_labels: []
+    calibration:
+      data: hf://datasets/teamsuzie/jeff-data@main/apps/knowledge-qa-v2/calibration.jsonl
+      data_mirror:
+        path: /mnt/d/jeff-data/apps/knowledge-qa-v2/calibration.jsonl
+        sha256: ed2622ccf4e87b9c36196c16274982fe1d03dabccd3f9065076f22fef8d56516
+      rows: 876
+      target_precision: 0.9
+      threshold: 0.497905
+      precision_at_threshold: 0.9
+      coverage_at_threshold: 0.878995
+  continuation:
+    interface: classify
+    type: choice
+    instructions: Choose the ending that most plausibly continues the description of the activity.
+    labels:
+      source: describe
+      keys:
+      - A
+      - B
+      - C
+      - D
+    abstain_labels: []
+    calibration:
+      data: hf://datasets/teamsuzie/jeff-data@main/apps/knowledge-qa-v2/calibration.jsonl
+      data_mirror:
+        path: /mnt/d/jeff-data/apps/knowledge-qa-v2/calibration.jsonl
+        sha256: ed2622ccf4e87b9c36196c16274982fe1d03dabccd3f9065076f22fef8d56516
+      rows: 180
+      target_precision: 0.9
+      threshold: 0.731459
+      precision_at_threshold: 0.9
+      coverage_at_threshold: 0.277778
+    context:
+    - key: activity
+      description: The activity being described, in a few words (for example "Breakdancing").
+      required: true
+    input:
+      key: text
+      description: The start of a description of the activity, to be continued by one of the options.
+      form: fields
+  passage:
+    interface: classify
+    type: choice
+    instructions: Read the passage and choose the option that correctly answers the question or completes the statement about
+      it.
+    labels:
+      source: describe
+      keys:
+      - A
+      - B
+      - C
+      - D
+    abstain_labels: []
+    calibration:
+      data: hf://datasets/teamsuzie/jeff-data@main/apps/knowledge-qa-v2/calibration.jsonl
+      data_mirror:
+        path: /mnt/d/jeff-data/apps/knowledge-qa-v2/calibration.jsonl
+        sha256: ed2622ccf4e87b9c36196c16274982fe1d03dabccd3f9065076f22fef8d56516
+      rows: 150
+      target_precision: 0.9
+      threshold: 0.724134
+      precision_at_threshold: 0.90099
+      coverage_at_threshold: 0.673333
+    context:
+    - key: passage
+      description: The passage to read.
+      required: true
+    input:
+      key: question
+      description: The question about the passage, or a statement to complete.
+      form: fields
+  passage_text:
+    interface: classify
+    type: choice
+    instructions: Read the passage and choose the option that correctly answers the question or completes the statement about
+      it.
+    labels:
+      source: describe
+      keys:
+      - A
+      - B
+      - C
+      - D
+    abstain_labels: []
+    calibration:
+      data: hf://datasets/teamsuzie/jeff-data@main/apps/knowledge-qa-v2/calibration.jsonl
+      data_mirror:
+        path: /mnt/d/jeff-data/apps/knowledge-qa-v2/calibration.jsonl
+        sha256: ed2622ccf4e87b9c36196c16274982fe1d03dabccd3f9065076f22fef8d56516
+      rows: 195
+      target_precision: 0.9
+      threshold: 0.508357
+      precision_at_threshold: 0.9
+      coverage_at_threshold: 0.666667
+    context: []
+    input:
+      key: passage_and_question
+      description: The passage followed by its question, as one plain text.
+      form: text
+  social:
+    interface: classify
+    type: choice
+    instructions: Read the situation and choose the option that best answers the question about the people in it.
+    labels:
+      source: describe
+      keys:
+      - A
+      - B
+      - C
+    abstain_labels: []
+    calibration:
+      data: hf://datasets/teamsuzie/jeff-data@main/apps/knowledge-qa-v2/calibration.jsonl
+      data_mirror:
+        path: /mnt/d/jeff-data/apps/knowledge-qa-v2/calibration.jsonl
+        sha256: ed2622ccf4e87b9c36196c16274982fe1d03dabccd3f9065076f22fef8d56516
+      rows: 135
+      target_precision: 0.9
+      threshold: 0.818693
+      precision_at_threshold: 0.9
+      coverage_at_threshold: 0.518519
+    context:
+    - key: situation
+      description: A short everyday situation involving one or more people.
+      required: true
+    input:
+      key: question
+      description: The question about the people in the situation.
+      form: fields
+  solution:
+    interface: classify
+    type: choice
+    instructions: Choose the solution that best achieves the goal.
+    labels:
+      source: describe
+      keys:
+      - A
+      - B
+    abstain_labels: []
+    calibration:
+      data: hf://datasets/teamsuzie/jeff-data@main/apps/knowledge-qa-v2/calibration.jsonl
+      data_mirror:
+        path: /mnt/d/jeff-data/apps/knowledge-qa-v2/calibration.jsonl
+        sha256: ed2622ccf4e87b9c36196c16274982fe1d03dabccd3f9065076f22fef8d56516
+      rows: 188
+      target_precision: 0.9
+      threshold: 0.887618
+      precision_at_threshold: 0.902439
+      coverage_at_threshold: 0.218085
+    context: []
+    input:
+      key: goal
+      description: A practical goal, as plain text; the options are two candidate solutions.
+      form: text
+routes_to: []
+tests:
+  published: null
+  calibration: null
+  internal: hf://datasets/teamsuzie/jeff-data@main/apps/knowledge-qa-v2/test.jsonl
+  internal_calibration: hf://datasets/teamsuzie/jeff-data@main/apps/knowledge-qa-v2/calibration.jsonl
+  function_by:
+  - source_kind
+  - state_shape
+  kinds:
+    blank: blank
+    question: question
+    continuation: continuation
+    passage:
+    - passage
+    - passage_text
+    social: social
+    solution: solution
+hub:
+  title: knowledge-qa-v2
+  summary: Jeff v1.4 adapter `knowledge-qa`. Answers multiple-choice science, commonsense and general-knowledge questions.
+  source: local adapter folder knowledge-qa-v2 (not on Hugging Face)
+  notes:
+  - 'blank: instructions are the one text of the 116 test rows marked canonical (source.instructions); the other 49 ask the
+    same question reworded or with no instructions (as trained), and are rebuilt with the canonical text in template mode.'
+  - 'blank: every test row has the keys [''A'', ''B''] in this order, with descriptions that vary, so the labels are ''describe'':
+    the caller describes these keys.'
+  - 'question: instructions are the one text of the 612 test rows marked canonical (source.instructions); the other 264 ask
+    the same question reworded or with no instructions (as trained), and are rebuilt with the canonical text in template mode.'
+  - 'question: max 8 is the largest number of caller labels in the test rows (nothing documents a training limit).'
+  - 'continuation: instructions are the one text of the 127 test rows marked canonical (source.instructions); the other 53
+    ask the same question reworded or with no instructions (as trained), and are rebuilt with the canonical text in template
+    mode.'
+  - 'continuation: every test row has the keys [''A'', ''B'', ''C'', ''D''] in this order, with descriptions that vary, so
+    the labels are ''describe'': the caller describes these keys.'
+  - 'passage: instructions are the one text of the 120 test rows marked canonical (source.instructions); the other 30 ask
+    the same question reworded or with no instructions (as trained), and are rebuilt with the canonical text in template mode.'
+  - 'passage: every test row has the keys [''A'', ''B'', ''C'', ''D''] in this order, with descriptions that vary, so the
+    labels are ''describe'': the caller describes these keys.'
+  - 'passage_text: instructions are the one text of the 128 test rows marked canonical (source.instructions); the other 67
+    ask the same question reworded or with no instructions (as trained), and are rebuilt with the canonical text in template
+    mode.'
+  - 'passage_text: every test row has the keys [''A'', ''B'', ''C'', ''D''] in this order, with descriptions that vary, so
+    the labels are ''describe'': the caller describes these keys.'
+  - 'social: instructions are the one text of the 92 test rows marked canonical (source.instructions); the other 43 ask the
+    same question reworded or with no instructions (as trained), and are rebuilt with the canonical text in template mode.'
+  - 'social: every test row has the keys [''A'', ''B'', ''C''] in this order, with descriptions that vary, so the labels are
+    ''describe'': the caller describes these keys.'
+  - 'solution: instructions are the one text of the 138 test rows marked canonical (source.instructions); the other 50 ask
+    the same question reworded or with no instructions (as trained), and are rebuilt with the canonical text in template mode.'
+  - 'solution: every test row has the keys [''A'', ''B''] in this order, with descriptions that vary, so the labels are ''describe'':
+    the caller describes these keys.'
+  - 'base: jeff-base v1.4, identified by the SHA-256 of its model.safetensors, which the adapter''s decision_config.json records
+    for its base checkpoint.'
+  - 'tests: the test set is the private hf://datasets/teamsuzie/jeff-data@main/apps/knowledge-qa-v2/test.jsonl, so tests.published
+    is null; the calibration of each function is filled in later by `jeff calibrate`.'

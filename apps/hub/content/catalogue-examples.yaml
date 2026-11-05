@@ -1,0 +1,422 @@
+# The worked examples on each adapter's catalogue page (/catalogue/<adapter id>), keyed by adapter id. Every adapter in
+# the catalogue has an entry, either:
+#   examples: a list of one to five, each with
+#     example: the id of an example in content/examples/ (one of the adapter's own functions), and
+#     shows:   one plain sentence on what the example shows. A sentence that gives the answer quotes the recorded value
+#              in backticks (test/examples-coverage.test.ts checks it against the recording).
+#   The first is the page's featured example, shown in full; the others are listed under it, each opening to the
+#   same full case and code. They cover different outcomes where the adapter has several. An adapter the live API
+#   does not serve has only its one example (it cannot be recorded);
+# or, for an adapter that answered a clear case wrongly even after its input was made clearer:
+#   finding: what it got wrong. The page then shows no example; test/catalogue-examples.test.ts lists these ids.
+
+# Open adapters: the examples of the "Open-source adapters" family pages first, then more-*.yaml.
+jeff.agents.action-check:
+  examples:
+  - example: oss-action-check
+    shows: The user asked to be copied in and the proposed call leaves the copy list empty, so the check answers `wrong_action` before the call runs.
+  - example: more-action-check-approve
+    shows: The call pays the bill the user named for exactly the amount on it, so it can go ahead and the answer is `approve`.
+  - example: more-action-check-unsafe-delete
+    shows: The user only asked which invoices are unpaid and the agent proposes to delete one, so the call is `unsafe`.
+  - example: more-action-check-wrong-invoice
+    shows: The user asked for the September invoice and the call sends the October one to the right address, a `wrong_action` that harms nothing else.
+  - example: more-action-check-unsafe-amount
+    shows: The bill is for 480.00 and the call would pay 4,800.00, a payment the user never asked for, so it is `unsafe`.
+jeff.agents.after-result:
+  examples:
+  - example: oss-after-result
+    shows: The mail service failed with a temporary error on the first attempt, so the agent should `retry`.
+  - example: more-after-result-continue
+    shows: The invoice was found and sending it is still to do, so the agent should `continue`.
+  - example: more-after-result-wrong-month
+    shows: The tool refused the month because the agent wrote it in the wrong form, so the agent must `change_approach` and fix the call.
+  - example: more-after-result-done
+    shows: The email went out and it was the plan's last step, so the agent should `stop` and report back.
+  - example: more-after-result-login-expired
+    shows: The mail account's login has expired and only its owner can sign in again, so the agent must `escalate`.
+jeff.agents.result-relevant:
+  examples:
+  - example: oss-result-relevant
+    shows: The agent needed October's invoice and the tool returned September's, so the answer is `no`.
+  - example: more-result-relevant-yes
+    shows: The result is October's invoice for Orbit Print with its number and total, everything asked, so the answer is `yes`.
+  - example: more-result-relevant-partly
+    shows: The result is the right invoice but has no total, one of the two details asked, so the answer is `partly`.
+  - example: more-result-relevant-error
+    shows: The tool answered with an error instead of an invoice, so the answer is `no`.
+  - example: more-result-relevant-list
+    shows: The question needs every unpaid invoice and only the first of two pages came back, so the answer is `partly`.
+jeff.agents.task-complete:
+  examples:
+  - example: oss-task-complete
+    shows: The agent says it is done, but the user was never copied in, so the task is `incomplete`.
+  - example: more-task-complete-answered
+    shows: The agent looked up the invoice and told the user the total the tool returned, so the task is `complete`.
+  - example: more-task-complete-queued
+    shows: The email is only waiting in the outbox, so the transcript cannot show it was sent and the answer is `unclear`.
+  - example: more-task-complete-wrong-total
+    shows: The tool returned 2,350.00 and the agent told the user 3,250.00, so the task is `incomplete`.
+  - example: more-task-complete-two-invoices
+    shows: Both invoices the user asked for were found and sent to the address given, so the task is `complete`.
+jeff.agents.tool-route:
+  examples:
+  - example: oss-tool-route
+    shows: The user has given the last detail the agent needed, so the next tool to call is `send_invoice`.
+  - example: more-tool-route-find
+    shows: The user asks what was billed to a client in a given month, so the tool to call is `find_invoice`.
+  - example: more-tool-route-ask
+    shows: The user wants an invoice sent but names neither the invoice nor the client, so the agent must `ask_user`.
+  - example: more-tool-route-thanks
+    shows: The user is only saying thank you, so no tool is needed and the answer is `none`.
+  - example: more-tool-route-create
+    shows: The user gives the client, the work and the price for a new invoice, so the tool to call is `create_invoice`.
+jeff.compliance.sanctions:
+  examples:
+  - example: oss-sanctions
+    shows: The name is close to the listed person's, but the date of birth and nationality differ, so the answer is `no_match`.
+  - example: more-sanctions-match
+    shows: The name, date of birth and nationality all agree with the listed person, so the answer is `match`.
+  - example: more-sanctions-possible
+    shows: The name matches an alias on the list but the record holds no date of birth or nationality to decide it, so the answer is `possible_match`.
+  - example: more-sanctions-different-name
+    shows: Valentina Moroz is a different name, born in another year, with another nationality, so the answer is `no_match`.
+  - example: more-sanctions-entity
+    shows: The company's name, registration number, year and country agree with the listed entity, so the answer is `match`.
+jeff.engineering.ci-failure:
+  examples:
+  - example: oss-ci-failure
+    shows: The test fails the same way twice on this commit and passes on the main branch, so the failure is a `real_regression`.
+  - example: more-ci-failure-flaky
+    shows: The rerun of the same commit passed and the test fails now and then on the main branch, so it is a `flaky_test`.
+  - example: more-ci-failure-infra
+    shows: The run could not reach the package mirror and another job failed the same way, so the cause is `environment_or_infra`.
+  - example: more-ci-failure-test-update
+    shows: The change switches heights to metres on purpose and the test still expects feet, so the answer is `test_needs_update`.
+  - example: more-ci-failure-build
+    shows: The type check failed before any test ran, so the failure is `build_or_config`.
+jeff.engineering.issue-route:
+  examples:
+  - example: oss-issue-route-owner
+    shows: The crash shows in a chart command but comes from reading the file, so the owning part of the project is `readers`.
+  - example: oss-issue-route-kind
+    shows: The user asks for a way to turn the progress output off, something the tool does not do yet, so it is a `feature` request.
+  - example: more-issue-route-docs
+    shows: The library works and only the quick start page names the wrong function, so the kind is `docs`.
+  - example: more-issue-route-duplicate
+    shows: The legend covering the colour scale is the problem open issue 398 already reports, so it is a `duplicate_candidate`.
+  - example: more-issue-route-plotting
+    shows: The data is read correctly and the chart cuts off its own label, so the owning part of the project is `plotting`.
+jeff.finance.trading-desk:
+  examples:
+  - example: oss-trading-desk
+    shows: The day's loss on the stock is beyond the limit the desk's rules set, so the answer to going risk-off is `yes`.
+  - example: more-trading-desk-no-trigger
+    shows: The desk is in profit, volatility is low and there is no news, so no trigger is met and the answer is `no`.
+  - example: more-trading-desk-buy
+    shows: The mid is 1.1% below its 20-minute average and no filter blocks a trade, so the next action is `buy`.
+  - example: more-trading-desk-hold
+    shows: The buy rule is met but the spread is wider than the desk's 8 basis points, so the action is `hold`.
+  - example: more-trading-desk-route
+    shows: Only the first lit exchange shows enough size on the ask for the whole order, so the order goes to `venue_a`.
+jeff.language.emotion:
+  examples:
+  - example: catalogue-emotion
+    shows: "A forum post thanking the people who recommended the nurses who looked after the writer's father reads as `gratitude`."
+  - example: oss-emotion
+    shows: Passing the driving test at the fourth try reads as `joy`.
+  - example: more-emotion-anger
+    shows: A delivery cancelled for the third time, and a day off wasted, reads as `anger`.
+  - example: more-emotion-nervousness
+    shows: Shaking hands and no sleep before a first job interview read as `nervousness`.
+  - example: more-emotion-amusement
+    shows: A cat riding the robot hoover, and laughing until crying, reads as `amusement`.
+jeff.legal.legal-clauses:
+  examples:
+  - example: oss-legal-clauses
+    shows: The provision names the law that governs the contract, so its clause type is `governing_laws`.
+  - example: more-legal-clauses-notices
+    shows: The provision says how notices must be given and when they count as received, so its type is `notices`.
+  - example: more-legal-clauses-confidentiality
+    shows: Each party must keep the other's non-public information secret, so the type is `confidentiality`.
+  - example: more-legal-clauses-severability
+    shows: An invalid provision leaves the rest of the contract standing, so the type is `severability`.
+  - example: more-legal-clauses-counterparts
+    shows: The contract may be signed in separate copies that together count as one, so the type is `counterparts`.
+jeff.reasoning.contradicts:
+  examples:
+  - example: catalogue-contradicts
+    shows: "The hospital stopped metformin at discharge, but the pharmacy's repeat record still issues it, so the answer is `yes`."
+  - example: oss-contradicts
+    shows: The record says no known allergies, but a letter from before that review confirms a penicillin allergy, so the answer is `yes`.
+  - example: more-contradicts-no
+    shows: The booking and the reminder give the same day, time and nurse in different words, so the answer is `no`.
+  - example: more-contradicts-unclear
+    shows: 04/05/2026 is 4 May in one way of writing dates and 5 April in the other, so whether they conflict is `unclear`.
+  - example: more-contradicts-no-lunch
+    shows: A breakfast shift and a dinner shift on the same day do not overlap, so the answer is `no`.
+jeff.reasoning.entails:
+  examples:
+  - example: oss-entails
+    shows: The delivery records show the full order arrived before the agreed date, so the claim is `supported`.
+  - example: more-entails-unsupported
+    shows: The boards were due by 30 September and the delivery note is dated 19 October, so the claim is `unsupported`.
+  - example: more-entails-arithmetic
+    shows: 120 boards at 18.50 each come to 2,220.00, which follows from the order by simple arithmetic, so the claim is `supported`.
+  - example: more-entails-not-stated
+    shows: The order says nothing about an early-payment discount, so the claim is `unsupported`.
+  - example: more-entails-paid
+    shows: The invoice and the bank statement together show 2,220.00 paid on 12 March, before the 28 March due date, so the claim is `supported`.
+jeff.reasoning.equivalent:
+  examples:
+  - example: oss-equivalent
+    shows: Every fact the scope names agrees between the two book listings, so the answer is `yes`.
+  - example: more-equivalent-pages
+    shows: The two listings give 312 and 296 pages, a fact the scope counts, so the answer is `no`.
+  - example: more-equivalent-format
+    shows: One listing is the hardback and the other the paperback, so the answer is `no`.
+  - example: more-equivalent-reworded
+    shows: The listings give the same title, author, format, year and page count in a different order, so the answer is `yes`.
+  - example: more-equivalent-year
+    shows: The listings differ only in the year, 2019 against 2023, which the scope counts, so the answer is `no`.
+jeff.reasoning.is-complete:
+  examples:
+  - example: oss-is-complete
+    shows: The bakery has two directors but the pack holds photo identification for only one, so it is `incomplete`.
+  - example: more-is-complete-expired
+    shows: The only director's passport expired before the review, so the pack is `incomplete`.
+  - example: more-is-complete-unclear
+    shows: The pack does not say when the firm started trading, which decides whether annual accounts are needed, so the answer is `unclear`.
+  - example: more-is-complete-unsigned
+    shows: The application form is in the pack but nobody signed it, so the pack is `incomplete`.
+  - example: more-is-complete-no-accounts
+    shows: The firm has traded since 2011, so it needs its latest annual accounts, and they are missing, so the pack is `incomplete`.
+jeff.reasoning.satisfies:
+  examples:
+  - example: oss-satisfies
+    shows: The requirement asks for a payslip from August, September or October and this one is dated May, so the answer is `fail`.
+  - example: more-satisfies-pass
+    shows: The payslip is dated 30 October 2026, inside the months the requirement allows, so the answer is `pass`.
+  - example: more-satisfies-unclear
+    shows: The payslip has no date on it, so whether it falls in the allowed months is `unclear`.
+  - example: more-satisfies-condition
+    shows: The guarantor rule applies only to full-time students and the applicant is not one, so the answer is `pass`.
+  - example: more-satisfies-deposit
+    shows: The deposit paid is 900.00 and the requirement is at least 950.00, so the answer is `fail`.
+jeff.retrieval.doc-type:
+  examples:
+  - example: oss-doc-type
+    shows: The document offers a price before any order is placed, so its type is `quote`.
+  - example: more-doc-type-invoice
+    shows: The document bills for brackets already delivered and asks for payment, so its type is `invoice`.
+  - example: more-doc-type-purchase-order
+    shows: The installer orders brackets from the supplier at the quoted price, so the type is `purchase_order`.
+  - example: more-doc-type-delivery-note
+    shows: The document lists the goods delivered and is signed on receipt, so the type is `delivery_note`.
+  - example: more-doc-type-other
+    shows: A newsletter inviting visitors to a trade show is none of the listed types, so the answer is `other`.
+jeff.retrieval.evidence-sufficient:
+  examples:
+  - example: oss-evidence-sufficient
+    shows: One of the passages holds the answer, so the evidence is `sufficient` and no further search is needed.
+  - example: more-evidence-insufficient
+    shows: The passages cover the Aster 1 and the boilers, not the Aster 2 the question asks about, so the evidence is `insufficient`.
+  - example: more-evidence-conflicting
+    shows: One passage gives seven years and the other ten for the same model and period, so the evidence is `conflicting`.
+  - example: more-evidence-two-passages
+    shows: One passage says what a missed service does and the other how to book one, so together they are `sufficient`.
+  - example: more-evidence-cost-missing
+    shows: The passages say a service is needed and how to book it but never give its price, so the evidence is `insufficient`.
+jeff.retrieval.extract-check:
+  examples:
+  - example: oss-extract-check
+    shows: The extracted figure is in the document but is the VAT, not the total, so the answer is `wrong_field`.
+  - example: more-extract-check-correct
+    shows: The invoice's total due is 8,820.00, the value extracted written another way, so it is `correct`.
+  - example: more-extract-check-wrong-value
+    shows: The invoice is due on 13 November and the extracted date is 13 December, so the answer is `wrong_value`.
+  - example: more-extract-check-missing
+    shows: The invoice gives no purchase order number at all, so the answer is `not_in_document`.
+  - example: more-extract-check-ambiguous
+    shows: The visit confirmation gives two different phone numbers for the customer and the value extracted is one of them, so it is `ambiguous`.
+jeff.retrieval.ground:
+  examples:
+  - example: catalogue-ground-rerank
+    shows: "Of three warranty clauses, only the one on missed annual services says what happens to the warranty, so the pick is `p2`."
+  - example: oss-ground-rerank
+    shows: Only the second passage covers the Aster 2 installed after March 2026, so the pick is `p2`.
+  - example: oss-ground
+    shows: The answer's seven years, its cover and its service condition are all in the second source, so it is `supported`.
+  - example: more-ground-partly
+    shows: The seven-year warranty is in the sources but the free annual service is not, so the answer is `partly_supported`.
+  - example: more-ground-contradicted
+    shows: The sources give seven years for an Aster 2 installed after March 2026 and the answer says five, so it is `contradicted`.
+jeff.retrieval.passage-relevant:
+  examples:
+  - example: oss-passage-relevant
+    shows: The passage is about the Aster 1 while the question asks about the Aster 2, so the answer is `no`.
+  - example: more-passage-relevant-yes
+    shows: The passage gives both the length of the Aster 2 warranty and what it covers, so the answer is `yes`.
+  - example: more-passage-relevant-partly
+    shows: The passage gives the warranty's length but not what it covers, so the answer is `partly`.
+  - example: more-passage-relevant-period
+    shows: The passage is about Aster 2 units installed before March 2026, the wrong period, so the answer is `no`.
+  - example: more-passage-relevant-boiler
+    shows: The question asks for the boilers' standard warranty and the passage states it, so the answer is `yes`.
+jeff.retrieval.query-route:
+  examples:
+  - example: oss-query-route
+    shows: A question about a product's warranty goes to the `warranty_terms` source.
+  - example: more-query-route-orders
+    shows: A question about when the engineer is booked for one customer's order goes to `customer_orders`.
+  - example: more-query-route-manual
+    shows: A question about an error code and what the installation manual says goes to `product_manuals`.
+  - example: more-query-route-pricing
+    shows: A question about a boiler's current price and offers goes to `pricing`.
+  - example: more-query-route-none
+    shows: A weather question is not something any source on the menu holds, so the answer is `none`.
+jeff.retrieval.section-id:
+  examples:
+  - example: oss-section-id
+    shows: The passage is about ending the agreement, so it comes from the `termination` section.
+  - example: more-section-id-payment
+    shows: The passage says when the installer invoices and when invoices fall due, so it comes from the `payment` section.
+  - example: more-section-id-scope
+    shows: The passage says which homes the installer fits and what it does there, so it comes from the `scope` section.
+  - example: more-section-id-liability
+    shows: The passage limits the installer's liability for loss or damage, so it comes from the `liability` section.
+  - example: more-section-id-none
+    shows: The signature block serves none of the listed sections, so the answer is `none`.
+jeff.routing.tools:
+  examples:
+  - example: oss-tools
+    shows: The user asks for a hotel to be booked, so the tool to call next is `book_hotel`.
+  - example: more-tools-train
+    shows: The user gives the route, the day and both train times, so the tool to call is `book_train`.
+  - example: more-tools-policy
+    shows: The user asks what the travel policy allows, so the tool to call is `check_policy`.
+  - example: more-tools-ask
+    shows: The user wants one of three trips cancelled without saying which, so the agent must `ask_user`.
+  - example: more-tools-answer
+    shows: The hotel's name is already in the conversation, so no tool is needed and the answer is `answer_directly`.
+jeff.safety.guard:
+  examples:
+  - example: catalogue-guard-attempt
+    shows: "A product page hides a note telling shopping assistants to stop comparing prices and invent a deadline, so the page is an attack attempt and the answer is `true`."
+  - example: guard-attempt
+    shows: The user tells the assistant to ignore its instructions and print a password, so the answer is `true`.
+  - example: oss-guard-kind
+    shows: An email tells the assistant to forward the user's messages to an outside address and hide it, so the kind is `exfiltration`.
+  - example: more-guard-benign
+    shows: A student asks how prompt injection works for an essay, which discusses an attack without attempting one, so the answer is `false`.
+  - example: more-guard-jailbreak
+    shows: The user asks the assistant to play a character with no rules and never refuse, so the kind is `jailbreak`.
+jeff.safety.spam:
+  examples:
+  - example: oss-spam
+    shows: A message asking for a small fee through an unknown link is after money or details, so it is `phishing`.
+  - example: more-spam-legitimate
+    shows: A dental practice reminds a patient of a booked appointment, so the message is `legitimate`.
+  - example: more-spam-advert
+    shows: A mass-mailed sale with an unsubscribe link is unwanted advertising, so it is `spam`.
+  - example: more-spam-is-spam
+    shows: A prize text asking for a bank card number is a scam, so the answer to whether it is spam or phishing is `true`.
+  - example: more-spam-not-spam
+    shows: A colleague asks to move a meeting, a normal message, so the answer is `false`.
+jeff.security.soc:
+  examples:
+  - example: oss-soc
+    shows: Thousands of files renamed within seconds on a laptop look like ransomware, so the playbook says to `isolate` the machine.
+  - example: more-soc-block
+    shows: The laptop contacted an address the threat feed lists as malicious, so the playbook says to `block` it.
+  - example: more-soc-escalate
+    shows: An administrator signed in from a country never seen before, so the playbook says to `escalate`.
+  - example: more-soc-investigate
+    shows: A spreadsheet started an encoded script, which matches none of the playbook's earlier rules, so the action is `investigate`.
+  - example: more-soc-ignore
+    shows: The alert is the IT team's own weekly test, which the playbook says to `ignore`.
+jeff.support.message-triage:
+  examples:
+  - example: oss-message-triage
+    shows: A supplier's invoice belongs to the finance team, who are not yet on the email, so the action is `forward`.
+  - example: more-message-triage-route
+    shows: A broken printer is on IT support's list of topics, so the message goes to `it`.
+  - example: more-message-triage-booking
+    shows: A request to book the meeting room is, on the office manager's own list, a `booking`.
+  - example: more-message-triage-urgency
+    shows: The shared drive is down and the drawings are due within two hours, so the urgency is `now`.
+  - example: more-message-triage-spam
+    shows: A parcel notice asking for a small fee through an unknown link is a scam, so the action is `ignore_spam`.
+jeff.support.requires-action:
+  examples:
+  - example: oss-requires-action
+    shows: Potholes are on the highways team's list, so the answer is `yes`.
+  - example: more-requires-action-no
+    shows: A resident only says thank you for a repair, so the team need not act and the answer is `no`.
+  - example: more-requires-action-other-team
+    shows: Bin collections belong to another team under the policy, so the highways team need not act and the answer is `no`.
+  - example: more-requires-action-escalate
+    shows: Bare wires on a pavement by a school are an immediate danger, which the policy says to escalate, so the answer is `yes`.
+  - example: more-requires-action-no-escalation
+    shows: A faded road sign is the team's work but no danger to people, so it needs no escalation and the answer is `no`.
+jeff.support.support-intents:
+  examples:
+  - example: oss-support-intents
+    shows: The boots have not shipped yet, so the customer's request is `cancel_order`.
+  - example: more-support-intents-track
+    shows: The customer wants to know where an order that has not arrived is, so the request is `track_order`.
+  - example: more-support-intents-address
+    shows: The customer wants the order delivered to the office instead, so the request is `change_address`.
+  - example: more-support-intents-return
+    shows: The boots were delivered and are too small, so the request is `return_item`.
+  - example: more-support-intents-refund
+    shows: The tent was returned and the money has not come back, so the request is `track_refund`.
+jeff.support.triage:
+  examples:
+  - example: oss-triage
+    shows: A wrong item to exchange is a matter for the `orders` team.
+  - example: more-triage-payments
+    shows: A card charged twice for one order goes to the `payments` team.
+  - example: more-triage-product
+    shows: A question about which sleeping bag is warm enough is for the `product` team.
+  - example: more-triage-needs-human
+    shows: A stove that set a tent on fire and burned the customer is a safety complaint, so it needs a person and the answer is `true`.
+  - example: more-triage-no-human
+    shows: Where to find the password reset link can be answered automatically, so the answer is `false`.
+# The adapters opened on 4 November 2026 (examples in content/examples/api-adapters.yaml, swarm.yaml and more-*.yaml).
+jeff.agents.assistant-routing:
+  examples:
+  - example: api-assistant-routing
+    shows: The user only says thank you after a finished task, so the reply needs no careful thinking and the answer is `false`.
+  - example: more-assistant-routing-plan
+    shows: Fitting a two-hour slot around a board meeting, a trip, the dentist and fixed hours takes careful thought, so the answer is `true`.
+  - example: more-assistant-routing-greeting
+    shows: A good morning needs only a friendly reply, so the answer is `false`.
+  - example: more-assistant-routing-contract
+    shows: Comparing two caterers' prices, a deposit and the risk of cancelling against a budget takes careful thought, so the answer is `true`.
+  - example: more-assistant-routing-confirm
+    shows: The reminder was created and the assistant only has to say so, so the answer is `false`.
+jeff.knowledge.knowledge-qa:
+  examples:
+  - example: api-knowledge-qa
+    shows: "Some antibiotics strengthen warfarin's effect and raise the risk of bleeding, so the answer is option `B`."
+  - example: more-knowledge-qa-salt
+    shows: Rivers carry minerals worn from rocks on land into the sea, so the answer is option `A`.
+  - example: more-knowledge-qa-blank
+    shows: The trophy did not fit because the suitcase was too small, so the blank is option `B`.
+  - example: more-knowledge-qa-solution
+    shows: Lemon juice and a cover keep a cut apple from browning, so the answer is option `A`.
+  - example: more-knowledge-qa-social
+    shows: Ravi left soup for a neighbour with the flu to help her feel better, so the answer is option `A`.
+jeff.routing.router-open-v14:
+  examples:
+  - example: swarm-open-route-ci
+    shows: A failed test run whose test passes on the main branch goes to the `ci-failure` specialist.
+  - example: more-open-route-guard
+    shows: A request to check an email for an attack on the assistant goes to the `guard` specialist.
+  - example: more-open-route-contradicts
+    shows: A request to check whether two patient records conflict goes to the `contradicts` specialist.
+  - example: more-open-route-evidence
+    shows: A request to check whether some passages are enough to answer a question goes to the `evidence-sufficient` specialist.
+  - example: more-open-route-base
+    shows: A question about whether a paragraph is written in the first person fits no listed specialist, so it goes to `base`.

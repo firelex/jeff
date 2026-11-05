@@ -1,0 +1,17 @@
+# oss-evidence-sufficient-v2, v1.4 (RTX /mnt/d/jeff-adapters/v1.4/oss-evidence-sufficient-v2, data teamsuzie/jeff-data apps/oss-evidence-sufficient-v2).
+path: apps/oss-evidence-sufficient-v2
+adapter_path: oss-evidence-sufficient-v2
+id: jeff.retrieval.evidence-sufficient
+aliases: [oss-evidence-sufficient-v2, evidence-sufficient]
+version: 1.4.0
+function_by: only
+context:
+  - key: question
+    description: "The question to answer."
+input:
+  key: passages
+  description: "The retrieved passages, a list of texts."
+  form: fields
+functions:
+  # classify: fixed answer set sufficient / insufficient / conflicting
+  sufficient: {interface: classify, option_order: shuffled}

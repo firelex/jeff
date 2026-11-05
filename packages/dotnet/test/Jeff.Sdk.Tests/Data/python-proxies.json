@@ -1,0 +1,2354 @@
+[
+ {
+  "env": {},
+  "url": "http://127.0.0.1:8080",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {},
+  "url": "https://api.example.com",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {},
+  "url": "http://sub.example.com:9000",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {},
+  "url": "https://[::1]:8443",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {},
+  "url": "http://localhost:5000",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {},
+  "url": "https://example.org",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {},
+  "url": "http://wwwexample.com",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {},
+  "url": "http://Example.COM",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128"
+  },
+  "url": "http://127.0.0.1:8080",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p1:3128"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128"
+  },
+  "url": "https://api.example.com",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128"
+  },
+  "url": "http://sub.example.com:9000",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p1:3128"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128"
+  },
+  "url": "https://[::1]:8443",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128"
+  },
+  "url": "http://localhost:5000",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p1:3128"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128"
+  },
+  "url": "https://example.org",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128"
+  },
+  "url": "http://wwwexample.com",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p1:3128"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128"
+  },
+  "url": "http://Example.COM",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p1:3128"
+ },
+ {
+  "env": {
+   "http_proxy": "http://p1:3128"
+  },
+  "url": "http://127.0.0.1:8080",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p1:3128"
+ },
+ {
+  "env": {
+   "http_proxy": "http://p1:3128"
+  },
+  "url": "https://api.example.com",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "http_proxy": "http://p1:3128"
+  },
+  "url": "http://sub.example.com:9000",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p1:3128"
+ },
+ {
+  "env": {
+   "http_proxy": "http://p1:3128"
+  },
+  "url": "https://[::1]:8443",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "http_proxy": "http://p1:3128"
+  },
+  "url": "http://localhost:5000",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p1:3128"
+ },
+ {
+  "env": {
+   "http_proxy": "http://p1:3128"
+  },
+  "url": "https://example.org",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "http_proxy": "http://p1:3128"
+  },
+  "url": "http://wwwexample.com",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p1:3128"
+ },
+ {
+  "env": {
+   "http_proxy": "http://p1:3128"
+  },
+  "url": "http://Example.COM",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p1:3128"
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "http://p2:3129"
+  },
+  "url": "http://127.0.0.1:8080",
+  "http": "direct",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "http://p2:3129"
+  },
+  "url": "https://api.example.com",
+  "http": "proxy http://p2:3129",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "http://p2:3129"
+  },
+  "url": "http://sub.example.com:9000",
+  "http": "direct",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "http://p2:3129"
+  },
+  "url": "https://[::1]:8443",
+  "http": "proxy http://p2:3129",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "http://p2:3129"
+  },
+  "url": "http://localhost:5000",
+  "http": "direct",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "http://p2:3129"
+  },
+  "url": "https://example.org",
+  "http": "proxy http://p2:3129",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "http://p2:3129"
+  },
+  "url": "http://wwwexample.com",
+  "http": "direct",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "http://p2:3129"
+  },
+  "url": "http://Example.COM",
+  "http": "direct",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129"
+  },
+  "url": "http://127.0.0.1:8080",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129"
+  },
+  "url": "https://api.example.com",
+  "http": "proxy http://p2:3129",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129"
+  },
+  "url": "http://sub.example.com:9000",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129"
+  },
+  "url": "https://[::1]:8443",
+  "http": "proxy http://p2:3129",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129"
+  },
+  "url": "http://localhost:5000",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129"
+  },
+  "url": "https://example.org",
+  "http": "proxy http://p2:3129",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129"
+  },
+  "url": "http://wwwexample.com",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129"
+  },
+  "url": "http://Example.COM",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "http_proxy": "http://lower:1"
+  },
+  "url": "http://127.0.0.1:8080",
+  "http": "proxy http://lower:1",
+  "channel": "proxy http://lower:1"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "http_proxy": "http://lower:1"
+  },
+  "url": "https://api.example.com",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "http_proxy": "http://lower:1"
+  },
+  "url": "http://sub.example.com:9000",
+  "http": "proxy http://lower:1",
+  "channel": "proxy http://lower:1"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "http_proxy": "http://lower:1"
+  },
+  "url": "https://[::1]:8443",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "http_proxy": "http://lower:1"
+  },
+  "url": "http://localhost:5000",
+  "http": "proxy http://lower:1",
+  "channel": "proxy http://lower:1"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "http_proxy": "http://lower:1"
+  },
+  "url": "https://example.org",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "http_proxy": "http://lower:1"
+  },
+  "url": "http://wwwexample.com",
+  "http": "proxy http://lower:1",
+  "channel": "proxy http://lower:1"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "http_proxy": "http://lower:1"
+  },
+  "url": "http://Example.COM",
+  "http": "proxy http://lower:1",
+  "channel": "proxy http://lower:1"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "http_proxy": ""
+  },
+  "url": "http://127.0.0.1:8080",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "http_proxy": ""
+  },
+  "url": "https://api.example.com",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "http_proxy": ""
+  },
+  "url": "http://sub.example.com:9000",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "http_proxy": ""
+  },
+  "url": "https://[::1]:8443",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "http_proxy": ""
+  },
+  "url": "http://localhost:5000",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "http_proxy": ""
+  },
+  "url": "https://example.org",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "http_proxy": ""
+  },
+  "url": "http://wwwexample.com",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "http_proxy": ""
+  },
+  "url": "http://Example.COM",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "p1:3128"
+  },
+  "url": "http://127.0.0.1:8080",
+  "http": "proxy http://p1:3128",
+  "channel": "error InvalidProxy"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "p1:3128"
+  },
+  "url": "https://api.example.com",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "p1:3128"
+  },
+  "url": "http://sub.example.com:9000",
+  "http": "proxy http://p1:3128",
+  "channel": "error InvalidProxy"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "p1:3128"
+  },
+  "url": "https://[::1]:8443",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "p1:3128"
+  },
+  "url": "http://localhost:5000",
+  "http": "proxy http://p1:3128",
+  "channel": "error InvalidProxy"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "p1:3128"
+  },
+  "url": "https://example.org",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "p1:3128"
+  },
+  "url": "http://wwwexample.com",
+  "http": "proxy http://p1:3128",
+  "channel": "error InvalidProxy"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "p1:3128"
+  },
+  "url": "http://Example.COM",
+  "http": "proxy http://p1:3128",
+  "channel": "error InvalidProxy"
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "p2:3129"
+  },
+  "url": "http://127.0.0.1:8080",
+  "http": "direct",
+  "channel": "error InvalidProxy"
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "p2:3129"
+  },
+  "url": "https://api.example.com",
+  "http": "proxy http://p2:3129",
+  "channel": "error InvalidProxy"
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "p2:3129"
+  },
+  "url": "http://sub.example.com:9000",
+  "http": "direct",
+  "channel": "error InvalidProxy"
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "p2:3129"
+  },
+  "url": "https://[::1]:8443",
+  "http": "proxy http://p2:3129",
+  "channel": "error InvalidProxy"
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "p2:3129"
+  },
+  "url": "http://localhost:5000",
+  "http": "direct",
+  "channel": "error InvalidProxy"
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "p2:3129"
+  },
+  "url": "https://example.org",
+  "http": "proxy http://p2:3129",
+  "channel": "error InvalidProxy"
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "p2:3129"
+  },
+  "url": "http://wwwexample.com",
+  "http": "direct",
+  "channel": "error InvalidProxy"
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "p2:3129"
+  },
+  "url": "http://Example.COM",
+  "http": "direct",
+  "channel": "error InvalidProxy"
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "https://p2"
+  },
+  "url": "http://127.0.0.1:8080",
+  "http": "direct",
+  "channel": "proxy https://p2:443"
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "https://p2"
+  },
+  "url": "https://api.example.com",
+  "http": "proxy https://p2:443",
+  "channel": "proxy https://p2:443"
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "https://p2"
+  },
+  "url": "http://sub.example.com:9000",
+  "http": "direct",
+  "channel": "proxy https://p2:443"
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "https://p2"
+  },
+  "url": "https://[::1]:8443",
+  "http": "proxy https://p2:443",
+  "channel": "proxy https://p2:443"
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "https://p2"
+  },
+  "url": "http://localhost:5000",
+  "http": "direct",
+  "channel": "proxy https://p2:443"
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "https://p2"
+  },
+  "url": "https://example.org",
+  "http": "proxy https://p2:443",
+  "channel": "proxy https://p2:443"
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "https://p2"
+  },
+  "url": "http://wwwexample.com",
+  "http": "direct",
+  "channel": "proxy https://p2:443"
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "https://p2"
+  },
+  "url": "http://Example.COM",
+  "http": "direct",
+  "channel": "proxy https://p2:443"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://user:pa%40ss@p1:3128"
+  },
+  "url": "http://127.0.0.1:8080",
+  "http": "proxy http://p1:3128 auth",
+  "channel": "proxy http://p1:3128 auth"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://user:pa%40ss@p1:3128"
+  },
+  "url": "https://api.example.com",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://user:pa%40ss@p1:3128"
+  },
+  "url": "http://sub.example.com:9000",
+  "http": "proxy http://p1:3128 auth",
+  "channel": "proxy http://p1:3128 auth"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://user:pa%40ss@p1:3128"
+  },
+  "url": "https://[::1]:8443",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://user:pa%40ss@p1:3128"
+  },
+  "url": "http://localhost:5000",
+  "http": "proxy http://p1:3128 auth",
+  "channel": "proxy http://p1:3128 auth"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://user:pa%40ss@p1:3128"
+  },
+  "url": "https://example.org",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://user:pa%40ss@p1:3128"
+  },
+  "url": "http://wwwexample.com",
+  "http": "proxy http://p1:3128 auth",
+  "channel": "proxy http://p1:3128 auth"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://user:pa%40ss@p1:3128"
+  },
+  "url": "http://Example.COM",
+  "http": "proxy http://p1:3128 auth",
+  "channel": "proxy http://p1:3128 auth"
+ },
+ {
+  "env": {
+   "ALL_PROXY": "http://pall:9"
+  },
+  "url": "http://127.0.0.1:8080",
+  "http": "proxy http://pall:9",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "ALL_PROXY": "http://pall:9"
+  },
+  "url": "https://api.example.com",
+  "http": "proxy http://pall:9",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "ALL_PROXY": "http://pall:9"
+  },
+  "url": "http://sub.example.com:9000",
+  "http": "proxy http://pall:9",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "ALL_PROXY": "http://pall:9"
+  },
+  "url": "https://[::1]:8443",
+  "http": "proxy http://pall:9",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "ALL_PROXY": "http://pall:9"
+  },
+  "url": "http://localhost:5000",
+  "http": "proxy http://pall:9",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "ALL_PROXY": "http://pall:9"
+  },
+  "url": "https://example.org",
+  "http": "proxy http://pall:9",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "ALL_PROXY": "http://pall:9"
+  },
+  "url": "http://wwwexample.com",
+  "http": "proxy http://pall:9",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "ALL_PROXY": "http://pall:9"
+  },
+  "url": "http://Example.COM",
+  "http": "proxy http://pall:9",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "ALL_PROXY": "http://pall:9",
+   "HTTP_PROXY": "http://p1:3128"
+  },
+  "url": "http://127.0.0.1:8080",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p1:3128"
+ },
+ {
+  "env": {
+   "ALL_PROXY": "http://pall:9",
+   "HTTP_PROXY": "http://p1:3128"
+  },
+  "url": "https://api.example.com",
+  "http": "proxy http://pall:9",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "ALL_PROXY": "http://pall:9",
+   "HTTP_PROXY": "http://p1:3128"
+  },
+  "url": "http://sub.example.com:9000",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p1:3128"
+ },
+ {
+  "env": {
+   "ALL_PROXY": "http://pall:9",
+   "HTTP_PROXY": "http://p1:3128"
+  },
+  "url": "https://[::1]:8443",
+  "http": "proxy http://pall:9",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "ALL_PROXY": "http://pall:9",
+   "HTTP_PROXY": "http://p1:3128"
+  },
+  "url": "http://localhost:5000",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p1:3128"
+ },
+ {
+  "env": {
+   "ALL_PROXY": "http://pall:9",
+   "HTTP_PROXY": "http://p1:3128"
+  },
+  "url": "https://example.org",
+  "http": "proxy http://pall:9",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "ALL_PROXY": "http://pall:9",
+   "HTTP_PROXY": "http://p1:3128"
+  },
+  "url": "http://wwwexample.com",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p1:3128"
+ },
+ {
+  "env": {
+   "ALL_PROXY": "http://pall:9",
+   "HTTP_PROXY": "http://p1:3128"
+  },
+  "url": "http://Example.COM",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p1:3128"
+ },
+ {
+  "env": {
+   "WS_PROXY": "http://pws:7",
+   "HTTP_PROXY": "http://p1:3128"
+  },
+  "url": "http://127.0.0.1:8080",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://pws:7"
+ },
+ {
+  "env": {
+   "WS_PROXY": "http://pws:7",
+   "HTTP_PROXY": "http://p1:3128"
+  },
+  "url": "https://api.example.com",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "WS_PROXY": "http://pws:7",
+   "HTTP_PROXY": "http://p1:3128"
+  },
+  "url": "http://sub.example.com:9000",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://pws:7"
+ },
+ {
+  "env": {
+   "WS_PROXY": "http://pws:7",
+   "HTTP_PROXY": "http://p1:3128"
+  },
+  "url": "https://[::1]:8443",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "WS_PROXY": "http://pws:7",
+   "HTTP_PROXY": "http://p1:3128"
+  },
+  "url": "http://localhost:5000",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://pws:7"
+ },
+ {
+  "env": {
+   "WS_PROXY": "http://pws:7",
+   "HTTP_PROXY": "http://p1:3128"
+  },
+  "url": "https://example.org",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "WS_PROXY": "http://pws:7",
+   "HTTP_PROXY": "http://p1:3128"
+  },
+  "url": "http://wwwexample.com",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://pws:7"
+ },
+ {
+  "env": {
+   "WS_PROXY": "http://pws:7",
+   "HTTP_PROXY": "http://p1:3128"
+  },
+  "url": "http://Example.COM",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://pws:7"
+ },
+ {
+  "env": {
+   "WSS_PROXY": "http://pwss:8",
+   "HTTPS_PROXY": "http://p2:3129"
+  },
+  "url": "http://127.0.0.1:8080",
+  "http": "direct",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "WSS_PROXY": "http://pwss:8",
+   "HTTPS_PROXY": "http://p2:3129"
+  },
+  "url": "https://api.example.com",
+  "http": "proxy http://p2:3129",
+  "channel": "proxy http://pwss:8"
+ },
+ {
+  "env": {
+   "WSS_PROXY": "http://pwss:8",
+   "HTTPS_PROXY": "http://p2:3129"
+  },
+  "url": "http://sub.example.com:9000",
+  "http": "direct",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "WSS_PROXY": "http://pwss:8",
+   "HTTPS_PROXY": "http://p2:3129"
+  },
+  "url": "https://[::1]:8443",
+  "http": "proxy http://p2:3129",
+  "channel": "proxy http://pwss:8"
+ },
+ {
+  "env": {
+   "WSS_PROXY": "http://pwss:8",
+   "HTTPS_PROXY": "http://p2:3129"
+  },
+  "url": "http://localhost:5000",
+  "http": "direct",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "WSS_PROXY": "http://pwss:8",
+   "HTTPS_PROXY": "http://p2:3129"
+  },
+  "url": "https://example.org",
+  "http": "proxy http://p2:3129",
+  "channel": "proxy http://pwss:8"
+ },
+ {
+  "env": {
+   "WSS_PROXY": "http://pwss:8",
+   "HTTPS_PROXY": "http://p2:3129"
+  },
+  "url": "http://wwwexample.com",
+  "http": "direct",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "WSS_PROXY": "http://pwss:8",
+   "HTTPS_PROXY": "http://p2:3129"
+  },
+  "url": "http://Example.COM",
+  "http": "direct",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "REQUEST_METHOD": "GET"
+  },
+  "url": "http://127.0.0.1:8080",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "REQUEST_METHOD": "GET"
+  },
+  "url": "https://api.example.com",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "REQUEST_METHOD": "GET"
+  },
+  "url": "http://sub.example.com:9000",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "REQUEST_METHOD": "GET"
+  },
+  "url": "https://[::1]:8443",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "REQUEST_METHOD": "GET"
+  },
+  "url": "http://localhost:5000",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "REQUEST_METHOD": "GET"
+  },
+  "url": "https://example.org",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "REQUEST_METHOD": "GET"
+  },
+  "url": "http://wwwexample.com",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "REQUEST_METHOD": "GET"
+  },
+  "url": "http://Example.COM",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "http_proxy": "http://p1:3128",
+   "REQUEST_METHOD": "GET"
+  },
+  "url": "http://127.0.0.1:8080",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p1:3128"
+ },
+ {
+  "env": {
+   "http_proxy": "http://p1:3128",
+   "REQUEST_METHOD": "GET"
+  },
+  "url": "https://api.example.com",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "http_proxy": "http://p1:3128",
+   "REQUEST_METHOD": "GET"
+  },
+  "url": "http://sub.example.com:9000",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p1:3128"
+ },
+ {
+  "env": {
+   "http_proxy": "http://p1:3128",
+   "REQUEST_METHOD": "GET"
+  },
+  "url": "https://[::1]:8443",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "http_proxy": "http://p1:3128",
+   "REQUEST_METHOD": "GET"
+  },
+  "url": "http://localhost:5000",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p1:3128"
+ },
+ {
+  "env": {
+   "http_proxy": "http://p1:3128",
+   "REQUEST_METHOD": "GET"
+  },
+  "url": "https://example.org",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "http_proxy": "http://p1:3128",
+   "REQUEST_METHOD": "GET"
+  },
+  "url": "http://wwwexample.com",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p1:3128"
+ },
+ {
+  "env": {
+   "http_proxy": "http://p1:3128",
+   "REQUEST_METHOD": "GET"
+  },
+  "url": "http://Example.COM",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p1:3128"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "127.0.0.1"
+  },
+  "url": "http://127.0.0.1:8080",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "127.0.0.1"
+  },
+  "url": "https://api.example.com",
+  "http": "proxy http://p2:3129",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "127.0.0.1"
+  },
+  "url": "http://sub.example.com:9000",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "127.0.0.1"
+  },
+  "url": "https://[::1]:8443",
+  "http": "proxy http://p2:3129",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "127.0.0.1"
+  },
+  "url": "http://localhost:5000",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "127.0.0.1"
+  },
+  "url": "https://example.org",
+  "http": "proxy http://p2:3129",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "127.0.0.1"
+  },
+  "url": "http://wwwexample.com",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "127.0.0.1"
+  },
+  "url": "http://Example.COM",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "*"
+  },
+  "url": "http://127.0.0.1:8080",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "*"
+  },
+  "url": "https://api.example.com",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "*"
+  },
+  "url": "http://sub.example.com:9000",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "*"
+  },
+  "url": "https://[::1]:8443",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "*"
+  },
+  "url": "http://localhost:5000",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "*"
+  },
+  "url": "https://example.org",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "*"
+  },
+  "url": "http://wwwexample.com",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "*"
+  },
+  "url": "http://Example.COM",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "no_proxy": "example.com"
+  },
+  "url": "http://127.0.0.1:8080",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "no_proxy": "example.com"
+  },
+  "url": "https://api.example.com",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "no_proxy": "example.com"
+  },
+  "url": "http://sub.example.com:9000",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "no_proxy": "example.com"
+  },
+  "url": "https://[::1]:8443",
+  "http": "proxy http://p2:3129",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "no_proxy": "example.com"
+  },
+  "url": "http://localhost:5000",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "no_proxy": "example.com"
+  },
+  "url": "https://example.org",
+  "http": "proxy http://p2:3129",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "no_proxy": "example.com"
+  },
+  "url": "http://wwwexample.com",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "no_proxy": "example.com"
+  },
+  "url": "http://Example.COM",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": ".example.com"
+  },
+  "url": "http://127.0.0.1:8080",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": ".example.com"
+  },
+  "url": "https://api.example.com",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": ".example.com"
+  },
+  "url": "http://sub.example.com:9000",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": ".example.com"
+  },
+  "url": "https://[::1]:8443",
+  "http": "proxy http://p2:3129",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": ".example.com"
+  },
+  "url": "http://localhost:5000",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": ".example.com"
+  },
+  "url": "https://example.org",
+  "http": "proxy http://p2:3129",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": ".example.com"
+  },
+  "url": "http://wwwexample.com",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": ".example.com"
+  },
+  "url": "http://Example.COM",
+  "http": "proxy http://p1:3128",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "localhost, ::1"
+  },
+  "url": "http://127.0.0.1:8080",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "localhost, ::1"
+  },
+  "url": "https://api.example.com",
+  "http": "proxy http://p2:3129",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "localhost, ::1"
+  },
+  "url": "http://sub.example.com:9000",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "localhost, ::1"
+  },
+  "url": "https://[::1]:8443",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "localhost, ::1"
+  },
+  "url": "http://localhost:5000",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "localhost, ::1"
+  },
+  "url": "https://example.org",
+  "http": "proxy http://p2:3129",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "localhost, ::1"
+  },
+  "url": "http://wwwexample.com",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "localhost, ::1"
+  },
+  "url": "http://Example.COM",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "sub.example.com:9000"
+  },
+  "url": "http://127.0.0.1:8080",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "sub.example.com:9000"
+  },
+  "url": "https://api.example.com",
+  "http": "proxy http://p2:3129",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "sub.example.com:9000"
+  },
+  "url": "http://sub.example.com:9000",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "sub.example.com:9000"
+  },
+  "url": "https://[::1]:8443",
+  "http": "proxy http://p2:3129",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "sub.example.com:9000"
+  },
+  "url": "http://localhost:5000",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "sub.example.com:9000"
+  },
+  "url": "https://example.org",
+  "http": "proxy http://p2:3129",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "sub.example.com:9000"
+  },
+  "url": "http://wwwexample.com",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "sub.example.com:9000"
+  },
+  "url": "http://Example.COM",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "EXAMPLE.COM"
+  },
+  "url": "http://127.0.0.1:8080",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "EXAMPLE.COM"
+  },
+  "url": "https://api.example.com",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "EXAMPLE.COM"
+  },
+  "url": "http://sub.example.com:9000",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "EXAMPLE.COM"
+  },
+  "url": "https://[::1]:8443",
+  "http": "proxy http://p2:3129",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "EXAMPLE.COM"
+  },
+  "url": "http://localhost:5000",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "EXAMPLE.COM"
+  },
+  "url": "https://example.org",
+  "http": "proxy http://p2:3129",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "EXAMPLE.COM"
+  },
+  "url": "http://wwwexample.com",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "EXAMPLE.COM"
+  },
+  "url": "http://Example.COM",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "127.0.0.0/8"
+  },
+  "url": "http://127.0.0.1:8080",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "127.0.0.0/8"
+  },
+  "url": "https://api.example.com",
+  "http": "proxy http://p2:3129",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "127.0.0.0/8"
+  },
+  "url": "http://sub.example.com:9000",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "127.0.0.0/8"
+  },
+  "url": "https://[::1]:8443",
+  "http": "proxy http://p2:3129",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "127.0.0.0/8"
+  },
+  "url": "http://localhost:5000",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "127.0.0.0/8"
+  },
+  "url": "https://example.org",
+  "http": "proxy http://p2:3129",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "127.0.0.0/8"
+  },
+  "url": "http://wwwexample.com",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "127.0.0.0/8"
+  },
+  "url": "http://Example.COM",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "http://127.0.0.1:8080"
+  },
+  "url": "http://127.0.0.1:8080",
+  "http": "direct",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "http://127.0.0.1:8080"
+  },
+  "url": "https://api.example.com",
+  "http": "proxy http://p2:3129",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "http://127.0.0.1:8080"
+  },
+  "url": "http://sub.example.com:9000",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "http://127.0.0.1:8080"
+  },
+  "url": "https://[::1]:8443",
+  "http": "proxy http://p2:3129",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "http://127.0.0.1:8080"
+  },
+  "url": "http://localhost:5000",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "http://127.0.0.1:8080"
+  },
+  "url": "https://example.org",
+  "http": "proxy http://p2:3129",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "http://127.0.0.1:8080"
+  },
+  "url": "http://wwwexample.com",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "http://127.0.0.1:8080"
+  },
+  "url": "http://Example.COM",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "a.org,,  example.org  ,b"
+  },
+  "url": "http://127.0.0.1:8080",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "a.org,,  example.org  ,b"
+  },
+  "url": "https://api.example.com",
+  "http": "proxy http://p2:3129",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "a.org,,  example.org  ,b"
+  },
+  "url": "http://sub.example.com:9000",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "a.org,,  example.org  ,b"
+  },
+  "url": "https://[::1]:8443",
+  "http": "proxy http://p2:3129",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "a.org,,  example.org  ,b"
+  },
+  "url": "http://localhost:5000",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "a.org,,  example.org  ,b"
+  },
+  "url": "https://example.org",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "a.org,,  example.org  ,b"
+  },
+  "url": "http://wwwexample.com",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "a.org,,  example.org  ,b"
+  },
+  "url": "http://Example.COM",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "*,x"
+  },
+  "url": "http://127.0.0.1:8080",
+  "http": "direct",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "*,x"
+  },
+  "url": "https://api.example.com",
+  "http": "direct",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "*,x"
+  },
+  "url": "http://sub.example.com:9000",
+  "http": "direct",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "*,x"
+  },
+  "url": "https://[::1]:8443",
+  "http": "direct",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "*,x"
+  },
+  "url": "http://localhost:5000",
+  "http": "direct",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "*,x"
+  },
+  "url": "https://example.org",
+  "http": "direct",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "*,x"
+  },
+  "url": "http://wwwexample.com",
+  "http": "direct",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "HTTPS_PROXY": "http://p2:3129",
+   "NO_PROXY": "*,x"
+  },
+  "url": "http://Example.COM",
+  "http": "direct",
+  "channel": "proxy http://p2:3129"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "NO_PROXY": "",
+   "no_proxy": "127.0.0.1"
+  },
+  "url": "http://127.0.0.1:8080",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "NO_PROXY": "",
+   "no_proxy": "127.0.0.1"
+  },
+  "url": "https://api.example.com",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "NO_PROXY": "",
+   "no_proxy": "127.0.0.1"
+  },
+  "url": "http://sub.example.com:9000",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p1:3128"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "NO_PROXY": "",
+   "no_proxy": "127.0.0.1"
+  },
+  "url": "https://[::1]:8443",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "NO_PROXY": "",
+   "no_proxy": "127.0.0.1"
+  },
+  "url": "http://localhost:5000",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p1:3128"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "NO_PROXY": "",
+   "no_proxy": "127.0.0.1"
+  },
+  "url": "https://example.org",
+  "http": "direct",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "NO_PROXY": "",
+   "no_proxy": "127.0.0.1"
+  },
+  "url": "http://wwwexample.com",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p1:3128"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://p1:3128",
+   "NO_PROXY": "",
+   "no_proxy": "127.0.0.1"
+  },
+  "url": "http://Example.COM",
+  "http": "proxy http://p1:3128",
+  "channel": "proxy http://p1:3128"
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "socks5://ps:1080"
+  },
+  "url": "http://127.0.0.1:8080",
+  "http": "error ImportError",
+  "channel": "proxy socks5://ps:1080"
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "socks5://ps:1080"
+  },
+  "url": "https://api.example.com",
+  "http": "error ImportError",
+  "channel": "proxy socks5://ps:1080"
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "socks5://ps:1080"
+  },
+  "url": "http://sub.example.com:9000",
+  "http": "error ImportError",
+  "channel": "proxy socks5://ps:1080"
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "socks5://ps:1080"
+  },
+  "url": "https://[::1]:8443",
+  "http": "error ImportError",
+  "channel": "proxy socks5://ps:1080"
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "socks5://ps:1080"
+  },
+  "url": "http://localhost:5000",
+  "http": "error ImportError",
+  "channel": "proxy socks5://ps:1080"
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "socks5://ps:1080"
+  },
+  "url": "https://example.org",
+  "http": "error ImportError",
+  "channel": "proxy socks5://ps:1080"
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "socks5://ps:1080"
+  },
+  "url": "http://wwwexample.com",
+  "http": "error ImportError",
+  "channel": "proxy socks5://ps:1080"
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "socks5://ps:1080"
+  },
+  "url": "http://Example.COM",
+  "http": "error ImportError",
+  "channel": "proxy socks5://ps:1080"
+ },
+ {
+  "env": {
+   "ALL_PROXY": "socks5h://ps:1080"
+  },
+  "url": "http://127.0.0.1:8080",
+  "http": "error ImportError",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "ALL_PROXY": "socks5h://ps:1080"
+  },
+  "url": "https://api.example.com",
+  "http": "error ImportError",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "ALL_PROXY": "socks5h://ps:1080"
+  },
+  "url": "http://sub.example.com:9000",
+  "http": "error ImportError",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "ALL_PROXY": "socks5h://ps:1080"
+  },
+  "url": "https://[::1]:8443",
+  "http": "error ImportError",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "ALL_PROXY": "socks5h://ps:1080"
+  },
+  "url": "http://localhost:5000",
+  "http": "error ImportError",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "ALL_PROXY": "socks5h://ps:1080"
+  },
+  "url": "https://example.org",
+  "http": "error ImportError",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "ALL_PROXY": "socks5h://ps:1080"
+  },
+  "url": "http://wwwexample.com",
+  "http": "error ImportError",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "ALL_PROXY": "socks5h://ps:1080"
+  },
+  "url": "http://Example.COM",
+  "http": "error ImportError",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "SOCKS_PROXY": "http://ps:1080"
+  },
+  "url": "http://127.0.0.1:8080",
+  "http": "direct",
+  "channel": "proxy socks5h://ps:1080"
+ },
+ {
+  "env": {
+   "SOCKS_PROXY": "http://ps:1080"
+  },
+  "url": "https://api.example.com",
+  "http": "direct",
+  "channel": "proxy socks5h://ps:1080"
+ },
+ {
+  "env": {
+   "SOCKS_PROXY": "http://ps:1080"
+  },
+  "url": "http://sub.example.com:9000",
+  "http": "direct",
+  "channel": "proxy socks5h://ps:1080"
+ },
+ {
+  "env": {
+   "SOCKS_PROXY": "http://ps:1080"
+  },
+  "url": "https://[::1]:8443",
+  "http": "direct",
+  "channel": "proxy socks5h://ps:1080"
+ },
+ {
+  "env": {
+   "SOCKS_PROXY": "http://ps:1080"
+  },
+  "url": "http://localhost:5000",
+  "http": "direct",
+  "channel": "proxy socks5h://ps:1080"
+ },
+ {
+  "env": {
+   "SOCKS_PROXY": "http://ps:1080"
+  },
+  "url": "https://example.org",
+  "http": "direct",
+  "channel": "proxy socks5h://ps:1080"
+ },
+ {
+  "env": {
+   "SOCKS_PROXY": "http://ps:1080"
+  },
+  "url": "http://wwwexample.com",
+  "http": "direct",
+  "channel": "proxy socks5h://ps:1080"
+ },
+ {
+  "env": {
+   "SOCKS_PROXY": "http://ps:1080"
+  },
+  "url": "http://Example.COM",
+  "http": "direct",
+  "channel": "proxy socks5h://ps:1080"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "ftp://pf:21"
+  },
+  "url": "http://127.0.0.1:8080",
+  "http": "error ValueError",
+  "channel": "error InvalidProxy"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "ftp://pf:21"
+  },
+  "url": "https://api.example.com",
+  "http": "error ValueError",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "ftp://pf:21"
+  },
+  "url": "http://sub.example.com:9000",
+  "http": "error ValueError",
+  "channel": "error InvalidProxy"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "ftp://pf:21"
+  },
+  "url": "https://[::1]:8443",
+  "http": "error ValueError",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "ftp://pf:21"
+  },
+  "url": "http://localhost:5000",
+  "http": "error ValueError",
+  "channel": "error InvalidProxy"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "ftp://pf:21"
+  },
+  "url": "https://example.org",
+  "http": "error ValueError",
+  "channel": "direct"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "ftp://pf:21"
+  },
+  "url": "http://wwwexample.com",
+  "http": "error ValueError",
+  "channel": "error InvalidProxy"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "ftp://pf:21"
+  },
+  "url": "http://Example.COM",
+  "http": "error ValueError",
+  "channel": "error InvalidProxy"
+ }
+]

@@ -1,0 +1,71 @@
+id: jeff.agents.task-complete
+version: 1.4.0
+aliases:
+- oss-task-complete
+- task-complete
+licence:
+  kind: open
+  adapter: Apache-2.0
+weights:
+  open:
+    repo: mstrasser/jeff-adapter-task-complete
+    revision: v1.4
+base:
+  id: jeff-base
+  version: v1.4
+  max_options: 3
+context:
+- key: app
+  description: 'The application the agent works in: its name and a description of what it does and for whom.'
+  required: true
+- key: today
+  description: Today's date, written out (for example 'Wednesday 23 June 2027').
+  required: true
+- key: request
+  description: The user's request, in the user's words.
+  required: true
+- key: transcript
+  description: The agent's tool calls, each with its call (tool and arguments) and result.
+  required: true
+input:
+  key: final_answer
+  description: The agent's final answer to the user.
+  form: fields
+functions:
+  complete:
+    interface: classify
+    type: choice
+    instructions: 'Has the agent finished what the user asked? Check every part of the user''s request against the tool calls
+      and results in the transcript, and check the agent''s final answer against the results. complete: every part was done
+      by a call with the right details (records, dates, amounts, people) and its result shows it succeeded, and any question
+      was answered with the value the results show. incomplete: at least one part has no call, its call failed (an error result),
+      it was done with a different detail than the user asked, it was done for fewer items than asked, or the final answer
+      gives a wrong value. unclear: no part is clearly missed or wrong, but for at least one part the transcript cannot show
+      whether it succeeded (its result is missing or cut off, or only says the request was received or queued, or the status
+      is unknown). The agent''s final answer may claim more than was done; judge the calls and results themselves.'
+    labels:
+      source: fixed
+      fixed:
+        complete: 'Complete: every part of the request was done with the right details, and any answer given is correct.'
+        incomplete: 'Incomplete: at least one part was not done, failed, was done with the wrong details or for fewer items
+          than asked, or the answer given to the user is wrong.'
+        unclear: 'Unclear: nothing shows a part was missed or done wrongly, but the transcript cannot show whether some part
+          actually succeeded.'
+      subset: false
+    abstain_labels: []
+    calibration:
+      data: hf://mstrasser/jeff-adapter-task-complete@v1.4/calibration.jsonl
+      rows: 2000
+      target_precision: 0.98
+      threshold: 0.850085
+      precision_at_threshold: 0.9995
+      coverage_at_threshold: 1.0
+routes_to: []
+tests:
+  published: hf://mstrasser/jeff-adapter-task-complete@v1.4/test.jsonl
+  calibration: hf://mstrasser/jeff-adapter-task-complete@v1.4/calibration.jsonl
+  function_by: only
+hub:
+  title: oss-task-complete
+  summary: Jeff v1.4 adapter `task-complete`. Reads the user's request, the agent's tool calls and results and its final answer,
+    and decides whether the task is complete, incomplete or unclear.

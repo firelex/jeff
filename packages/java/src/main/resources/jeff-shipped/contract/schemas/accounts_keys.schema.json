@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jeff.dev/schemas/accounts_keys.schema.json",
+  "title": "GET /api/internal/v1/keys response",
+  "description": "The hub's list of every API key that may be used now, sent to jeff-server once a minute. accounts: every account whose subscription may use keys (Stripe status active, trialing or past_due), with its allowance in input tokens and its current billing period. keys: the SHA-256 hash (lowercase hex) of every live key of those accounts, with its account. playground: the hub playground's own key, which has no allowance and is limited to runs_per_second across all visitors; its period is the current calendar month in UTC, for counting only. Times are UTC, to the second, with a Z.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["accounts", "keys", "playground"],
+  "$defs": {
+    "account_id": {"type": "string", "pattern": "^[A-Za-z0-9_-]{1,64}$"},
+    "hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "time": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"}
+  },
+  "properties": {
+    "accounts": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["account", "allowance", "period_start", "period_end"],
+        "properties": {
+          "account": {"$ref": "#/$defs/account_id"},
+          "allowance": {"type": "integer", "minimum": 1},
+          "period_start": {"$ref": "#/$defs/time"},
+          "period_end": {"$ref": "#/$defs/time"}
+        }
+      }
+    },
+    "keys": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false, "required": ["hash", "account"],
+        "properties": {"hash": {"$ref": "#/$defs/hash"}, "account": {"$ref": "#/$defs/account_id"}}
+      }
+    },
+    "playground": {
+      "type": "object", "additionalProperties": false,
+      "required": ["hash", "runs_per_second", "period_start", "period_end"],
+      "properties": {
+        "hash": {"$ref": "#/$defs/hash"},
+        "runs_per_second": {"type": "number", "exclusiveMinimum": 0},
+        "period_start": {"$ref": "#/$defs/time"},
+        "period_end": {"$ref": "#/$defs/time"}
+      }
+    }
+  }
+}

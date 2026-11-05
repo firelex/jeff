@@ -1,0 +1,35 @@
+id: jeff.support.triage
+version: 1.3.0
+aliases: [triage]
+licence: { kind: open, adapter: Apache-2.0 }
+weights: { open: { repo: mstrasser/jeff-adapter-triage, revision: v1.3 } }
+base: { id: jeff-base, version: v1.3, max_options: 252 }
+context:
+  - { key: company, description: One sentence about the organisation the message is sent to., required: true }
+  - { key: channel, description: Where the message came from., required: true }
+input: { key: message, description: The ticket or email as received., form: fields }
+functions:
+  route:
+    interface: route
+    type: choice
+    instructions: Which team should handle this message? If it covers several issues, choose the team for the most important one.
+    labels: { source: caller, fixed_first: { other: Not for any of these teams }, caller_keys: "k{n}", max: 40 }
+    abstain_labels: []
+    calibration: null
+  urgency:
+    interface: rate
+    type: score
+    instructions: How urgently does this need a response?
+    labels: { source: fixed, levels: [No action needed, Can wait a few days, Handle within a day, Handle within hours, Handle immediately] }
+    abstain_labels: []
+    calibration: { data: fixture, rows: 100, target_precision: 0.9, threshold: 0.6, precision_at_threshold: 0.91, coverage_at_threshold: 0.8 }
+  needs_human:
+    interface: requires_escalation
+    type: noul
+    instructions: Does this need a person to act on it now, rather than an automatic reply?
+    labels: { source: fixed }
+    abstain_labels: []
+    calibration: null
+routes_to: []
+tests: { published: null, calibration: null, function_by: id_suffix }
+hub: { summary: "Routes a support request to a team and rates its urgency." }

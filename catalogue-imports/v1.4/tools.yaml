@@ -1,0 +1,20 @@
+# Picks the next tool for an AI agent, v1.4 (RTX /mnt/d/jeff-adapters/v1.4/tools, data apps/tools). Same ID, alias,
+# function key and interface as the v1.3 catalogue manifest.
+path: apps/tools
+adapter_path: tools
+id: jeff.routing.tools
+aliases: [tools]
+version: 1.4.0
+function_by: only
+context:
+  - key: agent
+    description: What the agent is for, in one or two sentences (for example a triage assistant that checks entitlements before routing tickets).
+  - key: conversation
+    description: The conversation so far, a list of turns, each {role (user or assistant), text}.
+input:
+  key: user_message
+  description: The user's latest message, as plain text.
+  form: fields
+functions:
+  # route: chooses which of the caller's tools (or answer directly, or ask the user) handles the message.
+  tool: {interface: route}

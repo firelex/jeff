@@ -1,0 +1,20 @@
+# The router over the open v1.4 adapters only (owner, 3 November 2026; RTX /mnt/d/jeff-adapters/v1.4/jeff-router-open-v14,
+# data apps/jeff-router-open-v14). It picks one of the 31 open specialists or `base` (the base model, no adapter); one
+# router, no legal sub-router. routes_to stays [] as for the other routers: its labels are menu names,
+# include `base` and name multi-function adapters, so it is a plain route function.
+path: apps/jeff-router-open-v14
+adapter_path: jeff-router-open-v14
+id: jeff.routing.router-open-v14
+aliases: [jeff-router-open-v14, jeff.routing.router-open]
+version: 1.4.0
+function_by: only
+context: []
+input:
+  key: request
+  description: >-
+    The request to route, as a JSON object: the `instructions` of the question, its `options` (the label keys) and its
+    `state` (the input, as JSON text).
+  form: fields
+functions:
+  # route: chooses which open specialist (or base) should answer the request.
+  specialist: {interface: route}

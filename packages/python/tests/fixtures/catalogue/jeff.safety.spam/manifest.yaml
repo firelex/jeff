@@ -1,0 +1,20 @@
+id: jeff.safety.spam
+version: 1.3.0
+aliases: [spam]
+licence: { kind: open, adapter: Apache-2.0 }
+weights: { open: { repo: mstrasser/jeff-adapter-spam, revision: v1.3 } }
+base: { id: jeff-base, version: v1.3, max_options: 252 }
+context:
+  - { key: channel, description: Where the message arrived., required: true }
+input: { key: message, description: The message., form: fields }
+functions:
+  message_type:
+    interface: classify
+    type: choice
+    instructions: What kind of message is this?
+    labels: { source: fixed, fixed: { legitimate: A normal message, spam: Unwanted bulk or advertising, phishing: A scam after personal details or money }, subset: false }
+    abstain_labels: []
+    calibration: { data: fixture, rows: 100, target_precision: 0.95, threshold: 0.7, precision_at_threshold: 0.96, coverage_at_threshold: 0.9 }
+routes_to: []
+tests: { published: null, calibration: null, function_by: id_suffix }
+hub: { summary: "Says whether a message is legitimate, spam or phishing." }

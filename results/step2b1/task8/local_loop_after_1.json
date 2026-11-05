@@ -1,0 +1,14 @@
+{
+  "calls": 5000,
+  "warmup": 500,
+  "python": "3.13.14",
+  "machine": "arm64",
+  "socket_predict": {
+    "p50_us": 246.38,
+    "p99_us": 434.04
+  },
+  "in_process_decide": {
+    "p50_us": 8.67,
+    "p99_us": 15.75
+  }
+}

@@ -1,0 +1,41 @@
+# The adapters released openly (spec 2026-11-01-public-hub-design.md, Section 3.3). Each served v1.4 adapter id maps
+# to its public Hugging Face name: weights at mstrasser/jeff-adapter-<name>, revision v1.4.
+v14:
+  jeff.language.emotion: emotion
+  jeff.retrieval.ground: ground
+  jeff.safety.guard: guard
+  jeff.legal.legal-clauses: legal-clauses
+  jeff.compliance.sanctions: sanctions
+  jeff.security.soc: soc
+  jeff.safety.spam: spam
+  jeff.support.support-intents: support-intents
+  jeff.routing.tools: tools
+  jeff.finance.trading-desk: trading-desk
+  jeff.support.triage: triage
+  jeff.reasoning.entails: entails
+  jeff.reasoning.contradicts: contradicts
+  jeff.reasoning.equivalent: equivalent
+  jeff.reasoning.satisfies: satisfies
+  jeff.reasoning.is-complete: is-complete
+  jeff.agents.tool-route: tool-route
+  jeff.agents.action-check: action-check
+  jeff.agents.task-complete: task-complete
+  jeff.agents.after-result: after-result
+  jeff.agents.result-relevant: result-relevant
+  jeff.support.message-triage: message-triage
+  jeff.support.requires-action: requires-action
+  jeff.engineering.ci-failure: ci-failure
+  jeff.engineering.issue-route: issue-route
+  jeff.retrieval.passage-relevant: passage-relevant
+  jeff.retrieval.evidence-sufficient: evidence-sufficient
+  jeff.retrieval.query-route: query-route
+  jeff.retrieval.extract-check: extract-check
+  jeff.retrieval.section-id: section-id
+  jeff.retrieval.doc-type: doc-type
+  # Opened by the owner on 4 November 2026 (weights published at launch).
+  jeff.knowledge.knowledge-qa: knowledge-qa
+  jeff.agents.assistant-routing: assistant-routing
+  jeff.routing.router-open-v14: router-open-v14
+# Released at v1.3 only, not rebuilt on v1.4, and kept in catalogue/ as they are: none since 2026-11-05, when the
+# owner dropped aml and nav (only v1.4 stays on Hugging Face).
+v13_only: []

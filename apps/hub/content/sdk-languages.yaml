@@ -1,0 +1,25 @@
+# Which SDK languages' code the site shows: a language with `shown: true` gets its tab on the home page's example and
+# on every worked example; one with `shown: false` is not generated at all, so its code never reaches a built page
+# (scripts/check-build.mjs checks). The owner's rule (3 November 2026): a language is shown only once its SDK has
+# passed its final review. To turn one on: set `shown: true`, give its `package` if it has none yet, run
+# `pnpm exec tsx scripts/sdk-samples.ts compile <language>` (in apps/hub) and `scripts/hub_examples.py --check`
+# (which then runs its samples against the live API), and rebuild.
+#
+# `package` is the name readers install (the home page's install line); null while it is not decided, which is an
+# error for a shown language. Python must be shown: an offline example runs only in Python.
+python:
+  shown: true
+  package: jeff-sdk
+node:
+  shown: true
+  package: jeff-sdk
+rust:
+  shown: true
+  package: jeff-sdk
+csharp:
+  shown: true
+  package: Jeff.Sdk
+java:
+  # The Maven coordinates (group id:artifact id:version) on Maven Central; the Java package itself is ai.jeff.sdk.
+  shown: true
+  package: ai.jeffhub:jeff-sdk:1.4.0

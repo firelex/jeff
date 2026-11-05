@@ -1,0 +1,90 @@
+{
+  "name": "parcel-claims",
+  "summary": "Which kind of claim a shop customer's message makes about a parcel, and whether they ask for a refund",
+  "family": {
+    "noun": "shop",
+    "description": "An online shop that sends parcels to its customers",
+    "fields": [
+      {
+        "name": "shop",
+        "description": "One sentence about the shop and what it sells"
+      }
+    ]
+  },
+  "live_field": {
+    "name": "message",
+    "description": "The customer's message, as received"
+  },
+  "questions": [
+    {
+      "id": "claim",
+      "type": "choice",
+      "instruction": "What does the customer claim happened to the parcel?",
+      "options": [
+        {
+          "key": "damaged",
+          "description": "It arrived broken or damaged"
+        },
+        {
+          "key": "lost",
+          "description": "It never arrived"
+        },
+        {
+          "key": "late",
+          "description": "It arrived, or will arrive, later than promised"
+        },
+        {
+          "key": "none",
+          "description": "The message makes no claim about a parcel"
+        }
+      ],
+      "applies_when": null
+    },
+    {
+      "id": "refund",
+      "type": "noul",
+      "instruction": "Does the customer ask for their money back?",
+      "options": [
+        {
+          "key": "false",
+          "description": "No refund is asked for"
+        },
+        {
+          "key": "true",
+          "description": "A refund is asked for"
+        }
+      ],
+      "applies_when": "when the message makes a claim",
+      "requires": [
+        {
+          "question": "claim",
+          "equals": "damaged"
+        }
+      ]
+    }
+  ],
+  "hard_cases": [
+    {
+      "kind": "negation",
+      "description": "The customer says the parcel is not damaged, only late"
+    },
+    {
+      "kind": "two_claims",
+      "description": "Late and damaged in one message; the damage decides"
+    }
+  ],
+  "styles": [
+    "polite",
+    "angry",
+    "terse",
+    "with typos"
+  ],
+  "sizes": {
+    "train": 2000,
+    "updates": 250,
+    "dev": 200,
+    "calibration": 300,
+    "test": 400,
+    "families": 60
+  }
+}

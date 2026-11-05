@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jeff.dev/schemas/systemone_request.schema.json",
+  "title": "Jeff POST /v1/systemone request (the legacy jeff-server API)",
+  "description": "One state and one or more questions about it, each answered on its own. 'model' names the base ('jeff', 'jeff-latest', 'jeff-qwen3.8-27b' or the server's model name) or a served adapter by its ID or alias. 'state' is a string, an object or an array; with an object, put the fields that stay the same first and the one that changes last. 'images': at most four base64 PNG, JPEG or WebP data URLs. 'orders': 2 answers each question twice, the second time with its options reversed, and averages the two (twice the cost).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["model", "state", "questions"],
+  "properties": {
+    "model": {"type": "string", "minLength": 1},
+    "state": {"$ref": "#/$defs/content"},
+    "questions": {"type": "object", "minProperties": 1, "additionalProperties": {"$ref": "#/$defs/question"}},
+    "images": {"type": "array", "maxItems": 4, "items": {
+      "type": "string", "maxLength": 12000000, "pattern": "^data:image/(png|jpeg|webp);base64,"}},
+    "orders": {"enum": [1, 2]}
+  },
+  "$defs": {
+    "content": {"type": ["string", "object", "array"]},
+    "described": {"type": ["string", "object", "array", "null"]},
+    "question": {
+      "description": "choice: pick one of the criteria keys (each key's value describes it, or null). score: a point on the criteria list, 2 to 10 levels, lowest first. noul: the probability that the answer is yes; criteria may describe 'true' and 'false'.",
+      "type": "object",
+      "required": ["type"],
+      "properties": {"type": {"enum": ["choice", "score", "noul"]}},
+      "allOf": [
+        {"if": {"required": ["type"], "properties": {"type": {"const": "choice"}}},
+         "then": {"additionalProperties": false, "required": ["type", "criteria"],
+                  "properties": {"type": true, "instructions": {"$ref": "#/$defs/described"},
+                                 "criteria": {"type": "object", "minProperties": 1, "maxProperties": 255,
+                                              "additionalProperties": {"$ref": "#/$defs/described"}}}}},
+        {"if": {"required": ["type"], "properties": {"type": {"const": "score"}}},
+         "then": {"additionalProperties": false, "required": ["type", "criteria"],
+                  "properties": {"type": true, "instructions": {"$ref": "#/$defs/described"},
+                                 "criteria": {"type": "array", "minItems": 2, "maxItems": 10,
+                                              "items": {"$ref": "#/$defs/content"}}}}},
+        {"if": {"required": ["type"], "properties": {"type": {"const": "noul"}}},
+         "then": {"additionalProperties": false, "required": ["type"],
+                  "properties": {"type": true, "instructions": {"$ref": "#/$defs/described"},
+                                 "criteria": {"type": ["object", "null"], "additionalProperties": false,
+                                              "properties": {"true": {"$ref": "#/$defs/described"},
+                                                             "false": {"$ref": "#/$defs/described"}}}}}}
+      ]
+    }
+  }
+}

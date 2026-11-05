@@ -1,0 +1,17 @@
+# oss-section-id, v1.4 (RTX /mnt/d/jeff-adapters/v1.4/oss-section-id, data teamsuzie/jeff-data apps/oss-section-id).
+path: apps/oss-section-id
+adapter_path: oss-section-id
+id: jeff.retrieval.section-id
+aliases: [oss-section-id, section-id]
+version: 1.4.0
+function_by: only
+context:
+  - key: document
+    description: "What the document is: its kind and parties, one line."
+input:
+  key: passage
+  description: "The passage's text."
+  form: fields
+functions:
+  # classify: picks one section kind from the caller's list with descriptions, or none
+  section: {interface: classify}

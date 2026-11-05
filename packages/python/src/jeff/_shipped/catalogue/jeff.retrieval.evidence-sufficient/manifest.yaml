@@ -1,0 +1,63 @@
+id: jeff.retrieval.evidence-sufficient
+version: 1.4.0
+aliases:
+- oss-evidence-sufficient-v2
+- evidence-sufficient
+licence:
+  kind: open
+  adapter: Apache-2.0
+weights:
+  open:
+    repo: mstrasser/jeff-adapter-evidence-sufficient
+    revision: v1.4
+base:
+  id: jeff-base
+  version: v1.4
+  max_options: 3
+context:
+- key: question
+  description: The question to answer.
+  required: true
+input:
+  key: passages
+  description: The retrieved passages, a list of texts.
+  form: fields
+functions:
+  sufficient:
+    interface: classify
+    type: choice
+    instructions: 'Can the question be answered from these passages alone? Use only what the passages state about the right
+      subject and period: facts about a different subject (even one with a similar name) or a different period do not count,
+      and a passage saying a detail is not known yet does not give it. The answer may need two or more passages together,
+      for example one passage names the related site, supplier or person and another gives its figure. sufficient: together
+      the passages state every asked detail for the right subject and period, and they do not disagree about it. insufficient:
+      at least one asked detail, or a link needed to reach it, is not stated for the right subject and period. conflicting:
+      two passages give different values for the same asked detail for the same subject and period, and nothing in the passages
+      says which one is right.'
+    labels:
+      source: fixed
+      fixed:
+        conflicting: 'Conflicting: two passages give different values for the same asked detail for the same subject and period,
+          and nothing says which is right.'
+        insufficient: 'Insufficient: at least one asked detail, or a link needed to reach it, is not stated for the right
+          subject and period.'
+        sufficient: 'Sufficient: together the passages state every asked detail for the right subject and period, and they
+          do not disagree about it.'
+      subset: false
+    abstain_labels: []
+    calibration:
+      data: hf://mstrasser/jeff-adapter-evidence-sufficient@v1.4/calibration.jsonl
+      rows: 2000
+      target_precision: 0.98
+      threshold: 0.499375
+      precision_at_threshold: 0.9935
+      coverage_at_threshold: 1.0
+routes_to: []
+tests:
+  published: hf://mstrasser/jeff-adapter-evidence-sufficient@v1.4/test.jsonl
+  calibration: hf://mstrasser/jeff-adapter-evidence-sufficient@v1.4/calibration.jsonl
+  function_by: only
+hub:
+  title: oss-evidence-sufficient-v2
+  summary: 'Jeff v1.4 adapter `evidence-sufficient`. For search and retrieval: checks whether a set of passages is enough
+    to answer a question: sufficient, insufficient or conflicting.'

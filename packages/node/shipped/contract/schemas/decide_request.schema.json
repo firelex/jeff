@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jeff.dev/schemas/decide_request.schema.json",
+  "title": "Jeff POST /v1/decide request",
+  "description": "Exactly one of three shapes. 'calls': up to 256 function calls, answered in order. 'dispatch': one input routed through router functions to the function that should answer it. 'graph': a registered graph (by id) or an inline graph without code nodes and with at most 256 nodes. on_low_confidence says what happens when a decision abstains: 'return' it (the default), raise LowConfidence ('error'), or escalate through other functions in order (function references only, at most 256); escalation to an LLM, a person or another server runs in the SDK, not here.",
+  "oneOf": [
+    {"type": "object", "additionalProperties": false, "required": ["calls"],
+     "properties": {
+       "calls": {"type": "array", "minItems": 1, "maxItems": 256, "items": {"$ref": "#/$defs/call"}},
+       "on_low_confidence": {"$ref": "#/$defs/policy"}}},
+    {"type": "object", "additionalProperties": false, "required": ["dispatch"],
+     "properties": {
+       "dispatch": {"$ref": "#/$defs/dispatch"},
+       "on_low_confidence": {"$ref": "#/$defs/policy"}}},
+    {"type": "object", "additionalProperties": false, "required": ["graph", "input", "params"],
+     "properties": {
+       "graph": {"$ref": "#/$defs/graph"},
+       "input": true,
+       "params": {"type": "object"},
+       "on_low_confidence_by_node": {"type": "object", "maxProperties": 256, "additionalProperties": {"$ref": "#/$defs/policy"}}}}
+  ],
+  "$defs": {
+    "context": {"type": ["object", "null"], "description": "Context field code name -> value: each field by the code_name GET /v1/functions lists for it (the manifest's key itself unless that key has spaces or other characters a name in code cannot have, for example counterparty_name for the key 'counterparty name'); null is the same as leaving it out."},
+    "labels": {
+      "description": "An object of label key -> description (null for none), or a list of label keys for a function that offers a subset of its own labels; null is the same as leaving it out.",
+      "oneOf": [
+        {"type": "object", "additionalProperties": {"type": ["string", "null"]}},
+        {"type": "array", "items": {"type": "string"}},
+        {"type": "null"}
+      ]
+    },
+    "call": {"type": "object", "additionalProperties": false, "required": ["function", "input"],
+             "properties": {
+               "function": {"type": "string", "minLength": 1},
+               "input": true,
+               "context": {"$ref": "#/$defs/context"},
+               "labels": {"$ref": "#/$defs/labels"}}},
+    "dispatch": {"type": "object", "additionalProperties": false, "required": ["input", "interface"],
+                 "properties": {
+                   "input": true,
+                   "interface": {"type": "string", "minLength": 1},
+                   "context": {"$ref": "#/$defs/context"},
+                   "labels": {"$ref": "#/$defs/labels"},
+                   "router": {"type": "string", "minLength": 1, "description": "The router to start from; jeff.core.router when absent."}}},
+    "graph": {
+      "oneOf": [
+        {"type": "object", "additionalProperties": false, "required": ["id"],
+         "properties": {"id": {"type": "string", "minLength": 1}}},
+        {"type": "object", "additionalProperties": false, "required": ["inline"],
+         "properties": {"inline": {"allOf": [
+           {"$ref": "https://jeff.dev/schemas/graph.schema.json"},
+           {"properties": {"nodes": {"maxProperties": 256}}, "description": "An inline graph has at most 256 nodes."}]}}}
+      ]
+    },
+    "policy": {
+      "oneOf": [
+        {"enum": ["return", "error"]},
+        {"type": "object", "additionalProperties": false, "required": ["escalate"],
+         "properties": {
+           "escalate": {"type": "array", "minItems": 1, "maxItems": 256, "items": {"type": "string", "minLength": 1},
+                        "description": "Function references to try in order, each implementing the same interface."},
+           "budget_ms": {"type": "number", "exclusiveMinimum": 0}}}
+      ]
+    }
+  }
+}

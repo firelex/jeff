@@ -1,0 +1,179 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jeff.dev/schemas/manifest.schema.json",
+  "title": "Jeff adapter manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "version", "aliases", "licence", "weights", "base", "context", "input", "functions", "routes_to", "tests"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^jeff(\\.[a-z0-9][a-z0-9-]*){2}$"},
+    "version": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"},
+    "aliases": {"type": "array", "description": "Other names the adapter answers to, in a function reference as in its ID's place. Each is a short name (lower case letters, digits and hyphens, no dots: spam) or the adapter's unversioned ID. The version part of an ID is the one hyphen-separated segment of its name (the part after the second dot) that is v followed by digits, as v14 in jeff.routing.router-open-v14; the unversioned ID is the ID with that segment and one hyphen next to it removed (jeff.routing.router-open). An alias of the ID form is refused (ManifestError) unless the adapter's name has exactly one version segment and other segments besides, and the alias is exactly its unversioned ID. An alias listed twice in one manifest is refused (ManifestError), and a name (ID or alias) belongs to one adapter in a catalogue.", "items": {"type": "string", "pattern": "^([a-z0-9][a-z0-9-]*|jeff(\\.[a-z0-9][a-z0-9-]*){2})$"}},
+    "licence": {
+      "type": "object", "additionalProperties": false, "required": ["kind", "adapter"],
+      "properties": {"kind": {"enum": ["open", "proprietary"]}, "adapter": {"type": "string", "minLength": 1}}
+    },
+    "weights": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "open": {"type": "object", "additionalProperties": false, "required": ["repo", "revision"],
+                 "properties": {"repo": {"type": "string"}, "revision": {"type": "string"}}},
+        "proprietary": {"type": "object", "additionalProperties": false, "required": ["repo", "path"],
+                        "properties": {"repo": {"type": "string"}, "path": {"type": "string"}}},
+        "local": {"type": "object", "additionalProperties": false, "properties": {},
+                  "description": "The weights are the folder holding this manifest (an adapter folder an engine finds with --adapters-dir); they cannot be downloaded."}
+      },
+      "minProperties": 1, "maxProperties": 1
+    },
+    "base": {
+      "type": "object", "additionalProperties": false, "required": ["id", "version", "max_options"],
+      "properties": {"id": {"type": "string"}, "version": {"type": "string"},
+                     "max_options": {"type": "integer", "minimum": 2, "maximum": 255}}
+    },
+    "context": {"$ref": "#/$defs/context"},
+    "input": {"$ref": "#/$defs/input"},
+    "functions": {
+      "type": "object", "minProperties": 1,
+      "propertyNames": {"pattern": "^[a-z][a-z0-9_]*$"},
+      "additionalProperties": {"$ref": "#/$defs/function"}
+    },
+    "routes_to": {"type": "array", "items": {"type": "string"}},
+    "tests": {
+      "type": "object", "additionalProperties": false, "required": ["published", "calibration", "function_by"],
+      "properties": {
+        "published": {"type": ["string", "null"], "description": "The public test set. URI forms: hf://<owner>/<repo>@<revision>/<file> for a Hugging Face model repo, hf://datasets/<owner>/<repo>@<revision>/<file> for a Hugging Face dataset, or a local path."},
+        "calibration": {"type": ["string", "null"], "description": "The public calibration set, same URI forms as published."},
+        "internal": {"type": ["string", "null"], "description": "A private test set (owner access only), same URI forms as published; used when there is no public one."},
+        "internal_calibration": {"type": ["string", "null"], "description": "A private calibration set, same URI forms as published."},
+        "function_by": {
+          "description": "How a test row names its function. A single value: id_suffix, the row id ends with - or : and the function key; question_type, the row's question type (one function per type); source_kind, the row's source.kind is the function key (or maps to it, or to a list of functions, through tests.kinds); state_shape, the row's state has the function's request shape: an object whose keys, in order, are exactly the function's context keys and then its input key (a function's own context and input when it declares them, else the adapter's), or a plain string for a function whose input form is text; id_pattern, the row id matches the function's regular expression in tests.id_patterns (whole id); only, the adapter has one function. A list of criteria (id_suffix, question_type, source_kind, state_shape, id_pattern, each at most once): each criterion in order keeps only the functions it allows, and exactly one function must remain, else the row is refused. A single value means the same as a list holding only that value (only is never part of a list).",
+          "oneOf": [
+            {"enum": ["id_suffix", "question_type", "source_kind", "state_shape", "id_pattern", "only"]},
+            {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"enum": ["id_suffix", "question_type", "source_kind", "state_shape", "id_pattern"]}}
+          ]
+        },
+        "kinds": {
+          "type": "object", "minProperties": 1, "propertyNames": {"minLength": 1},
+          "additionalProperties": {"oneOf": [
+            {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+            {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"}}
+          ]},
+          "description": "Only with the source_kind criterion: each source.kind value the test rows use -> the key of its function, for kind values that are not function keys (for example issue-kind -> issue_kind), or the list of keys of its functions when one kind holds rows of several functions (for example of two request shapes); the other criteria of function_by must then leave exactly one of them. When given, a row whose kind is not in it is refused. Absent: a row's source.kind is the function key itself. A kind mapped to a list needs another criterion besides source_kind (with source_kind alone the manifest is refused)."
+        },
+        "id_patterns": {
+          "type": "object", "minProperties": 1, "propertyNames": {"pattern": "^[a-z][a-z0-9_]*$"},
+          "additionalProperties": {"type": "string", "minLength": 1},
+          "description": "Exactly when tests.function_by uses id_pattern, and then required: every function key, in the functions' order, -> a regular expression (Python re syntax) that a test row id of that function matches as a whole, for row ids that do not end with the function key (for example pg-[0-9]+-verdict-.+ for ids that end with a brand name). The criterion keeps the functions whose pattern matches the id; patterns may overlap when another criterion of function_by tells those functions apart (for example two request shapes of one question). Absent: function_by does not use id_pattern."
+        }
+      }
+    },
+    "hub": {"type": "object", "description": "Catalogue fields shown on JeffHub (title, summary, results, licence details...)."},
+    "access": {
+      "description": "Who may call the adapter on a Jeff server. Absent: everyone the server admits, as for any adapter. \"owner\": only the server owner's credentials (its API key, a console session, or anyone on a server with no credentials). {\"accounts\": [...]}: the owner and the keys of the hub accounts listed (account ids as in accounts_keys.schema.json), including the hub playground acting for one of them. A server answers a caller not allowed exactly as for a function it does not have (UnknownFunction), and leaves the adapter out of every listing. Only a server acts on it: an SDK reading a manifest accepts it and does nothing with it.",
+      "oneOf": [
+        {"const": "owner"},
+        {"type": "object", "additionalProperties": false, "required": ["accounts"],
+         "properties": {"accounts": {"type": "array", "minItems": 1, "uniqueItems": true,
+                                     "items": {"type": "string", "pattern": "^[A-Za-z0-9_-]{1,64}$"}}}}
+      ]
+    }
+  },
+  "$defs": {
+    "context": {
+      "type": "array",
+      "description": "The context fields: values a caller binds once and that Jeff sends before the input, in this order.",
+      "items": {"type": "object", "additionalProperties": false, "required": ["key", "description", "required"],
+                "properties": {"key": {"$ref": "#/$defs/field_key"},
+                               "code_name": {"$ref": "#/$defs/code_name"},
+                               "description": {"type": "string", "minLength": 1},
+                               "required": {"type": "boolean"}}}
+    },
+    "input": {
+      "type": "object", "additionalProperties": false, "required": ["key", "description", "form"],
+      "description": "The input: the one value a caller passes with every call (as 'input'), as opposed to the context, which is bound once. Its form says how the adapter was trained to see it, and so what Jeff sends the model.",
+      "properties": {"key": {"$ref": "#/$defs/field_key"}, "code_name": {"$ref": "#/$defs/code_name"},
+                     "description": {"type": "string", "minLength": 1},
+                     "form": {"enum": ["fields", "text"],
+                              "description": "Required. fields: the state Jeff sends is an object of named fields, the context fields in the manifest's order and then the input under its key (the prompt shows the key). text: the adapter was trained on a state that is one plain string, so the state Jeff sends is the caller's input itself, unwrapped; the input must be a string, the manifest may have no context fields, and a call that passes context is refused (UnknownContext). With text the key appears nowhere in the prompt: it only gives the input its code name, which the function listing and the console use to name it."}}
+    },
+    "field_key": {
+      "type": "string", "minLength": 1, "maxLength": 60,
+      "pattern": "^(?![\\u0020\\u00a0\\u1680\\u2000-\\u200a\\u2028\\u2029\\u202f\\u205f\\u3000\\ufeff])(?![\\s\\S]*[\\u0020\\u00a0\\u1680\\u2000-\\u200a\\u2028\\u2029\\u202f\\u205f\\u3000\\ufeff]$)(?![\\s\\S]*[\\u0000-\\u001f\\u007f-\\u009f\\u2028\\u2029])",
+      "description": "A context or input field's key exactly as the adapter was trained on it, and as the prompt shows it: any printable text of 1 to 60 characters (for example 'counterparty name'). Refused: control characters and the Unicode line and paragraph separators (U+2028, U+2029) anywhere, and a whitespace character at either end: the space, the no-break spaces (U+00A0, U+202F), every other Unicode space separator (U+1680, U+2000 to U+200A, U+205F, U+3000) and the byte order mark (U+FEFF). Whitespace other than those separators may appear inside a key. Callers never use it; they use the field's code name."
+    },
+    "code_name": {
+      "type": "string", "pattern": "^[a-z][a-z0-9_]*$",
+      "description": "The name callers use for a context field: SDK context, HTTP and channel context keys, MCP tool arguments and the function listing. Absent: a key of the form ^[a-z][a-z0-9_]*$ is its own code name, unchanged, as before code names existed; any other key is lower-cased, with every run of characters other than a-z and 0-9 replaced by one underscore and underscores trimmed from both ends ('counterparty name' -> counterparty_name). Declare it when that rule gives no name of the form ^[a-z][a-z0-9_]*$. Two fields of one manifest (context and input together) may not share a code name. The input's code_name takes part only in that check (and is listed by GET /v1/functions): callers always pass the input as 'input'."
+    },
+    "function": {
+      "type": "object", "additionalProperties": false,
+      "required": ["interface", "type", "instructions", "labels", "abstain_labels", "calibration"],
+      "dependentRequired": {"context": ["input"], "input": ["context"]},
+      "if": {"properties": {"type": {"const": "choice"}, "labels": {"properties": {"source": {"const": "fixed"}}}}},
+      "then": {"properties": {"labels": {"required": ["subset"]}}},
+      "else": {"properties": {"labels": {"not": {"required": ["subset"]}, "description": "Only fixed labels of a choice function have 'subset'."}}},
+      "properties": {
+        "interface": {"type": "string"},
+        "type": {"enum": ["choice", "noul", "score"]},
+        "instructions": {"type": "string", "minLength": 1},
+        "labels": {"$ref": "#/$defs/labels"},
+        "abstain_labels": {"type": "array", "items": {"type": "string"}},
+        "calibration": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/calibration"}]},
+        "calibration_by_format": {"$ref": "#/$defs/calibration_by_format"},
+        "context": {"$ref": "#/$defs/context",
+                    "description": "This function's own context fields, for an adapter trained on several request shapes (each shape its own function). A function that declares context also declares input, and the two replace the adapter's context and input for this function only (binding, the prompt, the listing, MCP and jeff gen use them). Absent (with input absent too): the function takes the adapter's context and input, exactly as before functions could declare their own."},
+        "input": {"$ref": "#/$defs/input",
+                  "description": "This function's own input; declared together with context (see context)."}
+      }
+    },
+    "labels": {
+      "type": "object", "additionalProperties": false, "required": ["source"],
+      "properties": {
+        "source": {"enum": ["fixed", "caller", "subset", "describe"], "description": "fixed: the labels are always 'fixed'. caller: the caller passes its own labels (a key -> description object), listed after 'fixed_first' and renamed to 'caller_keys' on the wire when set. subset: 'fixed' holds every allowed label and the caller passes the list of keys to offer, which must include 'required'. describe: the keys are always 'keys', in that order, and the caller passes an object with exactly those keys whose values are the descriptions."},
+        "fixed": {"type": "object", "additionalProperties": {"type": ["string", "null"]}},
+        "levels": {"type": "array", "items": {"type": "string"}, "minItems": 2, "maxItems": 10},
+        "fixed_first": {"type": "object", "additionalProperties": {"type": ["string", "null"]}},
+        "caller_keys": {"type": ["string", "null"], "pattern": "^[a-z]+\\{n\\}$"},
+        "max": {"type": "integer", "minimum": 1, "maximum": 255},
+        "required": {"type": "array", "items": {"type": "string"}, "description": "subset: keys the caller must always offer."},
+        "keys": {"type": "array", "items": {"type": "string"}, "minItems": 1, "description": "describe: the fixed keys, in the trained order."},
+        "subset": {"type": "boolean", "description": "Required for fixed labels of a choice function, and absent everywhere else. false: the caller passes no labels, and every fixed label is offered. true: the caller may pass labels as a non-empty list of fixed keys (no repeats) to offer only those, listed in the order of 'fixed' with their fixed descriptions; without labels, every fixed label is offered."}
+      }
+    },
+    "calibration": {
+      "type": "object", "additionalProperties": false,
+      "required": ["data", "rows", "target_precision", "threshold", "precision_at_threshold", "coverage_at_threshold"],
+      "properties": {
+        "data": {"type": "string"}, "data_mirror": {"$ref": "#/$defs/data_mirror"},
+        "rows": {"type": "integer", "minimum": 1},
+        "target_precision": {"type": "number", "exclusiveMinimum": 0, "maximum": 1},
+        "threshold": {"type": "number", "minimum": 0, "maximum": 1},
+        "precision_at_threshold": {"type": "number", "minimum": 0, "maximum": 1},
+        "coverage_at_threshold": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    },
+    "data_mirror": {
+      "type": "object", "additionalProperties": false, "required": ["path", "sha256"],
+      "description": "Present when the calibration rows were read from a local copy of the data (the JEFF_DATA_MIRROR setting) instead of from where 'data' names, which stays the hf:// URI: the local file that was read (path) and its SHA-256 (sha256), so a refit elsewhere can tell whether it reads the same bytes. Absent: the rows were read from 'data' itself.",
+      "properties": {"path": {"type": "string", "minLength": 1},
+                     "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+    },
+    "calibration_by_format": {
+      "type": "object", "minProperties": 1, "propertyNames": {"minLength": 1},
+      "description": "The function's calibration on other base formats, keyed by an INT4 base's format_id (its decision_config.json quantization.format_id): the threshold for exactly those INT4 weights, written by `jeff calibrate <function> --base <int4 folder>`. `calibration` stays the block for the bfloat16 base as released. A function with calibration null has no entries (it is uncalibrated in every format). An engine serving an INT4 base whose format_id has no entry here refuses to bind the function.",
+      "additionalProperties": {
+        "type": "object", "additionalProperties": false,
+        "required": ["data", "rows", "excluded", "target_precision", "threshold", "precision_at_threshold", "coverage_at_threshold"],
+        "properties": {
+          "data": {"type": "string"}, "data_mirror": {"$ref": "#/$defs/data_mirror"},
+          "rows": {"type": "integer", "minimum": 1},
+          "excluded": {"type": "string", "minLength": 1, "description": "Which calibration rows were left out of the fit, and why (the rows the quantiser saw, listed in the INT4 base's quantization.json)."},
+          "target_precision": {"type": "number", "exclusiveMinimum": 0, "maximum": 1},
+          "threshold": {"type": "number", "minimum": 0, "maximum": 1},
+          "precision_at_threshold": {"type": "number", "minimum": 0, "maximum": 1},
+          "coverage_at_threshold": {"type": "number", "minimum": 0, "maximum": 1}
+        }
+      }
+    }
+  }
+}

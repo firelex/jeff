@@ -1,0 +1,199 @@
+id: jeff.knowledge.knowledge-qa
+version: 1.4.0
+aliases:
+- knowledge-qa-v2
+- knowledge-qa
+licence:
+  kind: open
+  adapter: CC-BY-NC-4.0
+weights:
+  open:
+    repo: mstrasser/jeff-adapter-knowledge-qa
+    revision: v1.4
+base:
+  id: jeff-base
+  version: v1.4
+  max_options: 8
+context: []
+input:
+  key: question
+  description: A question or statement to complete, as plain text; the options are the possible answers (A, B, ...).
+  form: text
+functions:
+  blank:
+    interface: classify
+    type: choice
+    instructions: Which option correctly fills the blank (_) in the sentence?
+    labels:
+      source: describe
+      keys:
+      - A
+      - B
+    abstain_labels: []
+    calibration:
+      data: hf://mstrasser/jeff-adapter-knowledge-qa@v1.4/calibration.jsonl
+      rows: 165
+      target_precision: 0.9
+      threshold: 0.515191
+      precision_at_threshold: 0.957576
+      coverage_at_threshold: 1.0
+    context: []
+    input:
+      key: sentence
+      description: A sentence with one blank written as _, as plain text; the options are the two candidate fillers.
+      form: text
+  question:
+    interface: classify
+    type: choice
+    instructions: Choose the option that correctly answers the question or completes the statement.
+    labels:
+      source: caller
+      fixed_first: {}
+      caller_keys: null
+      max: 8
+    abstain_labels: []
+    calibration:
+      data: hf://mstrasser/jeff-adapter-knowledge-qa@v1.4/calibration.jsonl
+      rows: 876
+      target_precision: 0.9
+      threshold: 0.497905
+      precision_at_threshold: 0.9
+      coverage_at_threshold: 0.878995
+  continuation:
+    interface: classify
+    type: choice
+    instructions: Choose the ending that most plausibly continues the description of the activity.
+    labels:
+      source: describe
+      keys:
+      - A
+      - B
+      - C
+      - D
+    abstain_labels: []
+    calibration:
+      data: hf://mstrasser/jeff-adapter-knowledge-qa@v1.4/calibration.jsonl
+      rows: 180
+      target_precision: 0.9
+      threshold: 0.731459
+      precision_at_threshold: 0.9
+      coverage_at_threshold: 0.277778
+    context:
+    - key: activity
+      description: The activity being described, in a few words (for example "Breakdancing").
+      required: true
+    input:
+      key: text
+      description: The start of a description of the activity, to be continued by one of the options.
+      form: fields
+  passage:
+    interface: classify
+    type: choice
+    instructions: Read the passage and choose the option that correctly answers the question or completes the statement about
+      it.
+    labels:
+      source: describe
+      keys:
+      - A
+      - B
+      - C
+      - D
+    abstain_labels: []
+    calibration:
+      data: hf://mstrasser/jeff-adapter-knowledge-qa@v1.4/calibration.jsonl
+      rows: 150
+      target_precision: 0.9
+      threshold: 0.724134
+      precision_at_threshold: 0.90099
+      coverage_at_threshold: 0.673333
+    context:
+    - key: passage
+      description: The passage to read.
+      required: true
+    input:
+      key: question
+      description: The question about the passage, or a statement to complete.
+      form: fields
+  passage_text:
+    interface: classify
+    type: choice
+    instructions: Read the passage and choose the option that correctly answers the question or completes the statement about
+      it.
+    labels:
+      source: describe
+      keys:
+      - A
+      - B
+      - C
+      - D
+    abstain_labels: []
+    calibration:
+      data: hf://mstrasser/jeff-adapter-knowledge-qa@v1.4/calibration.jsonl
+      rows: 195
+      target_precision: 0.9
+      threshold: 0.508357
+      precision_at_threshold: 0.9
+      coverage_at_threshold: 0.666667
+    context: []
+    input:
+      key: passage_and_question
+      description: The passage followed by its question, as one plain text.
+      form: text
+  social:
+    interface: classify
+    type: choice
+    instructions: Read the situation and choose the option that best answers the question about the people in it.
+    labels:
+      source: describe
+      keys:
+      - A
+      - B
+      - C
+    abstain_labels: []
+    calibration:
+      data: hf://mstrasser/jeff-adapter-knowledge-qa@v1.4/calibration.jsonl
+      rows: 135
+      target_precision: 0.9
+      threshold: 0.818693
+      precision_at_threshold: 0.9
+      coverage_at_threshold: 0.518519
+    context:
+    - key: situation
+      description: A short everyday situation involving one or more people.
+      required: true
+    input:
+      key: question
+      description: The question about the people in the situation.
+      form: fields
+  solution:
+    interface: classify
+    type: choice
+    instructions: Choose the solution that best achieves the goal.
+    labels:
+      source: describe
+      keys:
+      - A
+      - B
+    abstain_labels: []
+    calibration:
+      data: hf://mstrasser/jeff-adapter-knowledge-qa@v1.4/calibration.jsonl
+      rows: 188
+      target_precision: 0.9
+      threshold: 0.887618
+      precision_at_threshold: 0.902439
+      coverage_at_threshold: 0.218085
+    context: []
+    input:
+      key: goal
+      description: A practical goal, as plain text; the options are two candidate solutions.
+      form: text
+routes_to: []
+tests:
+  published: hf://mstrasser/jeff-adapter-knowledge-qa@v1.4/test.jsonl
+  calibration: hf://mstrasser/jeff-adapter-knowledge-qa@v1.4/calibration.jsonl
+  function_by:
+  - source_kind
+  - state_shape
+hub:
+  title: knowledge-qa-v2
+  summary: Jeff v1.4 adapter `knowledge-qa`. Answers multiple-choice science, commonsense and general-knowledge questions.

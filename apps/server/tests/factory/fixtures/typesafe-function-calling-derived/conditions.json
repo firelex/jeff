@@ -1,0 +1,401 @@
+{
+ "__tool__": [],
+ "market_summary.window?": [
+  {
+   "question": "__tool__",
+   "equals": "market_summary"
+  }
+ ],
+ "market_summary.window": [
+  {
+   "question": "__tool__",
+   "equals": "market_summary"
+  },
+  {
+   "question": "market_summary.window?",
+   "equals": "true"
+  }
+ ],
+ "plot_price.symbol": [
+  {
+   "question": "__tool__",
+   "equals": "plot_price"
+  }
+ ],
+ "plot_price.style?": [
+  {
+   "question": "__tool__",
+   "equals": "plot_price"
+  }
+ ],
+ "plot_price.style": [
+  {
+   "question": "__tool__",
+   "equals": "plot_price"
+  },
+  {
+   "question": "plot_price.style?",
+   "equals": "true"
+  }
+ ],
+ "plot_price.resolution?": [
+  {
+   "question": "__tool__",
+   "equals": "plot_price"
+  }
+ ],
+ "plot_price.resolution": [
+  {
+   "question": "__tool__",
+   "equals": "plot_price"
+  },
+  {
+   "question": "plot_price.resolution?",
+   "equals": "true"
+  }
+ ],
+ "plot_price.window?": [
+  {
+   "question": "__tool__",
+   "equals": "plot_price"
+  }
+ ],
+ "plot_price.window": [
+  {
+   "question": "__tool__",
+   "equals": "plot_price"
+  },
+  {
+   "question": "plot_price.window?",
+   "equals": "true"
+  }
+ ],
+ "plot_price.include_volume?": [
+  {
+   "question": "__tool__",
+   "equals": "plot_price"
+  }
+ ],
+ "plot_price.include_volume": [
+  {
+   "question": "__tool__",
+   "equals": "plot_price"
+  },
+  {
+   "question": "plot_price.include_volume?",
+   "equals": "true"
+  }
+ ],
+ "plot_price.moving_average?": [
+  {
+   "question": "__tool__",
+   "equals": "plot_price"
+  }
+ ],
+ "plot_price.moving_average": [
+  {
+   "question": "__tool__",
+   "equals": "plot_price"
+  },
+  {
+   "question": "plot_price.moving_average?",
+   "equals": "true"
+  }
+ ],
+ "plot_price.log_scale?": [
+  {
+   "question": "__tool__",
+   "equals": "plot_price"
+  }
+ ],
+ "plot_price.log_scale": [
+  {
+   "question": "__tool__",
+   "equals": "plot_price"
+  },
+  {
+   "question": "plot_price.log_scale?",
+   "equals": "true"
+  }
+ ],
+ "intraday_pattern.symbol": [
+  {
+   "question": "__tool__",
+   "equals": "intraday_pattern"
+  }
+ ],
+ "intraday_pattern.window?": [
+  {
+   "question": "__tool__",
+   "equals": "intraday_pattern"
+  }
+ ],
+ "intraday_pattern.window": [
+  {
+   "question": "__tool__",
+   "equals": "intraday_pattern"
+  },
+  {
+   "question": "intraday_pattern.window?",
+   "equals": "true"
+  }
+ ],
+ "intraday_pattern.metric?": [
+  {
+   "question": "__tool__",
+   "equals": "intraday_pattern"
+  }
+ ],
+ "intraday_pattern.metric": [
+  {
+   "question": "__tool__",
+   "equals": "intraday_pattern"
+  },
+  {
+   "question": "intraday_pattern.metric?",
+   "equals": "true"
+  }
+ ],
+ "compare_returns.symbols.SPY": [
+  {
+   "question": "__tool__",
+   "equals": "compare_returns"
+  }
+ ],
+ "compare_returns.symbols.NVDA": [
+  {
+   "question": "__tool__",
+   "equals": "compare_returns"
+  }
+ ],
+ "compare_returns.symbols.AMD": [
+  {
+   "question": "__tool__",
+   "equals": "compare_returns"
+  }
+ ],
+ "compare_returns.symbols.AAPL": [
+  {
+   "question": "__tool__",
+   "equals": "compare_returns"
+  }
+ ],
+ "compare_returns.symbols.MSFT": [
+  {
+   "question": "__tool__",
+   "equals": "compare_returns"
+  }
+ ],
+ "compare_returns.symbols.TSLA": [
+  {
+   "question": "__tool__",
+   "equals": "compare_returns"
+  }
+ ],
+ "compare_returns.window?": [
+  {
+   "question": "__tool__",
+   "equals": "compare_returns"
+  }
+ ],
+ "compare_returns.window": [
+  {
+   "question": "__tool__",
+   "equals": "compare_returns"
+  },
+  {
+   "question": "compare_returns.window?",
+   "equals": "true"
+  }
+ ],
+ "compare_returns.normalize?": [
+  {
+   "question": "__tool__",
+   "equals": "compare_returns"
+  }
+ ],
+ "compare_returns.normalize": [
+  {
+   "question": "__tool__",
+   "equals": "compare_returns"
+  },
+  {
+   "question": "compare_returns.normalize?",
+   "equals": "true"
+  }
+ ],
+ "rolling_correlation.symbol": [
+  {
+   "question": "__tool__",
+   "equals": "rolling_correlation"
+  }
+ ],
+ "rolling_correlation.benchmark?": [
+  {
+   "question": "__tool__",
+   "equals": "rolling_correlation"
+  }
+ ],
+ "rolling_correlation.benchmark": [
+  {
+   "question": "__tool__",
+   "equals": "rolling_correlation"
+  },
+  {
+   "question": "rolling_correlation.benchmark?",
+   "equals": "true"
+  }
+ ],
+ "rolling_correlation.window?": [
+  {
+   "question": "__tool__",
+   "equals": "rolling_correlation"
+  }
+ ],
+ "rolling_correlation.window": [
+  {
+   "question": "__tool__",
+   "equals": "rolling_correlation"
+  },
+  {
+   "question": "rolling_correlation.window?",
+   "equals": "true"
+  }
+ ],
+ "rolling_correlation.resolution?": [
+  {
+   "question": "__tool__",
+   "equals": "rolling_correlation"
+  }
+ ],
+ "rolling_correlation.resolution": [
+  {
+   "question": "__tool__",
+   "equals": "rolling_correlation"
+  },
+  {
+   "question": "rolling_correlation.resolution?",
+   "equals": "true"
+  }
+ ],
+ "summary_stats.symbol": [
+  {
+   "question": "__tool__",
+   "equals": "summary_stats"
+  }
+ ],
+ "summary_stats.window?": [
+  {
+   "question": "__tool__",
+   "equals": "summary_stats"
+  }
+ ],
+ "summary_stats.window": [
+  {
+   "question": "__tool__",
+   "equals": "summary_stats"
+  },
+  {
+   "question": "summary_stats.window?",
+   "equals": "true"
+  }
+ ],
+ "volatility.symbol": [
+  {
+   "question": "__tool__",
+   "equals": "volatility"
+  }
+ ],
+ "volatility.window?": [
+  {
+   "question": "__tool__",
+   "equals": "volatility"
+  }
+ ],
+ "volatility.window": [
+  {
+   "question": "__tool__",
+   "equals": "volatility"
+  },
+  {
+   "question": "volatility.window?",
+   "equals": "true"
+  }
+ ],
+ "volatility.annualized?": [
+  {
+   "question": "__tool__",
+   "equals": "volatility"
+  }
+ ],
+ "volatility.annualized": [
+  {
+   "question": "__tool__",
+   "equals": "volatility"
+  },
+  {
+   "question": "volatility.annualized?",
+   "equals": "true"
+  }
+ ],
+ "top_movers.window?": [
+  {
+   "question": "__tool__",
+   "equals": "top_movers"
+  }
+ ],
+ "top_movers.window": [
+  {
+   "question": "__tool__",
+   "equals": "top_movers"
+  },
+  {
+   "question": "top_movers.window?",
+   "equals": "true"
+  }
+ ],
+ "top_movers.direction": [
+  {
+   "question": "__tool__",
+   "equals": "top_movers"
+  }
+ ],
+ "drawdown.symbol": [
+  {
+   "question": "__tool__",
+   "equals": "drawdown"
+  }
+ ],
+ "drawdown.window?": [
+  {
+   "question": "__tool__",
+   "equals": "drawdown"
+  }
+ ],
+ "drawdown.window": [
+  {
+   "question": "__tool__",
+   "equals": "drawdown"
+  },
+  {
+   "question": "drawdown.window?",
+   "equals": "true"
+  }
+ ],
+ "drawdown.plot?": [
+  {
+   "question": "__tool__",
+   "equals": "drawdown"
+  }
+ ],
+ "drawdown.plot": [
+  {
+   "question": "__tool__",
+   "equals": "drawdown"
+  },
+  {
+   "question": "drawdown.plot?",
+   "equals": "true"
+  }
+ ]
+}

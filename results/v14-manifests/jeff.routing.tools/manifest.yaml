@@ -1,0 +1,70 @@
+id: jeff.routing.tools
+version: 1.4.0
+aliases:
+- tools
+licence:
+  kind: open
+  adapter: Apache-2.0
+weights:
+  local: {}
+base:
+  id: jeff-base
+  version: v1.4
+  max_options: 152
+context:
+- key: agent
+  description: What the agent is for, in one or two sentences (for example a triage assistant that checks entitlements before
+    routing tickets).
+  required: true
+- key: conversation
+  description: The conversation so far, a list of turns, each {role (user or assistant), text}.
+  required: true
+input:
+  key: user_message
+  description: The user's latest message, as plain text.
+  form: fields
+functions:
+  tool:
+    interface: route
+    type: choice
+    instructions: Which tool should the agent call next to handle the user's latest message? Use the conversation for context.
+      If no tool is needed, choose answer directly. If a tool is needed but information it requires is missing, choose ask
+      the user.
+    labels:
+      source: caller
+      fixed_first:
+        answer_directly: 'No tool is needed: answer the user directly from the conversation'
+        ask_user: 'A tool is needed but required information is missing: ask the user first'
+      caller_keys: t{n}
+      max: 134
+    abstain_labels: []
+    calibration:
+      data: hf://datasets/teamsuzie/jeff-data@main/apps/tools/calibration.jsonl
+      data_mirror:
+        path: /mnt/d/jeff-data/apps/tools/calibration.jsonl
+        sha256: c6d97c59f9d925f3109648f1260bd538b3f9b916db31fe06b933930aec4e78e6
+      rows: 2195
+      target_precision: 0.95
+      threshold: 0.274674
+      precision_at_threshold: 0.97631
+      coverage_at_threshold: 1.0
+routes_to: []
+tests:
+  published: null
+  calibration: null
+  internal: hf://datasets/teamsuzie/jeff-data@main/apps/tools/test.jsonl
+  internal_calibration: hf://datasets/teamsuzie/jeff-data@main/apps/tools/calibration.jsonl
+  function_by: only
+hub:
+  title: tools
+  summary: Jeff v1.4 adapter `tools`. Picks the next tool for an AI agent to call, or says to answer directly or to ask the
+    user for missing information.
+  source: local adapter folder tools (not on Hugging Face)
+  notes:
+  - 'tool: instructions are the one text of the 3624 test rows marked canonical (source.instructions); the other 1533 ask
+    the same question reworded or with no instructions (as trained), and are rebuilt with the canonical text in template mode.'
+  - 'tool: max 134 is the largest number of caller labels in the test rows (nothing documents a training limit).'
+  - 'base: jeff-base v1.4, identified by the SHA-256 of its model.safetensors, which the adapter''s decision_config.json records
+    for its base checkpoint.'
+  - 'tests: the test set is the private hf://datasets/teamsuzie/jeff-data@main/apps/tools/test.jsonl, so tests.published is
+    null; the calibration of each function is filled in later by `jeff calibrate`.'

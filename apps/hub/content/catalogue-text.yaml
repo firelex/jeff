@@ -1,0 +1,305 @@
+# The public text of every adapter in the catalogue, keyed by adapter id: its title, a one- or two-sentence summary
+# (what it decides, from what input), when to use it and when not to. This is the only text the catalogue shows
+# besides what a caller sends (functions, labels, context and input). Plain English; never name clients, companies,
+# people, internal machines, folders, data sets or how an adapter was trained.
+
+jeff.agents.action-check:
+  title: Agent action check
+  summary: Checks a proposed tool call against the user's request and the application's rules. Determines whether to approve it, reject it as incorrect or unsafe, or ask the user first.
+  use_when:
+    - An agent is about to run a tool that changes data or takes an external action.
+    - Your application has written rules defining which actions require user approval.
+  avoid_when:
+    - You need to correct the tool call's arguments; this adapter evaluates the proposed call without changing it.
+
+jeff.agents.after-result:
+  title: Agent next-step selection
+  summary: "Determines what an agent should do after a tool returns a result: continue, retry, change approach, stop or hand over to a person."
+  use_when:
+    - Your agent needs to choose its next step after each tool result.
+    - Failed or stalled runs should be referred to a person.
+  avoid_when:
+    - You need to select a specific tool; use Agent tool selection from a menu.
+
+jeff.agents.assistant-routing:
+  title: Assistant reasoning check
+  summary: Predicts whether an assistant's next response requires careful reasoning or can be answered directly. Use it to route simpler turns to a faster, cheaper response path.
+  use_when:
+    - Your assistant has a separate reasoning step and needs to decide when to use it.
+  avoid_when:
+    - You need to choose a tool or specialist; this adapter only checks whether reasoning is needed.
+
+jeff.agents.result-relevant:
+  title: Tool result relevance
+  summary: "Checks whether a tool result answers the agent's current question: yes, partly or no."
+  use_when:
+    - Your agent needs to check a search or tool result before proceeding.
+  avoid_when:
+    - You need to assess completion of the entire task; use Agent task completion.
+
+jeff.agents.task-complete:
+  title: Agent task completion
+  summary: Checks the user's request against the agent's tool calls, results and final answer. Classifies the task as complete, incomplete or unclear.
+  use_when:
+    - You need to verify an agent's work before displaying its answer or closing the task.
+  avoid_when:
+    - You need to carry out the remaining work; this adapter only assesses completion.
+
+jeff.agents.tool-route:
+  title: Agent tool selection from a menu
+  summary: Selects the next tool from a menu included in the request, using the conversation for context. Can also indicate that no tool is needed or that the user must supply missing information.
+  use_when:
+    - Your tool menu is supplied as text, function signatures or schemas in the request.
+    - You need a tool-selection decision with a probability.
+  avoid_when:
+    - You need to generate tool arguments; this adapter selects a tool without constructing the call.
+
+jeff.compliance.sanctions:
+  title: Sanctions and watchlist screening
+  summary: Compares a customer or payment party with a single sanctions or watchlist entry. Returns match, possible match or no match.
+  use_when:
+    - You have candidate watchlist entries and need to assess each customer-entry pair.
+    - You need to distinguish definite matches from cases that require further information and human review.
+  avoid_when:
+    - You need to search an entire watchlist; retrieve candidate entries first.
+    - You need a final decision without human review; screening decisions have legal consequences.
+    - You plan commercial use; the adapter is licensed CC BY-NC 4.0 (non-commercial use only), because its training data includes data licensed for non-commercial use only.
+
+jeff.engineering.ci-failure:
+  title: Build failure triage
+  summary: Classifies a failed build or test run using its log, code changes and run history. Distinguishes regressions, flaky tests, infrastructure issues, dependency changes and tests that need updating.
+  use_when:
+    - You need an initial classification of continuous integration failures before a maintainer investigates.
+  avoid_when:
+    - You need to fix the failure; this adapter only classifies it.
+
+jeff.engineering.issue-route:
+  title: Issue and pull request classification
+  summary: Assigns an issue or pull request to a project component and classifies it as a bug, feature, question, documentation change or duplicate.
+  use_when:
+    - You need to sort incoming issues or pull requests using a list of project components and their descriptions.
+  avoid_when:
+    - You need to write a response or resolve the issue; this adapter only classifies and routes it.
+
+jeff.finance.trading-desk:
+  title: Trading desk decisions
+  summary: Applies a trading desk's written rules to the current order book. Selects buy, sell or hold, trade size, venue, actions for open orders and whether to reduce risk.
+  use_when:
+    - Your desk has written rules for entry levels, sizing, position limits, venues, order handling and risk-reduction triggers.
+    - Uncertain decisions should be referred to a person or a further check based on their probabilities.
+  avoid_when:
+    - You need price forecasts or a trading strategy; this adapter applies the rules provided.
+    - The rules are simple enough to implement directly in code.
+
+jeff.knowledge.knowledge-qa:
+  title: Multiple-choice general knowledge
+  summary: Selects an answer to a multiple-choice question about science, common sense or general knowledge.
+  use_when:
+    - You have a multiple-choice question with a defined set of answer options.
+  avoid_when:
+    - The answer depends on private documents or recent events; supply the relevant facts or use a retrieval adapter.
+    - You plan commercial use; the adapter is licensed CC BY-NC 4.0 (non-commercial use only), because its training data includes benchmarks licensed for non-commercial use only.
+
+jeff.language.emotion:
+  title: Emotion detection in short text
+  summary: Identifies the strongest emotion in a short comment or message, choosing from 27 emotions and neutral.
+  use_when:
+    - You need more detail than positive or negative sentiment, such as gratitude, confusion or disappointment.
+    - Your input consists of short, informal English comments or messages.
+  avoid_when:
+    - Your texts are long, formal or in another language.
+    - You need a clinical or safety assessment, such as self-harm risk; this adapter only identifies emotions.
+
+jeff.legal.legal-clauses:
+  title: Contract clause classification
+  summary: Classifies a single contract provision by clause type, such as governing law, notices or confidentiality.
+  use_when:
+    - You have split a contract into provisions and need a type for each one.
+    - Your input consists of commercial or employment agreements in English.
+  avoid_when:
+    - You need legal advice or an assessment of fairness or enforceability; this adapter only identifies the clause type.
+    - You need to process an entire contract in one call; supply one provision at a time.
+
+jeff.reasoning.contradicts:
+  title: Contradiction check
+  summary: Checks whether two statements or records conflict. Returns yes, no or unclear when the information is ambiguous.
+  use_when:
+    - You need to identify disagreements between documents, messages or records.
+  avoid_when:
+    - You need to check whether evidence supports a claim; use Claim support check.
+
+jeff.reasoning.entails:
+  title: Claim support check
+  summary: Checks whether supplied documents, messages or records support a claim. Returns supported, unsupported or unclear.
+  use_when:
+    - You need to verify a statement against the evidence available before acting on it.
+  avoid_when:
+    - The answer requires facts outside the supplied evidence; this adapter uses only the evidence provided.
+
+jeff.reasoning.equivalent:
+  title: Same meaning check
+  summary: Checks whether two items have the same meaning within a defined scope, allowing for differences in wording, units and format. Returns yes, no or unclear.
+  use_when:
+    - You need to compare records or statements expressed differently, such as names, amounts or dates in different formats.
+  avoid_when:
+    - You need to determine which item is better or more complete; this adapter only checks equivalence.
+
+jeff.reasoning.is-complete:
+  title: Document completeness check
+  summary: Checks a set of documents against a checklist. Returns complete, incomplete or unclear, accounting for missing, expired, unsigned or incorrectly attributed documents.
+  use_when:
+    - You need to assess whether a document submission meets a checklist.
+  avoid_when:
+    - You need an itemised list of missing documents; this adapter assesses the submission as a whole.
+
+jeff.reasoning.satisfies:
+  title: Requirement check
+  summary: Checks whether a document, message or record meets a single stated requirement. Returns pass, fail or unclear.
+  use_when:
+    - You need to check an item against a requirement written in plain English.
+  avoid_when:
+    - You need to check several requirements in one call; submit each requirement separately.
+
+jeff.retrieval.doc-type:
+  title: Document classification
+  summary: Classifies a document using your list of document types and descriptions, or returns other when none fits.
+  use_when:
+    - You need to sort incoming documents into categories you define.
+  avoid_when:
+    - You need to extract document fields; this adapter only identifies the document type.
+
+jeff.retrieval.evidence-sufficient:
+  title: Evidence sufficiency check
+  summary: Checks whether retrieved passages provide enough evidence to answer a question. Returns sufficient, insufficient or conflicting.
+  use_when:
+    - Your retrieval system needs to decide whether to answer, search further or flag conflicting evidence.
+  avoid_when:
+    - You need to generate an answer; this adapter only assesses the evidence.
+
+jeff.retrieval.extract-check:
+  title: Extracted value validation
+  summary: Checks an extracted field and value against the source document. Identifies correct values, incorrect values, wrong-field errors, unsupported values and ambiguity.
+  use_when:
+    - You need to validate fields extracted by another tool or model before using them.
+  avoid_when:
+    - You need to extract the value; this adapter only validates a value already supplied.
+
+jeff.retrieval.ground:
+  title: Passage selection and answer verification
+  summary: Selects the passage that best answers a question and checks whether a generated answer is supported by its sources. These are separate functions.
+  use_when:
+    - Your retrieval pipeline needs to select the best passage or determine that none answers the question.
+    - You need to verify a generated answer against its sources before displaying it.
+  avoid_when:
+    - You need to generate an answer or identify the specific unsupported claim; this adapter returns a selection or verdict.
+    - You need an assessment based on outside knowledge; this adapter uses only the supplied sources.
+
+jeff.retrieval.passage-relevant:
+  title: Passage relevance
+  summary: Checks whether a passage answers a question about the specified subject and time period. Returns yes, partly or no.
+  use_when:
+    - Search results may cover the right topic but the wrong company, product or year.
+  avoid_when:
+    - You need to compare several passages; use Passage selection and answer verification.
+
+jeff.retrieval.query-route:
+  title: Search source selection
+  summary: Selects which document collection, database or tool should handle a query from a menu of sources. Can also indicate that several sources or no source are needed.
+  use_when:
+    - Your assistant can search several sources and needs to choose where to look.
+  avoid_when:
+    - You need to rewrite the query for a source; this adapter only selects the source.
+
+jeff.retrieval.section-id:
+  title: Document section classification
+  summary: Identifies the type of document section a passage belongs to, using your list of section types and descriptions. Returns none when no type fits.
+  use_when:
+    - You have split documents into passages and need to classify each passage by section type.
+  avoid_when:
+    - Your documents already have reliable headings that code can read directly.
+
+jeff.routing.router-open-v14:
+  title: Open-adapter router
+  summary: Selects an open specialist from your menu to handle a request. Returns base when no specialist fits and the general model should handle it.
+  use_when:
+    - You route requests among the open specialists supported by this router.
+  avoid_when:
+    - Your menu includes specialists outside the set listed in the router's documentation.
+    - You already know which adapter to call.
+
+jeff.routing.tools:
+  title: Agent tool selection from labelled options
+  summary: Selects the next tool from tools supplied as labelled options with descriptions. Can also indicate that the agent should answer directly or ask the user for missing information.
+  use_when:
+    - Your agent supplies its tools as labelled options and needs to choose its next action.
+    - Low-confidence tool selections should be referred to a larger model.
+  avoid_when:
+    - You need to generate tool arguments; this adapter selects a tool without constructing the call.
+    - You need a complete sequence of tool calls; this adapter selects one step at a time.
+
+jeff.safety.guard:
+  title: Prompt injection detection
+  summary: Detects attempts to override an AI model's instructions, bypass its safeguards or extract data. Also classifies the type of attempt.
+  use_when:
+    - User messages, tool results or other external text are about to be passed to an AI model.
+    - You need probabilities to balance attack detection against false positives.
+  avoid_when:
+    - You need a general harmful-content assessment; this adapter detects attempts to control the model.
+    - You need a complete defence; use this adapter alongside other controls.
+
+jeff.safety.spam:
+  title: Spam and phishing detection
+  summary: Detects spam or phishing in text messages and emails. A separate function classifies each message as legitimate, spam or phishing.
+  use_when:
+    - You need spam and phishing probabilities for incoming text messages or emails.
+    - You need to distinguish advertising spam from scams seeking personal details, passwords or money.
+  avoid_when:
+    - You need to inspect email headers, links or attachments; this adapter reads only the subject and readable body.
+    - You need a definitive blocking decision without human review; use the prediction as one input to that decision.
+
+jeff.security.soc:
+  title: Security alert triage
+  summary: Applies a security team's playbook to an alert and recommends ignoring, investigating, isolating, blocking or escalating it.
+  use_when:
+    - Your security operations team has a written playbook defining rule order, thresholds, assets and allowed actions.
+    - Analysts should review uncertain alerts based on their probabilities.
+  avoid_when:
+    - You need to detect threats outside the supplied playbook; this adapter applies the rules provided.
+    - The assessment requires several events to be considered together.
+    - You plan commercial use; the adapter is licensed CC BY-NC 4.0 (non-commercial use only), because its training data includes non-commercial and all-rights-reserved sources.
+
+jeff.support.message-triage:
+  title: Shared inbox triage
+  summary: Classifies an inbox message, determines the required action and urgency, and selects the responsible team using your message categories, routing table and rules.
+  use_when:
+    - A shared inbox receives different types of messages, and you can define its categories, teams and handling rules.
+  avoid_when:
+    - You need to write a reply; this adapter only classifies and routes the message.
+
+jeff.support.requires-action:
+  title: Team action and escalation check
+  summary: Checks a message against a team's policy to determine whether action or escalation is required. Each decision is yes, no or unclear.
+  use_when:
+    - Your team receives many informational messages and has a policy defining which ones require action.
+  avoid_when:
+    - You need to choose between several teams; use Shared inbox triage.
+
+jeff.support.support-intents:
+  title: Customer request classification
+  summary: Identifies the request in a customer or assistant-user message, choosing from a fixed list such as cancel_order or track_refund.
+  use_when:
+    - You need to classify requests in an online shop chat or voice assistant.
+    - Messages are short and in English.
+  avoid_when:
+    - You need to identify every request in a message containing several; this adapter selects one.
+    - Your inputs are long emails or tickets; use Support ticket triage.
+
+jeff.support.triage:
+  title: Support ticket triage
+  summary: Routes a support ticket or email to a team and assesses urgency, sentiment and the need for human review.
+  use_when:
+    - Each ticket, email or chat message needs a team assignment, urgency rating and human-review decision.
+    - You want to use your own team list, with a short description of each team.
+  avoid_when:
+    - You need to write a reply; this adapter returns decisions without generating text.
+    - The decision depends on facts outside the message, such as order history; include them in the request or handle them in code.

@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jeff.dev/schemas/adapters_response.schema.json",
+  "title": "Jeff GET /v1/adapters response (also PUT /v1/adapters/served and POST /v1/adapters/reload)",
+  "description": "Every adapter in the catalogue trained for the base the engines serve (its manifest's base id and version are the engines' base: the rule an engine refuses an adapter by), marked served or not, with its one-line description and its functions; an adapter trained for another base is not listed, since no engine here can serve it, and PUT /v1/adapters/served refuses it as before (404 UnknownFunction). Each function's full detail (labels, context, input, calibration) is in GET /v1/functions. adapters_version is an opaque change counter -- the sum of the engines' own counters, each counting its own served-list changes from 0 -- that goes up whenever any engine's served list changes. It can go DOWN when an engine process restarts, because that engine's own counter resets to 0. Compare it only to a value read earlier from the same deployment to notice that something changed; never use it to count how many changes happened, or compare it across deployments.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["adapters", "adapters_version"],
+  "properties": {
+    "adapters": {"type": "array", "items": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "aliases", "version", "description", "functions", "served"],
+      "properties": {
+        "id": {"type": "string", "description": "The adapter's catalogue ID."},
+        "aliases": {"type": "array", "items": {"type": "string"}, "description": "The other names the adapter answers to, as its manifest lists them: short names (triage) and, for an adapter whose ID has a version part, its unversioned ID (jeff.routing.router-open for jeff.routing.router-open-v14)."},
+        "version": {"type": "string"},
+        "description": {"type": "string", "minLength": 1, "description": "The adapter's one-line description, as its manifest writes it (hub.summary); the server refuses to load a manifest without one."},
+        "functions": {"type": "array", "description": "The adapter's functions, in its manifest's order.", "items": {
+          "type": "object", "additionalProperties": false,
+          "required": ["id", "interface", "calibrated"],
+          "properties": {
+            "id": {"type": "string", "description": "The function's ID (adapter ID, a dot, the function's key)."},
+            "interface": {"type": "string", "description": "The interface it implements (contract/interfaces.yaml)."},
+            "calibrated": {"type": "boolean", "description": "Whether it has a threshold for the base the engines serve: its calibration on a bfloat16 base, its calibration_by_format entry for the base's format_id on an INT4 base."}
+          }
+        }},
+        "served": {"type": "boolean", "description": "Whether every engine in this deployment currently serves this adapter."}
+      }
+    }},
+    "adapters_version": {"type": "integer"}
+  }
+}

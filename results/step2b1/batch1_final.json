@@ -1,0 +1,133 @@
+{
+ "test": "runtime/python/tests/test_batched_path_cuda.py::test_batch_1_is_no_slower_than_todays_fast_path",
+ "date": "2026-10-24 20:11",
+ "versions": {
+  "torch": "2.14.0+cu130",
+  "cuda": "13.0",
+  "gpu": "NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition",
+  "triton": "3.8.0",
+  "flash-linear-attention": "0.5.2"
+ },
+ "setup": {
+  "adapters_loaded": 9,
+  "use": "nav",
+  "prefix_tokens": 1000,
+  "options": 32,
+  "warmup": 100,
+  "reps": 1000,
+  "order": "today's FastPath.decide and the batched path alternating call after call, the first of each pair swapped on every iteration",
+  "batched_call": "PrefixPool.lookup, pin, BatchedPath.decide, unpin"
+ },
+ "batch1": {
+  "32": {
+   "today_decide_ms": {
+    "p50": 2.8873,
+    "p99": 2.9334,
+    "mean": 2.8895
+   },
+   "batched_decide_ms": {
+    "p50": 2.4066,
+    "p99": 2.4455,
+    "mean": 2.4057
+   },
+   "batched_plan": {
+    "gdn": "recurrent",
+    "splits": 16
+   },
+   "largest_probability_difference": 0.00648,
+   "same_top_option": true
+  },
+  "64": {
+   "today_decide_ms": {
+    "p50": 3.0729,
+    "p99": 3.1281,
+    "mean": 3.075
+   },
+   "batched_decide_ms": {
+    "p50": 2.6951,
+    "p99": 2.7376,
+    "mean": 2.6947
+   },
+   "batched_plan": {
+    "gdn": "chunk",
+    "splits": 16
+   },
+   "largest_probability_difference": 0.00648,
+   "same_top_option": true
+  },
+  "128": {
+   "today_decide_ms": {
+    "p50": 3.3061,
+    "p99": 3.3606,
+    "mean": 3.3083
+   },
+   "batched_decide_ms": {
+    "p50": 3.0063,
+    "p99": 3.05,
+    "mean": 3.0055
+   },
+   "batched_plan": {
+    "gdn": "chunk",
+    "splits": 8
+   },
+   "largest_probability_difference": 0.00196,
+   "same_top_option": true
+  },
+  "256": {
+   "today_decide_ms": {
+    "p50": 4.0836,
+    "p99": 4.1405,
+    "mean": 4.0851
+   },
+   "batched_decide_ms": {
+    "p50": 3.8915,
+    "p99": 3.9494,
+    "mean": 3.8923
+   },
+   "batched_plan": {
+    "gdn": "chunk",
+    "splits": 4
+   },
+   "largest_probability_difference": 0.00842,
+   "same_top_option": true
+  }
+ },
+ "pre_2b1_reference": {
+  "source": "results/step2b1/gap/pre2b1_batch1.json",
+  "decide_ms": {
+   "32": {
+    "p50": 3.291,
+    "p99": 3.36,
+    "mean": 3.308
+   },
+   "64": {
+    "p50": 4.0205,
+    "p99": 4.0873,
+    "mean": 4.0237
+   },
+   "128": {
+    "p50": 4.0119,
+    "p99": 4.076,
+    "mean": 4.0157
+   },
+   "256": {
+    "p50": 4.6242,
+    "p99": 4.6852,
+    "mean": 4.6271
+   }
+  }
+ },
+ "recording": {
+  "engine_start_seconds": 52.3,
+  "batched_record_seconds": 25.0,
+  "batched_graphs": 39,
+  "fast_path_graphs": 30,
+  "gpu_memory_after_start_gb": {
+   "allocated": 9.33,
+   "reserved": 13.43
+  }
+ },
+ "failures": [],
+ "script": "results/step2b1/task8/batch1_final.py (the test's body on engine.batched)",
+ "commit": "264eef8"
+}

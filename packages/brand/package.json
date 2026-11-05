@@ -1,0 +1,27 @@
+{
+  "name": "@jeff/brand",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "description": "The pitch deck's design tokens, fonts and logo, and the Jeff Pixel font, as CSS consumed by the apps' Tailwind builds.",
+  "exports": {
+    "./tokens.css": "./tokens.css",
+    "./fonts.css": "./fonts.css",
+    "./logo-64.png": "./assets/jeff-logo-64.png",
+    "./logo-128.jpg": "./assets/jeff-logo-128.jpg",
+    "./jeff-pixel.css": "./jeff-pixel.css",
+    "./jeff-pixel.woff2": "./fonts/jeff-pixel/JeffPixel.woff2"
+  },
+  "files": [
+    "tokens.css",
+    "fonts.css",
+    "jeff-pixel.css",
+    "fonts/jeff-pixel/JeffPixel.woff2",
+    "fonts/jeff-pixel/LICENSE",
+    "assets"
+  ],
+  "dependencies": {
+    "@fontsource/inter": "5.3.0",
+    "@fontsource/jetbrains-mono": "5.3.0"
+  }
+}

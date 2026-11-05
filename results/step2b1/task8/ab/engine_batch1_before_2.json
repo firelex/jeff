@@ -1,0 +1,76 @@
+{
+ "script": "scripts/bench_engine_batch1.py",
+ "date": "2026-10-24 21:08",
+ "versions": {
+  "torch": "2.14.0+cu130",
+  "cuda": "13.0",
+  "gpu": "NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition",
+  "triton": "3.8.0",
+  "flash-linear-attention": "0.5.2"
+ },
+ "setup": {
+  "adapters_loaded": 9,
+  "warmup": 100,
+  "reps": 1000,
+  "call": "LocalEngine.predict: prepare (check, split, tokenise), then predict_many on the batched path (model_ms: the decision only)",
+  "other_servers": "the other Jeff servers on datigator stay resident on the GPU"
+ },
+ "batch1": {
+  "32": {
+   "adapter": "nav",
+   "new_tokens": 32,
+   "wall_ms": {
+    "p50": 2.5956,
+    "p99": 2.755,
+    "mean": 2.601
+   },
+   "model_ms": {
+    "p50": 2.405,
+    "p99": 2.448,
+    "mean": 2.406
+   }
+  },
+  "64": {
+   "adapter": "spam",
+   "new_tokens": 64,
+   "wall_ms": {
+    "p50": 2.8704,
+    "p99": 3.0105,
+    "mean": 2.8756
+   },
+   "model_ms": {
+    "p50": 2.667,
+    "p99": 2.72,
+    "mean": 2.6674
+   }
+  },
+  "128": {
+   "adapter": "legal-clauses",
+   "new_tokens": 128,
+   "wall_ms": {
+    "p50": 3.3661,
+    "p99": 3.5835,
+    "mean": 3.3768
+   },
+   "model_ms": {
+    "p50": 3.076,
+    "p99": 3.1371,
+    "mean": 3.0764
+   }
+  },
+  "256": {
+   "adapter": "spam",
+   "new_tokens": 256,
+   "wall_ms": {
+    "p50": 4.094,
+    "p99": 4.3176,
+    "mean": 4.1063
+   },
+   "model_ms": {
+    "p50": 3.721,
+    "p99": 3.783,
+    "mean": 3.7258
+   }
+  }
+ }
+}

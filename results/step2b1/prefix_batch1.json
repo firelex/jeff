@@ -1,0 +1,61 @@
+{
+ "test": "runtime/python/tests/test_batched_path_cuda.py::test_a_single_new_prefix_is_no_slower_than_todays_prefix_pass",
+ "date": "2026-10-24 18:32",
+ "versions": {
+  "torch": "2.14.0+cu130",
+  "cuda": "13.0",
+  "gpu": "NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition"
+ },
+ "setup": {
+  "adapters_loaded": 9,
+  "adapter": "nav",
+  "today": "FastPath.prefix (one prefix graph replay), then PrefixPool.release",
+  "batched": "BatchedPath.ensure_prefixes (the B = 1 prefix graph), then unpin and release",
+  "order": "alternating call after call, the first of each pair swapped on every iteration"
+ },
+ "single_new_prefix": {
+  "128": {
+   "today_prefix_ms": {
+    "p50": 3.0819,
+    "p99": 3.7212,
+    "mean": 3.1108
+   },
+   "batched_prefix_ms": {
+    "p50": 3.0107,
+    "p99": 3.6294,
+    "mean": 3.0475
+   },
+   "prefix_bucket": 128,
+   "batched_graph_gpu_ms": 2.6491
+  },
+  "1000": {
+   "today_prefix_ms": {
+    "p50": 10.2658,
+    "p99": 10.4528,
+    "mean": 10.2673
+   },
+   "batched_prefix_ms": {
+    "p50": 10.0887,
+    "p99": 10.2393,
+    "mean": 10.0981
+   },
+   "prefix_bucket": 1024,
+   "batched_graph_gpu_ms": 9.2842
+  },
+  "2500": {
+   "today_prefix_ms": {
+    "p50": 27.6496,
+    "p99": 27.9824,
+    "mean": 27.6576
+   },
+   "batched_prefix_ms": {
+    "p50": 26.7389,
+    "p99": 27.3867,
+    "mean": 26.7647
+   },
+   "prefix_bucket": 3072,
+   "batched_graph_gpu_ms": 24.8511
+  }
+ },
+ "failures": []
+}

@@ -1,0 +1,19 @@
+# oss-satisfies, v1.4 (RTX /mnt/d/jeff-adapters/v1.4/oss-satisfies, data teamsuzie/jeff-data apps/oss-satisfies).
+path: apps/oss-satisfies
+adapter_path: oss-satisfies
+id: jeff.reasoning.satisfies
+aliases: [oss-satisfies, satisfies]
+version: 1.4.0
+function_by: only
+context:
+  - key: context
+    description: "The check: an object with the organisation, the checker, the kind of item and the date of the check."
+  - key: requirement
+    description: "The one requirement to check, a sentence."
+input:
+  key: item
+  description: "The item to check: a document, message or record, as text."
+  form: fields
+functions:
+  # classify: fixed answer set pass / fail / unclear
+  satisfies: {interface: classify, option_order: shuffled}

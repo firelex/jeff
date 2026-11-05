@@ -1,0 +1,31 @@
+# oss-after-result, v1.4 (RTX /mnt/d/jeff-adapters/v1.4/oss-after-result, data teamsuzie/jeff-data apps/oss-after-result).
+path: apps/oss-after-result
+adapter_path: oss-after-result
+id: jeff.agents.after-result
+aliases: [oss-after-result, after-result]
+version: 1.4.0
+function_by: only
+context:
+  - key: app
+    description: "The application the agent works in: its name and a description of what it does and for whom."
+  - key: today
+    description: "Today's date, written out (for example 'Wednesday 23 June 2027')."
+  - key: tools
+    description: "The tools the agent can call, a list of 'name: what it does'."
+  - key: retry_limit
+    description: "The app's rule for retrying a failed call, as a sentence (for example 'Retry a failed call at most 3 times')."
+  - key: goal
+    description: "What the user asked the agent to achieve, in the user's words."
+  - key: plan
+    description: "The agent's plan, a list of numbered steps each marked done, current step or still to do."
+  - key: steps_so_far
+    description: "The calls the agent has made so far, each with its call (tool and arguments) and its result."
+  - key: latest_call
+    description: "The call just made: tool, arguments and the attempt number."
+input:
+  key: latest_result
+  description: "The result of the latest call, as the tool returned it (a success with data, or an error with a status and message)."
+  form: fields
+functions:
+  # classify: picks one next step from a fixed set: continue, retry, change_approach, stop, escalate
+  next: {interface: classify, option_order: shuffled}

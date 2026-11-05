@@ -1,0 +1,37 @@
+# Every error Jeff raises: the class name, the HTTP status a server answers with (null: never sent over HTTP), and
+# what it means. Every SDK maps "type" back to the same error class. Tests check this list against the code.
+JeffError: {status: 500, meaning: Base class; never raised directly.}
+ContractError: {status: 500, meaning: A document does not match its contract schema.}
+ManifestError: {status: 500, meaning: An adapter manifest or the routing tree is invalid.}
+InvalidReference: {status: 422, meaning: A function reference is malformed.}
+UnknownFunction: {status: 404, meaning: "No function or adapter in the catalogue has this ID, alias or version."}
+NotInstalled: {status: 424, meaning: The function exists but its adapter is not loaded.}
+MissingContext: {status: 422, meaning: Required context fields are missing.}
+UnknownContext: {status: 422, meaning: Context fields the function does not have.}
+MissingLabels: {status: 422, meaning: The function takes its labels from the caller and none were given.}
+InvalidLabels: {status: 422, meaning: "Labels are given where they are fixed, or keys collide or are malformed."}
+TooManyLabels: {status: 422, meaning: More labels than the function was trained on.}
+TooManyHandles: {status: 422, meaning: A channel connection already holds the most bound-function handles it may (1024); release one first.}
+InterfaceMismatch: {status: 422, meaning: A function was called through an interface it does not implement.}
+LowConfidence: {status: 409, meaning: "The decision abstained and on_low_confidence was 'error'; details carry the decision."}
+EscalationFailed: {status: 502, meaning: An escalation step failed.}
+EscalationBudgetExceeded: {status: 504, meaning: An escalation ran past its budget_ms.}
+InvalidPolicy: {status: 422, meaning: on_low_confidence is not valid for this call.}
+GraphError: {status: 422, meaning: A decision graph is invalid or cannot run.}
+RuntimeMissing: {status: null, meaning: Local mode needs the jeff-runtime package.}
+ProprietaryWeights: {status: null, meaning: A proprietary adapter's weights need a licence or a local folder.}
+CalibrationError: {status: null, meaning: Calibration cannot reach the target or has no data.}
+EngineError: {status: 500, meaning: The engine failed or broke its contract.}
+InputTooLong: {status: 422, meaning: "The request is longer than the token limit; it was refused, never truncated."}
+BackendUnavailable: {status: 503, meaning: The engine backend cannot run on this machine.}
+Busy: {status: 529, meaning: The engine queue is full; retry after the Retry-After seconds.}
+DeadlineExceeded: {status: 504, meaning: The request's deadline passed before it ran.}
+ProtocolMismatch: {status: null, meaning: The two ends of the engine socket speak different protocol versions.}
+NotReady: {status: 503, meaning: The engine is still starting.}
+Unauthorised: {status: 401, meaning: Missing or invalid credentials.}
+NotLicensed: {status: 403, meaning: The caller's token does not include this proprietary function's licence.}
+RateLimited: {status: 429, meaning: The caller exceeded its rate limit; retry after the Retry-After seconds.}
+UsageLimitReached: {status: 402, meaning: "The account has used its input-token allowance for the billing period; calls resume when the next period starts."}
+InvalidRequest: {status: 422, meaning: The request does not match the API schema.}
+Conflict: {status: 409, meaning: The request does not fit the current state of the factory run.}
+FactoryOff: {status: 403, meaning: The factory is off on this server.}

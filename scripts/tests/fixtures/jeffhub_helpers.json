@@ -1,0 +1,751 @@
+[
+ {
+  "function": "choice_labels",
+  "args": [
+   "x",
+   "k",
+   [
+    {
+     "id": "1",
+     "state": {
+      "text": "x"
+     },
+     "question": {
+      "type": "choice",
+      "criteria": {
+       "a": "A thing",
+       "b": "B thing",
+       "c": "C thing"
+      },
+      "instructions": "Pick one."
+     }
+    },
+    {
+     "id": "2",
+     "state": {
+      "text": "x"
+     },
+     "question": {
+      "type": "choice",
+      "criteria": {
+       "c": "C thing",
+       "b": "B thing",
+       "a": "A thing"
+      },
+      "instructions": "Pick one."
+     }
+    }
+   ],
+   {
+    "b": "B thing",
+    "a": "A thing",
+    "c": "C thing"
+   },
+   ""
+  ],
+  "notes": [],
+  "output": {
+   "source": "fixed",
+   "fixed": {
+    "b": "B thing",
+    "a": "A thing",
+    "c": "C thing"
+   },
+   "subset": false
+  }
+ },
+ {
+  "function": "choice_labels",
+  "args": [
+   "x",
+   "k",
+   [
+    {
+     "id": "1",
+     "state": {
+      "text": "x"
+     },
+     "question": {
+      "type": "choice",
+      "criteria": {
+       "a": "A thing",
+       "b": "B thing",
+       "c": "C thing"
+      },
+      "instructions": "Pick one."
+     }
+    },
+    {
+     "id": "2",
+     "state": {
+      "text": "x"
+     },
+     "question": {
+      "type": "choice",
+      "criteria": {
+       "a": "A thing",
+       "b": "B thing",
+       "c": "C thing"
+      },
+      "instructions": "Pick one."
+     }
+    }
+   ],
+   {
+    "a": "A thing"
+   },
+   ""
+  ],
+  "notes": [
+   "k: example.json lists 1 of the 3 options every test row has; the labels are the test rows' full set, ordered by key (training shuffled the order)."
+  ],
+  "output": {
+   "source": "fixed",
+   "fixed": {
+    "a": "A thing",
+    "b": "B thing",
+    "c": "C thing"
+   },
+   "subset": false
+  }
+ },
+ {
+  "function": "choice_labels",
+  "args": [
+   "x",
+   "k",
+   [
+    {
+     "id": "1",
+     "state": {
+      "text": "x"
+     },
+     "question": {
+      "type": "choice",
+      "criteria": {
+       "a": "A thing",
+       "b": "B thing",
+       "c": "C thing"
+      },
+      "instructions": "Pick one."
+     }
+    }
+   ],
+   {
+    "z": "Z"
+   },
+   ""
+  ],
+  "notes": [],
+  "exit": "x.k: example.json's options differ from the test rows' options"
+ },
+ {
+  "function": "choice_labels",
+  "args": [
+   "x",
+   "k",
+   [
+    {
+     "id": "1",
+     "state": {
+      "text": "x"
+     },
+     "question": {
+      "type": "choice",
+      "criteria": {
+       "p": "one",
+       "q": "two"
+      },
+      "instructions": "Pick one."
+     }
+    },
+    {
+     "id": "2",
+     "state": {
+      "text": "x"
+     },
+     "question": {
+      "type": "choice",
+      "criteria": {
+       "p": "three",
+       "q": "four"
+      },
+      "instructions": "Pick one."
+     }
+    }
+   ],
+   {
+    "p": "one",
+    "q": "two"
+   },
+   ""
+  ],
+  "notes": [
+   "k: every test row has the keys ['p', 'q'] in this order, with descriptions that vary, so the labels are 'describe': the caller describes these keys."
+  ],
+  "output": {
+   "source": "describe",
+   "keys": [
+    "p",
+    "q"
+   ]
+  }
+ },
+ {
+  "function": "choice_labels",
+  "args": [
+   "x",
+   "k",
+   [
+    {
+     "id": "1",
+     "state": {
+      "text": "x"
+     },
+     "question": {
+      "type": "choice",
+      "criteria": {
+       "keep": "Keep",
+       "a": "A"
+      },
+      "instructions": "Pick one."
+     }
+    },
+    {
+     "id": "2",
+     "state": {
+      "text": "x"
+     },
+     "question": {
+      "type": "choice",
+      "criteria": {
+       "keep": "Keep",
+       "b": "B"
+      },
+      "instructions": "Pick one."
+     }
+    }
+   ],
+   {
+    "keep": "Keep"
+   },
+   "`b`, `keep`, `a`"
+  ],
+  "notes": [
+   "k: every test row offers a subset of the same 3 labels (with the same texts), always including ['keep'], so the labels are 'subset'; order as in jeffhub's options."
+  ],
+  "output": {
+   "source": "subset",
+   "fixed": {
+    "b": "B",
+    "keep": "Keep",
+    "a": "A"
+   },
+   "required": [
+    "keep"
+   ]
+  }
+ },
+ {
+  "function": "choice_labels",
+  "args": [
+   "x",
+   "k",
+   [
+    {
+     "id": "1",
+     "state": {
+      "text": "x"
+     },
+     "question": {
+      "type": "choice",
+      "criteria": {
+       "keep": "Keep",
+       "a": "A"
+      },
+      "instructions": "Pick one."
+     }
+    },
+    {
+     "id": "2",
+     "state": {
+      "text": "x"
+     },
+     "question": {
+      "type": "choice",
+      "criteria": {
+       "keep": "Keep",
+       "b": "B"
+      },
+      "instructions": "Pick one."
+     }
+    }
+   ],
+   {
+    "keep": "Keep"
+   },
+   "`keep`, `a`"
+  ],
+  "notes": [],
+  "exit": "x.k: jeffhub's options ['keep', 'a'] differ from the test rows' labels ['a', 'b', 'keep']"
+ },
+ {
+  "function": "choice_labels",
+  "args": [
+   "x",
+   "k",
+   [
+    {
+     "id": "1",
+     "state": {
+      "text": "x"
+     },
+     "question": {
+      "type": "choice",
+      "criteria": {
+       "none": "None",
+       "o1": "x",
+       "o2": "y"
+      },
+      "instructions": "Pick one."
+     }
+    },
+    {
+     "id": "2",
+     "state": {
+      "text": "x"
+     },
+     "question": {
+      "type": "choice",
+      "criteria": {
+       "none": "None",
+       "o1": "z"
+      },
+      "instructions": "Pick one."
+     }
+    }
+   ],
+   {
+    "none": "None",
+    "o1": "x"
+   },
+   ""
+  ],
+  "notes": [],
+  "output": {
+   "source": "caller",
+   "fixed_first": {
+    "none": "None"
+   },
+   "caller_keys": "o{n}",
+   "max": 2
+  }
+ },
+ {
+  "function": "choice_labels",
+  "args": [
+   "x",
+   "k",
+   [
+    {
+     "id": "1",
+     "state": {
+      "text": "x"
+     },
+     "question": {
+      "type": "choice",
+      "criteria": {
+       "cat": "a cat",
+       "dog": "a dog"
+      },
+      "instructions": "Pick one."
+     }
+    },
+    {
+     "id": "2",
+     "state": {
+      "text": "x"
+     },
+     "question": {
+      "type": "choice",
+      "criteria": {
+       "emu": "an emu",
+       "cat": "a big cat",
+       "fox": "a fox"
+      },
+      "instructions": "Pick one."
+     }
+    }
+   ],
+   {
+    "cat": "a cat"
+   },
+   ""
+  ],
+  "notes": [],
+  "output": {
+   "source": "caller",
+   "fixed_first": {},
+   "caller_keys": null,
+   "max": 3
+  }
+ },
+ {
+  "function": "question_from_rows",
+  "args": [
+   "x",
+   "k",
+   "choice",
+   [
+    {
+     "id": "1",
+     "state": {
+      "text": "x"
+     },
+     "question": {
+      "type": "choice",
+      "criteria": {
+       "b": "B",
+       "a": "A"
+      },
+      "instructions": "Choose."
+     }
+    },
+    {
+     "id": "2",
+     "state": {
+      "text": "x"
+     },
+     "question": {
+      "type": "choice",
+      "criteria": {
+       "a": "A",
+       "b": "B"
+      },
+      "instructions": "Choose."
+     }
+    }
+   ],
+   "options `a` then `b`"
+  ],
+  "notes": [],
+  "output": {
+   "type": "choice",
+   "instructions": "Choose.",
+   "criteria": {
+    "a": "A",
+    "b": "B"
+   }
+  }
+ },
+ {
+  "function": "question_from_rows",
+  "args": [
+   "x",
+   "k",
+   "noul",
+   [
+    {
+     "id": "1",
+     "state": {
+      "text": "x"
+     },
+     "question": {
+      "type": "noul",
+      "criteria": {},
+      "instructions": "Is it?"
+     }
+    }
+   ],
+   ""
+  ],
+  "notes": [],
+  "output": {
+   "type": "noul",
+   "instructions": "Is it?"
+  }
+ },
+ {
+  "function": "question_from_rows",
+  "args": [
+   "x",
+   "k",
+   "choice",
+   [
+    {
+     "id": "1",
+     "state": {
+      "text": "x"
+     },
+     "question": {
+      "type": "choice",
+      "criteria": {
+       "a": "A thing",
+       "b": "B thing",
+       "c": "C thing"
+      },
+      "instructions": "One."
+     }
+    },
+    {
+     "id": "2",
+     "state": {
+      "text": "x"
+     },
+     "question": {
+      "type": "choice",
+      "criteria": {
+       "a": "A thing",
+       "b": "B thing",
+       "c": "C thing"
+      },
+      "instructions": "Two."
+     }
+    }
+   ],
+   ""
+  ],
+  "notes": [],
+  "exit": "x.k: its test rows use 2 instruction texts; owner decides"
+ },
+ {
+  "function": "question_from_rows",
+  "args": [
+   "x",
+   "k",
+   "choice",
+   [
+    {
+     "id": "1",
+     "state": {
+      "text": "x"
+     },
+     "question": {
+      "type": "choice",
+      "criteria": {
+       "a": "A thing",
+       "b": "B thing",
+       "c": "C thing"
+      }
+     }
+    }
+   ],
+   ""
+  ],
+  "notes": [],
+  "exit": "x.k: 1 test rows (e.g. 1) have no instructions; owner decides"
+ },
+ {
+  "function": "question_from_rows",
+  "args": [
+   "x",
+   "k",
+   "choice",
+   [
+    {
+     "id": "1",
+     "state": {
+      "text": "x"
+     },
+     "question": {
+      "type": "choice",
+      "criteria": {
+       "a": "A"
+      },
+      "instructions": "One."
+     }
+    }
+   ],
+   "`b`"
+  ],
+  "notes": [],
+  "exit": "x.k: jeffhub's options ['b'] differ from the test rows' ['a']"
+ },
+ {
+  "function": "function_of",
+  "args": [
+   "x",
+   {
+    "id": "r:noul",
+    "state": {
+     "text": "x"
+    },
+    "question": {
+     "type": "noul",
+     "criteria": {},
+     "instructions": "Pick one."
+    }
+   },
+   {
+    "attempt": {
+     "type": "noul"
+    },
+    "kind": {
+     "type": "choice"
+    }
+   },
+   "question_type"
+  ],
+  "notes": [],
+  "output": "attempt"
+ },
+ {
+  "function": "function_of",
+  "args": [
+   "x",
+   {
+    "id": "r-kind",
+    "state": {
+     "text": "x"
+    },
+    "question": {
+     "type": "choice",
+     "criteria": {
+      "a": "A thing",
+      "b": "B thing",
+      "c": "C thing"
+     },
+     "instructions": "Pick one."
+    }
+   },
+   {
+    "attempt": {
+     "type": "noul"
+    },
+    "kind": {
+     "type": "choice"
+    }
+   },
+   "id_suffix"
+  ],
+  "notes": [],
+  "output": "kind"
+ },
+ {
+  "function": "function_of",
+  "args": [
+   "x",
+   {
+    "id": "r:attempt",
+    "state": {
+     "text": "x"
+    },
+    "question": {
+     "type": "choice",
+     "criteria": {
+      "a": "A thing",
+      "b": "B thing",
+      "c": "C thing"
+     },
+     "instructions": "Pick one."
+    }
+   },
+   {
+    "attempt": {
+     "type": "noul"
+    },
+    "kind": {
+     "type": "choice"
+    }
+   },
+   "id_suffix"
+  ],
+  "notes": [],
+  "output": "attempt"
+ },
+ {
+  "function": "function_of",
+  "args": [
+   "x",
+   {
+    "id": "r-other",
+    "state": {
+     "text": "x"
+    },
+    "question": {
+     "type": "choice",
+     "criteria": {
+      "a": "A thing",
+      "b": "B thing",
+      "c": "C thing"
+     },
+     "instructions": "Pick one."
+    }
+   },
+   {
+    "attempt": {
+     "type": "noul"
+    },
+    "kind": {
+     "type": "choice"
+    }
+   },
+   "id_suffix"
+  ],
+  "notes": [],
+  "error": "ManifestError",
+  "message": "x: test row id r-other does not end with '-' or ':' and a function key (attempt, kind)"
+ },
+ {
+  "function": "function_of",
+  "args": [
+   "x",
+   {
+    "id": "r",
+    "state": {
+     "text": "x"
+    },
+    "question": {
+     "type": "choice",
+     "criteria": {
+      "a": "A thing",
+      "b": "B thing",
+      "c": "C thing"
+     },
+     "instructions": "Pick one."
+    }
+   },
+   {
+    "only": {
+     "type": "choice"
+    }
+   },
+   "only"
+  ],
+  "notes": [],
+  "output": "only"
+ },
+ {
+  "function": "function_of",
+  "args": [
+   "x",
+   {
+    "id": "r",
+    "state": {
+     "text": "x"
+    },
+    "question": {
+     "type": "choice",
+     "criteria": {
+      "a": "A thing",
+      "b": "B thing",
+      "c": "C thing"
+     },
+     "instructions": "Pick one."
+    }
+   },
+   {
+    "attempt": {
+     "type": "noul"
+    },
+    "kind": {
+     "type": "choice"
+    }
+   },
+   "only"
+  ],
+  "notes": [],
+  "error": "ManifestError",
+  "message": "x: tests.function_by is only, but it has functions ['attempt', 'kind']"
+ }
+]

@@ -1,0 +1,6 @@
+packages:
+  - packages/brand
+  - packages/ui
+  - packages/node
+  - apps/server/ui
+  - apps/hub

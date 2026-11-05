@@ -1,0 +1,21 @@
+# oss-equivalent, v1.4 (RTX /mnt/d/jeff-adapters/v1.4/oss-equivalent, data teamsuzie/jeff-data apps/oss-equivalent).
+path: apps/oss-equivalent
+adapter_path: oss-equivalent
+id: jeff.reasoning.equivalent
+aliases: [oss-equivalent, equivalent]
+version: 1.4.0
+function_by: only
+context:
+  - key: setting
+    description: "Who is asking: a sentence naming the team and organisation."
+  - key: scope
+    description: "What counts when comparing: a sentence saying which details matter (for example every fact, number, date and name)."
+  - key: item_a
+    description: "The first item: a text (a rule, sentence, record or value)."
+input:
+  key: item_b
+  description: "The second item, to compare with item_a within the scope."
+  form: fields
+functions:
+  # classify: fixed answer set yes / no / unclear, not the equivalent interface's match / possible_match / no_match
+  equivalent: {interface: classify, option_order: shuffled}

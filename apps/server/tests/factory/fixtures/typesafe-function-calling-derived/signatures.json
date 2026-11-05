@@ -1,0 +1,344 @@
+{
+ "list_symbols": {},
+ "market_summary": {
+  "window": {
+   "shape": "choice",
+   "members": [
+    "1d",
+    "1w",
+    "1mo",
+    "3mo"
+   ],
+   "default": "1d",
+   "required": false,
+   "stated_question": true
+  }
+ },
+ "plot_price": {
+  "symbol": {
+   "shape": "choice",
+   "members": [
+    "SPY",
+    "NVDA",
+    "AMD",
+    "AAPL",
+    "MSFT",
+    "TSLA"
+   ],
+   "default": null,
+   "required": true,
+   "stated_question": false
+  },
+  "style": {
+   "shape": "choice",
+   "members": [
+    "line",
+    "candles"
+   ],
+   "default": "line",
+   "required": false,
+   "stated_question": true
+  },
+  "resolution": {
+   "shape": "choice",
+   "members": [
+    "1m",
+    "5m",
+    "15m",
+    "1h",
+    "1d"
+   ],
+   "default": "15m",
+   "required": false,
+   "stated_question": true
+  },
+  "window": {
+   "shape": "choice",
+   "members": [
+    "1d",
+    "1w",
+    "1mo",
+    "3mo"
+   ],
+   "default": "1w",
+   "required": false,
+   "stated_question": true
+  },
+  "include_volume": {
+   "shape": "flag",
+   "members": null,
+   "default": false,
+   "required": false,
+   "stated_question": true
+  },
+  "moving_average": {
+   "shape": "choice",
+   "members": [
+    "9",
+    "20",
+    "50"
+   ],
+   "default": null,
+   "required": false,
+   "stated_question": true
+  },
+  "log_scale": {
+   "shape": "flag",
+   "members": null,
+   "default": false,
+   "required": false,
+   "stated_question": true
+  }
+ },
+ "intraday_pattern": {
+  "symbol": {
+   "shape": "choice",
+   "members": [
+    "SPY",
+    "NVDA",
+    "AMD",
+    "AAPL",
+    "MSFT",
+    "TSLA"
+   ],
+   "default": null,
+   "required": true,
+   "stated_question": false
+  },
+  "window": {
+   "shape": "choice",
+   "members": [
+    "1d",
+    "1w",
+    "1mo",
+    "3mo"
+   ],
+   "default": "1mo",
+   "required": false,
+   "stated_question": true
+  },
+  "metric": {
+   "shape": "choice",
+   "members": [
+    "volume",
+    "volatility",
+    "return"
+   ],
+   "default": "volume",
+   "required": false,
+   "stated_question": true
+  }
+ },
+ "compare_returns": {
+  "symbols": {
+   "shape": "set",
+   "members": [
+    "SPY",
+    "NVDA",
+    "AMD",
+    "AAPL",
+    "MSFT",
+    "TSLA"
+   ],
+   "default": null,
+   "required": true,
+   "stated_question": false
+  },
+  "window": {
+   "shape": "choice",
+   "members": [
+    "1d",
+    "1w",
+    "1mo",
+    "3mo"
+   ],
+   "default": "1mo",
+   "required": false,
+   "stated_question": true
+  },
+  "normalize": {
+   "shape": "flag",
+   "members": null,
+   "default": true,
+   "required": false,
+   "stated_question": true
+  }
+ },
+ "rolling_correlation": {
+  "symbol": {
+   "shape": "choice",
+   "members": [
+    "SPY",
+    "NVDA",
+    "AMD",
+    "AAPL",
+    "MSFT",
+    "TSLA"
+   ],
+   "default": null,
+   "required": true,
+   "stated_question": false
+  },
+  "benchmark": {
+   "shape": "choice",
+   "members": [
+    "SPY",
+    "NVDA",
+    "AMD",
+    "AAPL",
+    "MSFT",
+    "TSLA"
+   ],
+   "default": "SPY",
+   "required": false,
+   "stated_question": true
+  },
+  "window": {
+   "shape": "choice",
+   "members": [
+    "1d",
+    "1w",
+    "1mo",
+    "3mo"
+   ],
+   "default": "1mo",
+   "required": false,
+   "stated_question": true
+  },
+  "resolution": {
+   "shape": "choice",
+   "members": [
+    "1m",
+    "5m",
+    "15m",
+    "1h",
+    "1d"
+   ],
+   "default": "1h",
+   "required": false,
+   "stated_question": true
+  }
+ },
+ "summary_stats": {
+  "symbol": {
+   "shape": "choice",
+   "members": [
+    "SPY",
+    "NVDA",
+    "AMD",
+    "AAPL",
+    "MSFT",
+    "TSLA"
+   ],
+   "default": null,
+   "required": true,
+   "stated_question": false
+  },
+  "window": {
+   "shape": "choice",
+   "members": [
+    "1d",
+    "1w",
+    "1mo",
+    "3mo"
+   ],
+   "default": "1mo",
+   "required": false,
+   "stated_question": true
+  }
+ },
+ "volatility": {
+  "symbol": {
+   "shape": "choice",
+   "members": [
+    "SPY",
+    "NVDA",
+    "AMD",
+    "AAPL",
+    "MSFT",
+    "TSLA"
+   ],
+   "default": null,
+   "required": true,
+   "stated_question": false
+  },
+  "window": {
+   "shape": "choice",
+   "members": [
+    "1d",
+    "1w",
+    "1mo",
+    "3mo"
+   ],
+   "default": "1mo",
+   "required": false,
+   "stated_question": true
+  },
+  "annualized": {
+   "shape": "flag",
+   "members": null,
+   "default": true,
+   "required": false,
+   "stated_question": true
+  }
+ },
+ "top_movers": {
+  "window": {
+   "shape": "choice",
+   "members": [
+    "1d",
+    "1w",
+    "1mo",
+    "3mo"
+   ],
+   "default": "1d",
+   "required": false,
+   "stated_question": true
+  },
+  "direction": {
+   "shape": "choice",
+   "members": [
+    "gainers",
+    "losers"
+   ],
+   "default": "gainers",
+   "required": false,
+   "stated_question": false
+  }
+ },
+ "drawdown": {
+  "symbol": {
+   "shape": "choice",
+   "members": [
+    "SPY",
+    "NVDA",
+    "AMD",
+    "AAPL",
+    "MSFT",
+    "TSLA"
+   ],
+   "default": null,
+   "required": true,
+   "stated_question": false
+  },
+  "window": {
+   "shape": "choice",
+   "members": [
+    "1d",
+    "1w",
+    "1mo",
+    "3mo"
+   ],
+   "default": "3mo",
+   "required": false,
+   "stated_question": true
+  },
+  "plot": {
+   "shape": "flag",
+   "members": null,
+   "default": false,
+   "required": false,
+   "stated_question": true
+  }
+ }
+}

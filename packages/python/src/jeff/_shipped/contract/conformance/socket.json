@@ -1,0 +1,1176 @@
+{
+ "description": "Engine socket conversations between the Python SocketEngine and a scripted engine. 'steps' is the conversation seen from the engine: 'client' is a frame the engine read (base64, header included), 'engine' bytes the engine wrote, 'close' the engine closing the connection. 'actions' are what the client was asked to do, in order; consecutive actions marked 'concurrent' were started together, each after the engine had read the previous one's frame. 'rows_generated' stands for one row whose state is a string of that many 'x' characters. 'results' is each action's result, or its error with the socket path written {socket}.",
+ "cases": [
+  {
+   "name": "connect, then a predict",
+   "actions": [
+    {
+     "op": "connect"
+    },
+    {
+     "op": "predict",
+     "adapter": "jeff.safety.spam",
+     "rows": [
+      {
+       "state": {
+        "channel": "sms",
+        "message": "WIN NOW"
+       },
+       "question": {
+        "type": "noul",
+        "instructions": "Spam?"
+       }
+      }
+     ]
+    }
+   ],
+   "steps": [
+    {
+     "client": "AAAAE4Kib3ClaGVsbG+ndmVyc2lvbgI="
+    },
+    {
+     "engine": "AAAAJYOib3ClaGVsbG+ndmVyc2lvbgKwYWRhcHRlcnNfdmVyc2lvbgM="
+    },
+    {
+     "client": "AAAAEoKib3CpaW5zdGFsbGVkomlkAQ=="
+    },
+    {
+     "engine": "AAAAQ4OiaWQBom9rw6ZyZXN1bHSCqGFkYXB0ZXJzkqRiYXNlsGplZmYuc2FmZXR5LnNwYW2wYWRhcHRlcnNfdmVyc2lvbgM="
+    },
+    {
+     "client": "AAAAD4Kib3CmaGVhbHRoomlkAg=="
+    },
+    {
+     "engine": "AAAAp4OiaWQCom9rw6ZyZXN1bHSFpnN0YXR1c6VyZWFkeadiYWNrZW5kpGZha2WoYWRhcHRlcnOSpGJhc2WwamVmZi5zYWZldHkuc3BhbbBhZGFwdGVyc192ZXJzaW9uA6RiYXNlhaJpZKlqZWZmLWJhc2WndmVyc2lvbqR2MS4zqmNoZWNrcG9pbnSkZmFrZattYXhfb3B0aW9uc8z8pmZvcm1hdKRiZjE2"
+    },
+    {
+     "client": "AAAAeoSib3CncHJlZGljdKdhZGFwdGVysGplZmYuc2FmZXR5LnNwYW2kcm93c5GCpXN0YXRlgqdjaGFubmVso3Ntc6dtZXNzYWdlp1dJTiBOT1eocXVlc3Rpb26CpHR5cGWkbm91bKxpbnN0cnVjdGlvbnOlU3BhbT+iaWQD"
+    },
+    {
+     "engine": "AAAAhIOiaWQDom9rw6ZyZXN1bHSErXByb2JhYmlsaXRpZXORkss/0AAAAAAAAMs/6AAAAAAAAKZ0aW1pbmeDpHBhdGikZmFrZahtb2RlbF9tc8s/+AAAAAAAAKZmb3JtYXSkYmYxNrBhZGFwdGVyc192ZXJzaW9uA6xpbnB1dF90b2tlbnORDA=="
+    }
+   ],
+   "results": [
+    {
+     "result": {
+      "base_format": {
+       "format": "bf16"
+      },
+      "base": [
+       "jeff-base",
+       "v1.3"
+      ],
+      "installed": [
+       "base",
+       "jeff.safety.spam"
+      ]
+     }
+    },
+    {
+     "result": {
+      "probabilities": [
+       [
+        0.25,
+        0.75
+       ]
+      ],
+      "timing": {
+       "path": "fake",
+       "model_ms": 1.5,
+       "format": "bf16"
+      },
+      "input_tokens": [
+       12
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "name": "a reply with a new adapters_version makes the client ask for the list",
+   "actions": [
+    {
+     "op": "connect"
+    },
+    {
+     "op": "predict",
+     "adapter": "jeff.safety.spam",
+     "rows": [
+      {
+       "state": {
+        "channel": "sms",
+        "message": "WIN NOW"
+       },
+       "question": {
+        "type": "noul",
+        "instructions": "Spam?"
+       }
+      }
+     ]
+    },
+    {
+     "op": "predict",
+     "adapter": "jeff.safety.spam",
+     "rows": [
+      {
+       "state": {
+        "channel": "sms",
+        "message": "WIN NOW"
+       },
+       "question": {
+        "type": "noul",
+        "instructions": "Spam?"
+       }
+      }
+     ]
+    }
+   ],
+   "steps": [
+    {
+     "client": "AAAAE4Kib3ClaGVsbG+ndmVyc2lvbgI="
+    },
+    {
+     "engine": "AAAAJYOib3ClaGVsbG+ndmVyc2lvbgKwYWRhcHRlcnNfdmVyc2lvbgM="
+    },
+    {
+     "client": "AAAAEoKib3CpaW5zdGFsbGVkomlkAQ=="
+    },
+    {
+     "engine": "AAAAQ4OiaWQBom9rw6ZyZXN1bHSCqGFkYXB0ZXJzkqRiYXNlsGplZmYuc2FmZXR5LnNwYW2wYWRhcHRlcnNfdmVyc2lvbgM="
+    },
+    {
+     "client": "AAAAD4Kib3CmaGVhbHRoomlkAg=="
+    },
+    {
+     "engine": "AAAAp4OiaWQCom9rw6ZyZXN1bHSFpnN0YXR1c6VyZWFkeadiYWNrZW5kpGZha2WoYWRhcHRlcnOSpGJhc2WwamVmZi5zYWZldHkuc3BhbbBhZGFwdGVyc192ZXJzaW9uA6RiYXNlhaJpZKlqZWZmLWJhc2WndmVyc2lvbqR2MS4zqmNoZWNrcG9pbnSkZmFrZattYXhfb3B0aW9uc8z8pmZvcm1hdKRiZjE2"
+    },
+    {
+     "client": "AAAAeoSib3CncHJlZGljdKdhZGFwdGVysGplZmYuc2FmZXR5LnNwYW2kcm93c5GCpXN0YXRlgqdjaGFubmVso3Ntc6dtZXNzYWdlp1dJTiBOT1eocXVlc3Rpb26CpHR5cGWkbm91bKxpbnN0cnVjdGlvbnOlU3BhbT+iaWQD"
+    },
+    {
+     "engine": "AAAAhIOiaWQDom9rw6ZyZXN1bHSErXByb2JhYmlsaXRpZXORkss/0AAAAAAAAMs/6AAAAAAAAKZ0aW1pbmeDpHBhdGikZmFrZahtb2RlbF9tc8s/+AAAAAAAAKZmb3JtYXSkYmYxNrBhZGFwdGVyc192ZXJzaW9uBKxpbnB1dF90b2tlbnORDA=="
+    },
+    {
+     "client": "AAAAEoKib3CpaW5zdGFsbGVkomlkBA=="
+    },
+    {
+     "engine": "AAAAQ4OiaWQEom9rw6ZyZXN1bHSCqGFkYXB0ZXJzkqRiYXNlsGplZmYuc2FmZXR5LnNwYW2wYWRhcHRlcnNfdmVyc2lvbgQ="
+    },
+    {
+     "client": "AAAAeoSib3CncHJlZGljdKdhZGFwdGVysGplZmYuc2FmZXR5LnNwYW2kcm93c5GCpXN0YXRlgqdjaGFubmVso3Ntc6dtZXNzYWdlp1dJTiBOT1eocXVlc3Rpb26CpHR5cGWkbm91bKxpbnN0cnVjdGlvbnOlU3BhbT+iaWQF"
+    },
+    {
+     "engine": "AAAAhIOiaWQFom9rw6ZyZXN1bHSErXByb2JhYmlsaXRpZXORkss/4AAAAAAAAMs/4AAAAAAAAKZ0aW1pbmeDpHBhdGikZmFrZahtb2RlbF9tc8s/+AAAAAAAAKZmb3JtYXSkYmYxNrBhZGFwdGVyc192ZXJzaW9uBKxpbnB1dF90b2tlbnORDA=="
+    }
+   ],
+   "results": [
+    {
+     "result": {
+      "base_format": {
+       "format": "bf16"
+      },
+      "base": [
+       "jeff-base",
+       "v1.3"
+      ],
+      "installed": [
+       "base",
+       "jeff.safety.spam"
+      ]
+     }
+    },
+    {
+     "result": {
+      "probabilities": [
+       [
+        0.25,
+        0.75
+       ]
+      ],
+      "timing": {
+       "path": "fake",
+       "model_ms": 1.5,
+       "format": "bf16"
+      },
+      "input_tokens": [
+       12
+      ]
+     }
+    },
+    {
+     "result": {
+      "probabilities": [
+       [
+        0.5,
+        0.5
+       ]
+      ],
+      "timing": {
+       "path": "fake",
+       "model_ms": 1.5,
+       "format": "bf16"
+      },
+      "input_tokens": [
+       12
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "name": "a failure reply is raised as its error, without adapters_version",
+   "actions": [
+    {
+     "op": "connect"
+    },
+    {
+     "op": "predict",
+     "adapter": "jeff.safety.spam",
+     "rows": [
+      {
+       "state": {
+        "channel": "sms",
+        "message": "WIN NOW"
+       },
+       "question": {
+        "type": "noul",
+        "instructions": "Spam?"
+       }
+      }
+     ]
+    }
+   ],
+   "steps": [
+    {
+     "client": "AAAAE4Kib3ClaGVsbG+ndmVyc2lvbgI="
+    },
+    {
+     "engine": "AAAAJYOib3ClaGVsbG+ndmVyc2lvbgKwYWRhcHRlcnNfdmVyc2lvbgM="
+    },
+    {
+     "client": "AAAAEoKib3CpaW5zdGFsbGVkomlkAQ=="
+    },
+    {
+     "engine": "AAAAQ4OiaWQBom9rw6ZyZXN1bHSCqGFkYXB0ZXJzkqRiYXNlsGplZmYuc2FmZXR5LnNwYW2wYWRhcHRlcnNfdmVyc2lvbgM="
+    },
+    {
+     "client": "AAAAD4Kib3CmaGVhbHRoomlkAg=="
+    },
+    {
+     "engine": "AAAAp4OiaWQCom9rw6ZyZXN1bHSFpnN0YXR1c6VyZWFkeadiYWNrZW5kpGZha2WoYWRhcHRlcnOSpGJhc2WwamVmZi5zYWZldHkuc3BhbbBhZGFwdGVyc192ZXJzaW9uA6RiYXNlhaJpZKlqZWZmLWJhc2WndmVyc2lvbqR2MS4zqmNoZWNrcG9pbnSkZmFrZattYXhfb3B0aW9uc8z8pmZvcm1hdKRiZjE2"
+    },
+    {
+     "client": "AAAAeoSib3CncHJlZGljdKdhZGFwdGVysGplZmYuc2FmZXR5LnNwYW2kcm93c5GCpXN0YXRlgqdjaGFubmVso3Ntc6dtZXNzYWdlp1dJTiBOT1eocXVlc3Rpb26CpHR5cGWkbm91bKxpbnN0cnVjdGlvbnOlU3BhbT+iaWQD"
+    },
+    {
+     "engine": "AAAAbYOiaWQDom9rwqVlcnJvcoOkdHlwZaRCdXN5p21lc3NhZ2W4VGhlIGVuZ2luZSBxdWV1ZSBpcyBmdWxsp2RldGFpbHOCrXJldHJ5X2FmdGVyX3PLQAQAAAAAAACwYWRhcHRlcnNfdmVyc2lvbgM="
+    }
+   ],
+   "results": [
+    {
+     "result": {
+      "base_format": {
+       "format": "bf16"
+      },
+      "base": [
+       "jeff-base",
+       "v1.3"
+      ],
+      "installed": [
+       "base",
+       "jeff.safety.spam"
+      ]
+     }
+    },
+    {
+     "error": {
+      "type": "Busy",
+      "message": "The engine queue is full"
+     }
+    }
+   ]
+  },
+  {
+   "name": "replies may come in any order, matched by id",
+   "actions": [
+    {
+     "op": "connect"
+    },
+    {
+     "op": "predict",
+     "adapter": "jeff.safety.spam",
+     "rows": [
+      {
+       "state": {
+        "channel": "sms",
+        "message": "WIN NOW"
+       },
+       "question": {
+        "type": "noul",
+        "instructions": "Spam?"
+       }
+      }
+     ],
+     "concurrent": true
+    },
+    {
+     "op": "predict",
+     "adapter": "jeff.safety.spam",
+     "rows": [
+      {
+       "state": {
+        "channel": "email",
+        "message": "Lunch at noon?"
+       },
+       "question": {
+        "type": "noul",
+        "instructions": "Spam?"
+       }
+      }
+     ],
+     "concurrent": true
+    }
+   ],
+   "steps": [
+    {
+     "client": "AAAAE4Kib3ClaGVsbG+ndmVyc2lvbgI="
+    },
+    {
+     "engine": "AAAAJYOib3ClaGVsbG+ndmVyc2lvbgKwYWRhcHRlcnNfdmVyc2lvbgM="
+    },
+    {
+     "client": "AAAAEoKib3CpaW5zdGFsbGVkomlkAQ=="
+    },
+    {
+     "engine": "AAAAQ4OiaWQBom9rw6ZyZXN1bHSCqGFkYXB0ZXJzkqRiYXNlsGplZmYuc2FmZXR5LnNwYW2wYWRhcHRlcnNfdmVyc2lvbgM="
+    },
+    {
+     "client": "AAAAD4Kib3CmaGVhbHRoomlkAg=="
+    },
+    {
+     "engine": "AAAAp4OiaWQCom9rw6ZyZXN1bHSFpnN0YXR1c6VyZWFkeadiYWNrZW5kpGZha2WoYWRhcHRlcnOSpGJhc2WwamVmZi5zYWZldHkuc3BhbbBhZGFwdGVyc192ZXJzaW9uA6RiYXNlhaJpZKlqZWZmLWJhc2WndmVyc2lvbqR2MS4zqmNoZWNrcG9pbnSkZmFrZattYXhfb3B0aW9uc8z8pmZvcm1hdKRiZjE2"
+    },
+    {
+     "client": "AAAAeoSib3CncHJlZGljdKdhZGFwdGVysGplZmYuc2FmZXR5LnNwYW2kcm93c5GCpXN0YXRlgqdjaGFubmVso3Ntc6dtZXNzYWdlp1dJTiBOT1eocXVlc3Rpb26CpHR5cGWkbm91bKxpbnN0cnVjdGlvbnOlU3BhbT+iaWQD"
+    },
+    {
+     "client": "AAAAg4Sib3CncHJlZGljdKdhZGFwdGVysGplZmYuc2FmZXR5LnNwYW2kcm93c5GCpXN0YXRlgqdjaGFubmVspWVtYWlsp21lc3NhZ2WuTHVuY2ggYXQgbm9vbj+ocXVlc3Rpb26CpHR5cGWkbm91bKxpbnN0cnVjdGlvbnOlU3BhbT+iaWQE"
+    },
+    {
+     "engine": "AAAAhIOiaWQEom9rw6ZyZXN1bHSErXByb2JhYmlsaXRpZXORkss/7MzMzMzMzcs/uZmZmZmZmqZ0aW1pbmeDpHBhdGikZmFrZahtb2RlbF9tc8s/+AAAAAAAAKZmb3JtYXSkYmYxNrBhZGFwdGVyc192ZXJzaW9uA6xpbnB1dF90b2tlbnORDA=="
+    },
+    {
+     "engine": "AAAAhIOiaWQDom9rw6ZyZXN1bHSErXByb2JhYmlsaXRpZXORkss/yZmZmZmZmss/6ZmZmZmZmqZ0aW1pbmeDpHBhdGikZmFrZahtb2RlbF9tc8s/+AAAAAAAAKZmb3JtYXSkYmYxNrBhZGFwdGVyc192ZXJzaW9uA6xpbnB1dF90b2tlbnORDA=="
+    }
+   ],
+   "results": [
+    {
+     "result": {
+      "base_format": {
+       "format": "bf16"
+      },
+      "base": [
+       "jeff-base",
+       "v1.3"
+      ],
+      "installed": [
+       "base",
+       "jeff.safety.spam"
+      ]
+     }
+    },
+    {
+     "result": {
+      "probabilities": [
+       [
+        0.2,
+        0.8
+       ]
+      ],
+      "timing": {
+       "path": "fake",
+       "model_ms": 1.5,
+       "format": "bf16"
+      },
+      "input_tokens": [
+       12
+      ]
+     }
+    },
+    {
+     "result": {
+      "probabilities": [
+       [
+        0.9,
+        0.1
+       ]
+      ],
+      "timing": {
+       "path": "fake",
+       "model_ms": 1.5,
+       "format": "bf16"
+      },
+      "input_tokens": [
+       12
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "name": "an engine speaking another protocol version is refused at hello",
+   "actions": [
+    {
+     "op": "connect"
+    }
+   ],
+   "steps": [
+    {
+     "client": "AAAAE4Kib3ClaGVsbG+ndmVyc2lvbgI="
+    },
+    {
+     "engine": "AAAAJYOib3ClaGVsbG+ndmVyc2lvbgGwYWRhcHRlcnNfdmVyc2lvbgM="
+    }
+   ],
+   "results": [
+    {
+     "error": {
+      "type": "ProtocolMismatch",
+      "message": "This side speaks protocol 2, the other side 1; upgrade the older one"
+     }
+    }
+   ]
+  },
+  {
+   "name": "a frame header over 64 MiB fails the waiting call",
+   "actions": [
+    {
+     "op": "connect"
+    },
+    {
+     "op": "predict",
+     "adapter": "jeff.safety.spam",
+     "rows": [
+      {
+       "state": {
+        "channel": "sms",
+        "message": "WIN NOW"
+       },
+       "question": {
+        "type": "noul",
+        "instructions": "Spam?"
+       }
+      }
+     ]
+    }
+   ],
+   "steps": [
+    {
+     "client": "AAAAE4Kib3ClaGVsbG+ndmVyc2lvbgI="
+    },
+    {
+     "engine": "AAAAJYOib3ClaGVsbG+ndmVyc2lvbgKwYWRhcHRlcnNfdmVyc2lvbgM="
+    },
+    {
+     "client": "AAAAEoKib3CpaW5zdGFsbGVkomlkAQ=="
+    },
+    {
+     "engine": "AAAAQ4OiaWQBom9rw6ZyZXN1bHSCqGFkYXB0ZXJzkqRiYXNlsGplZmYuc2FmZXR5LnNwYW2wYWRhcHRlcnNfdmVyc2lvbgM="
+    },
+    {
+     "client": "AAAAD4Kib3CmaGVhbHRoomlkAg=="
+    },
+    {
+     "engine": "AAAAp4OiaWQCom9rw6ZyZXN1bHSFpnN0YXR1c6VyZWFkeadiYWNrZW5kpGZha2WoYWRhcHRlcnOSpGJhc2WwamVmZi5zYWZldHkuc3BhbbBhZGFwdGVyc192ZXJzaW9uA6RiYXNlhaJpZKlqZWZmLWJhc2WndmVyc2lvbqR2MS4zqmNoZWNrcG9pbnSkZmFrZattYXhfb3B0aW9uc8z8pmZvcm1hdKRiZjE2"
+    },
+    {
+     "client": "AAAAeoSib3CncHJlZGljdKdhZGFwdGVysGplZmYuc2FmZXR5LnNwYW2kcm93c5GCpXN0YXRlgqdjaGFubmVso3Ntc6dtZXNzYWdlp1dJTiBOT1eocXVlc3Rpb26CpHR5cGWkbm91bKxpbnN0cnVjdGlvbnOlU3BhbT+iaWQD"
+    },
+    {
+     "engine": "BAAAAQ=="
+    }
+   ],
+   "results": [
+    {
+     "result": {
+      "base_format": {
+       "format": "bf16"
+      },
+      "base": [
+       "jeff-base",
+       "v1.3"
+      ],
+      "installed": [
+       "base",
+       "jeff.safety.spam"
+      ]
+     }
+    },
+    {
+     "error": {
+      "type": "EngineError",
+      "message": "The engine socket to {socket} failed: InvalidRequest: Socket frame of 67108865 bytes is over the 64 MiB limit"
+     }
+    }
+   ]
+  },
+  {
+   "name": "a failure with id 0 fails every waiting call",
+   "actions": [
+    {
+     "op": "connect"
+    },
+    {
+     "op": "predict",
+     "adapter": "jeff.safety.spam",
+     "rows": [
+      {
+       "state": {
+        "channel": "sms",
+        "message": "WIN NOW"
+       },
+       "question": {
+        "type": "noul",
+        "instructions": "Spam?"
+       }
+      }
+     ]
+    }
+   ],
+   "steps": [
+    {
+     "client": "AAAAE4Kib3ClaGVsbG+ndmVyc2lvbgI="
+    },
+    {
+     "engine": "AAAAJYOib3ClaGVsbG+ndmVyc2lvbgKwYWRhcHRlcnNfdmVyc2lvbgM="
+    },
+    {
+     "client": "AAAAEoKib3CpaW5zdGFsbGVkomlkAQ=="
+    },
+    {
+     "engine": "AAAAQ4OiaWQBom9rw6ZyZXN1bHSCqGFkYXB0ZXJzkqRiYXNlsGplZmYuc2FmZXR5LnNwYW2wYWRhcHRlcnNfdmVyc2lvbgM="
+    },
+    {
+     "client": "AAAAD4Kib3CmaGVhbHRoomlkAg=="
+    },
+    {
+     "engine": "AAAAp4OiaWQCom9rw6ZyZXN1bHSFpnN0YXR1c6VyZWFkeadiYWNrZW5kpGZha2WoYWRhcHRlcnOSpGJhc2WwamVmZi5zYWZldHkuc3BhbbBhZGFwdGVyc192ZXJzaW9uA6RiYXNlhaJpZKlqZWZmLWJhc2WndmVyc2lvbqR2MS4zqmNoZWNrcG9pbnSkZmFrZattYXhfb3B0aW9uc8z8pmZvcm1hdKRiZjE2"
+    },
+    {
+     "client": "AAAAeoSib3CncHJlZGljdKdhZGFwdGVysGplZmYuc2FmZXR5LnNwYW2kcm93c5GCpXN0YXRlgqdjaGFubmVso3Ntc6dtZXNzYWdlp1dJTiBOT1eocXVlc3Rpb26CpHR5cGWkbm91bKxpbnN0cnVjdGlvbnOlU3BhbT+iaWQD"
+    },
+    {
+     "engine": "AAAAX4OiaWQAom9rwqVlcnJvcoOkdHlwZa5JbnZhbGlkUmVxdWVzdKdtZXNzYWdlt0ZyYW1lIGNvdWxkIG5vdCBiZSByZWFkp2RldGFpbHOBsGFkYXB0ZXJzX3ZlcnNpb24D"
+    }
+   ],
+   "results": [
+    {
+     "result": {
+      "base_format": {
+       "format": "bf16"
+      },
+      "base": [
+       "jeff-base",
+       "v1.3"
+      ],
+      "installed": [
+       "base",
+       "jeff.safety.spam"
+      ]
+     }
+    },
+    {
+     "error": {
+      "type": "InvalidRequest",
+      "message": "Frame could not be read"
+     }
+    }
+   ]
+  },
+  {
+   "name": "the engine closing the connection fails the waiting call",
+   "actions": [
+    {
+     "op": "connect"
+    },
+    {
+     "op": "predict",
+     "adapter": "jeff.safety.spam",
+     "rows": [
+      {
+       "state": {
+        "channel": "sms",
+        "message": "WIN NOW"
+       },
+       "question": {
+        "type": "noul",
+        "instructions": "Spam?"
+       }
+      }
+     ]
+    }
+   ],
+   "steps": [
+    {
+     "client": "AAAAE4Kib3ClaGVsbG+ndmVyc2lvbgI="
+    },
+    {
+     "engine": "AAAAJYOib3ClaGVsbG+ndmVyc2lvbgKwYWRhcHRlcnNfdmVyc2lvbgM="
+    },
+    {
+     "client": "AAAAEoKib3CpaW5zdGFsbGVkomlkAQ=="
+    },
+    {
+     "engine": "AAAAQ4OiaWQBom9rw6ZyZXN1bHSCqGFkYXB0ZXJzkqRiYXNlsGplZmYuc2FmZXR5LnNwYW2wYWRhcHRlcnNfdmVyc2lvbgM="
+    },
+    {
+     "client": "AAAAD4Kib3CmaGVhbHRoomlkAg=="
+    },
+    {
+     "engine": "AAAAp4OiaWQCom9rw6ZyZXN1bHSFpnN0YXR1c6VyZWFkeadiYWNrZW5kpGZha2WoYWRhcHRlcnOSpGJhc2WwamVmZi5zYWZldHkuc3BhbbBhZGFwdGVyc192ZXJzaW9uA6RiYXNlhaJpZKlqZWZmLWJhc2WndmVyc2lvbqR2MS4zqmNoZWNrcG9pbnSkZmFrZattYXhfb3B0aW9uc8z8pmZvcm1hdKRiZjE2"
+    },
+    {
+     "client": "AAAAeoSib3CncHJlZGljdKdhZGFwdGVysGplZmYuc2FmZXR5LnNwYW2kcm93c5GCpXN0YXRlgqdjaGFubmVso3Ntc6dtZXNzYWdlp1dJTiBOT1eocXVlc3Rpb26CpHR5cGWkbm91bKxpbnN0cnVjdGlvbnOlU3BhbT+iaWQD"
+    },
+    {
+     "close": true
+    }
+   ],
+   "results": [
+    {
+     "result": {
+      "base_format": {
+       "format": "bf16"
+      },
+      "base": [
+       "jeff-base",
+       "v1.3"
+      ],
+      "installed": [
+       "base",
+       "jeff.safety.spam"
+      ]
+     }
+    },
+    {
+     "error": {
+      "type": "EngineError",
+      "message": "The engine at {socket} closed the connection"
+     }
+    }
+   ]
+  },
+  {
+   "name": "deadline_ms travels in the predict",
+   "actions": [
+    {
+     "op": "connect"
+    },
+    {
+     "op": "predict",
+     "adapter": "jeff.safety.spam",
+     "rows": [
+      {
+       "state": {
+        "channel": "sms",
+        "message": "WIN NOW"
+       },
+       "question": {
+        "type": "noul",
+        "instructions": "Spam?"
+       }
+      }
+     ],
+     "deadline_ms": 250
+    }
+   ],
+   "steps": [
+    {
+     "client": "AAAAE4Kib3ClaGVsbG+ndmVyc2lvbgI="
+    },
+    {
+     "engine": "AAAAJYOib3ClaGVsbG+ndmVyc2lvbgKwYWRhcHRlcnNfdmVyc2lvbgM="
+    },
+    {
+     "client": "AAAAEoKib3CpaW5zdGFsbGVkomlkAQ=="
+    },
+    {
+     "engine": "AAAAQ4OiaWQBom9rw6ZyZXN1bHSCqGFkYXB0ZXJzkqRiYXNlsGplZmYuc2FmZXR5LnNwYW2wYWRhcHRlcnNfdmVyc2lvbgM="
+    },
+    {
+     "client": "AAAAD4Kib3CmaGVhbHRoomlkAg=="
+    },
+    {
+     "engine": "AAAAp4OiaWQCom9rw6ZyZXN1bHSFpnN0YXR1c6VyZWFkeadiYWNrZW5kpGZha2WoYWRhcHRlcnOSpGJhc2WwamVmZi5zYWZldHkuc3BhbbBhZGFwdGVyc192ZXJzaW9uA6RiYXNlhaJpZKlqZWZmLWJhc2WndmVyc2lvbqR2MS4zqmNoZWNrcG9pbnSkZmFrZattYXhfb3B0aW9uc8z8pmZvcm1hdKRiZjE2"
+    },
+    {
+     "client": "AAAAiIWib3CncHJlZGljdKdhZGFwdGVysGplZmYuc2FmZXR5LnNwYW2kcm93c5GCpXN0YXRlgqdjaGFubmVso3Ntc6dtZXNzYWdlp1dJTiBOT1eocXVlc3Rpb26CpHR5cGWkbm91bKxpbnN0cnVjdGlvbnOlU3BhbT+rZGVhZGxpbmVfbXPM+qJpZAM="
+    },
+    {
+     "engine": "AAAAhIOiaWQDom9rw6ZyZXN1bHSErXByb2JhYmlsaXRpZXORkss/0AAAAAAAAMs/6AAAAAAAAKZ0aW1pbmeDpHBhdGikZmFrZahtb2RlbF9tc8s/+AAAAAAAAKZmb3JtYXSkYmYxNrBhZGFwdGVyc192ZXJzaW9uA6xpbnB1dF90b2tlbnORDA=="
+    }
+   ],
+   "results": [
+    {
+     "result": {
+      "base_format": {
+       "format": "bf16"
+      },
+      "base": [
+       "jeff-base",
+       "v1.3"
+      ],
+      "installed": [
+       "base",
+       "jeff.safety.spam"
+      ]
+     }
+    },
+    {
+     "result": {
+      "probabilities": [
+       [
+        0.25,
+        0.75
+       ]
+      ],
+      "timing": {
+       "path": "fake",
+       "model_ms": 1.5,
+       "format": "bf16"
+      },
+      "input_tokens": [
+       12
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "name": "an unknown error type becomes EngineError",
+   "actions": [
+    {
+     "op": "connect"
+    },
+    {
+     "op": "predict",
+     "adapter": "jeff.safety.spam",
+     "rows": [
+      {
+       "state": {
+        "channel": "sms",
+        "message": "WIN NOW"
+       },
+       "question": {
+        "type": "noul",
+        "instructions": "Spam?"
+       }
+      }
+     ]
+    }
+   ],
+   "steps": [
+    {
+     "client": "AAAAE4Kib3ClaGVsbG+ndmVyc2lvbgI="
+    },
+    {
+     "engine": "AAAAJYOib3ClaGVsbG+ndmVyc2lvbgKwYWRhcHRlcnNfdmVyc2lvbgM="
+    },
+    {
+     "client": "AAAAEoKib3CpaW5zdGFsbGVkomlkAQ=="
+    },
+    {
+     "engine": "AAAAQ4OiaWQBom9rw6ZyZXN1bHSCqGFkYXB0ZXJzkqRiYXNlsGplZmYuc2FmZXR5LnNwYW2wYWRhcHRlcnNfdmVyc2lvbgM="
+    },
+    {
+     "client": "AAAAD4Kib3CmaGVhbHRoomlkAg=="
+    },
+    {
+     "engine": "AAAAp4OiaWQCom9rw6ZyZXN1bHSFpnN0YXR1c6VyZWFkeadiYWNrZW5kpGZha2WoYWRhcHRlcnOSpGJhc2WwamVmZi5zYWZldHkuc3BhbbBhZGFwdGVyc192ZXJzaW9uA6RiYXNlhaJpZKlqZWZmLWJhc2WndmVyc2lvbqR2MS4zqmNoZWNrcG9pbnSkZmFrZattYXhfb3B0aW9uc8z8pmZvcm1hdKRiZjE2"
+    },
+    {
+     "client": "AAAAeoSib3CncHJlZGljdKdhZGFwdGVysGplZmYuc2FmZXR5LnNwYW2kcm93c5GCpXN0YXRlgqdjaGFubmVso3Ntc6dtZXNzYWdlp1dJTiBOT1eocXVlc3Rpb26CpHR5cGWkbm91bKxpbnN0cnVjdGlvbnOlU3BhbT+iaWQD"
+    },
+    {
+     "engine": "AAAATIOiaWQDom9rwqVlcnJvcoOkdHlwZaVXZWlyZKdtZXNzYWdlrVNvbWV0aGluZyBvZGSnZGV0YWlsc4GwYWRhcHRlcnNfdmVyc2lvbgM="
+    }
+   ],
+   "results": [
+    {
+     "result": {
+      "base_format": {
+       "format": "bf16"
+      },
+      "base": [
+       "jeff-base",
+       "v1.3"
+      ],
+      "installed": [
+       "base",
+       "jeff.safety.spam"
+      ]
+     }
+    },
+    {
+     "error": {
+      "type": "EngineError",
+      "message": "unknown error type 'Weird' from the engine: Something odd"
+     }
+    }
+   ]
+  },
+  {
+   "name": "an INT4 base is read from the health at connect",
+   "actions": [
+    {
+     "op": "connect"
+    }
+   ],
+   "steps": [
+    {
+     "client": "AAAAE4Kib3ClaGVsbG+ndmVyc2lvbgI="
+    },
+    {
+     "engine": "AAAAJYOib3ClaGVsbG+ndmVyc2lvbgKwYWRhcHRlcnNfdmVyc2lvbgM="
+    },
+    {
+     "client": "AAAAEoKib3CpaW5zdGFsbGVkomlkAQ=="
+    },
+    {
+     "engine": "AAAAQ4OiaWQBom9rw6ZyZXN1bHSCqGFkYXB0ZXJzkqRiYXNlsGplZmYuc2FmZXR5LnNwYW2wYWRhcHRlcnNfdmVyc2lvbgM="
+    },
+    {
+     "client": "AAAAD4Kib3CmaGVhbHRoomlkAg=="
+    },
+    {
+     "engine": "AAAA3IOiaWQCom9rw6ZyZXN1bHSFpnN0YXR1c6VyZWFkeadiYWNrZW5kpGZha2WoYWRhcHRlcnOSpGJhc2WwamVmZi5zYWZldHkuc3BhbbBhZGFwdGVyc192ZXJzaW9uA6RiYXNlhqJpZKlqZWZmLWJhc2WndmVyc2lvbqR2MS4zqmNoZWNrcG9pbnSkZmFrZattYXhfb3B0aW9uc8z8pmZvcm1hdKhpbnQ0LWc2NKlmb3JtYXRfaWTZJWplZmYtYmFzZUB2MS4zK2ludDQtZzY0LWdwdHEuYzBmZmVlMDA="
+    }
+   ],
+   "results": [
+    {
+     "result": {
+      "base_format": {
+       "format": "int4-g64",
+       "format_id": "jeff-base@v1.3+int4-g64-gptq.c0ffee00"
+      },
+      "base": [
+       "jeff-base",
+       "v1.3"
+      ],
+      "installed": [
+       "base",
+       "jeff.safety.spam"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "name": "a message over 64 MiB is refused before it is sent",
+   "actions": [
+    {
+     "op": "connect"
+    },
+    {
+     "op": "predict",
+     "adapter": "jeff.safety.spam",
+     "rows_generated": {
+      "state_length": 67108864,
+      "question": {
+       "type": "noul",
+       "instructions": "Spam?"
+      }
+     }
+    }
+   ],
+   "steps": [
+    {
+     "client": "AAAAE4Kib3ClaGVsbG+ndmVyc2lvbgI="
+    },
+    {
+     "engine": "AAAAJYOib3ClaGVsbG+ndmVyc2lvbgKwYWRhcHRlcnNfdmVyc2lvbgM="
+    },
+    {
+     "client": "AAAAEoKib3CpaW5zdGFsbGVkomlkAQ=="
+    },
+    {
+     "engine": "AAAAQ4OiaWQBom9rw6ZyZXN1bHSCqGFkYXB0ZXJzkqRiYXNlsGplZmYuc2FmZXR5LnNwYW2wYWRhcHRlcnNfdmVyc2lvbgM="
+    },
+    {
+     "client": "AAAAD4Kib3CmaGVhbHRoomlkAg=="
+    },
+    {
+     "engine": "AAAAp4OiaWQCom9rw6ZyZXN1bHSFpnN0YXR1c6VyZWFkeadiYWNrZW5kpGZha2WoYWRhcHRlcnOSpGJhc2WwamVmZi5zYWZldHkuc3BhbbBhZGFwdGVyc192ZXJzaW9uA6RiYXNlhaJpZKlqZWZmLWJhc2WndmVyc2lvbqR2MS4zqmNoZWNrcG9pbnSkZmFrZattYXhfb3B0aW9uc8z8pmZvcm1hdKRiZjE2"
+    }
+   ],
+   "results": [
+    {
+     "result": {
+      "base_format": {
+       "format": "bf16"
+      },
+      "base": [
+       "jeff-base",
+       "v1.3"
+      ],
+      "installed": [
+       "base",
+       "jeff.safety.spam"
+      ]
+     }
+    },
+    {
+     "error": {
+      "type": "InvalidRequest",
+      "message": "Socket message of 67108962 bytes is over the 64 MiB limit"
+     }
+    }
+   ]
+  },
+  {
+   "name": "installed with refresh, then health",
+   "actions": [
+    {
+     "op": "connect"
+    },
+    {
+     "op": "installed"
+    },
+    {
+     "op": "health"
+    }
+   ],
+   "steps": [
+    {
+     "client": "AAAAE4Kib3ClaGVsbG+ndmVyc2lvbgI="
+    },
+    {
+     "engine": "AAAAJYOib3ClaGVsbG+ndmVyc2lvbgKwYWRhcHRlcnNfdmVyc2lvbgM="
+    },
+    {
+     "client": "AAAAEoKib3CpaW5zdGFsbGVkomlkAQ=="
+    },
+    {
+     "engine": "AAAAQ4OiaWQBom9rw6ZyZXN1bHSCqGFkYXB0ZXJzkqRiYXNlsGplZmYuc2FmZXR5LnNwYW2wYWRhcHRlcnNfdmVyc2lvbgM="
+    },
+    {
+     "client": "AAAAD4Kib3CmaGVhbHRoomlkAg=="
+    },
+    {
+     "engine": "AAAAp4OiaWQCom9rw6ZyZXN1bHSFpnN0YXR1c6VyZWFkeadiYWNrZW5kpGZha2WoYWRhcHRlcnOSpGJhc2WwamVmZi5zYWZldHkuc3BhbbBhZGFwdGVyc192ZXJzaW9uA6RiYXNlhaJpZKlqZWZmLWJhc2WndmVyc2lvbqR2MS4zqmNoZWNrcG9pbnSkZmFrZattYXhfb3B0aW9uc8z8pmZvcm1hdKRiZjE2"
+    },
+    {
+     "client": "AAAAEoKib3CpaW5zdGFsbGVkomlkAw=="
+    },
+    {
+     "engine": "AAAAQ4OiaWQDom9rw6ZyZXN1bHSCqGFkYXB0ZXJzkqRiYXNlsGplZmYuc2FmZXR5LnNwYW2wYWRhcHRlcnNfdmVyc2lvbgM="
+    },
+    {
+     "client": "AAAAD4Kib3CmaGVhbHRoomlkBA=="
+    },
+    {
+     "engine": "AAAAp4OiaWQEom9rw6ZyZXN1bHSFpnN0YXR1c6VyZWFkeadiYWNrZW5kpGZha2WoYWRhcHRlcnOSpGJhc2WwamVmZi5zYWZldHkuc3BhbbBhZGFwdGVyc192ZXJzaW9uA6RiYXNlhaJpZKlqZWZmLWJhc2WndmVyc2lvbqR2MS4zqmNoZWNrcG9pbnSkZmFrZattYXhfb3B0aW9uc8z8pmZvcm1hdKRiZjE2"
+    }
+   ],
+   "results": [
+    {
+     "result": {
+      "base_format": {
+       "format": "bf16"
+      },
+      "base": [
+       "jeff-base",
+       "v1.3"
+      ],
+      "installed": [
+       "base",
+       "jeff.safety.spam"
+      ]
+     }
+    },
+    {
+     "result": {
+      "installed": [
+       "base",
+       "jeff.safety.spam"
+      ]
+     }
+    },
+    {
+     "result": {
+      "status": "ready",
+      "backend": "fake",
+      "adapters": [
+       "base",
+       "jeff.safety.spam"
+      ],
+      "adapters_version": 3,
+      "base": {
+       "id": "jeff-base",
+       "version": "v1.3",
+       "checkpoint": "fake",
+       "max_options": 252,
+       "format": "bf16"
+      }
+     }
+    }
+   ]
+  },
+  {
+   "name": "a predict reply without input_tokens",
+   "actions": [
+    {
+     "op": "connect"
+    },
+    {
+     "op": "predict",
+     "adapter": "jeff.safety.spam",
+     "rows": [
+      {
+       "state": {
+        "channel": "sms",
+        "message": "WIN NOW"
+       },
+       "question": {
+        "type": "noul",
+        "instructions": "Spam?"
+       }
+      }
+     ]
+    }
+   ],
+   "steps": [
+    {
+     "client": "AAAAE4Kib3ClaGVsbG+ndmVyc2lvbgI="
+    },
+    {
+     "engine": "AAAAJYOib3ClaGVsbG+ndmVyc2lvbgKwYWRhcHRlcnNfdmVyc2lvbgM="
+    },
+    {
+     "client": "AAAAEoKib3CpaW5zdGFsbGVkomlkAQ=="
+    },
+    {
+     "engine": "AAAAQ4OiaWQBom9rw6ZyZXN1bHSCqGFkYXB0ZXJzkqRiYXNlsGplZmYuc2FmZXR5LnNwYW2wYWRhcHRlcnNfdmVyc2lvbgM="
+    },
+    {
+     "client": "AAAAD4Kib3CmaGVhbHRoomlkAg=="
+    },
+    {
+     "engine": "AAAAp4OiaWQCom9rw6ZyZXN1bHSFpnN0YXR1c6VyZWFkeadiYWNrZW5kpGZha2WoYWRhcHRlcnOSpGJhc2WwamVmZi5zYWZldHkuc3BhbbBhZGFwdGVyc192ZXJzaW9uA6RiYXNlhaJpZKlqZWZmLWJhc2WndmVyc2lvbqR2MS4zqmNoZWNrcG9pbnSkZmFrZattYXhfb3B0aW9uc8z8pmZvcm1hdKRiZjE2"
+    },
+    {
+     "client": "AAAAeoSib3CncHJlZGljdKdhZGFwdGVysGplZmYuc2FmZXR5LnNwYW2kcm93c5GCpXN0YXRlgqdjaGFubmVso3Ntc6dtZXNzYWdlp1dJTiBOT1eocXVlc3Rpb26CpHR5cGWkbm91bKxpbnN0cnVjdGlvbnOlU3BhbT+iaWQD"
+    },
+    {
+     "engine": "AAAAdYOiaWQDom9rw6ZyZXN1bHSDrXByb2JhYmlsaXRpZXORkss/0AAAAAAAAMs/6AAAAAAAAKZ0aW1pbmeDpHBhdGikZmFrZahtb2RlbF9tc8s/+AAAAAAAAKZmb3JtYXSkYmYxNrBhZGFwdGVyc192ZXJzaW9uAw=="
+    }
+   ],
+   "results": [
+    {
+     "result": {
+      "base_format": {
+       "format": "bf16"
+      },
+      "base": [
+       "jeff-base",
+       "v1.3"
+      ],
+      "installed": [
+       "base",
+       "jeff.safety.spam"
+      ]
+     }
+    },
+    {
+     "result": {
+      "probabilities": [
+       [
+        0.25,
+        0.75
+       ]
+      ],
+      "timing": {
+       "path": "fake",
+       "model_ms": 1.5,
+       "format": "bf16"
+      },
+      "input_tokens": null
+     }
+    }
+   ]
+  },
+  {
+   "name": "a reply without adapters_version is refused",
+   "actions": [
+    {
+     "op": "connect"
+    },
+    {
+     "op": "predict",
+     "adapter": "jeff.safety.spam",
+     "rows": [
+      {
+       "state": {
+        "channel": "sms",
+        "message": "WIN NOW"
+       },
+       "question": {
+        "type": "noul",
+        "instructions": "Spam?"
+       }
+      }
+     ]
+    }
+   ],
+   "steps": [
+    {
+     "client": "AAAAE4Kib3ClaGVsbG+ndmVyc2lvbgI="
+    },
+    {
+     "engine": "AAAAJYOib3ClaGVsbG+ndmVyc2lvbgKwYWRhcHRlcnNfdmVyc2lvbgM="
+    },
+    {
+     "client": "AAAAEoKib3CpaW5zdGFsbGVkomlkAQ=="
+    },
+    {
+     "engine": "AAAAQ4OiaWQBom9rw6ZyZXN1bHSCqGFkYXB0ZXJzkqRiYXNlsGplZmYuc2FmZXR5LnNwYW2wYWRhcHRlcnNfdmVyc2lvbgM="
+    },
+    {
+     "client": "AAAAD4Kib3CmaGVhbHRoomlkAg=="
+    },
+    {
+     "engine": "AAAAp4OiaWQCom9rw6ZyZXN1bHSFpnN0YXR1c6VyZWFkeadiYWNrZW5kpGZha2WoYWRhcHRlcnOSpGJhc2WwamVmZi5zYWZldHkuc3BhbbBhZGFwdGVyc192ZXJzaW9uA6RiYXNlhaJpZKlqZWZmLWJhc2WndmVyc2lvbqR2MS4zqmNoZWNrcG9pbnSkZmFrZattYXhfb3B0aW9uc8z8pmZvcm1hdKRiZjE2"
+    },
+    {
+     "client": "AAAAeoSib3CncHJlZGljdKdhZGFwdGVysGplZmYuc2FmZXR5LnNwYW2kcm93c5GCpXN0YXRlgqdjaGFubmVso3Ntc6dtZXNzYWdlp1dJTiBOT1eocXVlc3Rpb26CpHR5cGWkbm91bKxpbnN0cnVjdGlvbnOlU3BhbT+iaWQD"
+    },
+    {
+     "engine": "AAAARYOiaWQDom9rw6ZyZXN1bHSCrXByb2JhYmlsaXRpZXORkss/0AAAAAAAAMs/6AAAAAAAAKZ0aW1pbmeBpHBhdGikZmFrZQ=="
+    }
+   ],
+   "results": [
+    {
+     "result": {
+      "base_format": {
+       "format": "bf16"
+      },
+      "base": [
+       "jeff-base",
+       "v1.3"
+      ],
+      "installed": [
+       "base",
+       "jeff.safety.spam"
+      ]
+     }
+    },
+    {
+     "error": {
+      "type": "EngineError",
+      "message": "The engine at {socket} answered 'predict' without an adapters_version; every reply must carry one (contract/socket.md)"
+     }
+    }
+   ]
+  }
+ ]
+}

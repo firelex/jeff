@@ -1,0 +1,34 @@
+# The automated trading desk, v1.4 (RTX /mnt/d/jeff-adapters/v1.4/trading-desk, data teamsuzie/jeff-data apps/trading-desk).
+# Same ID, keys and interfaces as the v1.3 catalogue manifest jeff.finance.trading-desk.
+path: apps/trading-desk
+adapter_path: trading-desk
+id: jeff.finance.trading-desk
+aliases: [trading-desk]
+version: 1.4.0
+function_by: id_suffix
+context:
+  - key: desk
+    description: >-
+      The desk definition: strategy and entry rule, clip size, position limit, spread and cut-off filters, order
+      handling, risk-off triggers, the instrument, the venues with fees and latencies, and the routing rule.
+  - key: market_context
+    description: >-
+      The stock and the day: date, opening mid price, the morning's range and spread, and whether trading is calm,
+      normal or active.
+input:
+  key: market_state
+  description: >-
+    The live state: time, order book, spread, mid and its average, order-flow imbalance, realised volatility, recent
+    trades, displayed size per venue, position and P&L, open orders, parent order, news, and the request.
+  form: fields
+functions:
+  # route: which of the desk's three venues gets the order; classify as in v1.3 (a fixed set of venue keys, venue_a-c).
+  route: {interface: classify}
+  # risk_off: yes / no on whether a risk-off trigger is met; a two-label choice, classify as in v1.3.
+  risk_off: {interface: classify}
+  # direction: buy / sell / hold, a fixed set of actions.
+  direction: {interface: classify}
+  # size: increase / decrease / keep, a fixed set of actions.
+  size: {interface: classify}
+  # order: cancel / amend / leave for an open order, a fixed set of actions.
+  order: {interface: classify}

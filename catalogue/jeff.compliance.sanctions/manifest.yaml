@@ -1,0 +1,67 @@
+id: jeff.compliance.sanctions
+version: 1.4.0
+aliases:
+- sanctions
+licence:
+  kind: open
+  adapter: CC-BY-NC-4.0
+weights:
+  open:
+    repo: mstrasser/jeff-adapter-sanctions
+    revision: v1.4
+base:
+  id: jeff-base
+  version: v1.4
+  max_options: 3
+context:
+- key: watch_list_entry
+  description: 'One sanctions or watch-list entry, as text: the listed name and aliases, type (person or entity), date of
+    birth or registration, countries and the lists it is on.'
+  required: true
+input:
+  key: customer_record
+  description: 'The customer, or a party named in a payment, as text: name, party type, date of birth, nationality and other
+    details the bank holds (some may be "not recorded").'
+  form: fields
+functions:
+  screening:
+    interface: equivalent
+    type: choice
+    instructions: A bank checks each customer, or each party named in a payment, against one entry from a sanctions list or
+      another watch list. Is the customer the party on the list? Names agree when the customer's name is the listed name or
+      one of its aliases, allowing for other spellings or transliterations, a different order of the names, initials, a missing
+      middle name and small typing mistakes. The deciding detail is the date of birth for a person, the country of registration
+      for a company or organisation, and the IMO number for a ship. A year of birth alone cannot confirm a person, but a different
+      year rules them out. A different kind of party, such as a ship instead of a person, is never the listed party. Nationality,
+      occupation and the other details do not decide.
+    labels:
+      source: fixed
+      fixed:
+        match: 'Match: the customer is the listed party. The names agree and the deciding detail agrees with the entry.'
+        possible_match: 'Possible match: the names agree and nothing contradicts the entry, but the deciding detail is missing
+          from the customer record or from the entry, so a person must check it.'
+        no_match: 'No match: the customer is a different party. The names clearly differ, the customer is a different kind
+          of party, or the deciding detail contradicts the entry.'
+      subset: false
+    abstain_labels: []
+    calibration:
+      data: hf://mstrasser/jeff-adapter-sanctions@v1.4/calibration.jsonl
+      rows: 1012
+      target_precision: 0.99
+      threshold: 0.950523
+      precision_at_threshold: 0.998024
+      coverage_at_threshold: 1.0
+routes_to: []
+tests:
+  published: hf://mstrasser/jeff-adapter-sanctions@v1.4/test.jsonl
+  calibration: hf://mstrasser/jeff-adapter-sanctions@v1.4/calibration.jsonl
+  function_by: only
+hub:
+  title: Sanctions and watch-list screening
+  summary: Compares a customer or payment party with one sanctions or watch-list entry - match, possible match (check it)
+    or no match.
+  task: compliance
+  kind: official
+  maintainer:
+    name: Jeff maintainers
+    github: firelex

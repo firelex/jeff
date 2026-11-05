@@ -1,0 +1,64 @@
+id: jeff.reasoning.equivalent
+version: 1.4.0
+aliases:
+- oss-equivalent
+- equivalent
+licence:
+  kind: open
+  adapter: Apache-2.0
+weights:
+  open:
+    repo: mstrasser/jeff-adapter-equivalent
+    revision: v1.4
+base:
+  id: jeff-base
+  version: v1.4
+  max_options: 3
+context:
+- key: setting
+  description: 'Who is asking: a sentence naming the team and organisation.'
+  required: true
+- key: scope
+  description: 'What counts when comparing: a sentence saying which details matter (for example every fact, number, date and
+    name).'
+  required: true
+- key: item_a
+  description: 'The first item: a text (a rule, sentence, record or value).'
+  required: true
+input:
+  key: item_b
+  description: The second item, to compare with item_a within the scope.
+  form: fields
+functions:
+  equivalent:
+    interface: classify
+    type: choice
+    instructions: Do these two items mean the same thing, within the stated scope? Answer yes when every detail that matters
+      under the scope is the same, even if the wording, the order of things whose order does not matter, the units or the
+      formats differ. Answer no when at least one detail that matters differs, or is in one item but not the other. Answer
+      unclear only when sameness depends on something neither item settles, such as a date or a time of day that can be read
+      two ways, or a number given without the unit or sign that decides what it means.
+    labels:
+      source: fixed
+      fixed:
+        'no': 'No: they differ in a detail that matters.'
+        unclear: 'Unclear: sameness depends on something neither item settles.'
+        'yes': 'Yes: they mean the same within the scope.'
+      subset: false
+    abstain_labels: []
+    calibration:
+      data: hf://mstrasser/jeff-adapter-equivalent@v1.4/calibration.jsonl
+      rows: 2000
+      target_precision: 0.98
+      threshold: 0.499003
+      precision_at_threshold: 0.984
+      coverage_at_threshold: 1.0
+routes_to: []
+tests:
+  published: hf://mstrasser/jeff-adapter-equivalent@v1.4/test.jsonl
+  calibration: hf://mstrasser/jeff-adapter-equivalent@v1.4/calibration.jsonl
+  function_by: only
+hub:
+  title: oss-equivalent
+  summary: 'Jeff v1.4 adapter `equivalent`. Checks whether two items mean the same thing within a stated scope, allowing for
+    other wording, units and formats: yes, no or unclear.'

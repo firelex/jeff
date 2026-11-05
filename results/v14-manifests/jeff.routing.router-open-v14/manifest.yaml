@@ -1,0 +1,56 @@
+id: jeff.routing.router-open-v14
+version: 1.4.0
+aliases:
+- jeff-router-open-v14
+- jeff.routing.router-open
+licence:
+  kind: open
+  adapter: Apache-2.0
+weights:
+  local: {}
+base:
+  id: jeff-base
+  version: v1.4
+  max_options: 32
+context: []
+input:
+  key: request
+  description: 'The request to route, as a JSON object: the `instructions` of the question, its `options` (the label keys)
+    and its `state` (the input, as JSON text).'
+  form: fields
+functions:
+  specialist:
+    interface: route
+    type: choice
+    instructions: Which specialist should answer this request? Pick the specialist whose task matches what the request asks,
+      or base if no specialist fits and the general model should answer.
+    labels:
+      source: caller
+      fixed_first: {}
+      caller_keys: null
+      max: 32
+    abstain_labels: []
+    calibration: null
+routes_to: []
+tests:
+  published: null
+  calibration: null
+  internal: hf://datasets/teamsuzie/jeff-data@main/apps/jeff-router-open-v14/test.jsonl
+  internal_calibration: hf://datasets/teamsuzie/jeff-data@main/apps/jeff-router-open-v14/calibration.jsonl
+  function_by: only
+hub:
+  title: jeff-router-open-v14
+  summary: '**Jeff v1.4 router over the open adapters only.** It picks which of the 31 open v1.4 specialists should answer
+    a request, or `base` (the base model with no adapter). One router, no sub-router: `legal-clauses` is a plain specialist.
+    Made so a router can be published with the open adapters (owner decision, 3 November 2026); publication is a separate
+    owner decision (licence flags in the data''s README).'
+  source: local adapter folder jeff-router-open-v14 (not on Hugging Face)
+  notes:
+  - 'specialist: instructions are the one text of the 4919 test rows marked canonical (source.instructions); the other 2011
+    ask the same question reworded or with no instructions (as trained), and are rebuilt with the canonical text in template
+    mode.'
+  - 'specialist: max 32 is the largest number of caller labels in the test rows (nothing documents a training limit).'
+  - 'base: jeff-base v1.4, identified by the SHA-256 of its model.safetensors, which the adapter''s decision_config.json records
+    for its base checkpoint.'
+  - 'tests: the test set is the private hf://datasets/teamsuzie/jeff-data@main/apps/jeff-router-open-v14/test.jsonl, so tests.published
+    is null; the calibration of each function is filled in later by `jeff calibrate`.'

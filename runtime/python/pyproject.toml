@@ -1,0 +1,47 @@
+[project]
+name = "jeff-runtime"
+version = "1.4.0"
+description = "The Jeff engine: runs Jeff's base model and adapters on an NVIDIA GPU (fast path), Apple silicon (MLX) or the CPU, for the Jeff SDKs."
+readme = "README.md"
+requires-python = ">=3.13"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Casperaki Multimedia Solutions Ltd." }]
+keywords = ["jeff", "decision functions", "inference", "llm", "lora", "adapters", "mlx"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.13",
+  "Intended Audience :: Developers",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+  "jeff-sdk==1.4.0",
+  "torch==2.14.0",
+  "torchvision==0.29.0",
+  "transformers==5.17.0",
+  "pillow==12.3.0",
+  "safetensors==0.8.0",
+  "numpy==2.5.3",
+  "peft==0.21.1",
+]
+
+[project.optional-dependencies]
+cuda = ["flash-linear-attention==0.5.2", "kernels==0.16.1"]
+mac = ["mlx-lm==0.31.3"]
+
+[project.urls]
+Homepage = "https://jeffhub.ai"
+Documentation = "https://jeffhub.ai/docs"
+Repository = "https://github.com/firelex/jeff"
+Source = "https://github.com/firelex/jeff/tree/main/runtime/python"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/jeff_runtime"]
+
+# The source distribution: the code, the README and the licence (the tests read the repository around the package).
+[tool.hatch.build.targets.sdist]
+include = ["src", "README.md", "LICENSE"]

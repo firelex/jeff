@@ -1,0 +1,740 @@
+# How each adapter in the catalogue was measured, as its page shows it under "How it was measured" (owner-approved
+# numbers, 4 November 2026; every figure is from the approved table of evaluation numbers, none computed here).
+#   base, date: the base model and the day the adapter in use was trained (null: not recorded).
+#   tests: accuracy (% of test rows whose top answer was right), rows (null: not recorded), kind (public: a public
+#     benchmark; real: held-out real documents; generator: an in-house test from the same generator as the training
+#     data; mixed: several kinds of source; unknown: not recorded), set (what the rows are). A public or real set, where
+#     there is one, comes first. no_accuracy instead says why there is no figure.
+#   confident: per function, from the manifest's calibration: precision (share right when confident), coverage (share
+#     confident), threshold (the confidence from which it counts as confident), rows (calibration rows).
+#     no_calibration instead says why there is none.
+#   caveats: one line each, from the data notes.
+# The hub test test/adapter-numbers.test.ts fails if a listed adapter has no entry, an entry names an adapter the
+# catalogue does not list, or a calibration figure differs from the adapter's manifest.
+
+jeff.agents.action-check:
+  base: Jeff v1.4
+  date: '2026-10-25'
+  tests:
+  - accuracy: 99.4
+    rows: 1934
+    kind: generator
+    set: the in-house test
+  - accuracy: 99.2
+    rows: null
+    kind: generator
+    set: a second in-house test of unseen cases
+  confident:
+    action:
+      precision: 0.995818
+      coverage: 1
+      threshold: 0.508748
+      rows: 1913
+  caveats:
+  - Rows were kept only where a blind LLM check agreed with the label.
+jeff.agents.after-result:
+  base: Jeff v1.4
+  date: '2026-10-25'
+  tests:
+  - accuracy: 100.0
+    rows: 2000
+    kind: generator
+    set: the in-house test
+  - accuracy: 100.0
+    rows: null
+    kind: generator
+    set: a second in-house test of unseen cases
+  confident:
+    next:
+      precision: 0.9995
+      coverage: 1
+      threshold: 0.701944
+      rows: 2000
+jeff.agents.assistant-routing:
+  base: Jeff v1.4
+  date: '2026-10-25'
+  tests:
+  - accuracy: 86.6
+    rows: 771
+    kind: generator
+    set: held-out simulated conversations
+  confident:
+    needs_thinking:
+      precision: 0.951872
+      coverage: 0.548387
+      threshold: 0.881711
+      rows: 341
+  caveats:
+  - 'The label is a stand-in: whether a large LLM chose to think before answering, not a human judgement.'
+jeff.agents.result-relevant:
+  base: Jeff v1.4
+  date: '2026-10-25'
+  tests:
+  - accuracy: 98.6
+    rows: 2000
+    kind: generator
+    set: the in-house test
+  - accuracy: 98.5
+    rows: null
+    kind: generator
+    set: a second in-house test of unseen cases
+  confident:
+    relevant:
+      precision: 0.992
+      coverage: 1
+      threshold: 0.368763
+      rows: 2000
+jeff.agents.task-complete:
+  base: Jeff v1.4
+  date: '2026-10-25'
+  tests:
+  - accuracy: 99.7
+    rows: 2000
+    kind: generator
+    set: the in-house test
+  - accuracy: 99.7
+    rows: null
+    kind: generator
+    set: a second in-house test of unseen cases
+  confident:
+    complete:
+      precision: 0.9995
+      coverage: 1
+      threshold: 0.850085
+      rows: 2000
+jeff.agents.tool-route:
+  base: Jeff v1.4
+  date: '2026-10-25'
+  tests:
+  - accuracy: 71.6
+    rows: 3646
+    kind: public
+    set: When2Call, a public function-calling benchmark (questions and tools from the Berkeley Function Calling Leaderboard)
+  - accuracy: 98.2
+    rows: 2000
+    kind: generator
+    set: the in-house test
+  - accuracy: 96.7
+    rows: 2000
+    kind: generator
+    set: a second in-house test of unseen cases
+  confident:
+    tool:
+      precision: 0.985
+      coverage: 1
+      threshold: 0.413434
+      rows: 2000
+jeff.compliance.sanctions:
+  base: Jeff v1.4
+  date: '2026-10-25'
+  tests:
+  - accuracy: 100.0
+    rows: 4909
+    kind: unknown
+    set: the held-out test
+  confident:
+    screening:
+      precision: 0.998024
+      coverage: 1
+      threshold: 0.950523
+      rows: 1012
+jeff.engineering.ci-failure:
+  base: Jeff v1.4
+  date: '2026-10-25'
+  tests:
+  - accuracy: 99.7
+    rows: 2000
+    kind: generator
+    set: the in-house test
+  - accuracy: 99.9
+    rows: null
+    kind: generator
+    set: a second in-house test of unseen cases
+  confident:
+    failure:
+      precision: 0.996
+      coverage: 1
+      threshold: 0.595233
+      rows: 1500
+  caveats:
+  - Training and test rows were kept only where a blind LLM check agreed with the label, so these scores are probably inflated.
+jeff.engineering.issue-route:
+  base: Jeff v1.4
+  date: '2026-10-25'
+  tests:
+  - accuracy: 99.0
+    rows: 2000
+    kind: generator
+    set: the in-house test
+  - accuracy: 98.9
+    rows: null
+    kind: generator
+    set: a second in-house test of unseen cases
+  confident:
+    kind:
+      precision: 0.991176
+      coverage: 1
+      threshold: 0.56415
+      rows: 1020
+    owner:
+      precision: 0.978571
+      coverage: 1
+      threshold: 0.434595
+      rows: 980
+  caveats:
+  - Training and test rows were kept only where a blind LLM check agreed with the label, so these scores are probably inflated.
+jeff.finance.trading-desk:
+  base: Jeff v1.4
+  date: '2026-10-25'
+  tests:
+  - accuracy: 97.7
+    rows: 5000
+    kind: generator
+    set: the in-house test of simulated order books
+  confident:
+    route:
+      precision: 0.994475
+      coverage: 0.905
+      threshold: 0.808822
+      rows: 200
+    risk_off:
+      precision: 1
+      coverage: 1
+      threshold: 0.999642
+      rows: 200
+    direction:
+      precision: 1
+      coverage: 1
+      threshold: 0.98073
+      rows: 200
+    size:
+      precision: 0.992063
+      coverage: 0.63
+      threshold: 0.96866
+      rows: 200
+    order:
+      precision: 1
+      coverage: 1
+      threshold: 0.999338
+      rows: 200
+jeff.knowledge.knowledge-qa:
+  base: Jeff v1.4
+  date: '2026-10-25'
+  tests:
+  - accuracy: 78.9
+    rows: 1889
+    kind: public
+    set: 'held-out rows of public benchmarks: WinoGrande, ARC, OpenBookQA, QASC, CommonsenseQA, SciQ, HellaSwag, RACE, MMLU
+      (auxiliary), Social IQa and PIQA'
+  confident:
+    blank:
+      precision: 0.957576
+      coverage: 1
+      threshold: 0.515191
+      rows: 165
+    question:
+      precision: 0.9
+      coverage: 0.878995
+      threshold: 0.497905
+      rows: 876
+    continuation:
+      precision: 0.9
+      coverage: 0.277778
+      threshold: 0.731459
+      rows: 180
+    passage:
+      precision: 0.90099
+      coverage: 0.673333
+      threshold: 0.724134
+      rows: 150
+    passage_text:
+      precision: 0.9
+      coverage: 0.666667
+      threshold: 0.508357
+      rows: 195
+    social:
+      precision: 0.9
+      coverage: 0.518519
+      threshold: 0.818693
+      rows: 135
+    solution:
+      precision: 0.902439
+      coverage: 0.218085
+      threshold: 0.887618
+      rows: 188
+  caveats:
+  - Part of the held-out rows were already in the base model's own pretraining data, which may make the score higher than
+    on questions it has never seen.
+jeff.language.emotion:
+  base: Jeff v1.4
+  date: '2026-10-25'
+  tests:
+  - accuracy: 59.8
+    rows: 5408
+    kind: public
+    set: the test split of GoEmotions, a public benchmark of 27 emotions and neutral
+  confident:
+    emotion:
+      precision: 0.900662
+      coverage: 0.151
+      threshold: 0.846456
+      rows: 1000
+jeff.legal.legal-clauses:
+  base: Jeff v1.4
+  date: '2026-10-25'
+  tests:
+  - accuracy: 84.2
+    rows: 9570
+    kind: real
+    set: real contract clauses filed with the US SEC, labelled with LEDGAR's 100 clause types
+  - accuracy: 82.1
+    rows: 7199
+    kind: real
+    set: clause types or wordings new to training
+  confident:
+    clause_type:
+      precision: 0.9504
+      coverage: 0.677874
+      threshold: 0.805361
+      rows: 922
+jeff.reasoning.contradicts:
+  base: Jeff v1.4
+  date: '2026-10-25'
+  tests:
+  - accuracy: 94.5
+    rows: 1000
+    kind: public
+    set: 'public benchmarks: 500 rows of SNLI and 500 of VitaminC'
+  - accuracy: 96.4
+    rows: 1931
+    kind: generator
+    set: the in-house test
+  - accuracy: 96.5
+    rows: 1939
+    kind: generator
+    set: the in-house test in domains never seen in training
+  confident:
+    contradicts:
+      precision: 0.980351
+      coverage: 0.974133
+      threshold: 0.662106
+      rows: 1933
+jeff.reasoning.entails:
+  base: Jeff v1.4
+  date: '2026-10-25'
+  tests:
+  - accuracy: 93.7
+    rows: 1000
+    kind: public
+    set: 'public benchmarks: 500 rows of SNLI and 500 of VitaminC'
+  - accuracy: 97.8
+    rows: 2000
+    kind: generator
+    set: the in-house test
+  - accuracy: 98.5
+    rows: 2000
+    kind: generator
+    set: the in-house test in domains never seen in training
+  confident:
+    entails:
+      precision: 0.9845
+      coverage: 1
+      threshold: 0.517779
+      rows: 2000
+jeff.reasoning.equivalent:
+  base: Jeff v1.4
+  date: '2026-10-25'
+  tests:
+  - accuracy: 93.4
+    rows: 1000
+    kind: public
+    set: PAWS, a public paraphrase benchmark
+  - accuracy: 98.5
+    rows: 2000
+    kind: generator
+    set: the in-house test
+  - accuracy: 97.8
+    rows: 1931
+    kind: generator
+    set: the in-house test in domains never seen in training
+  confident:
+    equivalent:
+      precision: 0.984
+      coverage: 1
+      threshold: 0.499003
+      rows: 2000
+jeff.reasoning.is-complete:
+  base: Jeff v1.4
+  date: '2026-10-25'
+  tests:
+  - accuracy: 96.8
+    rows: 1974
+    kind: generator
+    set: the in-house test
+  - accuracy: 95.7
+    rows: 1932
+    kind: generator
+    set: a second in-house test of unseen cases
+  confident:
+    is_complete:
+      precision: 0.980277
+      coverage: 0.966512
+      threshold: 0.788914
+      rows: 1941
+jeff.reasoning.satisfies:
+  base: Jeff v1.4
+  date: '2026-10-25'
+  tests:
+  - accuracy: 92.7
+    rows: 2116
+    kind: generator
+    set: the in-house test
+  - accuracy: 93.8
+    rows: 2142
+    kind: generator
+    set: a second in-house test of unseen cases
+  confident:
+    satisfies:
+      precision: 0.980403
+      coverage: 0.864064
+      threshold: 0.832437
+      rows: 2126
+jeff.retrieval.doc-type:
+  base: Jeff v1.4
+  date: '2026-10-25'
+  tests:
+  - accuracy: 96.9
+    rows: 2000
+    kind: generator
+    set: the in-house test
+  - accuracy: 99.1
+    rows: 2000
+    kind: generator
+    set: a second in-house test of unseen cases
+  confident:
+    doc_type:
+      precision: 0.978
+      coverage: 1
+      threshold: 0.497832
+      rows: 2000
+jeff.retrieval.evidence-sufficient:
+  base: Jeff v1.4
+  date: '2026-10-25'
+  tests:
+  - accuracy: 93.0
+    rows: 2000
+    kind: public
+    set: HotpotQA, a public question-answering benchmark with human labels
+  - accuracy: 98.4
+    rows: 2000
+    kind: generator
+    set: the in-house test
+  - accuracy: 98.5
+    rows: 2000
+    kind: generator
+    set: the in-house test in domains never seen in training
+  confident:
+    sufficient:
+      precision: 0.9935
+      coverage: 1
+      threshold: 0.499375
+      rows: 2000
+jeff.retrieval.extract-check:
+  base: Jeff v1.4
+  date: '2026-10-25'
+  tests:
+  - accuracy: 99.6
+    rows: 2000
+    kind: generator
+    set: the in-house test
+  - accuracy: 98.8
+    rows: 2000
+    kind: generator
+    set: a second in-house test of unseen cases
+  confident:
+    check:
+      precision: 0.991
+      coverage: 1
+      threshold: 0.482657
+      rows: 2000
+jeff.retrieval.ground:
+  base: Jeff v1.4
+  date: '2026-10-25'
+  tests:
+  - accuracy: 96.6
+    rows: 4160
+    kind: mixed
+    set: passages from public data sets (SQuAD 2.0, HotpotQA, FEVER) and LLM-written documents, held out by source document,
+      with LLM-made changes for the partly supported, contradicted and unsupported cases
+  confident:
+    grounding:
+      precision: 0.98017
+      coverage: 0.980556
+      threshold: 0.634066
+      rows: 720
+    rerank:
+      precision: 0.980153
+      coverage: 0.909722
+      threshold: 0.797359
+      rows: 720
+jeff.retrieval.passage-relevant:
+  base: Jeff v1.4
+  date: '2026-10-25'
+  tests:
+  - accuracy: 83.9
+    rows: 2000
+    kind: public
+    set: SQuAD 2.0, a public question-answering benchmark with human labels
+  - accuracy: 99.5
+    rows: 2000
+    kind: generator
+    set: the in-house test
+  - accuracy: 99.1
+    rows: 2000
+    kind: generator
+    set: the in-house test in domains never seen in training
+  confident:
+    relevant:
+      precision: 0.9945
+      coverage: 1
+      threshold: 0.521208
+      rows: 2000
+jeff.retrieval.query-route:
+  base: Jeff v1.4
+  date: '2026-10-25'
+  tests:
+  - accuracy: 99.3
+    rows: 2000
+    kind: generator
+    set: the in-house test
+  - accuracy: 98.9
+    rows: 2000
+    kind: generator
+    set: a second in-house test of unseen cases
+  confident:
+    source:
+      precision: 0.987
+      coverage: 1
+      threshold: 0.342544
+      rows: 2000
+jeff.retrieval.section-id:
+  base: Jeff v1.4
+  date: '2026-10-25'
+  tests:
+  - accuracy: 90.9
+    rows: 1168
+    kind: public
+    set: CUAD, a public benchmark of real contract paragraphs
+  - accuracy: 99.8
+    rows: 2000
+    kind: generator
+    set: the in-house test
+  - accuracy: 99.6
+    rows: 2000
+    kind: generator
+    set: the in-house test in domains never seen in training
+  confident:
+    section:
+      precision: 0.9975
+      coverage: 1
+      threshold: 0.533367
+      rows: 2000
+  caveats:
+  - The CUAD rows were kept only where an LLM agreed with the label, which removes the hardest real passages.
+jeff.routing.router-open-v14:
+  base: Jeff v1.4
+  date: '2026-11-03'
+  tests:
+  - accuracy: 99.8
+    rows: 6930
+    kind: mixed
+    set: requests from each open specialist's own held-out test data and from public benchmarks, some reworded by an LLM
+  - accuracy: 99.9
+    rows: 5378
+    kind: mixed
+    set: the requests as written
+  - accuracy: 99.5
+    rows: 1552
+    kind: mixed
+    set: the requests reworded by an LLM
+  no_calibration: A router picks a specialist for every request rather than holding back, so it has no calibration and no
+    threshold.
+jeff.routing.tools:
+  base: Jeff v1.4
+  date: '2026-10-25'
+  tests:
+  - accuracy: 97.1
+    rows: 5157
+    kind: generator
+    set: the in-house test
+  confident:
+    tool:
+      precision: 0.97631
+      coverage: 1
+      threshold: 0.274674
+      rows: 2195
+  caveats:
+  - This figure does not include public function-calling benchmarks.
+jeff.safety.guard:
+  base: Jeff v1.4
+  date: '2026-10-25'
+  tests:
+  - accuracy: 98.4
+    rows: 6552
+    kind: mixed
+    set: texts of whole applications never seen in training, mostly LLM-written with some public text
+  confident:
+    attempt:
+      precision: 0.990884
+      coverage: 1
+      threshold: 0.529111
+      rows: 1097
+    kind:
+      precision: 0.984503
+      coverage: 1
+      threshold: 0.525006
+      rows: 1097
+jeff.safety.spam:
+  base: Jeff v1.4
+  date: '2026-10-25'
+  tests:
+  - accuracy: 98.4
+    rows: 3897
+    kind: public
+    set: real messages from public spam and phishing collections (SMS and email)
+  - accuracy: 98.3
+    rows: 3603
+    kind: public
+    set: the test set of the earlier version
+  confident:
+    is_spam:
+      precision: 0.991914
+      coverage: 1
+      threshold: 0.515807
+      rows: 1113
+    message_type:
+      precision: 0.980769
+      coverage: 1
+      threshold: 0.425658
+      rows: 832
+jeff.security.soc:
+  base: Jeff v1.4
+  date: '2026-10-25'
+  tests:
+  - accuracy: 95.6
+    rows: 4929
+    kind: unknown
+    set: the held-out test
+  confident:
+    action:
+      precision: 0.98
+      coverage: 0.958628
+      threshold: 0.731224
+      rows: 991
+jeff.support.message-triage:
+  base: Jeff v1.4
+  date: '2026-10-25'
+  tests:
+  - accuracy: 98.0
+    rows: 1000
+    kind: public
+    set: CLINC150, a public intent benchmark (it asks the intent question only)
+  - accuracy: 96.7
+    rows: 2000
+    kind: generator
+    set: the in-house test
+  - accuracy: 97.0
+    rows: 2000
+    kind: generator
+    set: the in-house test in domain families never seen in training
+  confident:
+    route_to:
+      precision: 0.969231
+      coverage: 1
+      threshold: 0.502408
+      rows: 520
+    action_needed:
+      precision: 0.951852
+      coverage: 1
+      threshold: 0.497015
+      rows: 540
+    intent:
+      precision: 0.953704
+      coverage: 1
+      threshold: 0.442941
+      rows: 540
+    urgency:
+      precision: 0.9825
+      coverage: 1
+      threshold: 0.485835
+      rows: 400
+  caveats:
+  - Training and test rows were kept only where a blind LLM check agreed with the label, so these scores are probably inflated.
+jeff.support.requires-action:
+  base: Jeff v1.4
+  date: '2026-10-25'
+  tests:
+  - accuracy: 98.2
+    rows: 2136
+    kind: generator
+    set: the in-house test
+  - accuracy: 98.1
+    rows: 2224
+    kind: generator
+    set: a second in-house test of unseen cases
+  confident:
+    requires_action:
+      precision: 0.982521
+      coverage: 1
+      threshold: 0.502426
+      rows: 1087
+    requires_escalation:
+      precision: 0.9908
+      coverage: 1
+      threshold: 0.48902
+      rows: 1087
+  caveats:
+  - Training and test rows were kept only where a blind LLM check agreed with the label, so these scores are probably inflated.
+jeff.support.support-intents:
+  base: Jeff v1.4
+  date: '2026-10-25'
+  tests:
+  - accuracy: 96.4
+    rows: 5577
+    kind: public
+    set: 'public intent data sets: Bitext customer support, HWU64 and SNIPS'
+  confident:
+    intent:
+      precision: 0.964965
+      coverage: 1
+      threshold: 0.290397
+      rows: 999
+jeff.support.triage:
+  base: Jeff v1.4
+  date: '2026-10-25'
+  tests:
+  - accuracy: 91.2
+    rows: 7256
+    kind: generator
+    set: the in-house test
+  confident:
+    route:
+      precision: 0.950954
+      coverage: 1
+      threshold: 0.43479
+      rows: 367
+    urgency:
+      precision: 0.95
+      coverage: 0.599455
+      threshold: 0.787201
+      rows: 367
+    sentiment:
+      precision: 0.950464
+      coverage: 0.880109
+      threshold: 0.686658
+      rows: 367
+    needs_human:
+      precision: 0.989101
+      coverage: 1
+      threshold: 0.543562
+      rows: 367

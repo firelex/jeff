@@ -1,0 +1,81 @@
+{
+ "script": "scripts/bench_local_loop.py",
+ "date": "2026-10-24",
+ "reference": "results/step2a5/bench-final.json",
+ "reference_values": {
+  "socket_predict": {
+   "p50_us": 227.33,
+   "p99_us": 277.8
+  },
+  "in_process_decide": {
+   "p50_us": 8.17,
+   "p99_us": 11.71
+  }
+ },
+ "runs_after_task7_fix1": [
+  {
+   "socket_predict": {
+    "p50_us": 232.21,
+    "p99_us": 276.21
+   },
+   "in_process_decide": {
+    "p50_us": 8.25,
+    "p99_us": 12.04
+   }
+  },
+  {
+   "socket_predict": {
+    "p50_us": 233.67,
+    "p99_us": 286.05
+   },
+   "in_process_decide": {
+    "p50_us": 8.17,
+    "p99_us": 10.33
+   }
+  },
+  {
+   "socket_predict": {
+    "p50_us": 231.5,
+    "p99_us": 271.05
+   },
+   "in_process_decide": {
+    "p50_us": 8.21,
+    "p99_us": 10.46
+   }
+  }
+ ],
+ "same_session_before_task7_bae0358": [
+  {
+   "socket_predict": {
+    "p50_us": 226.17,
+    "p99_us": 270.3
+   },
+   "in_process_decide": {
+    "p50_us": 8.12,
+    "p99_us": 11.92
+   }
+  },
+  {
+   "socket_predict": {
+    "p50_us": 225.21,
+    "p99_us": 264.92
+   },
+   "in_process_decide": {
+    "p50_us": 8.12,
+    "p99_us": 12.21
+   }
+  },
+  {
+   "socket_predict": {
+    "p50_us": 226.58,
+    "p99_us": 270.88
+   },
+   "in_process_decide": {
+    "p50_us": 8.12,
+    "p99_us": 11.96
+   }
+  }
+ ],
+ "method": "each run a separate process, before (a worktree of bae0358 on PYTHONPATH, same venv) and after alternating",
+ "within_5_percent_of_reference": true
+}

@@ -1,0 +1,78 @@
+......................................................................................................................Loading weights:   0%|          | 0/473 [00:00<?, ?it/s]Loading weights:  22%|██▏       | 103/473 [00:00<00:00, 1011.57it/s]Loading weights:  43%|████▎     | 205/473 [00:00<00:00, 1013.47it/s]Loading weights:  67%|██████▋   | 317/473 [00:00<00:00, 1057.99it/s]Loading weights: 100%|██████████| 473/473 [00:00<00:00, 1440.89it/s]
+
+recorded 39 batched graphs in 18.9 s; GPU memory after: {'allocated_gb': 9.3, 'reserved_gb': 12.46}, added {'allocated_gb': 0.08, 'reserved_gb': 1.91}
+  B=1 N=32: Gated DeltaNet recurrent {'recurrent': 0.3916, 'chunk': 0.4619}, split 16 {'1': 0.5932, '2': 0.3234, '4': 0.19, '8': 0.1243, '16': 0.0938}
+  B=2 N=32: Gated DeltaNet recurrent {'recurrent': 0.3991, 'chunk': 0.4688}, split 16 {'1': 0.5935, '2': 0.3262, '4': 0.1912, '8': 0.1266, '16': 0.0994}
+  B=4 N=32: Gated DeltaNet recurrent {'recurrent': 0.4688, 'chunk': 0.5011}, split 8 {'1': 0.5954, '2': 0.327, '4': 0.1948, '8': 0.1335, '16': 0.1673}
+  B=8 N=32: Gated DeltaNet recurrent {'recurrent': 0.6454, 'chunk': 0.6788}, split 4 {'1': 0.5951, '2': 0.3315, '4': 0.2051, '8': 0.2376, '16': 0.2619}
+  B=16 N=32: Gated DeltaNet chunk {'recurrent': 1.2232, 'chunk': 0.9588}, split 8 {'1': 0.681, '2': 0.3925, '4': 0.4294, '8': 0.3895, '16': 0.5163}
+  B=32 N=32: Gated DeltaNet chunk {'recurrent': 2.2003, 'chunk': 1.5576}, split 4 {'1': 0.6957, '2': 0.7583, '4': 0.6332, '8': 0.7349}
+  B=64 N=32: Gated DeltaNet chunk {'recurrent': 4.2723, 'chunk': 3.3885}, split 2 {'1': 1.3877, '2': 1.2048, '4': 1.2744}
+  B=1 N=64: Gated DeltaNet chunk {'recurrent': 0.745, 'chunk': 0.5804}, split 16 {'1': 0.6074, '2': 0.3411, '4': 0.2088, '8': 0.1444, '16': 0.1157}
+  B=2 N=64: Gated DeltaNet chunk {'recurrent': 0.7576, 'chunk': 0.5955}, split 8 {'1': 0.6133, '2': 0.3449, '4': 0.2124, '8': 0.1512, '16': 0.1835}
+  B=4 N=64: Gated DeltaNet chunk {'recurrent': 0.8942, 'chunk': 0.6353}, split 4 {'1': 0.6115, '2': 0.3491, '4': 0.2222, '8': 0.2533, '16': 0.2676}
+  B=8 N=64: Gated DeltaNet chunk {'recurrent': 1.1579, 'chunk': 0.8503}, split 2 {'1': 0.6142, '2': 0.3714, '4': 0.4223, '8': 0.3995, '16': 0.5268}
+  B=16 N=64: Gated DeltaNet chunk {'recurrent': 2.2355, 'chunk': 1.1934}, split 4 {'1': 0.7068, '2': 0.7379, '4': 0.629, '8': 0.7334}
+  B=32 N=64: Gated DeltaNet chunk {'recurrent': 4.1293, 'chunk': 2.0255}, split 2 {'1': 1.3257, '2': 1.1327, '4': 1.183}
+  B=64 N=64: Gated DeltaNet chunk {'recurrent': 8.3157, 'chunk': 4.4786}, split 1 {'1': 2.1331, '2': 2.2658}
+  B=1 N=128: Gated DeltaNet chunk {'recurrent': 1.4589, 'chunk': 0.617}, split 8 {'1': 0.6409, '2': 0.3749, '4': 0.2456, '8': 0.1836, '16': 0.2164}
+  B=2 N=128: Gated DeltaNet chunk {'recurrent': 1.4731, 'chunk': 0.6324}, split 4 {'1': 0.6441, '2': 0.3819, '4': 0.2542, '8': 0.2869, '16': 0.301}
+  B=4 N=128: Gated DeltaNet chunk {'recurrent': 1.7248, 'chunk': 0.7463}, split 2 {'1': 0.6477, '2': 0.398, '4': 0.4379, '8': 0.4159, '16': 0.5392}
+  B=8 N=128: Gated DeltaNet chunk {'recurrent': 2.2019, 'chunk': 1.0497}, split 4 {'1': 0.6916, '2': 0.767, '4': 0.6748, '8': 0.7821}
+  B=16 N=128: Gated DeltaNet chunk {'recurrent': 4.3253, 'chunk': 1.6517}, split 2 {'1': 1.3619, '2': 1.1635, '4': 1.22}
+  B=32 N=128: Gated DeltaNet chunk {'recurrent': 8.0758, 'chunk': 3.1683}, split 1 {'1': 2.0024, '2': 2.2029}
+  B=64 N=128: Gated DeltaNet chunk {'recurrent': 18.0364, 'chunk': 8.4949}, split 1 {'1': 4.5065}
+  B=1 N=256: Gated DeltaNet chunk {'recurrent': 2.8851, 'chunk': 0.678}, split 4 {'1': 0.7084, '2': 0.4483, '4': 0.3231, '8': 0.3579, '16': 0.3736}
+  B=2 N=256: Gated DeltaNet chunk {'recurrent': 2.9112, 'chunk': 0.7444}, split 2 {'1': 0.7111, '2': 0.4713, '4': 0.5108, '8': 0.494, '16': 0.6085}
+  B=4 N=256: Gated DeltaNet chunk {'recurrent': 3.4593, 'chunk': 0.9819}, split 1 {'1': 0.7315, '2': 0.7976, '4': 0.7342, '8': 0.8424}
+  B=8 N=256: Gated DeltaNet chunk {'recurrent': 4.3006, 'chunk': 1.5435}, split 2 {'1': 1.4524, '2': 1.2822, '4': 1.3446}
+  B=16 N=256: Gated DeltaNet chunk {'recurrent': 8.5293, 'chunk': 2.7957}, split 1 {'1': 2.1363, '2': 2.3227}
+  B=32 N=256: Gated DeltaNet chunk {'recurrent': 18.2494, 'chunk': 7.4478}, split 1 {'1': 4.2186}
+  B=64 N=256: Gated DeltaNet chunk {'recurrent': 36.1861, 'chunk': 17.1794}, split 1 {'1': 9.0138}
+  B=1 N=512: Gated DeltaNet chunk {'recurrent': 5.7415, 'chunk': 0.8428}, split 2 {'1': 0.8449, '2': 0.6119, '4': 0.6452, '8': 0.6311, '16': 0.7408}
+  B=2 N=512: Gated DeltaNet chunk {'recurrent': 5.7806, 'chunk': 1.004}, split 4 {'1': 0.8724, '2': 0.9391, '4': 0.8491, '8': 0.9828}
+  B=4 N=512: Gated DeltaNet chunk {'recurrent': 6.8366, 'chunk': 1.4714}, split 2 {'1': 1.5766, '2': 1.4424, '4': 1.5203}
+  B=8 N=512: Gated DeltaNet chunk {'recurrent': 8.5294, 'chunk': 2.7613}, split 1 {'1': 2.4917, '2': 2.6617}
+  B=16 N=512: Gated DeltaNet chunk {'recurrent': 19.1467, 'chunk': 6.9444}, split 1 {'1': 4.7655}
+  B=32 N=512: Gated DeltaNet chunk {'recurrent': 36.8803, 'chunk': 16.202}, split 1 {'1': 8.6755}
+  B=1 N=1024: Gated DeltaNet chunk {'recurrent': 11.4488, 'chunk': 1.1986}, split 4 {'1': 1.1569, '2': 1.2248, '4': 1.136, '8': 1.2606}
+  B=2 N=1024: Gated DeltaNet chunk {'recurrent': 11.5328, 'chunk': 1.5201}, split 2 {'1': 1.9548, '2': 1.7672, '4': 1.8906}
+  B=4 N=1024: Gated DeltaNet chunk {'recurrent': 13.5157, 'chunk': 2.6792}, split 1 {'1': 3.057, '2': 3.2202}
+  B=8 N=1024: Gated DeltaNet chunk {'recurrent': 20.4235, 'chunk': 6.6702}, split 1 {'1': 5.9561}
+  B=16 N=1024: Gated DeltaNet chunk {'recurrent': 39.5423, 'chunk': 15.8045}, split 1 {'1': 10.75}
+...
+cut None: 6 passes, rows per pass [1, 4, 6, 8, 18, 27], buckets [32, 64, 128, 256, 512, 1024]; largest difference mixed vs alone 0.0136
+largest difference B = 1 vs today's decide: 0.0185
+.
+cut 32: 1 passes, rows per pass [64], buckets [32]; largest difference mixed vs alone 0.0279
+.
+cut 256: 1 passes, rows per pass [64], buckets [256]; largest difference mixed vs alone 0.0288
+...
+32 new tokens: today {'p50': 2.8846, 'p99': 2.9257, 'mean': 2.8857}, batched {'p50': 2.4096, 'p99': 2.4604, 'mean': 2.4141}, plan {'gdn': 'recurrent', 'splits': 16}, difference 0.00648
+
+64 new tokens: today {'p50': 3.0741, 'p99': 3.1222, 'mean': 3.076}, batched {'p50': 2.6965, 'p99': 2.7446, 'mean': 2.6973}, plan {'gdn': 'chunk', 'splits': 16}, difference 0.00648
+
+128 new tokens: today {'p50': 3.3067, 'p99': 3.3622, 'mean': 3.3088}, batched {'p50': 3.0106, 'p99': 3.0606, 'mean': 3.011}, plan {'gdn': 'chunk', 'splits': 8}, difference 0.00196
+
+256 new tokens: today {'p50': 4.0627, 'p99': 4.1123, 'mean': 4.0651}, batched {'p50': 3.8702, 'p99': 3.9178, 'mean': 3.8705}, plan {'gdn': 'chunk', 'splits': 4}, difference 0.00842
+.Loading weights:   0%|          | 0/473 [00:00<?, ?it/s]Loading weights:  21%|██        | 100/473 [00:00<00:00, 999.19it/s]Loading weights:  43%|████▎     | 204/473 [00:00<00:00, 1019.30it/s]Loading weights:  69%|██████▉   | 326/473 [00:00<00:00, 1106.21it/s]Loading weights: 100%|██████████| 473/473 [00:00<00:00, 1478.19it/s]
+Loading weights:   0%|          | 0/473 [00:00<?, ?it/s]Loading weights:  20%|█▉        | 94/473 [00:00<00:00, 932.53it/s]Loading weights:  40%|███▉      | 188/473 [00:00<00:00, 886.47it/s]Loading weights:  66%|██████▌   | 313/473 [00:00<00:00, 1043.95it/s]Loading weights: 100%|██████████| 473/473 [00:00<00:00, 1445.14it/s]
+[transformers] `causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+agreement with the standard path out of 388: {'triage-sf after triage': 388, 'triage after triage-sf': 386}
+.Loading weights:   0%|          | 0/473 [00:00<?, ?it/s]Loading weights:  21%|██▏       | 101/473 [00:00<00:00, 1006.26it/s]Loading weights:  44%|████▎     | 206/473 [00:00<00:00, 1029.81it/s]Loading weights:  70%|██████▉   | 331/473 [00:00<00:00, 1124.74it/s]Loading weights: 100%|██████████| 473/473 [00:00<00:00, 1403.94it/s]
+300 rows: largest probability difference 0.000000; 300 rows bit-for-bit equal
+.Loading weights:   0%|          | 0/473 [00:00<?, ?it/s]Loading weights:  20%|██        | 95/473 [00:00<00:00, 926.82it/s]Loading weights:  41%|████      | 192/473 [00:00<00:00, 951.69it/s]Loading weights:  67%|██████▋   | 319/473 [00:00<00:00, 1092.01it/s]Loading weights: 100%|██████████| 473/473 [00:00<00:00, 1436.17it/s]
+.Loading weights:   0%|          | 0/473 [00:00<?, ?it/s]Loading weights:  20%|██        | 95/473 [00:00<00:00, 945.28it/s]Loading weights:  40%|████      | 190/473 [00:00<00:00, 878.41it/s]Loading weights:  65%|██████▌   | 308/473 [00:00<00:00, 1008.04it/s]Loading weights: 100%|██████████| 473/473 [00:00<00:00, 1418.19it/s]
+.Loading weights:   0%|          | 0/473 [00:00<?, ?it/s]Loading weights:  21%|██        | 100/473 [00:00<00:00, 995.03it/s]Loading weights:  42%|████▏     | 200/473 [00:00<00:00, 975.05it/s]Loading weights:  63%|██████▎   | 298/473 [00:00<00:00, 975.98it/s]Loading weights: 100%|██████████| 473/473 [00:00<00:00, 1449.55it/s]
+.Loading weights:   0%|          | 0/473 [00:00<?, ?it/s]Loading weights:  22%|██▏       | 105/473 [00:00<00:00, 1049.25it/s]Loading weights:  46%|████▌     | 218/473 [00:00<00:00, 1094.52it/s]Loading weights:  73%|███████▎  | 343/473 [00:00<00:00, 1162.66it/s]Loading weights: 100%|██████████| 473/473 [00:00<00:00, 1434.76it/s]
+.Loading weights:   0%|          | 0/473 [00:00<?, ?it/s]Loading weights:  22%|██▏       | 102/473 [00:00<00:00, 1013.18it/s]Loading weights:  43%|████▎     | 204/473 [00:00<00:00, 979.98it/s] Loading weights:  67%|██████▋   | 318/473 [00:00<00:00, 1048.95it/s]Loading weights: 100%|██████████| 473/473 [00:00<00:00, 1419.22it/s]
+Loading weights:   0%|          | 0/473 [00:00<?, ?it/s]Loading weights:  22%|██▏       | 106/473 [00:00<00:00, 1048.37it/s]Loading weights:  46%|████▌     | 216/473 [00:00<00:00, 1076.91it/s]Loading weights:  69%|██████▉   | 327/473 [00:00<00:00, 1088.18it/s]Loading weights: 100%|██████████| 473/473 [00:00<00:00, 1453.46it/s]
+.Loading weights:   0%|          | 0/473 [00:00<?, ?it/s]Loading weights:  22%|██▏       | 104/473 [00:00<00:00, 1034.66it/s]Loading weights:  46%|████▋     | 219/473 [00:00<00:00, 1093.69it/s]Loading weights:  73%|███████▎  | 343/473 [00:00<00:00, 1158.49it/s]Loading weights: 100%|██████████| 473/473 [00:00<00:00, 1413.32it/s]
+Loading weights:   0%|          | 0/473 [00:00<?, ?it/s]Loading weights:  21%|██        | 100/473 [00:00<00:00, 997.15it/s]Loading weights:  44%|████▍     | 209/473 [00:00<00:00, 1050.24it/s]Loading weights:  71%|███████   | 334/473 [00:00<00:00, 1139.38it/s]Loading weights: 100%|██████████| 473/473 [00:00<00:00, 1430.82it/s]
+Loading weights:   0%|          | 0/473 [00:00<?, ?it/s]Loading weights:  20%|██        | 96/473 [00:00<00:00, 942.84it/s]Loading weights:  41%|████      | 195/473 [00:00<00:00, 960.68it/s]Loading weights:  68%|██████▊   | 322/473 [00:00<00:00, 1099.43it/s]Loading weights: 100%|██████████| 473/473 [00:00<00:00, 1419.07it/s]
+.Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]Fetching 10 files: 100%|██████████| 10/10 [00:00<00:00, 1058.71it/s]
+Fetching 9 files:   0%|          | 0/9 [00:00<?, ?it/s]Fetching 9 files: 100%|██████████| 9/9 [00:00<00:00, 1069.16it/s]
+Loading weights:   0%|          | 0/473 [00:00<?, ?it/s]Loading weights:  24%|██▎       | 112/473 [00:00<00:00, 1111.18it/s]Loading weights:  52%|█████▏    | 245/473 [00:00<00:00, 1236.60it/s]Loading weights: 100%|██████████| 473/473 [00:00<00:00, 1832.24it/s]
+Loading weights:   0%|          | 0/473 [00:00<?, ?it/s]Loading weights:  32%|███▏      | 153/473 [00:00<00:00, 1518.61it/s]Loading weights:  93%|█████████▎| 442/473 [00:00<00:00, 2322.78it/s]Loading weights: 100%|██████████| 473/473 [00:00<00:00, 2351.71it/s]
+.
+136 passed, 1572 deselected in 406.85s (0:06:46)

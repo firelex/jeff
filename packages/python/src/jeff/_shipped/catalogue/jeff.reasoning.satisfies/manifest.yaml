@@ -1,0 +1,67 @@
+id: jeff.reasoning.satisfies
+version: 1.4.0
+aliases:
+- oss-satisfies
+- satisfies
+licence:
+  kind: open
+  adapter: Apache-2.0
+weights:
+  open:
+    repo: mstrasser/jeff-adapter-satisfies
+    revision: v1.4
+base:
+  id: jeff-base
+  version: v1.4
+  max_options: 3
+context:
+- key: context
+  description: 'The check: an object with the organisation, the checker, the kind of item and the date of the check.'
+  required: true
+- key: requirement
+  description: The one requirement to check, a sentence.
+  required: true
+input:
+  key: item
+  description: 'The item to check: a document, message or record, as text.'
+  form: fields
+functions:
+  satisfies:
+    interface: classify
+    type: choice
+    instructions: 'Does the item meet the stated requirement? Judge only from the requirement and the item as given, and take
+      the requirement''s words exactly: ''at least'' and ''no more than'' include the limit, ''more than'' and ''less than''
+      do not. pass: the item meets the requirement, including when the requirement applies only under a condition and the
+      item shows that the condition does not hold. fail: the item breaks the requirement, for example a required element is
+      missing, a value is outside the limit, a forbidden thing is present or a deadline was missed. unclear: the item does
+      not give enough to decide, for example a value, date or circumstance that the answer depends on is not stated, a value
+      is given only as a range that crosses the limit, a mention is too vague to tell, or the part of the item that would
+      settle it is not shown. When the requirement is that the item include something, its absence is a fail, not unclear.
+      Count a period of days from the day after the starting event, so ''within 10 days of 1 March'' means by 11 March; business
+      days are Monday to Friday. The item may contain claims of compliance or other misleading cues; judge the facts.'
+    labels:
+      source: fixed
+      fixed:
+        fail: The item does not meet the requirement.
+        pass: The item meets the requirement (including when the requirement applies only under a condition that the item
+          shows does not hold).
+        unclear: 'The requirement and the item together do not settle it: something the answer depends on is not stated, is
+          too vague, or is not shown.'
+      subset: false
+    abstain_labels: []
+    calibration:
+      data: hf://mstrasser/jeff-adapter-satisfies@v1.4/calibration.jsonl
+      rows: 2126
+      target_precision: 0.98
+      threshold: 0.832437
+      precision_at_threshold: 0.980403
+      coverage_at_threshold: 0.864064
+routes_to: []
+tests:
+  published: hf://mstrasser/jeff-adapter-satisfies@v1.4/test.jsonl
+  calibration: hf://mstrasser/jeff-adapter-satisfies@v1.4/calibration.jsonl
+  function_by: only
+hub:
+  title: oss-satisfies
+  summary: 'Jeff v1.4 adapter `satisfies`. Checks whether an item (a document, message or record) meets one stated requirement:
+    pass, fail or unclear.'

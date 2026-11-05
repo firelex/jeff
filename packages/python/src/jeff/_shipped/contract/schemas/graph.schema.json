@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jeff.dev/schemas/graph.schema.json",
+  "title": "Jeff decision graph",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["graph", "version", "input", "params", "nodes", "outputs"],
+  "properties": {
+    "graph": {"type": "string", "pattern": "^jeff(\\.[a-z0-9][a-z0-9_-]*){2}$|^[a-z][a-z0-9_-]*$"},
+    "version": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"},
+    "input": {"type": "string"},
+    "params": {"type": "array", "items": {"type": "string"}},
+    "nodes": {"type": "object", "minProperties": 1, "additionalProperties": {"$ref": "#/$defs/node"}},
+    "outputs": {"type": "array", "items": {"type": "string"}, "minItems": 1}
+  },
+  "$defs": {
+    "param": {"type": "object", "additionalProperties": false, "required": ["param"], "properties": {"param": {"type": "string"}}},
+    "node": {
+      "type": "object", "additionalProperties": false,
+      "oneOf": [{"required": ["call"]}, {"required": ["code"]}],
+      "properties": {
+        "call": {"type": "string"},
+        "code": {"type": "string"},
+        "after": {"type": "array", "items": {"type": "string"}},
+        "context": {"type": "object", "additionalProperties": {"$ref": "#/$defs/param"},
+                    "description": "The called function's context fields, each keyed by its code name (the code_name GET /v1/functions lists, as every caller passes context; 'counterparty_name' for the manifest key 'counterparty name'), never by the exact key with spaces, which is refused (UnknownContext, naming the code name), and mapped to a graph param."},
+        "labels": {"$ref": "#/$defs/param"},
+        "when": {"$ref": "#/$defs/condition"},
+        "on_low_confidence": {"enum": ["return", "error"]}
+      }
+    },
+    "condition": {
+      "oneOf": [
+        {"type": "object", "additionalProperties": false, "required": ["all"], "properties": {"all": {"type": "array", "items": {"$ref": "#/$defs/condition"}, "minItems": 1}}},
+        {"type": "object", "additionalProperties": false, "required": ["any"], "properties": {"any": {"type": "array", "items": {"$ref": "#/$defs/condition"}, "minItems": 1}}},
+        {"type": "object", "additionalProperties": false, "required": ["not"], "properties": {"not": {"$ref": "#/$defs/condition"}}},
+        {"type": "object", "additionalProperties": false, "required": ["node", "is"], "properties": {"node": {"type": "string"}, "is": {"type": ["string", "boolean", "integer"]}}},
+        {"type": "object", "additionalProperties": false, "required": ["node", "in"], "properties": {"node": {"type": "string"}, "in": {"type": "array", "items": {"type": ["string", "boolean", "integer"]}, "minItems": 1}}},
+        {"type": "object", "additionalProperties": false, "required": ["node", "abstained"], "properties": {"node": {"type": "string"}, "abstained": {"type": "boolean"}}},
+        {"type": "object", "additionalProperties": false, "required": ["node", "confidence_below"], "properties": {"node": {"type": "string"}, "confidence_below": {"type": "number"}}}
+      ]
+    }
+  }
+}

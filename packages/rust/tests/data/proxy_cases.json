@@ -1,0 +1,4804 @@
+[
+ {
+  "env": {},
+  "url": "http://api.example.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {},
+  "url": "https://api.example.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {},
+  "url": "http://api.example.com:8080/jeff",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {},
+  "url": "https://www.example.com:443",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {},
+  "url": "http://example.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {},
+  "url": "http://wwwexample.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {},
+  "url": "http://localhost:9000",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {},
+  "url": "http://127.0.0.1:9000",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {},
+  "url": "http://[::1]:9000",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {},
+  "url": "https://deep.sub.example.org",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {},
+  "url": "http://API.Example.COM:80",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128"
+  },
+  "url": "http://api.example.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128"
+  },
+  "url": "https://api.example.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128"
+  },
+  "url": "http://api.example.com:8080/jeff",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128"
+  },
+  "url": "https://www.example.com:443",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128"
+  },
+  "url": "http://example.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128"
+  },
+  "url": "http://wwwexample.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128"
+  },
+  "url": "http://localhost:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128"
+  },
+  "url": "http://127.0.0.1:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128"
+  },
+  "url": "http://[::1]:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128"
+  },
+  "url": "https://deep.sub.example.org",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128"
+  },
+  "url": "http://API.Example.COM:80",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "http_proxy": "http://lower:3128",
+   "HTTP_PROXY": "http://upper:3128"
+  },
+  "url": "http://api.example.com",
+  "httpx": {
+   "url": "http://lower:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://lower:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "http_proxy": "http://lower:3128",
+   "HTTP_PROXY": "http://upper:3128"
+  },
+  "url": "https://api.example.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "http_proxy": "http://lower:3128",
+   "HTTP_PROXY": "http://upper:3128"
+  },
+  "url": "http://api.example.com:8080/jeff",
+  "httpx": {
+   "url": "http://lower:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://lower:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "http_proxy": "http://lower:3128",
+   "HTTP_PROXY": "http://upper:3128"
+  },
+  "url": "https://www.example.com:443",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "http_proxy": "http://lower:3128",
+   "HTTP_PROXY": "http://upper:3128"
+  },
+  "url": "http://example.com",
+  "httpx": {
+   "url": "http://lower:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://lower:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "http_proxy": "http://lower:3128",
+   "HTTP_PROXY": "http://upper:3128"
+  },
+  "url": "http://wwwexample.com",
+  "httpx": {
+   "url": "http://lower:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://lower:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "http_proxy": "http://lower:3128",
+   "HTTP_PROXY": "http://upper:3128"
+  },
+  "url": "http://localhost:9000",
+  "httpx": {
+   "url": "http://lower:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://lower:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "http_proxy": "http://lower:3128",
+   "HTTP_PROXY": "http://upper:3128"
+  },
+  "url": "http://127.0.0.1:9000",
+  "httpx": {
+   "url": "http://lower:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://lower:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "http_proxy": "http://lower:3128",
+   "HTTP_PROXY": "http://upper:3128"
+  },
+  "url": "http://[::1]:9000",
+  "httpx": {
+   "url": "http://lower:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://lower:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "http_proxy": "http://lower:3128",
+   "HTTP_PROXY": "http://upper:3128"
+  },
+  "url": "https://deep.sub.example.org",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "http_proxy": "http://lower:3128",
+   "HTTP_PROXY": "http://upper:3128"
+  },
+  "url": "http://API.Example.COM:80",
+  "httpx": {
+   "url": "http://lower:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://lower:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "http://secure:3129"
+  },
+  "url": "http://api.example.com",
+  "httpx": null,
+  "websockets": {
+   "url": "http://secure:3129",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "http://secure:3129"
+  },
+  "url": "https://api.example.com",
+  "httpx": {
+   "url": "http://secure:3129",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://secure:3129",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "http://secure:3129"
+  },
+  "url": "http://api.example.com:8080/jeff",
+  "httpx": null,
+  "websockets": {
+   "url": "http://secure:3129",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "http://secure:3129"
+  },
+  "url": "https://www.example.com:443",
+  "httpx": {
+   "url": "http://secure:3129",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://secure:3129",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "http://secure:3129"
+  },
+  "url": "http://example.com",
+  "httpx": null,
+  "websockets": {
+   "url": "http://secure:3129",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "http://secure:3129"
+  },
+  "url": "http://wwwexample.com",
+  "httpx": null,
+  "websockets": {
+   "url": "http://secure:3129",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "http://secure:3129"
+  },
+  "url": "http://localhost:9000",
+  "httpx": null,
+  "websockets": {
+   "url": "http://secure:3129",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "http://secure:3129"
+  },
+  "url": "http://127.0.0.1:9000",
+  "httpx": null,
+  "websockets": {
+   "url": "http://secure:3129",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "http://secure:3129"
+  },
+  "url": "http://[::1]:9000",
+  "httpx": null,
+  "websockets": {
+   "url": "http://secure:3129",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "http://secure:3129"
+  },
+  "url": "https://deep.sub.example.org",
+  "httpx": {
+   "url": "http://secure:3129",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://secure:3129",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "http://secure:3129"
+  },
+  "url": "http://API.Example.COM:80",
+  "httpx": null,
+  "websockets": {
+   "url": "http://secure:3129",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://plain:3128",
+   "HTTPS_PROXY": "http://secure:3129"
+  },
+  "url": "http://api.example.com",
+  "httpx": {
+   "url": "http://plain:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://secure:3129",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://plain:3128",
+   "HTTPS_PROXY": "http://secure:3129"
+  },
+  "url": "https://api.example.com",
+  "httpx": {
+   "url": "http://secure:3129",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://secure:3129",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://plain:3128",
+   "HTTPS_PROXY": "http://secure:3129"
+  },
+  "url": "http://api.example.com:8080/jeff",
+  "httpx": {
+   "url": "http://plain:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://secure:3129",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://plain:3128",
+   "HTTPS_PROXY": "http://secure:3129"
+  },
+  "url": "https://www.example.com:443",
+  "httpx": {
+   "url": "http://secure:3129",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://secure:3129",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://plain:3128",
+   "HTTPS_PROXY": "http://secure:3129"
+  },
+  "url": "http://example.com",
+  "httpx": {
+   "url": "http://plain:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://secure:3129",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://plain:3128",
+   "HTTPS_PROXY": "http://secure:3129"
+  },
+  "url": "http://wwwexample.com",
+  "httpx": {
+   "url": "http://plain:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://secure:3129",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://plain:3128",
+   "HTTPS_PROXY": "http://secure:3129"
+  },
+  "url": "http://localhost:9000",
+  "httpx": {
+   "url": "http://plain:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://secure:3129",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://plain:3128",
+   "HTTPS_PROXY": "http://secure:3129"
+  },
+  "url": "http://127.0.0.1:9000",
+  "httpx": {
+   "url": "http://plain:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://secure:3129",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://plain:3128",
+   "HTTPS_PROXY": "http://secure:3129"
+  },
+  "url": "http://[::1]:9000",
+  "httpx": {
+   "url": "http://plain:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://secure:3129",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://plain:3128",
+   "HTTPS_PROXY": "http://secure:3129"
+  },
+  "url": "https://deep.sub.example.org",
+  "httpx": {
+   "url": "http://secure:3129",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://secure:3129",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://plain:3128",
+   "HTTPS_PROXY": "http://secure:3129"
+  },
+  "url": "http://API.Example.COM:80",
+  "httpx": {
+   "url": "http://plain:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://secure:3129",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "ALL_PROXY": "http://all:3130"
+  },
+  "url": "http://api.example.com",
+  "httpx": {
+   "url": "http://all:3130",
+   "authorization": null
+  },
+  "websockets": null
+ },
+ {
+  "env": {
+   "ALL_PROXY": "http://all:3130"
+  },
+  "url": "https://api.example.com",
+  "httpx": {
+   "url": "http://all:3130",
+   "authorization": null
+  },
+  "websockets": null
+ },
+ {
+  "env": {
+   "ALL_PROXY": "http://all:3130"
+  },
+  "url": "http://api.example.com:8080/jeff",
+  "httpx": {
+   "url": "http://all:3130",
+   "authorization": null
+  },
+  "websockets": null
+ },
+ {
+  "env": {
+   "ALL_PROXY": "http://all:3130"
+  },
+  "url": "https://www.example.com:443",
+  "httpx": {
+   "url": "http://all:3130",
+   "authorization": null
+  },
+  "websockets": null
+ },
+ {
+  "env": {
+   "ALL_PROXY": "http://all:3130"
+  },
+  "url": "http://example.com",
+  "httpx": {
+   "url": "http://all:3130",
+   "authorization": null
+  },
+  "websockets": null
+ },
+ {
+  "env": {
+   "ALL_PROXY": "http://all:3130"
+  },
+  "url": "http://wwwexample.com",
+  "httpx": {
+   "url": "http://all:3130",
+   "authorization": null
+  },
+  "websockets": null
+ },
+ {
+  "env": {
+   "ALL_PROXY": "http://all:3130"
+  },
+  "url": "http://localhost:9000",
+  "httpx": {
+   "url": "http://all:3130",
+   "authorization": null
+  },
+  "websockets": null
+ },
+ {
+  "env": {
+   "ALL_PROXY": "http://all:3130"
+  },
+  "url": "http://127.0.0.1:9000",
+  "httpx": {
+   "url": "http://all:3130",
+   "authorization": null
+  },
+  "websockets": null
+ },
+ {
+  "env": {
+   "ALL_PROXY": "http://all:3130"
+  },
+  "url": "http://[::1]:9000",
+  "httpx": {
+   "url": "http://all:3130",
+   "authorization": null
+  },
+  "websockets": null
+ },
+ {
+  "env": {
+   "ALL_PROXY": "http://all:3130"
+  },
+  "url": "https://deep.sub.example.org",
+  "httpx": {
+   "url": "http://all:3130",
+   "authorization": null
+  },
+  "websockets": null
+ },
+ {
+  "env": {
+   "ALL_PROXY": "http://all:3130"
+  },
+  "url": "http://API.Example.COM:80",
+  "httpx": {
+   "url": "http://all:3130",
+   "authorization": null
+  },
+  "websockets": null
+ },
+ {
+  "env": {
+   "ALL_PROXY": "http://all:3130",
+   "HTTP_PROXY": "http://plain:3128"
+  },
+  "url": "http://api.example.com",
+  "httpx": {
+   "url": "http://plain:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://plain:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "ALL_PROXY": "http://all:3130",
+   "HTTP_PROXY": "http://plain:3128"
+  },
+  "url": "https://api.example.com",
+  "httpx": {
+   "url": "http://all:3130",
+   "authorization": null
+  },
+  "websockets": null
+ },
+ {
+  "env": {
+   "ALL_PROXY": "http://all:3130",
+   "HTTP_PROXY": "http://plain:3128"
+  },
+  "url": "http://api.example.com:8080/jeff",
+  "httpx": {
+   "url": "http://plain:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://plain:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "ALL_PROXY": "http://all:3130",
+   "HTTP_PROXY": "http://plain:3128"
+  },
+  "url": "https://www.example.com:443",
+  "httpx": {
+   "url": "http://all:3130",
+   "authorization": null
+  },
+  "websockets": null
+ },
+ {
+  "env": {
+   "ALL_PROXY": "http://all:3130",
+   "HTTP_PROXY": "http://plain:3128"
+  },
+  "url": "http://example.com",
+  "httpx": {
+   "url": "http://plain:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://plain:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "ALL_PROXY": "http://all:3130",
+   "HTTP_PROXY": "http://plain:3128"
+  },
+  "url": "http://wwwexample.com",
+  "httpx": {
+   "url": "http://plain:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://plain:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "ALL_PROXY": "http://all:3130",
+   "HTTP_PROXY": "http://plain:3128"
+  },
+  "url": "http://localhost:9000",
+  "httpx": {
+   "url": "http://plain:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://plain:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "ALL_PROXY": "http://all:3130",
+   "HTTP_PROXY": "http://plain:3128"
+  },
+  "url": "http://127.0.0.1:9000",
+  "httpx": {
+   "url": "http://plain:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://plain:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "ALL_PROXY": "http://all:3130",
+   "HTTP_PROXY": "http://plain:3128"
+  },
+  "url": "http://[::1]:9000",
+  "httpx": {
+   "url": "http://plain:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://plain:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "ALL_PROXY": "http://all:3130",
+   "HTTP_PROXY": "http://plain:3128"
+  },
+  "url": "https://deep.sub.example.org",
+  "httpx": {
+   "url": "http://all:3130",
+   "authorization": null
+  },
+  "websockets": null
+ },
+ {
+  "env": {
+   "ALL_PROXY": "http://all:3130",
+   "HTTP_PROXY": "http://plain:3128"
+  },
+  "url": "http://API.Example.COM:80",
+  "httpx": {
+   "url": "http://plain:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://plain:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "proxy:3128"
+  },
+  "url": "http://api.example.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "proxy:3128"
+  },
+  "url": "https://api.example.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "proxy:3128"
+  },
+  "url": "http://api.example.com:8080/jeff",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "proxy:3128"
+  },
+  "url": "https://www.example.com:443",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "proxy:3128"
+  },
+  "url": "http://example.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "proxy:3128"
+  },
+  "url": "http://wwwexample.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "proxy:3128"
+  },
+  "url": "http://localhost:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "proxy:3128"
+  },
+  "url": "http://127.0.0.1:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "proxy:3128"
+  },
+  "url": "http://[::1]:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "proxy:3128"
+  },
+  "url": "https://deep.sub.example.org",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "proxy:3128"
+  },
+  "url": "http://API.Example.COM:80",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://alice:s3cret@proxy:3128"
+  },
+  "url": "http://api.example.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": "Basic YWxpY2U6czNjcmV0"
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": "Basic YWxpY2U6czNjcmV0"
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://alice:s3cret@proxy:3128"
+  },
+  "url": "https://api.example.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://alice:s3cret@proxy:3128"
+  },
+  "url": "http://api.example.com:8080/jeff",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": "Basic YWxpY2U6czNjcmV0"
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": "Basic YWxpY2U6czNjcmV0"
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://alice:s3cret@proxy:3128"
+  },
+  "url": "https://www.example.com:443",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://alice:s3cret@proxy:3128"
+  },
+  "url": "http://example.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": "Basic YWxpY2U6czNjcmV0"
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": "Basic YWxpY2U6czNjcmV0"
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://alice:s3cret@proxy:3128"
+  },
+  "url": "http://wwwexample.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": "Basic YWxpY2U6czNjcmV0"
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": "Basic YWxpY2U6czNjcmV0"
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://alice:s3cret@proxy:3128"
+  },
+  "url": "http://localhost:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": "Basic YWxpY2U6czNjcmV0"
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": "Basic YWxpY2U6czNjcmV0"
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://alice:s3cret@proxy:3128"
+  },
+  "url": "http://127.0.0.1:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": "Basic YWxpY2U6czNjcmV0"
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": "Basic YWxpY2U6czNjcmV0"
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://alice:s3cret@proxy:3128"
+  },
+  "url": "http://[::1]:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": "Basic YWxpY2U6czNjcmV0"
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": "Basic YWxpY2U6czNjcmV0"
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://alice:s3cret@proxy:3128"
+  },
+  "url": "https://deep.sub.example.org",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://alice:s3cret@proxy:3128"
+  },
+  "url": "http://API.Example.COM:80",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": "Basic YWxpY2U6czNjcmV0"
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": "Basic YWxpY2U6czNjcmV0"
+  }
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "http://alice:s3%40cret@proxy:3128/"
+  },
+  "url": "http://api.example.com",
+  "httpx": null,
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": "Basic YWxpY2U6czNAY3JldA=="
+  }
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "http://alice:s3%40cret@proxy:3128/"
+  },
+  "url": "https://api.example.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": "Basic YWxpY2U6czNAY3JldA=="
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": "Basic YWxpY2U6czNAY3JldA=="
+  }
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "http://alice:s3%40cret@proxy:3128/"
+  },
+  "url": "http://api.example.com:8080/jeff",
+  "httpx": null,
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": "Basic YWxpY2U6czNAY3JldA=="
+  }
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "http://alice:s3%40cret@proxy:3128/"
+  },
+  "url": "https://www.example.com:443",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": "Basic YWxpY2U6czNAY3JldA=="
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": "Basic YWxpY2U6czNAY3JldA=="
+  }
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "http://alice:s3%40cret@proxy:3128/"
+  },
+  "url": "http://example.com",
+  "httpx": null,
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": "Basic YWxpY2U6czNAY3JldA=="
+  }
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "http://alice:s3%40cret@proxy:3128/"
+  },
+  "url": "http://wwwexample.com",
+  "httpx": null,
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": "Basic YWxpY2U6czNAY3JldA=="
+  }
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "http://alice:s3%40cret@proxy:3128/"
+  },
+  "url": "http://localhost:9000",
+  "httpx": null,
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": "Basic YWxpY2U6czNAY3JldA=="
+  }
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "http://alice:s3%40cret@proxy:3128/"
+  },
+  "url": "http://127.0.0.1:9000",
+  "httpx": null,
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": "Basic YWxpY2U6czNAY3JldA=="
+  }
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "http://alice:s3%40cret@proxy:3128/"
+  },
+  "url": "http://[::1]:9000",
+  "httpx": null,
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": "Basic YWxpY2U6czNAY3JldA=="
+  }
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "http://alice:s3%40cret@proxy:3128/"
+  },
+  "url": "https://deep.sub.example.org",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": "Basic YWxpY2U6czNAY3JldA=="
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": "Basic YWxpY2U6czNAY3JldA=="
+  }
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "http://alice:s3%40cret@proxy:3128/"
+  },
+  "url": "http://API.Example.COM:80",
+  "httpx": null,
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": "Basic YWxpY2U6czNAY3JldA=="
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://alice@proxy:3128"
+  },
+  "url": "http://api.example.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": "Basic YWxpY2U6"
+  },
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://alice@proxy:3128"
+  },
+  "url": "https://api.example.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://alice@proxy:3128"
+  },
+  "url": "http://api.example.com:8080/jeff",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": "Basic YWxpY2U6"
+  },
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://alice@proxy:3128"
+  },
+  "url": "https://www.example.com:443",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://alice@proxy:3128"
+  },
+  "url": "http://example.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": "Basic YWxpY2U6"
+  },
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://alice@proxy:3128"
+  },
+  "url": "http://wwwexample.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": "Basic YWxpY2U6"
+  },
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://alice@proxy:3128"
+  },
+  "url": "http://localhost:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": "Basic YWxpY2U6"
+  },
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://alice@proxy:3128"
+  },
+  "url": "http://127.0.0.1:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": "Basic YWxpY2U6"
+  },
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://alice@proxy:3128"
+  },
+  "url": "http://[::1]:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": "Basic YWxpY2U6"
+  },
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://alice@proxy:3128"
+  },
+  "url": "https://deep.sub.example.org",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://alice@proxy:3128"
+  },
+  "url": "http://API.Example.COM:80",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": "Basic YWxpY2U6"
+  },
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy"
+  },
+  "url": "http://api.example.com",
+  "httpx": {
+   "url": "http://proxy:80",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:80",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy"
+  },
+  "url": "https://api.example.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy"
+  },
+  "url": "http://api.example.com:8080/jeff",
+  "httpx": {
+   "url": "http://proxy:80",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:80",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy"
+  },
+  "url": "https://www.example.com:443",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy"
+  },
+  "url": "http://example.com",
+  "httpx": {
+   "url": "http://proxy:80",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:80",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy"
+  },
+  "url": "http://wwwexample.com",
+  "httpx": {
+   "url": "http://proxy:80",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:80",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy"
+  },
+  "url": "http://localhost:9000",
+  "httpx": {
+   "url": "http://proxy:80",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:80",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy"
+  },
+  "url": "http://127.0.0.1:9000",
+  "httpx": {
+   "url": "http://proxy:80",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:80",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy"
+  },
+  "url": "http://[::1]:9000",
+  "httpx": {
+   "url": "http://proxy:80",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:80",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy"
+  },
+  "url": "https://deep.sub.example.org",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy"
+  },
+  "url": "http://API.Example.COM:80",
+  "httpx": {
+   "url": "http://proxy:80",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:80",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "*"
+  },
+  "url": "http://api.example.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "*"
+  },
+  "url": "https://api.example.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "*"
+  },
+  "url": "http://api.example.com:8080/jeff",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "*"
+  },
+  "url": "https://www.example.com:443",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "*"
+  },
+  "url": "http://example.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "*"
+  },
+  "url": "http://wwwexample.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "*"
+  },
+  "url": "http://localhost:9000",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "*"
+  },
+  "url": "http://127.0.0.1:9000",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "*"
+  },
+  "url": "http://[::1]:9000",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "*"
+  },
+  "url": "https://deep.sub.example.org",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "*"
+  },
+  "url": "http://API.Example.COM:80",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "example.com"
+  },
+  "url": "http://api.example.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "example.com"
+  },
+  "url": "https://api.example.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "example.com"
+  },
+  "url": "http://api.example.com:8080/jeff",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "example.com"
+  },
+  "url": "https://www.example.com:443",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "example.com"
+  },
+  "url": "http://example.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "example.com"
+  },
+  "url": "http://wwwexample.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "example.com"
+  },
+  "url": "http://localhost:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "example.com"
+  },
+  "url": "http://127.0.0.1:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "example.com"
+  },
+  "url": "http://[::1]:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "example.com"
+  },
+  "url": "https://deep.sub.example.org",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "example.com"
+  },
+  "url": "http://API.Example.COM:80",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": ".example.com"
+  },
+  "url": "http://api.example.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": ".example.com"
+  },
+  "url": "https://api.example.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": ".example.com"
+  },
+  "url": "http://api.example.com:8080/jeff",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": ".example.com"
+  },
+  "url": "https://www.example.com:443",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": ".example.com"
+  },
+  "url": "http://example.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": ".example.com"
+  },
+  "url": "http://wwwexample.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": ".example.com"
+  },
+  "url": "http://localhost:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": ".example.com"
+  },
+  "url": "http://127.0.0.1:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": ".example.com"
+  },
+  "url": "http://[::1]:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": ".example.com"
+  },
+  "url": "https://deep.sub.example.org",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": ".example.com"
+  },
+  "url": "http://API.Example.COM:80",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "HTTPS_PROXY": "http://proxy:3128",
+   "NO_PROXY": "api.example.com"
+  },
+  "url": "http://api.example.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "HTTPS_PROXY": "http://proxy:3128",
+   "NO_PROXY": "api.example.com"
+  },
+  "url": "https://api.example.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "HTTPS_PROXY": "http://proxy:3128",
+   "NO_PROXY": "api.example.com"
+  },
+  "url": "http://api.example.com:8080/jeff",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "HTTPS_PROXY": "http://proxy:3128",
+   "NO_PROXY": "api.example.com"
+  },
+  "url": "https://www.example.com:443",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "HTTPS_PROXY": "http://proxy:3128",
+   "NO_PROXY": "api.example.com"
+  },
+  "url": "http://example.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "HTTPS_PROXY": "http://proxy:3128",
+   "NO_PROXY": "api.example.com"
+  },
+  "url": "http://wwwexample.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "HTTPS_PROXY": "http://proxy:3128",
+   "NO_PROXY": "api.example.com"
+  },
+  "url": "http://localhost:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "HTTPS_PROXY": "http://proxy:3128",
+   "NO_PROXY": "api.example.com"
+  },
+  "url": "http://127.0.0.1:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "HTTPS_PROXY": "http://proxy:3128",
+   "NO_PROXY": "api.example.com"
+  },
+  "url": "http://[::1]:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "HTTPS_PROXY": "http://proxy:3128",
+   "NO_PROXY": "api.example.com"
+  },
+  "url": "https://deep.sub.example.org",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "HTTPS_PROXY": "http://proxy:3128",
+   "NO_PROXY": "api.example.com"
+  },
+  "url": "http://API.Example.COM:80",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "localhost,127.0.0.1,::1"
+  },
+  "url": "http://api.example.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "localhost,127.0.0.1,::1"
+  },
+  "url": "https://api.example.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "localhost,127.0.0.1,::1"
+  },
+  "url": "http://api.example.com:8080/jeff",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "localhost,127.0.0.1,::1"
+  },
+  "url": "https://www.example.com:443",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "localhost,127.0.0.1,::1"
+  },
+  "url": "http://example.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "localhost,127.0.0.1,::1"
+  },
+  "url": "http://wwwexample.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "localhost,127.0.0.1,::1"
+  },
+  "url": "http://localhost:9000",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "localhost,127.0.0.1,::1"
+  },
+  "url": "http://127.0.0.1:9000",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "localhost,127.0.0.1,::1"
+  },
+  "url": "http://[::1]:9000",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "localhost,127.0.0.1,::1"
+  },
+  "url": "https://deep.sub.example.org",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "localhost,127.0.0.1,::1"
+  },
+  "url": "http://API.Example.COM:80",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "no_proxy": "  example.org , localhost "
+  },
+  "url": "http://api.example.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "no_proxy": "  example.org , localhost "
+  },
+  "url": "https://api.example.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "no_proxy": "  example.org , localhost "
+  },
+  "url": "http://api.example.com:8080/jeff",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "no_proxy": "  example.org , localhost "
+  },
+  "url": "https://www.example.com:443",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "no_proxy": "  example.org , localhost "
+  },
+  "url": "http://example.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "no_proxy": "  example.org , localhost "
+  },
+  "url": "http://wwwexample.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "no_proxy": "  example.org , localhost "
+  },
+  "url": "http://localhost:9000",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "no_proxy": "  example.org , localhost "
+  },
+  "url": "http://127.0.0.1:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "no_proxy": "  example.org , localhost "
+  },
+  "url": "http://[::1]:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "no_proxy": "  example.org , localhost "
+  },
+  "url": "https://deep.sub.example.org",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "no_proxy": "  example.org , localhost "
+  },
+  "url": "http://API.Example.COM:80",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "http://api.example.com:8080"
+  },
+  "url": "http://api.example.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "http://api.example.com:8080"
+  },
+  "url": "https://api.example.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "http://api.example.com:8080"
+  },
+  "url": "http://api.example.com:8080/jeff",
+  "httpx": null,
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "http://api.example.com:8080"
+  },
+  "url": "https://www.example.com:443",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "http://api.example.com:8080"
+  },
+  "url": "http://example.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "http://api.example.com:8080"
+  },
+  "url": "http://wwwexample.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "http://api.example.com:8080"
+  },
+  "url": "http://localhost:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "http://api.example.com:8080"
+  },
+  "url": "http://127.0.0.1:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "http://api.example.com:8080"
+  },
+  "url": "http://[::1]:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "http://api.example.com:8080"
+  },
+  "url": "https://deep.sub.example.org",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "http://api.example.com:8080"
+  },
+  "url": "http://API.Example.COM:80",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "example.com:8080"
+  },
+  "url": "http://api.example.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "example.com:8080"
+  },
+  "url": "https://api.example.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "example.com:8080"
+  },
+  "url": "http://api.example.com:8080/jeff",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "example.com:8080"
+  },
+  "url": "https://www.example.com:443",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "example.com:8080"
+  },
+  "url": "http://example.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "example.com:8080"
+  },
+  "url": "http://wwwexample.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "example.com:8080"
+  },
+  "url": "http://localhost:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "example.com:8080"
+  },
+  "url": "http://127.0.0.1:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "example.com:8080"
+  },
+  "url": "http://[::1]:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "example.com:8080"
+  },
+  "url": "https://deep.sub.example.org",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "example.com:8080"
+  },
+  "url": "http://API.Example.COM:80",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "127.0.0.0/8"
+  },
+  "url": "http://api.example.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "127.0.0.0/8"
+  },
+  "url": "https://api.example.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "127.0.0.0/8"
+  },
+  "url": "http://api.example.com:8080/jeff",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "127.0.0.0/8"
+  },
+  "url": "https://www.example.com:443",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "127.0.0.0/8"
+  },
+  "url": "http://example.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "127.0.0.0/8"
+  },
+  "url": "http://wwwexample.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "127.0.0.0/8"
+  },
+  "url": "http://localhost:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "127.0.0.0/8"
+  },
+  "url": "http://127.0.0.1:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "127.0.0.0/8"
+  },
+  "url": "http://[::1]:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "127.0.0.0/8"
+  },
+  "url": "https://deep.sub.example.org",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "127.0.0.0/8"
+  },
+  "url": "http://API.Example.COM:80",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "EXAMPLE.COM"
+  },
+  "url": "http://api.example.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "EXAMPLE.COM"
+  },
+  "url": "https://api.example.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "EXAMPLE.COM"
+  },
+  "url": "http://api.example.com:8080/jeff",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "EXAMPLE.COM"
+  },
+  "url": "https://www.example.com:443",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "EXAMPLE.COM"
+  },
+  "url": "http://example.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "EXAMPLE.COM"
+  },
+  "url": "http://wwwexample.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "EXAMPLE.COM"
+  },
+  "url": "http://localhost:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "EXAMPLE.COM"
+  },
+  "url": "http://127.0.0.1:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "EXAMPLE.COM"
+  },
+  "url": "http://[::1]:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "EXAMPLE.COM"
+  },
+  "url": "https://deep.sub.example.org",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "EXAMPLE.COM"
+  },
+  "url": "http://API.Example.COM:80",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "*,example.com"
+  },
+  "url": "http://api.example.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "*,example.com"
+  },
+  "url": "https://api.example.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "*,example.com"
+  },
+  "url": "http://api.example.com:8080/jeff",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "*,example.com"
+  },
+  "url": "https://www.example.com:443",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "*,example.com"
+  },
+  "url": "http://example.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "*,example.com"
+  },
+  "url": "http://wwwexample.com",
+  "httpx": null,
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "*,example.com"
+  },
+  "url": "http://localhost:9000",
+  "httpx": null,
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "*,example.com"
+  },
+  "url": "http://127.0.0.1:9000",
+  "httpx": null,
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "*,example.com"
+  },
+  "url": "http://[::1]:9000",
+  "httpx": null,
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "*,example.com"
+  },
+  "url": "https://deep.sub.example.org",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "*,example.com"
+  },
+  "url": "http://API.Example.COM:80",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": ""
+  },
+  "url": "http://api.example.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": ""
+  },
+  "url": "https://api.example.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": ""
+  },
+  "url": "http://api.example.com:8080/jeff",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": ""
+  },
+  "url": "https://www.example.com:443",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": ""
+  },
+  "url": "http://example.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": ""
+  },
+  "url": "http://wwwexample.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": ""
+  },
+  "url": "http://localhost:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": ""
+  },
+  "url": "http://127.0.0.1:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": ""
+  },
+  "url": "http://[::1]:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": ""
+  },
+  "url": "https://deep.sub.example.org",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": ""
+  },
+  "url": "http://API.Example.COM:80",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "no_proxy": "",
+   "NO_PROXY": "example.com"
+  },
+  "url": "http://api.example.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "no_proxy": "",
+   "NO_PROXY": "example.com"
+  },
+  "url": "https://api.example.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "no_proxy": "",
+   "NO_PROXY": "example.com"
+  },
+  "url": "http://api.example.com:8080/jeff",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "no_proxy": "",
+   "NO_PROXY": "example.com"
+  },
+  "url": "https://www.example.com:443",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "no_proxy": "",
+   "NO_PROXY": "example.com"
+  },
+  "url": "http://example.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "no_proxy": "",
+   "NO_PROXY": "example.com"
+  },
+  "url": "http://wwwexample.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "no_proxy": "",
+   "NO_PROXY": "example.com"
+  },
+  "url": "http://localhost:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "no_proxy": "",
+   "NO_PROXY": "example.com"
+  },
+  "url": "http://127.0.0.1:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "no_proxy": "",
+   "NO_PROXY": "example.com"
+  },
+  "url": "http://[::1]:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "no_proxy": "",
+   "NO_PROXY": "example.com"
+  },
+  "url": "https://deep.sub.example.org",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "no_proxy": "",
+   "NO_PROXY": "example.com"
+  },
+  "url": "http://API.Example.COM:80",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "REQUEST_METHOD": "GET"
+  },
+  "url": "http://api.example.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "REQUEST_METHOD": "GET"
+  },
+  "url": "https://api.example.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "REQUEST_METHOD": "GET"
+  },
+  "url": "http://api.example.com:8080/jeff",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "REQUEST_METHOD": "GET"
+  },
+  "url": "https://www.example.com:443",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "REQUEST_METHOD": "GET"
+  },
+  "url": "http://example.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "REQUEST_METHOD": "GET"
+  },
+  "url": "http://wwwexample.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "REQUEST_METHOD": "GET"
+  },
+  "url": "http://localhost:9000",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "REQUEST_METHOD": "GET"
+  },
+  "url": "http://127.0.0.1:9000",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "REQUEST_METHOD": "GET"
+  },
+  "url": "http://[::1]:9000",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "REQUEST_METHOD": "GET"
+  },
+  "url": "https://deep.sub.example.org",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "REQUEST_METHOD": "GET"
+  },
+  "url": "http://API.Example.COM:80",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "http_proxy": "http://lower:3128",
+   "REQUEST_METHOD": "GET"
+  },
+  "url": "http://api.example.com",
+  "httpx": {
+   "url": "http://lower:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://lower:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "http_proxy": "http://lower:3128",
+   "REQUEST_METHOD": "GET"
+  },
+  "url": "https://api.example.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "http_proxy": "http://lower:3128",
+   "REQUEST_METHOD": "GET"
+  },
+  "url": "http://api.example.com:8080/jeff",
+  "httpx": {
+   "url": "http://lower:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://lower:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "http_proxy": "http://lower:3128",
+   "REQUEST_METHOD": "GET"
+  },
+  "url": "https://www.example.com:443",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "http_proxy": "http://lower:3128",
+   "REQUEST_METHOD": "GET"
+  },
+  "url": "http://example.com",
+  "httpx": {
+   "url": "http://lower:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://lower:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "http_proxy": "http://lower:3128",
+   "REQUEST_METHOD": "GET"
+  },
+  "url": "http://wwwexample.com",
+  "httpx": {
+   "url": "http://lower:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://lower:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "http_proxy": "http://lower:3128",
+   "REQUEST_METHOD": "GET"
+  },
+  "url": "http://localhost:9000",
+  "httpx": {
+   "url": "http://lower:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://lower:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "http_proxy": "http://lower:3128",
+   "REQUEST_METHOD": "GET"
+  },
+  "url": "http://127.0.0.1:9000",
+  "httpx": {
+   "url": "http://lower:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://lower:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "http_proxy": "http://lower:3128",
+   "REQUEST_METHOD": "GET"
+  },
+  "url": "http://[::1]:9000",
+  "httpx": {
+   "url": "http://lower:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://lower:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "http_proxy": "http://lower:3128",
+   "REQUEST_METHOD": "GET"
+  },
+  "url": "https://deep.sub.example.org",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "http_proxy": "http://lower:3128",
+   "REQUEST_METHOD": "GET"
+  },
+  "url": "http://API.Example.COM:80",
+  "httpx": {
+   "url": "http://lower:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://lower:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "http://upper:3129",
+   "https_proxy": ""
+  },
+  "url": "http://api.example.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "http://upper:3129",
+   "https_proxy": ""
+  },
+  "url": "https://api.example.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "http://upper:3129",
+   "https_proxy": ""
+  },
+  "url": "http://api.example.com:8080/jeff",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "http://upper:3129",
+   "https_proxy": ""
+  },
+  "url": "https://www.example.com:443",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "http://upper:3129",
+   "https_proxy": ""
+  },
+  "url": "http://example.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "http://upper:3129",
+   "https_proxy": ""
+  },
+  "url": "http://wwwexample.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "http://upper:3129",
+   "https_proxy": ""
+  },
+  "url": "http://localhost:9000",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "http://upper:3129",
+   "https_proxy": ""
+  },
+  "url": "http://127.0.0.1:9000",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "http://upper:3129",
+   "https_proxy": ""
+  },
+  "url": "http://[::1]:9000",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "http://upper:3129",
+   "https_proxy": ""
+  },
+  "url": "https://deep.sub.example.org",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "http://upper:3129",
+   "https_proxy": ""
+  },
+  "url": "http://API.Example.COM:80",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "WS_PROXY": "http://ws:3131",
+   "HTTP_PROXY": "http://plain:3128"
+  },
+  "url": "http://api.example.com",
+  "httpx": {
+   "url": "http://plain:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://ws:3131",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "WS_PROXY": "http://ws:3131",
+   "HTTP_PROXY": "http://plain:3128"
+  },
+  "url": "https://api.example.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "WS_PROXY": "http://ws:3131",
+   "HTTP_PROXY": "http://plain:3128"
+  },
+  "url": "http://api.example.com:8080/jeff",
+  "httpx": {
+   "url": "http://plain:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://ws:3131",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "WS_PROXY": "http://ws:3131",
+   "HTTP_PROXY": "http://plain:3128"
+  },
+  "url": "https://www.example.com:443",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "WS_PROXY": "http://ws:3131",
+   "HTTP_PROXY": "http://plain:3128"
+  },
+  "url": "http://example.com",
+  "httpx": {
+   "url": "http://plain:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://ws:3131",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "WS_PROXY": "http://ws:3131",
+   "HTTP_PROXY": "http://plain:3128"
+  },
+  "url": "http://wwwexample.com",
+  "httpx": {
+   "url": "http://plain:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://ws:3131",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "WS_PROXY": "http://ws:3131",
+   "HTTP_PROXY": "http://plain:3128"
+  },
+  "url": "http://localhost:9000",
+  "httpx": {
+   "url": "http://plain:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://ws:3131",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "WS_PROXY": "http://ws:3131",
+   "HTTP_PROXY": "http://plain:3128"
+  },
+  "url": "http://127.0.0.1:9000",
+  "httpx": {
+   "url": "http://plain:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://ws:3131",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "WS_PROXY": "http://ws:3131",
+   "HTTP_PROXY": "http://plain:3128"
+  },
+  "url": "http://[::1]:9000",
+  "httpx": {
+   "url": "http://plain:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://ws:3131",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "WS_PROXY": "http://ws:3131",
+   "HTTP_PROXY": "http://plain:3128"
+  },
+  "url": "https://deep.sub.example.org",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "WS_PROXY": "http://ws:3131",
+   "HTTP_PROXY": "http://plain:3128"
+  },
+  "url": "http://API.Example.COM:80",
+  "httpx": {
+   "url": "http://plain:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://ws:3131",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "WSS_PROXY": "http://wss:3132",
+   "HTTPS_PROXY": "http://secure:3129"
+  },
+  "url": "http://api.example.com",
+  "httpx": null,
+  "websockets": {
+   "url": "http://secure:3129",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "WSS_PROXY": "http://wss:3132",
+   "HTTPS_PROXY": "http://secure:3129"
+  },
+  "url": "https://api.example.com",
+  "httpx": {
+   "url": "http://secure:3129",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://wss:3132",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "WSS_PROXY": "http://wss:3132",
+   "HTTPS_PROXY": "http://secure:3129"
+  },
+  "url": "http://api.example.com:8080/jeff",
+  "httpx": null,
+  "websockets": {
+   "url": "http://secure:3129",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "WSS_PROXY": "http://wss:3132",
+   "HTTPS_PROXY": "http://secure:3129"
+  },
+  "url": "https://www.example.com:443",
+  "httpx": {
+   "url": "http://secure:3129",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://wss:3132",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "WSS_PROXY": "http://wss:3132",
+   "HTTPS_PROXY": "http://secure:3129"
+  },
+  "url": "http://example.com",
+  "httpx": null,
+  "websockets": {
+   "url": "http://secure:3129",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "WSS_PROXY": "http://wss:3132",
+   "HTTPS_PROXY": "http://secure:3129"
+  },
+  "url": "http://wwwexample.com",
+  "httpx": null,
+  "websockets": {
+   "url": "http://secure:3129",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "WSS_PROXY": "http://wss:3132",
+   "HTTPS_PROXY": "http://secure:3129"
+  },
+  "url": "http://localhost:9000",
+  "httpx": null,
+  "websockets": {
+   "url": "http://secure:3129",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "WSS_PROXY": "http://wss:3132",
+   "HTTPS_PROXY": "http://secure:3129"
+  },
+  "url": "http://127.0.0.1:9000",
+  "httpx": null,
+  "websockets": {
+   "url": "http://secure:3129",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "WSS_PROXY": "http://wss:3132",
+   "HTTPS_PROXY": "http://secure:3129"
+  },
+  "url": "http://[::1]:9000",
+  "httpx": null,
+  "websockets": {
+   "url": "http://secure:3129",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "WSS_PROXY": "http://wss:3132",
+   "HTTPS_PROXY": "http://secure:3129"
+  },
+  "url": "https://deep.sub.example.org",
+  "httpx": {
+   "url": "http://secure:3129",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://wss:3132",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "WSS_PROXY": "http://wss:3132",
+   "HTTPS_PROXY": "http://secure:3129"
+  },
+  "url": "http://API.Example.COM:80",
+  "httpx": null,
+  "websockets": {
+   "url": "http://secure:3129",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "SOCKS_PROXY": "http://socks:1080"
+  },
+  "url": "http://api.example.com",
+  "httpx": null,
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "SOCKS_PROXY": "http://socks:1080"
+  },
+  "url": "https://api.example.com",
+  "httpx": null,
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "SOCKS_PROXY": "http://socks:1080"
+  },
+  "url": "http://api.example.com:8080/jeff",
+  "httpx": null,
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "SOCKS_PROXY": "http://socks:1080"
+  },
+  "url": "https://www.example.com:443",
+  "httpx": null,
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "SOCKS_PROXY": "http://socks:1080"
+  },
+  "url": "http://example.com",
+  "httpx": null,
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "SOCKS_PROXY": "http://socks:1080"
+  },
+  "url": "http://wwwexample.com",
+  "httpx": null,
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "SOCKS_PROXY": "http://socks:1080"
+  },
+  "url": "http://localhost:9000",
+  "httpx": null,
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "SOCKS_PROXY": "http://socks:1080"
+  },
+  "url": "http://127.0.0.1:9000",
+  "httpx": null,
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "SOCKS_PROXY": "http://socks:1080"
+  },
+  "url": "http://[::1]:9000",
+  "httpx": null,
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "SOCKS_PROXY": "http://socks:1080"
+  },
+  "url": "https://deep.sub.example.org",
+  "httpx": null,
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "SOCKS_PROXY": "http://socks:1080"
+  },
+  "url": "http://API.Example.COM:80",
+  "httpx": null,
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "socks5://socks:1080"
+  },
+  "url": "http://api.example.com",
+  "httpx": "error",
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "socks5://socks:1080"
+  },
+  "url": "https://api.example.com",
+  "httpx": "error",
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "socks5://socks:1080"
+  },
+  "url": "http://api.example.com:8080/jeff",
+  "httpx": "error",
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "socks5://socks:1080"
+  },
+  "url": "https://www.example.com:443",
+  "httpx": "error",
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "socks5://socks:1080"
+  },
+  "url": "http://example.com",
+  "httpx": "error",
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "socks5://socks:1080"
+  },
+  "url": "http://wwwexample.com",
+  "httpx": "error",
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "socks5://socks:1080"
+  },
+  "url": "http://localhost:9000",
+  "httpx": "error",
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "socks5://socks:1080"
+  },
+  "url": "http://127.0.0.1:9000",
+  "httpx": "error",
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "socks5://socks:1080"
+  },
+  "url": "http://[::1]:9000",
+  "httpx": "error",
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "socks5://socks:1080"
+  },
+  "url": "https://deep.sub.example.org",
+  "httpx": "error",
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "HTTPS_PROXY": "socks5://socks:1080"
+  },
+  "url": "http://API.Example.COM:80",
+  "httpx": "error",
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "https://tls-proxy:3128"
+  },
+  "url": "http://api.example.com",
+  "httpx": "error",
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "https://tls-proxy:3128"
+  },
+  "url": "https://api.example.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "https://tls-proxy:3128"
+  },
+  "url": "http://api.example.com:8080/jeff",
+  "httpx": "error",
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "https://tls-proxy:3128"
+  },
+  "url": "https://www.example.com:443",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "https://tls-proxy:3128"
+  },
+  "url": "http://example.com",
+  "httpx": "error",
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "https://tls-proxy:3128"
+  },
+  "url": "http://wwwexample.com",
+  "httpx": "error",
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "https://tls-proxy:3128"
+  },
+  "url": "http://localhost:9000",
+  "httpx": "error",
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "https://tls-proxy:3128"
+  },
+  "url": "http://127.0.0.1:9000",
+  "httpx": "error",
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "https://tls-proxy:3128"
+  },
+  "url": "http://[::1]:9000",
+  "httpx": "error",
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "https://tls-proxy:3128"
+  },
+  "url": "https://deep.sub.example.org",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "https://tls-proxy:3128"
+  },
+  "url": "http://API.Example.COM:80",
+  "httpx": "error",
+  "websockets": "error"
+ },
+ {
+  "env": {
+   "Http_Proxy": "http://mixed:3128"
+  },
+  "url": "http://api.example.com",
+  "httpx": {
+   "url": "http://mixed:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://mixed:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "Http_Proxy": "http://mixed:3128"
+  },
+  "url": "https://api.example.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "Http_Proxy": "http://mixed:3128"
+  },
+  "url": "http://api.example.com:8080/jeff",
+  "httpx": {
+   "url": "http://mixed:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://mixed:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "Http_Proxy": "http://mixed:3128"
+  },
+  "url": "https://www.example.com:443",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "Http_Proxy": "http://mixed:3128"
+  },
+  "url": "http://example.com",
+  "httpx": {
+   "url": "http://mixed:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://mixed:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "Http_Proxy": "http://mixed:3128"
+  },
+  "url": "http://wwwexample.com",
+  "httpx": {
+   "url": "http://mixed:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://mixed:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "Http_Proxy": "http://mixed:3128"
+  },
+  "url": "http://localhost:9000",
+  "httpx": {
+   "url": "http://mixed:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://mixed:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "Http_Proxy": "http://mixed:3128"
+  },
+  "url": "http://127.0.0.1:9000",
+  "httpx": {
+   "url": "http://mixed:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://mixed:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "Http_Proxy": "http://mixed:3128"
+  },
+  "url": "http://[::1]:9000",
+  "httpx": {
+   "url": "http://mixed:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://mixed:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "Http_Proxy": "http://mixed:3128"
+  },
+  "url": "https://deep.sub.example.org",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "Http_Proxy": "http://mixed:3128"
+  },
+  "url": "http://API.Example.COM:80",
+  "httpx": {
+   "url": "http://mixed:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://mixed:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "wwwexample.com"
+  },
+  "url": "http://api.example.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "wwwexample.com"
+  },
+  "url": "https://api.example.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "wwwexample.com"
+  },
+  "url": "http://api.example.com:8080/jeff",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "wwwexample.com"
+  },
+  "url": "https://www.example.com:443",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "wwwexample.com"
+  },
+  "url": "http://example.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "wwwexample.com"
+  },
+  "url": "http://wwwexample.com",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "wwwexample.com"
+  },
+  "url": "http://localhost:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "wwwexample.com"
+  },
+  "url": "http://127.0.0.1:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "wwwexample.com"
+  },
+  "url": "http://[::1]:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "wwwexample.com"
+  },
+  "url": "https://deep.sub.example.org",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "wwwexample.com"
+  },
+  "url": "http://API.Example.COM:80",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "deep.sub.example.org",
+   "HTTPS_PROXY": "http://s:1"
+  },
+  "url": "http://api.example.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://s:1",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "deep.sub.example.org",
+   "HTTPS_PROXY": "http://s:1"
+  },
+  "url": "https://api.example.com",
+  "httpx": {
+   "url": "http://s:1",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://s:1",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "deep.sub.example.org",
+   "HTTPS_PROXY": "http://s:1"
+  },
+  "url": "http://api.example.com:8080/jeff",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://s:1",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "deep.sub.example.org",
+   "HTTPS_PROXY": "http://s:1"
+  },
+  "url": "https://www.example.com:443",
+  "httpx": {
+   "url": "http://s:1",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://s:1",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "deep.sub.example.org",
+   "HTTPS_PROXY": "http://s:1"
+  },
+  "url": "http://example.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://s:1",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "deep.sub.example.org",
+   "HTTPS_PROXY": "http://s:1"
+  },
+  "url": "http://wwwexample.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://s:1",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "deep.sub.example.org",
+   "HTTPS_PROXY": "http://s:1"
+  },
+  "url": "http://localhost:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://s:1",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "deep.sub.example.org",
+   "HTTPS_PROXY": "http://s:1"
+  },
+  "url": "http://127.0.0.1:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://s:1",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "deep.sub.example.org",
+   "HTTPS_PROXY": "http://s:1"
+  },
+  "url": "http://[::1]:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://s:1",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "deep.sub.example.org",
+   "HTTPS_PROXY": "http://s:1"
+  },
+  "url": "https://deep.sub.example.org",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "deep.sub.example.org",
+   "HTTPS_PROXY": "http://s:1"
+  },
+  "url": "http://API.Example.COM:80",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://s:1",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "sub.example.org",
+   "HTTPS_PROXY": "http://s:1"
+  },
+  "url": "http://api.example.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://s:1",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "sub.example.org",
+   "HTTPS_PROXY": "http://s:1"
+  },
+  "url": "https://api.example.com",
+  "httpx": {
+   "url": "http://s:1",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://s:1",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "sub.example.org",
+   "HTTPS_PROXY": "http://s:1"
+  },
+  "url": "http://api.example.com:8080/jeff",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://s:1",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "sub.example.org",
+   "HTTPS_PROXY": "http://s:1"
+  },
+  "url": "https://www.example.com:443",
+  "httpx": {
+   "url": "http://s:1",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://s:1",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "sub.example.org",
+   "HTTPS_PROXY": "http://s:1"
+  },
+  "url": "http://example.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://s:1",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "sub.example.org",
+   "HTTPS_PROXY": "http://s:1"
+  },
+  "url": "http://wwwexample.com",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://s:1",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "sub.example.org",
+   "HTTPS_PROXY": "http://s:1"
+  },
+  "url": "http://localhost:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://s:1",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "sub.example.org",
+   "HTTPS_PROXY": "http://s:1"
+  },
+  "url": "http://127.0.0.1:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://s:1",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "sub.example.org",
+   "HTTPS_PROXY": "http://s:1"
+  },
+  "url": "http://[::1]:9000",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://s:1",
+   "authorization": null
+  }
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "sub.example.org",
+   "HTTPS_PROXY": "http://s:1"
+  },
+  "url": "https://deep.sub.example.org",
+  "httpx": null,
+  "websockets": null
+ },
+ {
+  "env": {
+   "HTTP_PROXY": "http://proxy:3128",
+   "NO_PROXY": "sub.example.org",
+   "HTTPS_PROXY": "http://s:1"
+  },
+  "url": "http://API.Example.COM:80",
+  "httpx": {
+   "url": "http://proxy:3128",
+   "authorization": null
+  },
+  "websockets": {
+   "url": "http://s:1",
+   "authorization": null
+  }
+ }
+]

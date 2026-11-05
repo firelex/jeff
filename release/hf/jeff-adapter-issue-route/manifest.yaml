@@ -1,0 +1,90 @@
+id: jeff.engineering.issue-route
+version: 1.4.0
+aliases:
+- oss-issue-route
+- issue-route
+licence:
+  kind: open
+  adapter: Apache-2.0
+weights:
+  open:
+    repo: mstrasser/jeff-adapter-issue-route
+    revision: v1.4
+base:
+  id: jeff-base
+  version: v1.4
+  max_options: 12
+context:
+- key: project
+  description: The project in a few sentences, and its components, each with its owner team, what it owns and its code paths.
+  required: true
+- key: open_issues
+  description: 'The project''s open issues, one string each ("#number [Component] title: summary").'
+  required: true
+input:
+  key: new_item
+  description: The new issue or pull request, an object with its type, number, title, body and any labels or changed files.
+  form: fields
+functions:
+  kind:
+    interface: classify
+    type: choice
+    instructions: 'What kind of issue or pull request is this? Apply the first rule that fits. duplicate_candidate: it reports
+      the same problem or asks for the same thing as one of the listed open issues, even in different words (a similar topic
+      with a different problem is not a duplicate). docs: only documentation needs to change (wrong, missing or unclear docs,
+      README, examples or code comments) and the software itself works as intended. bug: the software does not work as intended
+      or as documented (errors, crashes, wrong results); a pull request that fixes such a defect is a bug. feature: it asks
+      for new behaviour or an improvement the software does not claim to have, even if the writer calls it a bug; a pull request
+      that adds behaviour is a feature. question: it asks how to do something or what the expected behaviour is, and does
+      not report a defect or ask for a change.'
+    labels:
+      source: fixed
+      fixed:
+        bug: 'Bug: the software does not work as intended or as documented (errors, crashes, wrong results, broken behaviour).'
+        docs: 'Docs: only documentation needs to change (wrong, missing or unclear docs, README, examples or comments); the
+          software works as intended.'
+        duplicate_candidate: 'Duplicate candidate: reports the same problem or asks for the same thing as one of the listed
+          open issues.'
+        feature: 'Feature: asks for new behaviour or an improvement the software does not claim to have, even if called a
+          bug.'
+        question: 'Question: asks how to do something or what the expected behaviour is, without reporting a defect or asking
+          for a change.'
+      subset: false
+    abstain_labels: []
+    calibration:
+      data: hf://mstrasser/jeff-adapter-issue-route@v1.4/calibration.jsonl
+      rows: 1020
+      target_precision: 0.95
+      threshold: 0.56415
+      precision_at_threshold: 0.991176
+      coverage_at_threshold: 1.0
+  owner:
+    interface: route
+    type: choice
+    instructions: 'Which component owns this issue or pull request? Choose the component whose code, configuration or documentation
+      must change to resolve it, using the component descriptions and paths. Where the problem was noticed does not decide
+      it: follow the error message, stack trace, file paths or the cause the report describes. For a pull request, the component
+      whose files it changes. For a question, the component whose behaviour is asked about. For a report that repeats one
+      of the listed open issues, the component that owns the issue it repeats.'
+    labels:
+      source: caller
+      fixed_first: {}
+      caller_keys: null
+      max: 12
+    abstain_labels: []
+    calibration:
+      data: hf://mstrasser/jeff-adapter-issue-route@v1.4/calibration.jsonl
+      rows: 980
+      target_precision: 0.95
+      threshold: 0.434595
+      precision_at_threshold: 0.978571
+      coverage_at_threshold: 1.0
+routes_to: []
+tests:
+  published: hf://mstrasser/jeff-adapter-issue-route@v1.4/test.jsonl
+  calibration: hf://mstrasser/jeff-adapter-issue-route@v1.4/calibration.jsonl
+  function_by: source_kind
+hub:
+  title: oss-issue-route
+  summary: 'Jeff v1.4 adapter `issue-route`. For a new issue or pull request, picks the part of the project that owns it from
+    a menu, and says what kind it is: bug, feature, question, docs or duplicate.'

@@ -1,0 +1,21 @@
+# oss-requires_action, v1.4 (RTX /mnt/d/jeff-adapters/v1.4/oss-requires_action, data teamsuzie/jeff-data apps/oss-requires_action).
+path: apps/oss-requires_action
+adapter_path: oss-requires_action
+id: jeff.support.requires-action
+aliases: [oss-requires-action, requires-action]
+version: 1.4.0
+function_by: id_suffix
+context:
+  - key: team
+    description: "The team: an object with the organisation and the team's name."
+  - key: policy
+    description: "The team's policy: a list of sentences saying what the team handles and when a message must be escalated."
+input:
+  key: message
+  description: "The message: an object with from, to, date, subject and body."
+  form: fields
+functions:
+  # classify: choice yes / no / unclear (the requires_escalation interface is a noul question)
+  requires_action: {interface: classify, option_order: shuffled}
+  # classify: choice yes / no / unclear (the requires_escalation interface is a noul question)
+  requires_escalation: {interface: classify, option_order: shuffled}

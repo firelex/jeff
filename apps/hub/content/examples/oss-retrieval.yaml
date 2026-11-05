@@ -1,0 +1,211 @@
+# The "Retrieval" page's examples (guides/oss-retrieval.md): one question answered over a few passages, step by step
+# (where to search, whether a passage answers it, whether the passages are enough, which one answers it, whether the
+# written answer is supported), then working with documents (their type, a passage's section, a contract clause's
+# type, an extracted value). Format and recording: scripts/hub_examples.py. The `recorded` blocks are written by
+# `scripts/hub_examples.py --record`, never by hand. Every input here was written for the page.
+- id: oss-query-route
+  name: Heat pump warranty question
+  function: jeff.retrieval.query-route.source
+  context:
+    menu: |-
+      - product_manuals: installation and user manuals for every heat pump and boiler the company sells
+      - warranty_terms: the warranty terms for each product, by model and installation date
+      - customer_orders: each customer's orders, installations and visits (a database)
+      - pricing: current prices and offers
+  input: How long is the warranty on an Aster 2 heat pump installed after March 2026?
+  labels:
+    product_manuals: Installation and user manuals for every heat pump and boiler the company sells
+    warranty_terms: The warranty terms for each product, by model and installation date
+    customer_orders: Each customer's orders, installations and visits (a database)
+    pricing: Current prices and offers
+    none: No source on the menu holds what the query needs, or no lookup is needed
+    several: The answer needs facts from two or more of these sources
+  recorded:
+    value: warranty_terms
+    confidence: 0.981
+    top_options:
+    - option: warranty_terms
+      probability: 0.981
+    - option: product_manuals
+      probability: 0.009
+    - option: customer_orders
+      probability: 0.005
+    server: v1.4
+    at: '2026-11-03'
+- id: oss-passage-relevant
+  name: Older model's warranty terms
+  function: jeff.retrieval.passage-relevant.relevant
+  context:
+    source: 'warranty_terms: the warranty terms for each heat pump and boiler a home energy installer sells'
+    question: How long is the warranty on an Aster 2 heat pump installed after March 2026?
+  input: Aster 1 heat pumps carry a five-year parts and labour warranty from the date of installation, provided the unit is serviced every year by an approved engineer.
+  recorded:
+    value: 'no'
+    confidence: 0.993
+    top_options:
+    - option: 'no'
+      probability: 0.993
+    - option: 'yes'
+      probability: 0.006
+    - option: partly
+      probability: 0.001
+    server: v1.4
+    at: '2026-11-03'
+- id: oss-evidence-sufficient
+  name: Three warranty passages
+  function: jeff.retrieval.evidence-sufficient.sufficient
+  context:
+    question: How long is the warranty on an Aster 2 heat pump installed on or after 1 March 2026?
+  input:
+  - Aster 1 heat pumps carry a five-year parts and labour warranty from the date of installation, provided the unit is serviced every year by an approved engineer.
+  - For Aster 2 units installed on or after 1 March 2026 the warranty is extended to seven years, parts and labour, with the same annual service condition.
+  - Our boilers come with a two-year warranty as standard.
+  recorded:
+    value: sufficient
+    confidence: 0.991
+    top_options:
+    - option: sufficient
+      probability: 0.991
+    - option: conflicting
+      probability: 0.006
+    - option: insufficient
+      probability: 0.004
+    server: v1.4
+    at: '2026-11-03'
+- id: oss-ground-rerank
+  name: Heat pump warranty after March 2026
+  function: jeff.retrieval.ground.rerank
+  input: How long is the warranty on an Aster 2 heat pump installed after March 2026?
+  labels:
+    p1: Aster 1 heat pumps carry a five-year parts and labour warranty from the date of installation.
+    p2: For Aster 2 units installed on or after 1 March 2026 the warranty is extended to seven years, parts and labour.
+    p3: Our boilers come with a two-year warranty as standard.
+    none: None of the passages answers the question.
+  recorded:
+    value: p2
+    confidence: 0.999
+    top_options:
+    - option: p2
+      probability: 0.999
+    - option: none
+      probability: 0.0
+    - option: p3
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-03'
+- id: oss-ground
+  name: Seven-year warranty answer
+  function: jeff.retrieval.ground.grounding
+  context:
+    sources:
+    - 'Passage 1: Aster 1 heat pumps carry a five-year parts and labour warranty from the date of installation.'
+    - 'Passage 2: For Aster 2 units installed on or after 1 March 2026 the warranty is extended to seven years, parts and labour, provided the unit is serviced every year by an approved engineer.'
+  input: An Aster 2 installed after March 2026 has a seven-year parts and labour warranty, as long as it is serviced every year by an approved engineer.
+  recorded:
+    value: supported
+    confidence: 0.996
+    top_options:
+    - option: supported
+      probability: 0.996
+    - option: partly_supported
+      probability: 0.003
+    - option: contradicted
+      probability: 0.001
+    server: v1.4
+    at: '2026-11-03'
+- id: oss-doc-type
+  name: Quotation for mounting brackets
+  function: jeff.retrieval.doc-type.doc_type
+  context:
+    sorting_desk: The shared inbox of a home energy installer's office, where suppliers, customers and partners send documents.
+  input: |-
+    QUOTATION Q-2291
+    To: Fenwick Home Energy, 12 Quay Street
+    For the supply of 40 outdoor mounting brackets (model MB-6) at 32.00 each: 1,280.00 plus VAT.
+    This quotation is valid for 30 days. An invoice will follow on delivery.
+  labels:
+    invoice: A bill for goods or services already supplied, asking for payment
+    quote: An offer of a price for goods or services, before any order
+    purchase_order: The buyer's order to a supplier, placing an order at agreed prices
+    delivery_note: A note listing goods delivered, signed on receipt
+    other: None of these types
+  recorded:
+    value: quote
+    confidence: 0.997
+    top_options:
+    - option: quote
+      probability: 0.997
+    - option: other
+      probability: 0.002
+    - option: purchase_order
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-03'
+- id: oss-section-id
+  name: Ending the agreement on notice
+  function: jeff.retrieval.section-id.section
+  context:
+    document: An installation services agreement between a home energy installer and a housing developer.
+  input: Either party may end this agreement on 60 days' written notice. If the developer ends it, any invoices then unpaid fall due at once.
+  labels:
+    scope: What work the installer will do, and where
+    payment: Prices, invoicing and when payment is due
+    termination: How and when either party may end the agreement
+    liability: Who is responsible for loss or damage, and the limits
+    none: None of these sections
+  recorded:
+    value: termination
+    confidence: 1.0
+    top_options:
+    - option: termination
+      probability: 1.0
+    - option: payment
+      probability: 0.0
+    - option: none
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-03'
+- id: oss-legal-clauses
+  name: Governing law clause
+  function: jeff.legal.legal-clauses.clause_type
+  context:
+    document: A commercial contract filed with the U.S. Securities and Exchange Commission (SEC)
+  input: This Agreement and any dispute arising out of or in connection with it shall be governed by and construed in accordance with the laws of the State of Delaware, without regard to its conflict of laws principles.
+  recorded:
+    value: governing_laws
+    confidence: 0.93
+    top_options:
+    - option: governing_laws
+      probability: 0.93
+    - option: applicable_laws
+      probability: 0.055
+    - option: qualifications
+      probability: 0.001
+    server: v1.4
+    at: '2026-11-03'
+- id: oss-extract-check
+  name: Invoice total checked against the invoice
+  function: jeff.retrieval.extract-check.check
+  context:
+    document: |-
+      INVOICE 7781
+      Issued: 14 October 2026    Due: 13 November 2026
+      Fenwick Home Energy, 12 Quay Street
+      Aster 2 heat pump, supplied and installed: 8,400.00
+      VAT (5%): 420.00
+      Total due: 8,820.00
+  input:
+    field: total
+    value: '420.00'
+  recorded:
+    value: wrong_field
+    confidence: 0.991
+    top_options:
+    - option: wrong_field
+      probability: 0.991
+    - option: ambiguous
+      probability: 0.003
+    - option: correct
+      probability: 0.003
+    server: v1.4
+    at: '2026-11-03'

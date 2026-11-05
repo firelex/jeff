@@ -1,0 +1,93 @@
+id: jeff.safety.spam
+version: 1.4.0
+aliases:
+- spam
+licence:
+  kind: open
+  adapter: Apache-2.0
+weights:
+  local: {}
+base:
+  id: jeff-base
+  version: v1.4
+  max_options: 3
+context:
+- key: channel
+  description: 'Where the message came from: "sms" or "email", as in training.'
+  required: true
+input:
+  key: message
+  description: The text of the message as received. For an email, its subject and readable body (no other headers, no attachments).
+  form: fields
+functions:
+  is_spam:
+    interface: detect
+    type: noul
+    instructions: Is this message spam or phishing? Answer yes if it is unwanted bulk or advertising, or a scam trying to
+      get personal details or money; answer no if it is a normal message.
+    labels:
+      source: fixed
+      fixed:
+        'false': 'The message is a normal message: not unwanted bulk or advertising, and not a scam.'
+        'true': The message is spam (unwanted bulk or advertising) or phishing (a scam trying to get personal details, passwords
+          or money).
+    abstain_labels: []
+    calibration:
+      data: hf://datasets/teamsuzie/jeff-data@main/apps/spam/calibration.jsonl
+      data_mirror:
+        path: /mnt/d/jeff-data/apps/spam/calibration.jsonl
+        sha256: fea125426174b6bd3beebf20f6fb831a4add20c339d5f0763ff744913fb889c4
+      rows: 1113
+      target_precision: 0.98
+      threshold: 0.515807
+      precision_at_threshold: 0.991914
+      coverage_at_threshold: 1.0
+  message_type:
+    interface: classify
+    type: choice
+    instructions: 'What kind of message is this: a legitimate message, spam (unwanted bulk or advertising), or phishing (a
+      scam trying to get personal details, passwords or money)?'
+    labels:
+      source: fixed
+      fixed:
+        legitimate: A normal message from a person or a genuine organisation, not spam and not phishing.
+        phishing: A scam message that tries to trick the reader into giving personal details, passwords or money, often by
+          pretending to be a bank, company or authority and asking them to click a link or call a number.
+        spam: Unwanted bulk or advertising message (for example prizes, offers, premium-rate services), but not trying to
+          steal personal or account details.
+      subset: false
+    abstain_labels: []
+    calibration:
+      data: hf://datasets/teamsuzie/jeff-data@main/apps/spam/calibration.jsonl
+      data_mirror:
+        path: /mnt/d/jeff-data/apps/spam/calibration.jsonl
+        sha256: fea125426174b6bd3beebf20f6fb831a4add20c339d5f0763ff744913fb889c4
+      rows: 832
+      target_precision: 0.98
+      threshold: 0.425658
+      precision_at_threshold: 0.980769
+      coverage_at_threshold: 1.0
+routes_to: []
+tests:
+  published: null
+  calibration: null
+  internal: hf://datasets/teamsuzie/jeff-data@main/apps/spam/test.jsonl
+  internal_calibration: hf://datasets/teamsuzie/jeff-data@main/apps/spam/calibration.jsonl
+  function_by: id_suffix
+hub:
+  title: spam
+  summary: Jeff v1.4 adapter `spam`. Says whether a text message or email is spam or phishing, and whether it is legitimate,
+    spam or a phishing scam.
+  source: local adapter folder spam (not on Hugging Face)
+  notes:
+  - 'is_spam: instructions are the one text of the 1664 test rows marked canonical (source.instructions); the other 667 ask
+    the same question reworded or with no instructions (as trained), and are rebuilt with the canonical text in template mode.'
+  - 'message_type: instructions are the one text of the 1113 test rows marked canonical (source.instructions); the other 453
+    ask the same question reworded or with no instructions (as trained), and are rebuilt with the canonical text in template
+    mode.'
+  - 'message_type: every test row has the same 3 labels in varying orders (training shuffled them), so they are listed by
+    key.'
+  - 'base: jeff-base v1.4, identified by the SHA-256 of its model.safetensors, which the adapter''s decision_config.json records
+    for its base checkpoint.'
+  - 'tests: the test set is the private hf://datasets/teamsuzie/jeff-data@main/apps/spam/test.jsonl, so tests.published is
+    null; the calibration of each function is filled in later by `jeff calibrate`.'

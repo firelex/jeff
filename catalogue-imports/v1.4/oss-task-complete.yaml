@@ -1,0 +1,23 @@
+# oss-task-complete, v1.4 (RTX /mnt/d/jeff-adapters/v1.4/oss-task-complete, data teamsuzie/jeff-data apps/oss-task-complete).
+path: apps/oss-task-complete
+adapter_path: oss-task-complete
+id: jeff.agents.task-complete
+aliases: [oss-task-complete, task-complete]
+version: 1.4.0
+function_by: only
+context:
+  - key: app
+    description: "The application the agent works in: its name and a description of what it does and for whom."
+  - key: today
+    description: "Today's date, written out (for example 'Wednesday 23 June 2027')."
+  - key: request
+    description: "The user's request, in the user's words."
+  - key: transcript
+    description: "The agent's tool calls, each with its call (tool and arguments) and result."
+input:
+  key: final_answer
+  description: "The agent's final answer to the user."
+  form: fields
+functions:
+  # classify: fixed answer set complete / incomplete / unclear
+  complete: {interface: classify, option_order: shuffled}

@@ -1,0 +1,130 @@
+# The "A retrieval pipeline that knows when not to answer" worked example (guides/worked-retrieval.md): an e-bike
+# maker's help assistant routes a question to a source, keeps the passages that bear on it, checks they are enough to
+# answer (or says it does not know), and checks the answer against them. Format and recording: scripts/hub_examples.py.
+# The `recorded` blocks are written by `scripts/hub_examples.py --record-new`, never by hand. Every input here was
+# written for the page.
+- id: worked-retrieval-route
+  name: A warranty question, which source
+  function: jeff.retrieval.query-route.source
+  context:
+    menu: |-
+      - product_manuals: user and repair manuals for every Kestrel e-bike
+      - warranty_terms: the warranty terms for each model, by model and purchase date
+      - customer_orders: each customer's orders, deliveries and repairs (a database)
+      - pricing: current prices, spare parts and offers
+  input: Does the warranty on my Kestrel Volt 2 still cover the battery after two years?
+  labels:
+    product_manuals: User and repair manuals for every Kestrel e-bike
+    warranty_terms: The warranty terms for each model, by model and purchase date
+    customer_orders: Each customer's orders, deliveries and repairs (a database)
+    pricing: Current prices, spare parts and offers
+    none: No source on the menu holds what the query needs, or no lookup is needed
+    several: The answer needs facts from two or more of these sources
+  recorded:
+    value: warranty_terms
+    confidence: 0.975
+    top_options:
+    - option: warranty_terms
+      probability: 0.975
+    - option: none
+      probability: 0.008
+    - option: customer_orders
+      probability: 0.008
+    server: v1.4
+    at: '2026-11-04'
+- id: worked-retrieval-relevant-no
+  name: A passage on charging
+  function: jeff.retrieval.passage-relevant.relevant
+  context:
+    source: 'warranty_terms: the warranty terms for each Kestrel e-bike model, by model and purchase date'
+    question: Does the warranty on my Kestrel Volt 2 still cover the battery after two years?
+  input: Charge the Volt 2 battery at room temperature with the supplied charger. A full charge takes about four hours.
+  recorded:
+    value: 'no'
+    confidence: 0.995
+    top_options:
+    - option: 'no'
+      probability: 0.995
+    - option: 'yes'
+      probability: 0.004
+    - option: partly
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-04'
+- id: worked-retrieval-sufficient
+  name: Enough to answer
+  function: jeff.retrieval.evidence-sufficient.sufficient
+  context:
+    question: Does the warranty on my Kestrel Volt 2 still cover the battery after two years?
+  input:
+  - Kestrel Volt 2 warranty. The frame is covered for ten years. The battery is covered for three years from the date of purchase, against defects and against its capacity falling below 70 percent.
+  recorded:
+    value: sufficient
+    confidence: 0.721
+    top_options:
+    - option: sufficient
+      probability: 0.721
+    - option: insufficient
+      probability: 0.26
+    - option: conflicting
+      probability: 0.019
+    server: v1.4
+    at: '2026-11-04'
+- id: worked-retrieval-insufficient
+  name: Not enough to answer
+  function: jeff.retrieval.evidence-sufficient.sufficient
+  context:
+    question: Does the warranty on my Kestrel Volt 2 cover a battery that was damaged when the bike was left out in the rain?
+  input:
+  - Kestrel Volt 2 warranty. The frame is covered for ten years. The battery is covered for three years from the date of purchase, against defects and against its capacity falling below 70 percent.
+  - Charge the Volt 2 battery at room temperature with the supplied charger. A full charge takes about four hours.
+  recorded:
+    value: insufficient
+    confidence: 0.994
+    top_options:
+    - option: insufficient
+      probability: 0.994
+    - option: sufficient
+      probability: 0.005
+    - option: conflicting
+      probability: 0.001
+    server: v1.4
+    at: '2026-11-04'
+- id: worked-retrieval-ground-supported
+  name: The answer, checked
+  function: jeff.retrieval.ground.grounding
+  context:
+    sources:
+    - 'Warranty terms: Kestrel Volt 2 warranty. The frame is covered for ten years. The battery is covered for three years from the date of purchase, against defects and against its capacity falling below 70 percent.'
+  input: Yes. The Volt 2 battery is covered for three years from the date of purchase, against defects and against its capacity falling below 70 percent, so after two years it is still covered.
+  recorded:
+    value: supported
+    confidence: 0.554
+    top_options:
+    - option: supported
+      probability: 0.554
+    - option: partly_supported
+      probability: 0.394
+    - option: contradicted
+      probability: 0.048
+    server: v1.4
+    at: '2026-11-04'
+- id: worked-retrieval-ground-unsupported
+  name: An answer that adds a promise
+  function: jeff.retrieval.ground.grounding
+  context:
+    sources:
+    - 'Warranty terms: Kestrel Volt 2 warranty. The frame is covered for ten years. The battery is covered for three years from the date of purchase, against defects and against its capacity falling below 70 percent.'
+  input: Yes. The battery is covered for three years, and Kestrel will send you a free replacement battery by next-day delivery.
+  recorded:
+    value: partly_supported
+    confidence: 0.999
+    top_options:
+    - option: partly_supported
+      probability: 0.999
+    - option: contradicted
+      probability: 0.001
+    - option: unsupported
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-04'

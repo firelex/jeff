@@ -1,0 +1,115 @@
+# The swarm page's examples (guides/the-swarm.md): the open router, jeff.routing.router-open, picks a specialist for
+# a request, and the request is then sent to that specialist through the SDK. The router's input is the request as the
+# specialist would get it: the question's instructions, its options (the label keys) and its state (the specialist's
+# context fields and input, as JSON text). Its labels are the caller's menu of specialists, each with a description,
+# and always `base` (the general model, no specialist), with the descriptions the router was trained on. Each
+# follow-up example is the matching specialist call (named by the router example's routes_to_example), with the same
+# content as its example on the family page (swarm-open-route-ci routes to the family page's own oss-ci-failure);
+# --validate checks that the router's request is exactly that specialist call's. Format and recording:
+# scripts/hub_examples.py. The `recorded` blocks are written by `scripts/hub_examples.py --record`, never by hand.
+- id: swarm-message-triage
+  name: Supplier invoice, as the router passes it on
+  function: jeff.support.message-triage.action_needed
+  context:
+    recipient:
+      name: Lena Brandt
+      address: lena.brandt@hollowayarch.example
+      role: Office manager
+      organisation: Holloway Architects
+    message_kinds:
+      invoice: A supplier's bill or a question about one
+      booking: Meeting room, travel or event bookings
+      it_problem: Something broken with computers, phones or the network
+      newsletter: Bulk mail and marketing
+    routing_table:
+    - key: finance
+      name: Finance team
+      address: finance@hollowayarch.example
+      topics: Supplier invoices, payments, expenses
+    - key: it
+      name: IT support
+      address: it@hollowayarch.example
+      topics: Computers, phones, printers, network and accounts
+    routing_rules:
+    - Anything about a client project's fees goes to the partner on the project, never to finance.
+    now: Monday 2 November 2026, 09:40
+  input:
+    channel: email
+    from: billing@greenleafplants.example
+    to: lena.brandt@hollowayarch.example
+    cc: ''
+    received: Monday 2 November 2026, 08:55
+    subject: Invoice GL-5520 for October plant care
+    body: Hello Lena, please find attached our invoice GL-5520 for October's plant care at your Bristol office, 240.00. Could you arrange payment within 30 days? Kind regards, Greenleaf Plants
+  recorded:
+    value: forward
+    confidence: 0.99
+    top_options:
+    - option: forward
+      probability: 0.99
+    - option: do_task
+      probability: 0.007
+    - option: fyi_only
+      probability: 0.001
+    server: v1.4
+    at: '2026-11-03'
+- id: swarm-passage-relevant
+  name: Older model's warranty, as the router passes it on
+  function: jeff.retrieval.passage-relevant.relevant
+  context:
+    source: 'warranty_terms: the warranty terms for each heat pump and boiler a home energy installer sells'
+    question: How long is the warranty on an Aster 2 heat pump installed after March 2026?
+  input: Aster 1 heat pumps carry a five-year parts and labour warranty from the date of installation, provided the unit is serviced every year by an approved engineer.
+  recorded:
+    value: 'no'
+    confidence: 0.993
+    top_options:
+    - option: 'no'
+      probability: 0.993
+    - option: 'yes'
+      probability: 0.006
+    - option: partly
+      probability: 0.001
+    server: v1.4
+    at: '2026-11-03'
+- id: swarm-open-route-ci
+  name: CI failure request for the open router
+  function: jeff.routing.router-open.specialist
+  routes_to_example: oss-ci-failure
+  input:
+    instructions: >-
+      What kind of failure is this CI run? Use the log, the change (if there is one) and the CI facts (attempts on this commit, the history of the same test or job on the main branch, other jobs, dependency versions compared with the last passing run, durations). Apply the first rule that fits. build_or_config: the run failed before any test ran, in compiling, type checking, linting, packaging or the CI configuration itself (a bad pipeline file, a missing secret or variable, a wrong path), even if the change caused it. environment_or_infra: the error comes from the CI machine or an outside service (network or DNS errors, a package registry or mirror down, no disk space, a lost runner, a service container that did not start), not from the code; other jobs often fail the same way. flaky_test: the test fails only some of the time on the same code: a rerun of the same commit passed, or the test fails now and then on the main branch without code changes. timeout_or_resource: a test or job was stopped for exceeding a time limit or a memory limit (out of memory, killed, exit code 137) on every attempt. dependency_change: a third-party package resolves to a different version than in the last passing run (pulled in automatically, or upgraded by the change itself) and the error comes from that package. test_needs_update: the change says this behaviour was changed on purpose, and the failing test still expects the old behaviour. real_regression: the change broke behaviour it did not mean to change: the failure repeats on every attempt and the same test passes on the main branch. Warnings or retries in the log that did not stop the run do not decide the answer.
+    options:
+    - build_or_config
+    - dependency_change
+    - environment_or_infra
+    - flaky_test
+    - real_regression
+    - test_needs_update
+    - timeout_or_resource
+    state: "{\"project\": \"tidepool, an open-source Python library for reading and writing tide-gauge data files.\", \"ci_run\": {\"job\": \"tests (python 3.12)\", \"trigger\": \"pull request 412\", \"commit\": \"9f3c2e1\", \"date\": \"2 November 2026\"}, \"change\": {\"title\": \"Speed up the CSV reader\", \"description\": \"Reads rows in blocks of 4,096 instead of one at a time. No behaviour change intended.\"}, \"ci_facts\": {\"attempts_on_this_commit\": \"2, both failed the same way\", \"same_test_on_main\": \"passed in each of the last 30 runs\", \"other_jobs_in_this_run\": \"lint passed; docs passed\", \"dependency_versions\": \"unchanged since the last passing run\", \"duration\": \"3 min 40 s (usual 3 min 30 s)\"}, \"log\": \"tests/test_csv.py::test_reads_last_row FAILED\\nE   AssertionError: expected 1,000 rows, got 904\\nE   assert 904 == 1000\\n========== 1 failed, 213 passed in 41.2s ==========\"}"
+  labels:
+    message-triage: "Triages a message using the inbox's own message kinds, routing table and rules: what it is, what action it needs, how urgent it is and who should handle it."
+    support-intents: Names what a customer or assistant user is asking for, from a fixed list of requests such as cancel_order or track_refund.
+    triage: Routes a support ticket or email to a team and scores its urgency, sentiment and need for a person.
+    passage-relevant: 'For search and retrieval: checks whether a passage answers a question for the right subject and period: yes, partly or no.'
+    evidence-sufficient: 'For search and retrieval: checks whether a set of passages is enough to answer a question: sufficient, insufficient or conflicting.'
+    entails: 'Checks whether the evidence given (documents, messages or records) supports a claim: supported, unsupported or unclear.'
+    contradicts: 'Checks whether two statements or records conflict: yes, no, or unclear (for example a date that can be read two ways).'
+    guard: Checks a user message or outside content for prompt injection, jailbreak and data-leak attempts, and names the kind.
+    spam: Says whether a text message or email is spam or phishing, and whether it is legitimate, spam or a phishing scam.
+    tool-route: Given a tool menu written into the request (in any common format) and the conversation, picks the tool to call next, no tool, or asking the user for a missing detail.
+    ci-failure: 'Reads a failed automated build-and-test run (its log, the code change and the run history) and says what kind of failure it is: a real regression, a flaky test, infrastructure, a dependency change, a test that needs updating, and so on.'
+    base: 'No listed specialist fits this request, so the general model with no specialist answers it: everyday reasoning, reading, knowledge and judging tasks, or any task that none of the listed specialists covers.'
+  recorded:
+    value: ci-failure
+    confidence: 1.0
+    top_options:
+    - option: ci-failure
+      probability: 1.0
+    - option: contradicts
+      probability: 0.0
+    - option: guard
+      probability: 0.0
+    server: v1.4
+    at: '2026-11-03'

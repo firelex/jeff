@@ -1,0 +1,41 @@
+# The open adapters' weights that are public on Hugging Face, each written <repository>@<revision> exactly as its
+# manifest in catalogue/ names it: every open adapter since the v1.4 release (owner, 2026-11-05: "Publish the open
+# weights now"; scripts/release_hf.py uploads them; only v1.4 stays, so the v1.3-only aml and nav left the catalogue).
+# An open adapter's page shows "published at launch" beside its
+# Download link when its weights are not listed here. `scripts/hub_examples.py --check-repos` checks this list against
+# Hugging Face both ways: every entry must exist publicly, and every open adapter's weights that exist publicly must be
+# listed. The base, mstrasser/jeff-base@v1.4, is released with them; this list holds adapters' weights only.
+- mstrasser/jeff-adapter-action-check@v1.4
+- mstrasser/jeff-adapter-after-result@v1.4
+- mstrasser/jeff-adapter-assistant-routing@v1.4
+- mstrasser/jeff-adapter-ci-failure@v1.4
+- mstrasser/jeff-adapter-contradicts@v1.4
+- mstrasser/jeff-adapter-doc-type@v1.4
+- mstrasser/jeff-adapter-emotion@v1.4
+- mstrasser/jeff-adapter-entails@v1.4
+- mstrasser/jeff-adapter-equivalent@v1.4
+- mstrasser/jeff-adapter-evidence-sufficient@v1.4
+- mstrasser/jeff-adapter-extract-check@v1.4
+- mstrasser/jeff-adapter-ground@v1.4
+- mstrasser/jeff-adapter-guard@v1.4
+- mstrasser/jeff-adapter-is-complete@v1.4
+- mstrasser/jeff-adapter-issue-route@v1.4
+- mstrasser/jeff-adapter-knowledge-qa@v1.4
+- mstrasser/jeff-adapter-legal-clauses@v1.4
+- mstrasser/jeff-adapter-message-triage@v1.4
+- mstrasser/jeff-adapter-passage-relevant@v1.4
+- mstrasser/jeff-adapter-query-route@v1.4
+- mstrasser/jeff-adapter-requires-action@v1.4
+- mstrasser/jeff-adapter-result-relevant@v1.4
+- mstrasser/jeff-adapter-router-open-v14@v1.4
+- mstrasser/jeff-adapter-sanctions@v1.4
+- mstrasser/jeff-adapter-satisfies@v1.4
+- mstrasser/jeff-adapter-section-id@v1.4
+- mstrasser/jeff-adapter-soc@v1.4
+- mstrasser/jeff-adapter-spam@v1.4
+- mstrasser/jeff-adapter-support-intents@v1.4
+- mstrasser/jeff-adapter-task-complete@v1.4
+- mstrasser/jeff-adapter-tool-route@v1.4
+- mstrasser/jeff-adapter-tools@v1.4
+- mstrasser/jeff-adapter-trading-desk@v1.4
+- mstrasser/jeff-adapter-triage@v1.4

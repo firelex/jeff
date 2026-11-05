@@ -1,0 +1,108 @@
+{
+  "id": "parcel-claims-20261020-090012",
+  "created": "2026-10-20T09:01:36.000+00:00",
+  "description": "Read a shop customer's message about a parcel. Decide which claim it makes (damaged, lost, late, or none) and, when it makes one, whether the customer asks for a refund. The state holds one sentence about the shop, then the message (assumed).",
+  "examples": null,
+  "name_hint": "parcel-claims",
+  "status": "published",
+  "steps": {
+    "description_check": {
+      "status": "done",
+      "started": "2026-10-20T09:00:00.000+00:00",
+      "error": null,
+      "ended": "2026-10-20T09:00:38.000+00:00"
+    },
+    "confirm": {
+      "status": "done",
+      "started": "2026-10-20T09:00:38.000+00:00",
+      "error": null,
+      "ended": "2026-10-20T09:01:35.000+00:00"
+    },
+    "interpret": {
+      "status": "done",
+      "started": "2026-10-20T09:01:36.000+00:00",
+      "error": null,
+      "ended": "2026-10-20T09:02:20.000+00:00"
+    },
+    "review": {
+      "status": "done",
+      "started": "2026-10-20T09:02:20.000+00:00",
+      "error": null,
+      "ended": "2026-10-20T09:06:20.000+00:00"
+    },
+    "data_prep": {
+      "status": "done",
+      "started": "2026-10-20T09:06:21.000+00:00",
+      "error": null,
+      "ended": "2026-10-20T09:07:50.000+00:00"
+    },
+    "generate": {
+      "status": "done",
+      "started": "2026-10-20T09:07:51.000+00:00",
+      "error": null,
+      "ended": "2026-10-20T09:21:00.000+00:00"
+    },
+    "checks": {
+      "status": "done",
+      "started": "2026-10-20T09:21:01.000+00:00",
+      "error": null,
+      "ended": "2026-10-20T09:22:02.000+00:00"
+    },
+    "train": {
+      "status": "done",
+      "started": "2026-10-20T09:22:03.000+00:00",
+      "error": null,
+      "ended": "2026-10-20T09:33:24.000+00:00"
+    },
+    "calibrate": {
+      "status": "done",
+      "started": "2026-10-20T09:33:25.000+00:00",
+      "error": null,
+      "ended": "2026-10-20T09:34:01.000+00:00"
+    },
+    "evaluate": {
+      "status": "done",
+      "started": "2026-10-20T09:34:02.000+00:00",
+      "error": null,
+      "ended": "2026-10-20T09:34:50.000+00:00"
+    },
+    "publish": {
+      "status": "done",
+      "started": "2026-10-20T09:34:51.000+00:00",
+      "error": null,
+      "ended": "2026-10-20T09:35:09.000+00:00"
+    }
+  },
+  "spec_sha256": "6fa522d11d94a0301ef6ba89eb6156a91bdcf6c996ed4495ee7afcd1fd9c31a3",
+  "approved": "2026-10-20T09:06:20.000+00:00",
+  "clean": true,
+  "unclean_reasons": [],
+  "gate": {
+    "min_accuracy": 0.9
+  },
+  "independent_test": null,
+  "description_check": {
+    "id": "check-20261020-090000-a1b2c3",
+    "choice": "improved",
+    "original": "Read a shop customer's message about a parcel. Decide which claim it makes (damaged, lost, late, or none) and, when it makes one, whether the customer asks for a refund.",
+    "improved": "Read a shop customer's message about a parcel. Decide which claim it makes (damaged, lost, late, or none) and, when it makes one, whether the customer asks for a refund. The state holds one sentence about the shop, then the message (assumed).",
+    "ready": true,
+    "summary": "Clear enough to build; one assumption added.",
+    "problems": [
+      {
+        "severity": "minor",
+        "text": "The state is not described; assumed: the shop, then the message."
+      }
+    ],
+    "questions": [
+      "Should a message about a missing item inside a parcel count as lost?"
+    ],
+    "changes": [
+      "Described the state (assumed)."
+    ],
+    "teacher_model": "glm-5.3"
+  },
+  "mode": "prompt",
+  "reference": null,
+  "spec_from": null
+}

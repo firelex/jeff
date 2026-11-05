@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jeff.dev/schemas/accounts_usage.schema.json",
+  "title": "POST /api/internal/v1/usage request",
+  "description": "jeff-server's usage report, sent to the hub once a minute: totals, never deltas, so a repeated or lost report does no harm. accounts: each account's input tokens counted so far in a billing period (the current one and the one before), by the period's start; the playground's usage is reported under the account id 'playground'. keys: when each key was last used. Times are UTC, to the second, with a Z.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["accounts", "keys"],
+  "$defs": {
+    "time": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"}
+  },
+  "properties": {
+    "accounts": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false, "required": ["account", "period_start", "input_tokens"],
+        "properties": {
+          "account": {"type": "string", "pattern": "^[A-Za-z0-9_-]{1,64}$"},
+          "period_start": {"$ref": "#/$defs/time"},
+          "input_tokens": {"type": "integer", "minimum": 0}
+        }
+      }
+    },
+    "keys": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false, "required": ["hash", "last_used"],
+        "properties": {
+          "hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "last_used": {"$ref": "#/$defs/time"}
+        }
+      }
+    }
+  }
+}

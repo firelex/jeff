@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jeff.dev/schemas/login_request.schema.json",
+  "title": "Jeff POST /ui/login request",
+  "description": "A console sign-in checked against the server's JEFF_UI_USERS file.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["email", "password"],
+  "properties": {
+    "email": {"type": "string"},
+    "password": {"type": "string"}
+  }
+}

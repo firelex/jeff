@@ -1,0 +1,2825 @@
+{
+ "description": "What the Python SDK (packages/python, Python 3.13.14) did with these inputs, recorded on 2026-11-05 for the .NET SDK's tests. manifests: a shipped manifest (catalogues.json) changed by ops ([\"set\", path, value] or [\"del\", path]) and read by jeff.manifest.manifest_from_dict with the path 'test': its function keys and field code names, or the error. refs: Catalogue.shipped().adapter or .function. codes: code_name_of. versions: version_matches(wanted, actual). bases: Catalogue.shipped().base. patterns: re.compile (python: accepted, refused with re.error's message, or OverflowError).",
+ "manifests": [
+  {
+   "name": "unchanged spam",
+   "adapter": "jeff.safety.spam",
+   "ops": [],
+   "expect": {
+    "ok": {
+     "functions": [
+      "is_spam",
+      "message_type"
+     ],
+     "codes": [
+      [
+       "channel",
+       "channel"
+      ],
+      [
+       "message",
+       "message"
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "name": "unchanged guard",
+   "adapter": "jeff.safety.guard",
+   "ops": [],
+   "expect": {
+    "ok": {
+     "functions": [
+      "attempt",
+      "kind"
+     ],
+     "codes": [
+      [
+       "application",
+       "application"
+      ],
+      [
+       "source",
+       "source"
+      ],
+      [
+       "text",
+       "text"
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "name": "unchanged triage",
+   "adapter": "jeff.support.triage",
+   "ops": [],
+   "expect": {
+    "ok": {
+     "functions": [
+      "route",
+      "urgency",
+      "sentiment",
+      "needs_human"
+     ],
+     "codes": [
+      [
+       "company",
+       "company"
+      ],
+      [
+       "channel",
+       "channel"
+      ],
+      [
+       "message",
+       "message"
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "name": "no code name",
+   "adapter": "jeff.safety.spam",
+   "ops": [
+    [
+     "set",
+     [
+      "context"
+     ],
+     [
+      {
+       "key": "2nd party",
+       "description": "A field.",
+       "required": true
+      }
+     ]
+    ]
+   ],
+   "expect": {
+    "error": {
+     "type": "ManifestError",
+     "message": "test: field '2nd party' gives no code name by the rule (lower-case, other characters to '_': '2nd_party', which is not of the form ^[a-z][a-z0-9_]*$); declare its code_name"
+    }
+   }
+  },
+  {
+   "name": "declared code name",
+   "adapter": "jeff.safety.spam",
+   "ops": [
+    [
+     "set",
+     [
+      "context"
+     ],
+     [
+      {
+       "key": "2nd party",
+       "description": "A field.",
+       "required": true,
+       "code_name": "second_party"
+      }
+     ]
+    ]
+   ],
+   "expect": {
+    "ok": {
+     "functions": [
+      "is_spam",
+      "message_type"
+     ],
+     "codes": [
+      [
+       "2nd party",
+       "second_party"
+      ],
+      [
+       "message",
+       "message"
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "name": "code name by rule",
+   "adapter": "jeff.safety.spam",
+   "ops": [
+    [
+     "set",
+     [
+      "context"
+     ],
+     [
+      {
+       "key": "Deal ID",
+       "description": "A field.",
+       "required": true
+      }
+     ]
+    ]
+   ],
+   "expect": {
+    "ok": {
+     "functions": [
+      "is_spam",
+      "message_type"
+     ],
+     "codes": [
+      [
+       "Deal ID",
+       "deal_id"
+      ],
+      [
+       "message",
+       "message"
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "name": "dotted capital i",
+   "adapter": "jeff.safety.spam",
+   "ops": [
+    [
+     "set",
+     [
+      "context"
+     ],
+     [
+      {
+       "key": "İd",
+       "description": "A field.",
+       "required": true
+      },
+      {
+       "key": "i_d",
+       "description": "B.",
+       "required": false
+      }
+     ]
+    ]
+   ],
+   "expect": {
+    "error": {
+     "type": "ManifestError",
+     "message": "test: fields share a code name, which callers could not tell apart: 'İd', 'i_d' -> i_d; declare a distinct code_name for each"
+    }
+   }
+  },
+  {
+   "name": "kelvin",
+   "adapter": "jeff.safety.spam",
+   "ops": [
+    [
+     "set",
+     [
+      "context"
+     ],
+     [
+      {
+       "key": "Key",
+       "description": "A field.",
+       "required": true
+      },
+      {
+       "key": "key",
+       "description": "B.",
+       "required": false
+      }
+     ]
+    ]
+   ],
+   "expect": {
+    "error": {
+     "type": "ManifestError",
+     "message": "test: fields share a code name, which callers could not tell apart: 'Key', 'key' -> key; declare a distinct code_name for each"
+    }
+   }
+  },
+  {
+   "name": "emoji key",
+   "adapter": "jeff.safety.spam",
+   "ops": [
+    [
+     "set",
+     [
+      "context"
+     ],
+     [
+      {
+       "key": "😀 mood",
+       "description": "A field.",
+       "required": true
+      },
+      {
+       "key": "mood",
+       "description": "B.",
+       "required": false
+      }
+     ]
+    ]
+   ],
+   "expect": {
+    "error": {
+     "type": "ManifestError",
+     "message": "test: fields share a code name, which callers could not tell apart: '😀 mood', 'mood' -> mood; declare a distinct code_name for each"
+    }
+   }
+  },
+  {
+   "name": "shared code names",
+   "adapter": "jeff.safety.spam",
+   "ops": [
+    [
+     "set",
+     [
+      "context"
+     ],
+     [
+      {
+       "key": "Deal ID",
+       "description": "A.",
+       "required": true
+      },
+      {
+       "key": "deal_id",
+       "description": "B.",
+       "required": true
+      },
+      {
+       "key": "x y",
+       "description": "C.",
+       "required": false
+      },
+      {
+       "key": "x-y",
+       "description": "D.",
+       "required": false
+      }
+     ]
+    ]
+   ],
+   "expect": {
+    "error": {
+     "type": "ManifestError",
+     "message": "test: fields share a code name, which callers could not tell apart: 'Deal ID', 'deal_id' -> deal_id; 'x y', 'x-y' -> x_y; declare a distinct code_name for each"
+    }
+   }
+  },
+  {
+   "name": "duplicate context keys",
+   "adapter": "jeff.safety.spam",
+   "ops": [
+    [
+     "set",
+     [
+      "context"
+     ],
+     [
+      {
+       "key": "a",
+       "description": "A.",
+       "required": true
+      },
+      {
+       "key": "a",
+       "description": "B.",
+       "required": true
+      }
+     ]
+    ]
+   ],
+   "expect": {
+    "error": {
+     "type": "ManifestError",
+     "message": "test: context keys must be unique and differ from the input key (['a', 'a'], input message)"
+    }
+   }
+  },
+  {
+   "name": "input key is context key",
+   "adapter": "jeff.safety.spam",
+   "ops": [
+    [
+     "set",
+     [
+      "context"
+     ],
+     [
+      {
+       "key": "message",
+       "description": "A.",
+       "required": true
+      }
+     ]
+    ]
+   ],
+   "expect": {
+    "error": {
+     "type": "ManifestError",
+     "message": "test: context keys must be unique and differ from the input key (['message'], input message)"
+    }
+   }
+  },
+  {
+   "name": "input code name shared",
+   "adapter": "jeff.safety.spam",
+   "ops": [
+    [
+     "set",
+     [
+      "context"
+     ],
+     [
+      {
+       "key": "Message",
+       "description": "A.",
+       "required": true
+      }
+     ]
+    ]
+   ],
+   "expect": {
+    "error": {
+     "type": "ManifestError",
+     "message": "test: fields share a code name, which callers could not tell apart: 'Message', 'message' -> message; declare a distinct code_name for each"
+    }
+   }
+  },
+  {
+   "name": "text with context",
+   "adapter": "jeff.safety.spam",
+   "ops": [
+    [
+     "set",
+     [
+      "input",
+      "form"
+     ],
+     "text"
+    ]
+   ],
+   "expect": {
+    "error": {
+     "type": "ManifestError",
+     "message": "test: input 'message' has form text (the state is the plain input string), so there can be no context fields, but it has ['channel']"
+    }
+   }
+  },
+  {
+   "name": "text without context",
+   "adapter": "jeff.safety.spam",
+   "ops": [
+    [
+     "set",
+     [
+      "input",
+      "form"
+     ],
+     "text"
+    ],
+    [
+     "set",
+     [
+      "context"
+     ],
+     []
+    ]
+   ],
+   "expect": {
+    "ok": {
+     "functions": [
+      "is_spam",
+      "message_type"
+     ],
+     "codes": [
+      [
+       "message",
+       "message"
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "name": "unknown interface",
+   "adapter": "jeff.safety.spam",
+   "ops": [
+    [
+     "set",
+     [
+      "functions",
+      "is_spam",
+      "interface"
+     ],
+     "nope"
+    ]
+   ],
+   "expect": {
+    "error": {
+     "type": "ManifestError",
+     "message": "test: function is_spam names interface 'nope', which is not in the interface catalogue (classify, route, rate, detect, is_supported, equivalent, requires_escalation)"
+    }
+   }
+  },
+  {
+   "name": "type mismatch",
+   "adapter": "jeff.safety.spam",
+   "ops": [
+    [
+     "set",
+     [
+      "functions",
+      "is_spam",
+      "type"
+     ],
+     "choice"
+    ]
+   ],
+   "expect": {
+    "error": {
+     "type": "ContractError",
+     "message": "test does not match the manifest schema:\n  at /functions/is_spam/labels: 'subset' is a required property"
+    }
+   }
+  },
+  {
+   "name": "choice with levels",
+   "adapter": "jeff.safety.spam",
+   "ops": [
+    [
+     "set",
+     [
+      "functions",
+      "message_type",
+      "labels",
+      "levels"
+     ],
+     [
+      "a",
+      "b"
+     ]
+    ]
+   ],
+   "expect": {
+    "error": {
+     "type": "ManifestError",
+     "message": "test: function message_type: choice functions have no levels"
+    }
+   }
+  },
+  {
+   "name": "noul with required",
+   "adapter": "jeff.safety.spam",
+   "ops": [
+    [
+     "set",
+     [
+      "functions",
+      "is_spam",
+      "labels",
+      "required"
+     ],
+     [
+      "true"
+     ]
+    ]
+   ],
+   "expect": {
+    "error": {
+     "type": "ManifestError",
+     "message": "test: function is_spam: only choice functions have 'required' or 'keys'"
+    }
+   }
+  },
+  {
+   "name": "noul with other fixed",
+   "adapter": "jeff.safety.spam",
+   "ops": [
+    [
+     "set",
+     [
+      "functions",
+      "is_spam",
+      "labels",
+      "fixed"
+     ],
+     {
+      "true": null,
+      "maybe": null
+     }
+    ]
+   ],
+   "expect": {
+    "error": {
+     "type": "ManifestError",
+     "message": "test: function is_spam: noul functions may only describe 'true' and 'false' in 'fixed'"
+    }
+   }
+  },
+  {
+   "name": "fixed empty",
+   "adapter": "jeff.safety.spam",
+   "ops": [
+    [
+     "set",
+     [
+      "functions",
+      "message_type",
+      "labels",
+      "fixed"
+     ],
+     {}
+    ]
+   ],
+   "expect": {
+    "error": {
+     "type": "ManifestError",
+     "message": "test: function message_type: fixed labels need a non-empty 'fixed'"
+    }
+   }
+  },
+  {
+   "name": "required on fixed",
+   "adapter": "jeff.safety.spam",
+   "ops": [
+    [
+     "set",
+     [
+      "functions",
+      "message_type",
+      "labels",
+      "required"
+     ],
+     [
+      "spam"
+     ]
+    ]
+   ],
+   "expect": {
+    "error": {
+     "type": "ManifestError",
+     "message": "test: function message_type: only subset labels have 'required'"
+    }
+   }
+  },
+  {
+   "name": "keys on fixed",
+   "adapter": "jeff.safety.spam",
+   "ops": [
+    [
+     "set",
+     [
+      "functions",
+      "message_type",
+      "labels",
+      "keys"
+     ],
+     [
+      "spam"
+     ]
+    ]
+   ],
+   "expect": {
+    "error": {
+     "type": "ManifestError",
+     "message": "test: function message_type: only describe labels have 'keys'"
+    }
+   }
+  },
+  {
+   "name": "caller without max",
+   "adapter": "jeff.routing.tools",
+   "ops": [
+    [
+     "del",
+     [
+      "functions",
+      "tool",
+      "labels",
+      "max"
+     ]
+    ]
+   ],
+   "expect": {
+    "error": {
+     "type": "ManifestError",
+     "message": "test: function tool: caller labels need 'max', the most labels the adapter was trained on"
+    }
+   }
+  },
+  {
+   "name": "too many options",
+   "adapter": "jeff.routing.tools",
+   "ops": [
+    [
+     "set",
+     [
+      "functions",
+      "tool",
+      "labels",
+      "max"
+     ],
+     255
+    ]
+   ],
+   "expect": {
+    "error": {
+     "type": "ManifestError",
+     "message": "test: function tool allows 257 options, more than the base's max_options 152"
+    }
+   }
+  },
+  {
+   "name": "subset with fixed_first",
+   "adapter": "jeff.security.soc",
+   "ops": [
+    [
+     "set",
+     [
+      "functions",
+      "action",
+      "labels",
+      "source"
+     ],
+     "subset"
+    ],
+    [
+     "del",
+     [
+      "functions",
+      "action",
+      "labels",
+      "subset"
+     ]
+    ],
+    [
+     "set",
+     [
+      "functions",
+      "action",
+      "labels",
+      "fixed_first"
+     ],
+     {
+      "x": null
+     }
+    ]
+   ],
+   "expect": {
+    "error": {
+     "type": "ManifestError",
+     "message": "test: function action: subset labels need a non-empty 'fixed' (every allowed label) and no fixed_first, caller_keys or max"
+    }
+   }
+  },
+  {
+   "name": "subset required stray",
+   "adapter": "jeff.security.soc",
+   "ops": [
+    [
+     "set",
+     [
+      "functions",
+      "action",
+      "labels",
+      "source"
+     ],
+     "subset"
+    ],
+    [
+     "del",
+     [
+      "functions",
+      "action",
+      "labels",
+      "subset"
+     ]
+    ],
+    [
+     "set",
+     [
+      "functions",
+      "action",
+      "labels",
+      "required"
+     ],
+     [
+      "escalate",
+      "nope",
+      "other"
+     ]
+    ]
+   ],
+   "expect": {
+    "error": {
+     "type": "ManifestError",
+     "message": "test: function action: required labels ['nope', 'other'] are not in 'fixed' (['block', 'isolate', 'escalate', 'investigate', 'ignore'])"
+    }
+   }
+  },
+  {
+   "name": "describe repeat",
+   "adapter": "jeff.security.soc",
+   "ops": [
+    [
+     "set",
+     [
+      "functions",
+      "action",
+      "labels"
+     ],
+     {
+      "source": "describe",
+      "keys": [
+       "a",
+       "b",
+       "a"
+      ]
+     }
+    ],
+    [
+     "set",
+     [
+      "functions",
+      "action",
+      "abstain_labels"
+     ],
+     []
+    ]
+   ],
+   "expect": {
+    "error": {
+     "type": "ManifestError",
+     "message": "test: function action: describe keys ['a', 'b', 'a'] repeat a key"
+    }
+   }
+  },
+  {
+   "name": "describe with fixed",
+   "adapter": "jeff.security.soc",
+   "ops": [
+    [
+     "set",
+     [
+      "functions",
+      "action",
+      "labels"
+     ],
+     {
+      "source": "describe",
+      "keys": [
+       "a"
+      ],
+      "fixed": {
+       "x": null
+      }
+     }
+    ],
+    [
+     "set",
+     [
+      "functions",
+      "action",
+      "abstain_labels"
+     ],
+     []
+    ]
+   ],
+   "expect": {
+    "error": {
+     "type": "ManifestError",
+     "message": "test: function action: describe labels need non-empty 'keys' and no fixed, fixed_first, caller_keys or max"
+    }
+   }
+  },
+  {
+   "name": "interface values",
+   "adapter": "jeff.safety.spam",
+   "ops": [
+    [
+     "set",
+     [
+      "functions",
+      "message_type",
+      "interface"
+     ],
+     "equivalent"
+    ]
+   ],
+   "expect": {
+    "error": {
+     "type": "ManifestError",
+     "message": "test: function message_type: interface equivalent requires labels ['match', 'possible_match', 'no_match'], got ['legitimate', 'phishing', 'spam']"
+    }
+   }
+  },
+  {
+   "name": "score one level",
+   "adapter": "jeff.support.triage",
+   "ops": [
+    [
+     "set",
+     [
+      "functions",
+      "urgency",
+      "labels",
+      "levels"
+     ],
+     [
+      "a"
+     ]
+    ]
+   ],
+   "expect": {
+    "error": {
+     "type": "ContractError",
+     "message": "test does not match the manifest schema:\n  at /functions/urgency/labels/levels: ['a'] is too short"
+    }
+   }
+  },
+  {
+   "name": "score with fixed",
+   "adapter": "jeff.support.triage",
+   "ops": [
+    [
+     "set",
+     [
+      "functions",
+      "urgency",
+      "labels",
+      "fixed"
+     ],
+     {
+      "a": null
+     }
+    ]
+   ],
+   "expect": {
+    "error": {
+     "type": "ManifestError",
+     "message": "test: function urgency: score functions need fixed 'levels' (2 to 10) and nothing else"
+    }
+   }
+  },
+  {
+   "name": "abstain unknown",
+   "adapter": "jeff.safety.spam",
+   "ops": [
+    [
+     "set",
+     [
+      "functions",
+      "message_type",
+      "abstain_labels"
+     ],
+     [
+      "zeta",
+      "alpha",
+      "spam"
+     ]
+    ]
+   ],
+   "expect": {
+    "error": {
+     "type": "ManifestError",
+     "message": "test: function message_type: abstain_labels ['zeta', 'alpha'] are not among its labels ['legitimate', 'phishing', 'spam']"
+    }
+   }
+  },
+  {
+   "name": "by format without calibration",
+   "adapter": "jeff.safety.spam",
+   "ops": [
+    [
+     "set",
+     [
+      "functions",
+      "is_spam",
+      "calibration"
+     ],
+     null
+    ],
+    [
+     "set",
+     [
+      "functions",
+      "is_spam",
+      "calibration_by_format"
+     ],
+     {
+      "q4": {
+       "data": "x",
+       "rows": 3,
+       "excluded": "none",
+       "target_precision": 0.9,
+       "threshold": 0.5,
+       "precision_at_threshold": 0.9,
+       "coverage_at_threshold": 0.5
+      }
+     }
+    ]
+   ],
+   "expect": {
+    "error": {
+     "type": "ManifestError",
+     "message": "test: function is_spam has calibration_by_format entries (q4) but calibration null; a function uncalibrated on the bfloat16 base stays uncalibrated in every format"
+    }
+   }
+  },
+  {
+   "name": "uncalibrated",
+   "adapter": "jeff.safety.spam",
+   "ops": [
+    [
+     "set",
+     [
+      "functions",
+      "is_spam",
+      "calibration"
+     ],
+     null
+    ]
+   ],
+   "expect": {
+    "ok": {
+     "functions": [
+      "is_spam",
+      "message_type"
+     ],
+     "codes": [
+      [
+       "channel",
+       "channel"
+      ],
+      [
+       "message",
+       "message"
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "name": "question_type duplicates",
+   "adapter": "jeff.support.triage",
+   "ops": [
+    [
+     "set",
+     [
+      "tests",
+      "function_by"
+     ],
+     "question_type"
+    ]
+   ],
+   "expect": {
+    "error": {
+     "type": "ManifestError",
+     "message": "test: tests.function_by question_type needs one function per question type; the functions have types ['choice', 'score', 'score', 'noul']"
+    }
+   }
+  },
+  {
+   "name": "question_type list ok",
+   "adapter": "jeff.support.triage",
+   "ops": [
+    [
+     "set",
+     [
+      "tests",
+      "function_by"
+     ],
+     [
+      "question_type",
+      "id_suffix"
+     ]
+    ]
+   ],
+   "expect": {
+    "ok": {
+     "functions": [
+      "route",
+      "urgency",
+      "sentiment",
+      "needs_human"
+     ],
+     "codes": [
+      [
+       "company",
+       "company"
+      ],
+      [
+       "channel",
+       "channel"
+      ],
+      [
+       "message",
+       "message"
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "name": "kinds without source_kind",
+   "adapter": "jeff.safety.spam",
+   "ops": [
+    [
+     "set",
+     [
+      "tests",
+      "kinds"
+     ],
+     {
+      "k": "is_spam"
+     }
+    ]
+   ],
+   "expect": {
+    "error": {
+     "type": "ManifestError",
+     "message": "test: tests.kinds maps source.kind values to functions, so tests.function_by must use source_kind (it is 'id_suffix')"
+    }
+   }
+  },
+  {
+   "name": "kinds stray",
+   "adapter": "jeff.safety.spam",
+   "ops": [
+    [
+     "set",
+     [
+      "tests",
+      "function_by"
+     ],
+     "source_kind"
+    ],
+    [
+     "set",
+     [
+      "tests",
+      "kinds"
+     ],
+     {
+      "k": "zz",
+      "j": [
+       "aa",
+       "zz",
+       "is_spam"
+      ]
+     }
+    ]
+   ],
+   "expect": {
+    "error": {
+     "type": "ManifestError",
+     "message": "test: tests.kinds names ['aa', 'zz'], which are not its functions (['is_spam', 'message_type'])"
+    }
+   }
+  },
+  {
+   "name": "kinds several alone",
+   "adapter": "jeff.safety.spam",
+   "ops": [
+    [
+     "set",
+     [
+      "tests",
+      "function_by"
+     ],
+     "source_kind"
+    ],
+    [
+     "set",
+     [
+      "tests",
+      "kinds"
+     ],
+     {
+      "k": "is_spam",
+      "j": [
+       "is_spam",
+       "message_type"
+      ]
+     }
+    ]
+   ],
+   "expect": {
+    "error": {
+     "type": "ManifestError",
+     "message": "test: tests.kinds maps ['j'] to several functions each, but tests.function_by is source_kind alone, so no other criterion can leave one of them: every row of those kinds would match several functions"
+    }
+   }
+  },
+  {
+   "name": "kinds several with other",
+   "adapter": "jeff.safety.spam",
+   "ops": [
+    [
+     "set",
+     [
+      "tests",
+      "function_by"
+     ],
+     [
+      "source_kind",
+      "question_type"
+     ]
+    ],
+    [
+     "set",
+     [
+      "tests",
+      "kinds"
+     ],
+     {
+      "k": "is_spam",
+      "j": [
+       "is_spam",
+       "message_type"
+      ]
+     }
+    ]
+   ],
+   "expect": {
+    "ok": {
+     "functions": [
+      "is_spam",
+      "message_type"
+     ],
+     "codes": [
+      [
+       "channel",
+       "channel"
+      ],
+      [
+       "message",
+       "message"
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "name": "id_patterns missing",
+   "adapter": "jeff.safety.spam",
+   "ops": [
+    [
+     "set",
+     [
+      "tests",
+      "function_by"
+     ],
+     [
+      "id_pattern"
+     ]
+    ]
+   ],
+   "expect": {
+    "error": {
+     "type": "ManifestError",
+     "message": "test: tests.function_by uses id_pattern, so tests.id_patterns must give every function's row id pattern (is_spam, message_type)"
+    }
+   }
+  },
+  {
+   "name": "id_patterns unused",
+   "adapter": "jeff.safety.spam",
+   "ops": [
+    [
+     "set",
+     [
+      "tests",
+      "id_patterns"
+     ],
+     {
+      "is_spam": "a",
+      "message_type": "b"
+     }
+    ]
+   ],
+   "expect": {
+    "error": {
+     "type": "ManifestError",
+     "message": "test: tests.id_patterns is given, but tests.function_by does not use id_pattern (it is 'id_suffix')"
+    }
+   }
+  },
+  {
+   "name": "id_patterns order",
+   "adapter": "jeff.safety.spam",
+   "ops": [
+    [
+     "set",
+     [
+      "tests",
+      "function_by"
+     ],
+     "id_pattern"
+    ],
+    [
+     "set",
+     [
+      "tests",
+      "id_patterns"
+     ],
+     {
+      "message_type": "b",
+      "is_spam": "a"
+     }
+    ]
+   ],
+   "expect": {
+    "error": {
+     "type": "ManifestError",
+     "message": "test: tests.id_patterns must name every function, in the functions' order (['is_spam', 'message_type']); it names ['message_type', 'is_spam']"
+    }
+   }
+  },
+  {
+   "name": "id_patterns fine",
+   "adapter": "jeff.safety.spam",
+   "ops": [
+    [
+     "set",
+     [
+      "tests",
+      "function_by"
+     ],
+     "id_pattern"
+    ],
+    [
+     "set",
+     [
+      "tests",
+      "id_patterns"
+     ],
+     {
+      "is_spam": ".+-spam",
+      "message_type": "pg-[0-9]+-(li|hi)-.+"
+     }
+    ]
+   ],
+   "expect": {
+    "ok": {
+     "functions": [
+      "is_spam",
+      "message_type"
+     ],
+     "codes": [
+      [
+       "channel",
+       "channel"
+      ],
+      [
+       "message",
+       "message"
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "name": "id_patterns bad",
+   "adapter": "jeff.safety.spam",
+   "ops": [
+    [
+     "set",
+     [
+      "tests",
+      "function_by"
+     ],
+     "id_pattern"
+    ],
+    [
+     "set",
+     [
+      "tests",
+      "id_patterns"
+     ],
+     {
+      "is_spam": ".*",
+      "message_type": "x{2,1}"
+     }
+    ]
+   ],
+   "expect": {
+    "error": {
+     "type": "ManifestError",
+     "message": "test: tests.id_patterns message_type: 'x{2,1}' is not a regular expression (min repeat greater than max repeat at position 2)"
+    }
+   }
+  },
+  {
+   "name": "id_patterns multiline",
+   "adapter": "jeff.safety.spam",
+   "ops": [
+    [
+     "set",
+     [
+      "tests",
+      "function_by"
+     ],
+     "id_pattern"
+    ],
+    [
+     "set",
+     [
+      "tests",
+      "id_patterns"
+     ],
+     {
+      "is_spam": "a\n(b",
+      "message_type": "x"
+     }
+    ]
+   ],
+   "expect": {
+    "error": {
+     "type": "ManifestError",
+     "message": "test: tests.id_patterns is_spam: 'a\\n(b' is not a regular expression (missing ), unterminated subpattern at position 2 (line 2, column 1))"
+    }
+   }
+  },
+  {
+   "name": "id_patterns backslash",
+   "adapter": "jeff.safety.spam",
+   "ops": [
+    [
+     "set",
+     [
+      "tests",
+      "function_by"
+     ],
+     "id_pattern"
+    ],
+    [
+     "set",
+     [
+      "tests",
+      "id_patterns"
+     ],
+     {
+      "is_spam": "\\_x",
+      "message_type": "\\q"
+     }
+    ]
+   ],
+   "expect": {
+    "error": {
+     "type": "ManifestError",
+     "message": "test: tests.id_patterns message_type: '\\\\q' is not a regular expression (bad escape \\q at position 0)"
+    }
+   }
+  },
+  {
+   "name": "function_by bad enum",
+   "adapter": "jeff.safety.spam",
+   "ops": [
+    [
+     "set",
+     [
+      "tests",
+      "function_by"
+     ],
+     "sometimes"
+    ]
+   ],
+   "expect": {
+    "error": {
+     "type": "ContractError",
+     "message": "test does not match the manifest schema:\n  at /tests/function_by: 'sometimes' is not valid under any of the given schemas\n    - 'sometimes' is not one of ['id_suffix', 'question_type', 'source_kind', 'state_shape', 'id_pattern', 'only']\n    - 'sometimes' is not of type 'array'"
+    }
+   }
+  },
+  {
+   "name": "function_by missing",
+   "adapter": "jeff.safety.spam",
+   "ops": [
+    [
+     "del",
+     [
+      "tests",
+      "function_by"
+     ]
+    ]
+   ],
+   "expect": {
+    "error": {
+     "type": "ContractError",
+     "message": "test does not match the manifest schema:\n  at /tests: 'function_by' is a required property"
+    }
+   }
+  },
+  {
+   "name": "not a router",
+   "adapter": "jeff.safety.spam",
+   "ops": [
+    [
+     "set",
+     [
+      "routes_to"
+     ],
+     [
+      "jeff.a.b"
+     ]
+    ]
+   ],
+   "expect": {
+    "error": {
+     "type": "ManifestError",
+     "message": "test: a router has exactly one route function with subset labels whose keys equal routes_to ['jeff.a.b'] (dispatch offers the targets that lead to the requested interface)"
+    }
+   }
+  },
+  {
+   "name": "bad id",
+   "adapter": "jeff.safety.spam",
+   "ops": [
+    [
+     "set",
+     [
+      "id"
+     ],
+     "spam"
+    ]
+   ],
+   "expect": {
+    "error": {
+     "type": "ContractError",
+     "message": "test does not match the manifest schema:\n  at /id: 'spam' does not match '^jeff(\\\\.[a-z0-9][a-z0-9-]*){2}$'"
+    }
+   }
+  },
+  {
+   "name": "function own shape",
+   "adapter": "jeff.safety.spam",
+   "ops": [
+    [
+     "set",
+     [
+      "functions",
+      "is_spam",
+      "context"
+     ],
+     [
+      {
+       "key": "a b",
+       "description": "A.",
+       "required": true
+      },
+      {
+       "key": "a_b",
+       "description": "B.",
+       "required": true
+      }
+     ]
+    ],
+    [
+     "set",
+     [
+      "functions",
+      "is_spam",
+      "input"
+     ],
+     {
+      "key": "m",
+      "description": "M.",
+      "form": "fields"
+     }
+    ]
+   ],
+   "expect": {
+    "error": {
+     "type": "ManifestError",
+     "message": "test: function is_spam: fields share a code name, which callers could not tell apart: 'a b', 'a_b' -> a_b; declare a distinct code_name for each"
+    }
+   }
+  }
+ ],
+ "refs": [
+  {
+   "ref": "spam",
+   "op": "function",
+   "expect": {
+    "error": {
+     "type": "UnknownFunction",
+     "message": "jeff.safety.spam has 2 functions (is_spam, message_type); name one, e.g. jeff.safety.spam.is_spam"
+    }
+   }
+  },
+  {
+   "ref": "spam.is_spam",
+   "op": "function",
+   "expect": {
+    "ok": "jeff.safety.spam.is_spam"
+   }
+  },
+  {
+   "ref": "jeff.safety.spam.is_spam@1",
+   "op": "function",
+   "expect": {
+    "ok": "jeff.safety.spam.is_spam"
+   }
+  },
+  {
+   "ref": "jeff.safety.spam@9",
+   "op": "adapter",
+   "expect": {
+    "error": {
+     "type": "UnknownFunction",
+     "message": "jeff.safety.spam@9 is not in the catalogue; it has 1.4.0"
+    }
+   }
+  },
+  {
+   "ref": "jeff.safety.spam@1.3.0.1",
+   "op": "adapter",
+   "expect": {
+    "error": {
+     "type": "UnknownFunction",
+     "message": "jeff.safety.spam@1.3.0.1 is not in the catalogue; it has 1.4.0"
+    }
+   }
+  },
+  {
+   "ref": "spam.nope",
+   "op": "function",
+   "expect": {
+    "error": {
+     "type": "UnknownFunction",
+     "message": "jeff.safety.spam has no function 'nope'; its functions are is_spam, message_type"
+    }
+   }
+  },
+  {
+   "ref": "nope",
+   "op": "adapter",
+   "expect": {
+    "error": {
+     "type": "UnknownFunction",
+     "message": "No adapter 'nope' in the catalogue"
+    }
+   }
+  },
+  {
+   "ref": "jeff.x.y",
+   "op": "adapter",
+   "expect": {
+    "error": {
+     "type": "UnknownFunction",
+     "message": "No adapter 'jeff.x.y' in the catalogue"
+    }
+   }
+  },
+  {
+   "ref": "sanctions",
+   "op": "function",
+   "expect": {
+    "ok": "jeff.compliance.sanctions.screening"
+   }
+  },
+  {
+   "ref": "a.b.c",
+   "op": "adapter",
+   "expect": {
+    "error": {
+     "type": "InvalidReference",
+     "message": "Malformed reference 'a.b.c': use <alias>[.<function>] (aliases have no dots)"
+    }
+   }
+  },
+  {
+   "ref": "jeff.a.b.c.d",
+   "op": "adapter",
+   "expect": {
+    "error": {
+     "type": "InvalidReference",
+     "message": "Malformed reference 'jeff.a.b.c.d': too many parts"
+    }
+   }
+  },
+  {
+   "ref": "",
+   "op": "adapter",
+   "expect": {
+    "error": {
+     "type": "InvalidReference",
+     "message": "Malformed reference '': use jeff.<domain>.<name>[.<function>] or <alias>[.<function>], each part non-empty"
+    }
+   }
+  },
+  {
+   "ref": "spam.",
+   "op": "adapter",
+   "expect": {
+    "error": {
+     "type": "InvalidReference",
+     "message": "Malformed reference 'spam.': use jeff.<domain>.<name>[.<function>] or <alias>[.<function>], each part non-empty"
+    }
+   }
+  },
+  {
+   "ref": "jeff..x",
+   "op": "adapter",
+   "expect": {
+    "error": {
+     "type": "InvalidReference",
+     "message": "Malformed reference 'jeff..x': use jeff.<domain>.<name>[.<function>] or <alias>[.<function>], each part non-empty"
+    }
+   }
+  },
+  {
+   "ref": "spam@",
+   "op": "adapter",
+   "expect": {
+    "ok": "jeff.safety.spam"
+   }
+  },
+  {
+   "ref": "spam@1@2",
+   "op": "adapter",
+   "expect": {
+    "error": {
+     "type": "UnknownFunction",
+     "message": "jeff.safety.spam@1@2 is not in the catalogue; it has 1.4.0"
+    }
+   }
+  },
+  {
+   "ref": "Spam",
+   "op": "adapter",
+   "expect": {
+    "error": {
+     "type": "UnknownFunction",
+     "message": "No adapter 'Spam' in the catalogue"
+    }
+   }
+  },
+  {
+   "ref": "jeff.safety.spam.is_spam",
+   "op": "adapter",
+   "expect": {
+    "ok": "jeff.safety.spam"
+   }
+  },
+  {
+   "ref": "jeff.x",
+   "op": "adapter",
+   "expect": {
+    "error": {
+     "type": "InvalidReference",
+     "message": "Malformed reference 'jeff.x': use jeff.<domain>.<name>[.<function>]"
+    }
+   }
+  },
+  {
+   "ref": "jeff",
+   "op": "adapter",
+   "expect": {
+    "error": {
+     "type": "InvalidReference",
+     "message": "Malformed reference 'jeff': use jeff.<domain>.<name>[.<function>]"
+    }
+   }
+  }
+ ],
+ "codes": {
+  "abc\n": "abc",
+  "Abc": "abc",
+  "İd": "i_d",
+  "Key": "key",
+  "😀x": "x",
+  "ﬀ": "",
+  "ẞ": "",
+  "Ⅻ ten": "ten",
+  "aİ": "ai",
+  "__x__": "x",
+  "9lives": "9lives",
+  "": "",
+  "ÀB": "b",
+  "ǅ": ""
+ },
+ "versions": [
+  [
+   "1.3",
+   "1.3.0",
+   true
+  ],
+  [
+   "1.30",
+   "1.3.0",
+   false
+  ],
+  [
+   "1.3.0",
+   "1.3",
+   false
+  ],
+  [
+   "",
+   "",
+   true
+  ],
+  [
+   "1",
+   "1.3",
+   true
+  ],
+  [
+   "1.3.",
+   "1.3.0",
+   false
+  ]
+ ],
+ "bases": [
+  {
+   "base": "jeff-base",
+   "version": "v1.3",
+   "expect": {
+    "error": {
+     "type": "ManifestError",
+     "message": "Base jeff-base v1.3 is not in bases.yaml (known: {'jeff-base': {'v1.4': {'repo': 'mstrasser/jeff-base', 'revision': 'v1.4', 'model_sha256': '22fd9a1ee317894fe8a987e362a313f36e4246129602a19ce54f617fa90e2f9b', 'released': '2026-11-05'}}})"
+    }
+   }
+  },
+  {
+   "base": "jeff-base",
+   "version": "v9",
+   "expect": {
+    "error": {
+     "type": "ManifestError",
+     "message": "Base jeff-base v9 is not in bases.yaml (known: {'jeff-base': {'v1.4': {'repo': 'mstrasser/jeff-base', 'revision': 'v1.4', 'model_sha256': '22fd9a1ee317894fe8a987e362a313f36e4246129602a19ce54f617fa90e2f9b', 'released': '2026-11-05'}}})"
+    }
+   }
+  },
+  {
+   "base": "nope",
+   "version": "v1",
+   "expect": {
+    "error": {
+     "type": "ManifestError",
+     "message": "Base nope v1 is not in bases.yaml (known: {'jeff-base': {'v1.4': {'repo': 'mstrasser/jeff-base', 'revision': 'v1.4', 'model_sha256': '22fd9a1ee317894fe8a987e362a313f36e4246129602a19ce54f617fa90e2f9b', 'released': '2026-11-05'}}})"
+    }
+   }
+  }
+ ],
+ "base_versions": [
+  [
+   "jeff-base",
+   "v1.4"
+  ]
+ ],
+ "implementing": {
+  "route": [
+   "jeff.agents.tool-route.tool",
+   "jeff.engineering.issue-route.owner",
+   "jeff.retrieval.query-route.source",
+   "jeff.routing.router-open-v14.specialist",
+   "jeff.routing.tools.tool",
+   "jeff.support.message-triage.route_to",
+   "jeff.support.triage.route"
+  ],
+  "classify": [
+   "jeff.agents.action-check.action",
+   "jeff.agents.after-result.next",
+   "jeff.agents.result-relevant.relevant",
+   "jeff.agents.task-complete.complete",
+   "jeff.engineering.ci-failure.failure",
+   "jeff.engineering.issue-route.kind",
+   "jeff.finance.trading-desk.route",
+   "jeff.finance.trading-desk.risk_off",
+   "jeff.finance.trading-desk.direction",
+   "jeff.finance.trading-desk.size",
+   "jeff.finance.trading-desk.order",
+   "jeff.knowledge.knowledge-qa.blank",
+   "jeff.knowledge.knowledge-qa.question",
+   "jeff.knowledge.knowledge-qa.continuation",
+   "jeff.knowledge.knowledge-qa.passage",
+   "jeff.knowledge.knowledge-qa.passage_text",
+   "jeff.knowledge.knowledge-qa.social",
+   "jeff.knowledge.knowledge-qa.solution",
+   "jeff.language.emotion.emotion",
+   "jeff.legal.legal-clauses.clause_type",
+   "jeff.reasoning.contradicts.contradicts",
+   "jeff.reasoning.entails.entails",
+   "jeff.reasoning.equivalent.equivalent",
+   "jeff.reasoning.is-complete.is_complete",
+   "jeff.reasoning.satisfies.satisfies",
+   "jeff.retrieval.doc-type.doc_type",
+   "jeff.retrieval.evidence-sufficient.sufficient",
+   "jeff.retrieval.extract-check.check",
+   "jeff.retrieval.ground.rerank",
+   "jeff.retrieval.passage-relevant.relevant",
+   "jeff.retrieval.section-id.section",
+   "jeff.safety.guard.kind",
+   "jeff.safety.spam.message_type",
+   "jeff.security.soc.action",
+   "jeff.support.message-triage.action_needed",
+   "jeff.support.message-triage.intent",
+   "jeff.support.message-triage.urgency",
+   "jeff.support.requires-action.requires_action",
+   "jeff.support.requires-action.requires_escalation",
+   "jeff.support.support-intents.intent"
+  ],
+  "detect": [
+   "jeff.agents.assistant-routing.needs_thinking",
+   "jeff.safety.guard.attempt",
+   "jeff.safety.spam.is_spam"
+  ],
+  "equivalent": [
+   "jeff.compliance.sanctions.screening"
+  ],
+  "nope": []
+ },
+ "names": [
+  "action-check",
+  "after-result",
+  "assistant-routing",
+  "ci-failure",
+  "contradicts",
+  "doc-type",
+  "emotion",
+  "entails",
+  "equivalent",
+  "evidence-sufficient",
+  "extract-check",
+  "ground",
+  "guard",
+  "is-complete",
+  "issue-route",
+  "jeff-router-open-v14",
+  "jeff.agents.action-check",
+  "jeff.agents.after-result",
+  "jeff.agents.assistant-routing",
+  "jeff.agents.result-relevant",
+  "jeff.agents.task-complete",
+  "jeff.agents.tool-route",
+  "jeff.compliance.sanctions",
+  "jeff.engineering.ci-failure",
+  "jeff.engineering.issue-route",
+  "jeff.finance.trading-desk",
+  "jeff.knowledge.knowledge-qa",
+  "jeff.language.emotion",
+  "jeff.legal.legal-clauses",
+  "jeff.reasoning.contradicts",
+  "jeff.reasoning.entails",
+  "jeff.reasoning.equivalent",
+  "jeff.reasoning.is-complete",
+  "jeff.reasoning.satisfies",
+  "jeff.retrieval.doc-type",
+  "jeff.retrieval.evidence-sufficient",
+  "jeff.retrieval.extract-check",
+  "jeff.retrieval.ground",
+  "jeff.retrieval.passage-relevant",
+  "jeff.retrieval.query-route",
+  "jeff.retrieval.section-id",
+  "jeff.routing.router-open",
+  "jeff.routing.router-open-v14",
+  "jeff.routing.tools",
+  "jeff.safety.guard",
+  "jeff.safety.spam",
+  "jeff.security.soc",
+  "jeff.support.message-triage",
+  "jeff.support.requires-action",
+  "jeff.support.support-intents",
+  "jeff.support.triage",
+  "knowledge-qa",
+  "knowledge-qa-v2",
+  "legal-clauses",
+  "message-triage",
+  "oss-action-check",
+  "oss-after-result",
+  "oss-ci-failure",
+  "oss-contradicts",
+  "oss-doc-type",
+  "oss-entails",
+  "oss-equivalent",
+  "oss-evidence-sufficient-v2",
+  "oss-extract-check",
+  "oss-is-complete",
+  "oss-issue-route",
+  "oss-message-triage",
+  "oss-passage-relevant-v2",
+  "oss-query-route",
+  "oss-requires-action",
+  "oss-result-relevant",
+  "oss-satisfies",
+  "oss-section-id",
+  "oss-task-complete",
+  "oss-tool-route",
+  "passage-relevant",
+  "query-route",
+  "requires-action",
+  "result-relevant",
+  "router-open-v14",
+  "sanctions",
+  "satisfies",
+  "section-id",
+  "soc",
+  "spam",
+  "support-intents",
+  "task-complete",
+  "tool-route",
+  "tools",
+  "trading-desk",
+  "triage"
+ ],
+ "order": [
+  "jeff.agents.action-check",
+  "jeff.agents.after-result",
+  "jeff.agents.assistant-routing",
+  "jeff.agents.result-relevant",
+  "jeff.agents.task-complete",
+  "jeff.agents.tool-route",
+  "jeff.compliance.sanctions",
+  "jeff.engineering.ci-failure",
+  "jeff.engineering.issue-route",
+  "jeff.finance.trading-desk",
+  "jeff.knowledge.knowledge-qa",
+  "jeff.language.emotion",
+  "jeff.legal.legal-clauses",
+  "jeff.reasoning.contradicts",
+  "jeff.reasoning.entails",
+  "jeff.reasoning.equivalent",
+  "jeff.reasoning.is-complete",
+  "jeff.reasoning.satisfies",
+  "jeff.retrieval.doc-type",
+  "jeff.retrieval.evidence-sufficient",
+  "jeff.retrieval.extract-check",
+  "jeff.retrieval.ground",
+  "jeff.retrieval.passage-relevant",
+  "jeff.retrieval.query-route",
+  "jeff.retrieval.section-id",
+  "jeff.routing.router-open-v14",
+  "jeff.routing.tools",
+  "jeff.safety.guard",
+  "jeff.safety.spam",
+  "jeff.security.soc",
+  "jeff.support.message-triage",
+  "jeff.support.requires-action",
+  "jeff.support.support-intents",
+  "jeff.support.triage"
+ ],
+ "patterns": [
+  {
+   "pattern": ".+-suspicious",
+   "python": "accepted"
+  },
+  {
+   "pattern": ".+-action",
+   "python": "accepted"
+  },
+  {
+   "pattern": "aml-(li",
+   "python": "refused",
+   "message": "missing ), unterminated subpattern at position 4"
+  },
+  {
+   "pattern": "hi)-pattern-[0-9]+-v[0-9]+",
+   "python": "refused",
+   "message": "unbalanced parenthesis at position 2"
+  },
+  {
+   "pattern": "pg-[0-9]+-verdict-.+",
+   "python": "accepted"
+  },
+  {
+   "pattern": ".+:family",
+   "python": "accepted"
+  },
+  {
+   "pattern": "[",
+   "python": "refused",
+   "message": "unterminated character set at position 0"
+  },
+  {
+   "pattern": ".*",
+   "python": "accepted"
+  },
+  {
+   "pattern": "a{2}{3}",
+   "python": "refused",
+   "message": "multiple repeat at position 4"
+  },
+  {
+   "pattern": "a**",
+   "python": "refused",
+   "message": "multiple repeat at position 2"
+  },
+  {
+   "pattern": "a*?+",
+   "python": "refused",
+   "message": "multiple repeat at position 3"
+  },
+  {
+   "pattern": "a*+",
+   "python": "accepted"
+  },
+  {
+   "pattern": "a++",
+   "python": "accepted"
+  },
+  {
+   "pattern": "a?+",
+   "python": "accepted"
+  },
+  {
+   "pattern": "a{1,2}+",
+   "python": "accepted"
+  },
+  {
+   "pattern": "{1,2}",
+   "python": "refused",
+   "message": "nothing to repeat at position 0"
+  },
+  {
+   "pattern": "x{2,1}",
+   "python": "refused",
+   "message": "min repeat greater than max repeat at position 2"
+  },
+  {
+   "pattern": "x{,3}",
+   "python": "accepted"
+  },
+  {
+   "pattern": "x{,}",
+   "python": "accepted"
+  },
+  {
+   "pattern": "{,}",
+   "python": "refused",
+   "message": "nothing to repeat at position 0"
+  },
+  {
+   "pattern": "x{}",
+   "python": "accepted"
+  },
+  {
+   "pattern": "x{",
+   "python": "accepted"
+  },
+  {
+   "pattern": "x{a}",
+   "python": "accepted"
+  },
+  {
+   "pattern": "x{1,2",
+   "python": "accepted"
+  },
+  {
+   "pattern": "x{1, 2}",
+   "python": "accepted"
+  },
+  {
+   "pattern": "^*",
+   "python": "refused",
+   "message": "nothing to repeat at position 1"
+  },
+  {
+   "pattern": "$+",
+   "python": "refused",
+   "message": "nothing to repeat at position 1"
+  },
+  {
+   "pattern": "\\b*",
+   "python": "refused",
+   "message": "nothing to repeat at position 2"
+  },
+  {
+   "pattern": "\\A?",
+   "python": "refused",
+   "message": "nothing to repeat at position 2"
+  },
+  {
+   "pattern": "\\Z{2}",
+   "python": "refused",
+   "message": "nothing to repeat at position 2"
+  },
+  {
+   "pattern": "(?=a)*",
+   "python": "accepted"
+  },
+  {
+   "pattern": "(?!a)+",
+   "python": "accepted"
+  },
+  {
+   "pattern": "(?#c)*",
+   "python": "refused",
+   "message": "nothing to repeat at position 5"
+  },
+  {
+   "pattern": "a(?#c)*",
+   "python": "accepted"
+  },
+  {
+   "pattern": "(?#unterminated",
+   "python": "refused",
+   "message": "missing ), unterminated comment at position 0"
+  },
+  {
+   "pattern": "(a",
+   "python": "refused",
+   "message": "missing ), unterminated subpattern at position 0"
+  },
+  {
+   "pattern": "*)",
+   "python": "refused",
+   "message": "nothing to repeat at position 0"
+  },
+  {
+   "pattern": "a",
+   "python": "accepted"
+  },
+  {
+   "pattern": "*",
+   "python": "refused",
+   "message": "nothing to repeat at position 0"
+  },
+  {
+   "pattern": "(",
+   "python": "refused",
+   "message": "missing ), unterminated subpattern at position 0"
+  },
+  {
+   "pattern": ")",
+   "python": "refused",
+   "message": "unbalanced parenthesis at position 0"
+  },
+  {
+   "pattern": "())",
+   "python": "refused",
+   "message": "unbalanced parenthesis at position 2"
+  },
+  {
+   "pattern": "((a)",
+   "python": "refused",
+   "message": "missing ), unterminated subpattern at position 0"
+  },
+  {
+   "pattern": "[]",
+   "python": "refused",
+   "message": "unterminated character set at position 0"
+  },
+  {
+   "pattern": "[]a]",
+   "python": "accepted"
+  },
+  {
+   "pattern": "[^]a]",
+   "python": "accepted"
+  },
+  {
+   "pattern": "[^]",
+   "python": "refused",
+   "message": "unterminated character set at position 0"
+  },
+  {
+   "pattern": "[a-]",
+   "python": "accepted"
+  },
+  {
+   "pattern": "[-a]",
+   "python": "accepted"
+  },
+  {
+   "pattern": "[z-a]",
+   "python": "refused",
+   "message": "bad character range z-a at position 1"
+  },
+  {
+   "pattern": "[\\d-z]",
+   "python": "refused",
+   "message": "bad character range \\d-z at position 1"
+  },
+  {
+   "pattern": "[a-\\d]",
+   "python": "refused",
+   "message": "bad character range a-\\d at position 1"
+  },
+  {
+   "pattern": "[\\x41-\\x30]",
+   "python": "refused",
+   "message": "bad character range \\x-\\x at position 5"
+  },
+  {
+   "pattern": "[\\w]",
+   "python": "accepted"
+  },
+  {
+   "pattern": "[\\A]",
+   "python": "refused",
+   "message": "bad escape \\A at position 1"
+  },
+  {
+   "pattern": "[\\b]",
+   "python": "accepted"
+  },
+  {
+   "pattern": "[\\Z]",
+   "python": "refused",
+   "message": "bad escape \\Z at position 1"
+  },
+  {
+   "pattern": "[\\B]",
+   "python": "refused",
+   "message": "bad escape \\B at position 1"
+  },
+  {
+   "pattern": "[\\8]",
+   "python": "refused",
+   "message": "bad escape \\8 at position 1"
+  },
+  {
+   "pattern": "[\\0]",
+   "python": "accepted"
+  },
+  {
+   "pattern": "[\\777]",
+   "python": "refused",
+   "message": "octal escape value \\777 outside of range 0-0o377 at position 1"
+  },
+  {
+   "pattern": "[\\377]",
+   "python": "accepted"
+  },
+  {
+   "pattern": "[\\400]",
+   "python": "refused",
+   "message": "octal escape value \\400 outside of range 0-0o377 at position 1"
+  },
+  {
+   "pattern": "\\777",
+   "python": "refused",
+   "message": "octal escape value \\777 outside of range 0-0o377 at position 0"
+  },
+  {
+   "pattern": "\\0777",
+   "python": "accepted"
+  },
+  {
+   "pattern": "\\400",
+   "python": "refused",
+   "message": "octal escape value \\400 outside of range 0-0o377 at position 0"
+  },
+  {
+   "pattern": "\\1",
+   "python": "refused",
+   "message": "invalid group reference 1 at position 1"
+  },
+  {
+   "pattern": "\\10",
+   "python": "refused",
+   "message": "invalid group reference 10 at position 1"
+  },
+  {
+   "pattern": "(a)\\2",
+   "python": "refused",
+   "message": "invalid group reference 2 at position 4"
+  },
+  {
+   "pattern": "(a)\\1",
+   "python": "accepted"
+  },
+  {
+   "pattern": "\\x",
+   "python": "refused",
+   "message": "incomplete escape \\x at position 0"
+  },
+  {
+   "pattern": "\\x4",
+   "python": "refused",
+   "message": "incomplete escape \\x4 at position 0"
+  },
+  {
+   "pattern": "\\x41",
+   "python": "accepted"
+  },
+  {
+   "pattern": "\\xZZ",
+   "python": "refused",
+   "message": "incomplete escape \\x at position 0"
+  },
+  {
+   "pattern": "\\u12",
+   "python": "refused",
+   "message": "incomplete escape \\u12 at position 0"
+  },
+  {
+   "pattern": "ሴ",
+   "python": "accepted"
+  },
+  {
+   "pattern": "\\U0010FFFF",
+   "python": "accepted"
+  },
+  {
+   "pattern": "\\U00110000",
+   "python": "refused",
+   "message": "bad escape \\U00110000 at position 0"
+  },
+  {
+   "pattern": "\\U1234",
+   "python": "refused",
+   "message": "incomplete escape \\U1234 at position 0"
+  },
+  {
+   "pattern": "\\N{EM DASH}",
+   "python": "accepted"
+  },
+  {
+   "pattern": "\\N",
+   "python": "refused",
+   "message": "missing { at position 2"
+  },
+  {
+   "pattern": "\\p{L}",
+   "python": "refused",
+   "message": "bad escape \\p at position 0"
+  },
+  {
+   "pattern": "\\e",
+   "python": "refused",
+   "message": "bad escape \\e at position 0"
+  },
+  {
+   "pattern": "\\cA",
+   "python": "refused",
+   "message": "bad escape \\c at position 0"
+  },
+  {
+   "pattern": "\\k<n>",
+   "python": "refused",
+   "message": "bad escape \\k at position 0"
+  },
+  {
+   "pattern": "\\G",
+   "python": "refused",
+   "message": "bad escape \\G at position 0"
+  },
+  {
+   "pattern": "\\z",
+   "python": "refused",
+   "message": "bad escape \\z at position 0"
+  },
+  {
+   "pattern": "\\_",
+   "python": "accepted"
+  },
+  {
+   "pattern": "\\-",
+   "python": "accepted"
+  },
+  {
+   "pattern": "\\ ",
+   "python": "accepted"
+  },
+  {
+   "pattern": "\\é",
+   "python": "accepted"
+  },
+  {
+   "pattern": "(?P<n>x)",
+   "python": "accepted"
+  },
+  {
+   "pattern": "(?P=n)",
+   "python": "refused",
+   "message": "unknown group name 'n' at position 4"
+  },
+  {
+   "pattern": "(?Px)",
+   "python": "refused",
+   "message": "unknown extension ?Px at position 1"
+  },
+  {
+   "pattern": "(?P",
+   "python": "refused",
+   "message": "unexpected end of pattern at position 3"
+  },
+  {
+   "pattern": "(?",
+   "python": "refused",
+   "message": "unexpected end of pattern at position 2"
+  },
+  {
+   "pattern": "(?:",
+   "python": "refused",
+   "message": "missing ), unterminated subpattern at position 0"
+  },
+  {
+   "pattern": "(?:a",
+   "python": "refused",
+   "message": "missing ), unterminated subpattern at position 0"
+  },
+  {
+   "pattern": "(?:a)",
+   "python": "accepted"
+  },
+  {
+   "pattern": "(?>a)",
+   "python": "accepted"
+  },
+  {
+   "pattern": "(?<=a)",
+   "python": "accepted"
+  },
+  {
+   "pattern": "(?<!a)",
+   "python": "accepted"
+  },
+  {
+   "pattern": "(?<a)",
+   "python": "refused",
+   "message": "unknown extension ?<a at position 1"
+  },
+  {
+   "pattern": "(?<",
+   "python": "refused",
+   "message": "unexpected end of pattern at position 3"
+  },
+  {
+   "pattern": "(?(1)a",
+   "python": "refused",
+   "message": "missing ), unterminated subpattern at position 0"
+  },
+  {
+   "pattern": "b)",
+   "python": "refused",
+   "message": "unbalanced parenthesis at position 1"
+  },
+  {
+   "pattern": "(?i)a",
+   "python": "accepted"
+  },
+  {
+   "pattern": "a(?i)",
+   "python": "refused",
+   "message": "global flags not at the start of the expression at position 1"
+  },
+  {
+   "pattern": "(?x) a",
+   "python": "accepted"
+  },
+  {
+   "pattern": "(?-i:a)",
+   "python": "accepted"
+  },
+  {
+   "pattern": "(?q)",
+   "python": "refused",
+   "message": "unknown extension ?q at position 1"
+  },
+  {
+   "pattern": "(?\\x)",
+   "python": "refused",
+   "message": "unknown extension ?\\x at position 1"
+  },
+  {
+   "pattern": "a{4294967295}",
+   "python": "OverflowError",
+   "message": "the repetition number is too large"
+  },
+  {
+   "pattern": "a{4294967294}",
+   "python": "accepted"
+  },
+  {
+   "pattern": "a{99999999999999999999}",
+   "python": "OverflowError",
+   "message": "the repetition number is too large"
+  },
+  {
+   "pattern": "a{1,4294967295}",
+   "python": "OverflowError",
+   "message": "the repetition number is too large"
+  },
+  {
+   "pattern": "[a-z-[aeiou]]",
+   "python": "accepted"
+  },
+  {
+   "pattern": "[[:alpha:]]",
+   "python": "accepted"
+  },
+  {
+   "pattern": "a",
+   "python": "accepted"
+  },
+  {
+   "pattern": "",
+   "python": "accepted"
+  },
+  {
+   "pattern": "b",
+   "python": "accepted"
+  },
+  {
+   "pattern": "\\\\",
+   "python": "accepted"
+  },
+  {
+   "pattern": "\\",
+   "python": "refused",
+   "message": "bad escape (end of pattern) at position 0"
+  },
+  {
+   "pattern": "\\(",
+   "python": "accepted"
+  },
+  {
+   "pattern": "a\nb(",
+   "python": "refused",
+   "message": "missing ), unterminated subpattern at position 3 (line 2, column 2)"
+  },
+  {
+   "pattern": "a\n[",
+   "python": "refused",
+   "message": "unterminated character set at position 2 (line 2, column 1)"
+  },
+  {
+   "pattern": "\n\n)",
+   "python": "refused",
+   "message": "unbalanced parenthesis at position 2 (line 3, column 1)"
+  },
+  {
+   "pattern": "x\\",
+   "python": "refused",
+   "message": "bad escape (end of pattern) at position 1"
+  },
+  {
+   "pattern": "a|",
+   "python": "accepted"
+  },
+  {
+   "pattern": "|",
+   "python": "accepted"
+  },
+  {
+   "pattern": "",
+   "python": "accepted"
+  },
+  {
+   "pattern": "a)",
+   "python": "refused",
+   "message": "unbalanced parenthesis at position 1"
+  },
+  {
+   "pattern": "(?#)",
+   "python": "accepted"
+  },
+  {
+   "pattern": "(?=)",
+   "python": "accepted"
+  },
+  {
+   "pattern": "(?!)",
+   "python": "accepted"
+  },
+  {
+   "pattern": "x{3}?",
+   "python": "accepted"
+  },
+  {
+   "pattern": "x??",
+   "python": "accepted"
+  },
+  {
+   "pattern": "x?*",
+   "python": "refused",
+   "message": "multiple repeat at position 2"
+  },
+  {
+   "pattern": "(a)(b)\\2",
+   "python": "accepted"
+  },
+  {
+   "pattern": "(a)\\3",
+   "python": "refused",
+   "message": "invalid group reference 3 at position 4"
+  },
+  {
+   "pattern": "\\12",
+   "python": "refused",
+   "message": "invalid group reference 12 at position 1"
+  },
+  {
+   "pattern": "\\8",
+   "python": "refused",
+   "message": "invalid group reference 8 at position 1"
+  },
+  {
+   "pattern": "\\9",
+   "python": "refused",
+   "message": "invalid group reference 9 at position 1"
+  },
+  {
+   "pattern": "[\\9]",
+   "python": "refused",
+   "message": "bad escape \\9 at position 1"
+  },
+  {
+   "pattern": "a{,2}{3}",
+   "python": "refused",
+   "message": "multiple repeat at position 5"
+  },
+  {
+   "pattern": "😀+",
+   "python": "accepted"
+  },
+  {
+   "pattern": "[😀-😁]",
+   "python": "accepted"
+  },
+  {
+   "pattern": "[😁-😀]",
+   "python": "refused",
+   "message": "bad character range 😁-😀 at position 1"
+  },
+  {
+   "pattern": "\\😀",
+   "python": "accepted"
+  },
+  {
+   "pattern": "a{2}{,}",
+   "python": "refused",
+   "message": "multiple repeat at position 4"
+  },
+  {
+   "pattern": "^{2}",
+   "python": "refused",
+   "message": "nothing to repeat at position 1"
+  },
+  {
+   "pattern": "[a-\\x]",
+   "python": "refused",
+   "message": "incomplete escape \\x at position 3"
+  },
+  {
+   "pattern": "[\\x-a]",
+   "python": "refused",
+   "message": "incomplete escape \\x at position 1"
+  },
+  {
+   "pattern": "[\\u0041-\\u0030]",
+   "python": "refused",
+   "message": "bad character range \\u-\\u at position 9"
+  },
+  {
+   "pattern": "(?",
+   "python": "refused",
+   "message": "unexpected end of pattern at position 2"
+  },
+  {
+   "pattern": "\\",
+   "python": "refused",
+   "message": "bad escape (end of pattern) at position 0"
+  },
+  {
+   "pattern": "a\\",
+   "python": "refused",
+   "message": "bad escape (end of pattern) at position 1"
+  },
+  {
+   "pattern": "[\\",
+   "python": "refused",
+   "message": "bad escape (end of pattern) at position 1"
+  },
+  {
+   "pattern": "[a\\",
+   "python": "refused",
+   "message": "bad escape (end of pattern) at position 2"
+  },
+  {
+   "pattern": "(a\\1)",
+   "python": "refused",
+   "message": "cannot refer to an open group at position 2"
+  },
+  {
+   "pattern": "(?P<_>x)\\1",
+   "python": "accepted"
+  },
+  {
+   "pattern": "(?P<a>x)\\2",
+   "python": "refused",
+   "message": "invalid group reference 2 at position 9"
+  },
+  {
+   "pattern": "(?P<a>x)(?P=a)",
+   "python": "accepted"
+  },
+  {
+   "pattern": "(?P<a>x)(?P<a>y)",
+   "python": "refused",
+   "message": "redefinition of group name 'a' as group 2; was group 1 at position 12"
+  },
+  {
+   "pattern": "(?P<a>(?P=a))",
+   "python": "refused",
+   "message": "cannot refer to an open group at position 10"
+  },
+  {
+   "pattern": "(?P=b)",
+   "python": "refused",
+   "message": "unknown group name 'b' at position 4"
+  },
+  {
+   "pattern": "(?P<>x)",
+   "python": "refused",
+   "message": "missing group name at position 4"
+  },
+  {
+   "pattern": "(?P<1a>x)",
+   "python": "refused",
+   "message": "bad character in group name '1a' at position 4"
+  },
+  {
+   "pattern": "(?P<a",
+   "python": "refused",
+   "message": "missing >, unterminated name at position 4"
+  },
+  {
+   "pattern": "(?P<a b>x)",
+   "python": "refused",
+   "message": "bad character in group name 'a b' at position 4"
+  },
+  {
+   "pattern": "(?P<\\x>x)",
+   "python": "refused",
+   "message": "bad character in group name '\\\\x' at position 4"
+  },
+  {
+   "pattern": "(?P=)",
+   "python": "refused",
+   "message": "missing group name at position 4"
+  },
+  {
+   "pattern": "(?P=a",
+   "python": "refused",
+   "message": "missing ), unterminated name at position 4"
+  },
+  {
+   "pattern": "(?P<é>x)",
+   "python": "accepted"
+  },
+  {
+   "pattern": "(a)(?P=a)",
+   "python": "refused",
+   "message": "unknown group name 'a' at position 7"
+  },
+  {
+   "pattern": "(?P<if>x)",
+   "python": "accepted"
+  },
+  {
+   "pattern": "(?P<a>x)(?P<b>y)(?P=b)",
+   "python": "accepted"
+  }
+ ]
+}

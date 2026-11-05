@@ -1,0 +1,19 @@
+id: jeff.support.router
+version: 0.1.0
+aliases: []
+licence: { kind: open, adapter: Apache-2.0 }
+weights: { open: { repo: fixture/support-router, revision: v0 } }
+base: { id: jeff-base, version: v1.3, max_options: 252 }
+context: []
+input: { key: text, description: Any text., form: fields }
+functions:
+  function:
+    interface: route
+    type: choice
+    instructions: Which support decision fits this text?
+    labels: { source: subset, fixed: { jeff.support.triage.urgency: How urgent a message is, jeff.support.triage.route: Which team should handle a message } }
+    abstain_labels: []
+    calibration: null
+routes_to: [jeff.support.triage.urgency, jeff.support.triage.route]
+tests: { published: null, calibration: null, function_by: only }
+hub: { summary: "Picks the support adapter that should answer a support request." }

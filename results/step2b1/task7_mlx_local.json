@@ -1,0 +1,24 @@
+{
+ "script": "scripts/bench_mlx_local.py",
+ "date": "2026-10-24 19:45",
+ "machine": "arm64",
+ "adapter": "triage",
+ "call": "triage.urgency, one row",
+ "warmup": 50,
+ "reps": 500,
+ "order": "alternating call after call, the first of each pair swapped on every iteration",
+ "jeff_decide_ms": {
+  "before": {
+   "p50": 28.491,
+   "p99": 29.987,
+   "mean": 28.128
+  },
+  "now": {
+   "p50": 28.402,
+   "p99": 30.042,
+   "mean": 28.131
+  }
+ },
+ "same_decision": true,
+ "now_vs_before_p50": 0.9969
+}

@@ -1,0 +1,61 @@
+# The tracked files of jeff-dev that the public copy, firelex/jeff, leaves out (scripts/publish_mirror.py).
+# It names no private adapter: the private names live only in the files it leaves out.
+#
+# One rule per line; a line starting with # is a comment.
+#   path/          every file under that folder
+#   **/name/       every file under a folder of that name, at any depth (no tracked file needs to match)
+#   path           that one file
+#   a pattern      with * or ?, matched against the whole path (* also matches /)
+#   open-adapters-only: path/
+#                  every file under that folder except those in a subfolder named after an adapter in catalogue/
+#   open-imports-only: path/
+#                  every .yaml file under that folder whose id: is not an adapter in catalogue/
+# Every rule must match at least one tracked file, so a stale rule fails the sync. On top of these rules the sync
+# leaves out every tracked file that .gitignore matches, and puts in the files of scripts/mirror-overlay/.
+
+# The hub's owner-only content (the adapters that are not open), its generated module and its tests. The public
+# copy gets the empty set in scripts/mirror-overlay/ instead.
+apps/hub/content/owner-only/
+apps/hub/app/lib/owner-only/
+apps/hub/test/owner-only/
+scripts/mirror-overlay/
+
+# The list of private adapters, the checks built on it, and the private importer's guide.
+deploy/private-adapters.txt
+deploy/client-names.txt
+packages/python/tests/test_no_private_names.py
+docs/private-adapters.md
+
+# The Hugging Face release tool and its test, which read the private list through test_no_private_names.py.
+scripts/release_hf.py
+scripts/tests/test_release_hf.py
+
+# The prompt pin covers every served manifest, private ones included.
+scripts/tests/prompt_pin.py
+scripts/tests/test_prompt_pin.py
+scripts/tests/fixtures/prompt_pin.json
+
+# Import files and served manifests of adapters that are not open.
+open-imports-only: catalogue-imports/
+open-adapters-only: results/v14-manifests/
+
+# Results about adapters that are not open, and console screenshots.
+results/console/
+results/step2a5/
+results/step2b2/
+
+# The agents' instructions, specs and plans (with the design studies' prototypes), and the owner's storage notes.
+CLAUDE.md
+docs/superpowers/
+docs/storage.md
+# The two GPU tests and the script that compare against the INT4 design study's prototypes, which leave with it.
+runtime/python/tests/test_int4_cuda.py
+runtime/python/tests/test_int4_calibration_cuda.py
+scripts/int4_from_prototype.py
+
+# Claude settings folders, wherever they are.
+**/.claude/
+
+# Finder files.
+.DS_Store
+*/.DS_Store

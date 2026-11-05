@@ -1,0 +1,66 @@
+id: jeff.agents.tool-route
+version: 1.4.0
+aliases:
+- oss-tool-route
+- tool-route
+licence:
+  kind: open
+  adapter: Apache-2.0
+weights:
+  open:
+    repo: mstrasser/jeff-adapter-tool-route
+    revision: v1.4
+base:
+  id: jeff-base
+  version: v1.4
+  max_options: 26
+context:
+- key: app
+  description: 'The application the agent works in: its name and a description of what it does and for whom.'
+  required: true
+- key: today
+  description: Today's date, written out (for example 'Wednesday 23 June 2027').
+  required: true
+- key: tools
+  description: The tool menu, in any common format (Python signatures, JSON schemas and so on).
+  required: true
+- key: conversation
+  description: The conversation so far, a list of messages (user, assistant, tool calls and tool results).
+  required: true
+input:
+  key: request
+  description: The user's latest message.
+  form: fields
+functions:
+  tool:
+    interface: route
+    type: choice
+    instructions: 'What should the agent do next with the user''s latest message? Choose the tool on the menu that should
+      be called now when that tool can do what the user asks and the request and the conversation give every detail it requires
+      (details the agent can take from earlier in the conversation count). Choose none when no tool is needed or none fits:
+      the user is chatting or thanking, asks something the conversation already answers, or asks for something no tool on
+      the menu can do. Choose ask_user when a tool fits but a required detail is missing and cannot be taken from the conversation,
+      or when the request could mean two different records or actions and the agent must ask which. Read the tool names and
+      descriptions carefully: similar tools do different things.'
+    labels:
+      source: caller
+      fixed_first: {}
+      caller_keys: null
+      max: 24
+    abstain_labels: []
+    calibration:
+      data: hf://mstrasser/jeff-adapter-tool-route@v1.4/calibration.jsonl
+      rows: 2000
+      target_precision: 0.95
+      threshold: 0.413434
+      precision_at_threshold: 0.985
+      coverage_at_threshold: 1.0
+routes_to: []
+tests:
+  published: hf://mstrasser/jeff-adapter-tool-route@v1.4/test.jsonl
+  calibration: hf://mstrasser/jeff-adapter-tool-route@v1.4/calibration.jsonl
+  function_by: only
+hub:
+  title: oss-tool-route
+  summary: Jeff v1.4 adapter `tool-route`. Given a tool menu written into the request (in any common format) and the conversation,
+    picks the tool to call next, no tool, or asking the user for a missing detail.

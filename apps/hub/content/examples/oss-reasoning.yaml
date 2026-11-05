@@ -1,0 +1,142 @@
+# The "Reasoning" page's examples (guides/oss-reasoning.md): checking claims, statements, items and packs against
+# what they are compared with. Format and recording: scripts/hub_examples.py. The `recorded` blocks are written by
+# `scripts/hub_examples.py --record`, never by hand. Every input here was written for the page.
+- id: oss-entails
+  name: Supplier's claim of an early, full delivery
+  function: jeff.reasoning.entails.entails
+  context:
+    setting: The accounts payable team of a mid-sized furniture maker checks supplier claims before paying.
+    evidence:
+    - source: purchase order
+      text: Purchase order 4471, issued 3 February 2026 to Calder Timber, for 120 oak boards at 18.50 each, delivery by 28 February 2026.
+    - source: delivery note
+      text: Delivery note for purchase order 4471, signed at the loading bay on 26 February 2026. Received 120 oak boards, no damage noted.
+  input: Calder Timber delivered the full order for purchase order 4471 before the agreed date.
+  recorded:
+    value: supported
+    confidence: 0.615
+    top_options:
+    - option: supported
+      probability: 0.615
+    - option: unsupported
+      probability: 0.383
+    - option: unclear
+      probability: 0.002
+    server: v1.4
+    at: '2026-11-03'
+- id: oss-contradicts
+  name: Penicillin allergy in a GP letter
+  function: jeff.reasoning.contradicts.contradicts
+  context:
+    setting: The front desk team of a community health clinic reviews patient records before appointments.
+    statement_a:
+      source: record entry
+      text: 'Allergies: none known. Last reviewed 12 January 2026.'
+  input:
+    source: GP letter, 10 January 2026
+    text: The patient has a confirmed penicillin allergy, recorded in 2019.
+  recorded:
+    value: 'yes'
+    confidence: 0.941
+    top_options:
+    - option: 'yes'
+      probability: 0.941
+    - option: 'no'
+      probability: 0.058
+    - option: unclear
+      probability: 0.001
+    server: v1.4
+    at: '2026-11-03'
+- id: oss-equivalent
+  name: Two listings of the same paperback
+  function: jeff.reasoning.equivalent.equivalent
+  context:
+    setting: The data team of an online bookshop compares supplier listings before merging duplicate products.
+    scope: Every fact that identifies the edition counts (title, author, format, page count and year); wording and punctuation do not.
+    item_a: The Lighthouse Keeper's Daughter by Ana Rivas, paperback, 312 pages, published 2021.
+  input: Ana Rivas, The Lighthouse Keeper's Daughter (paperback edition, 2021), 312 pp.
+  recorded:
+    value: 'yes'
+    confidence: 0.971
+    top_options:
+    - option: 'yes'
+      probability: 0.971
+    - option: 'no'
+      probability: 0.028
+    - option: unclear
+      probability: 0.001
+    server: v1.4
+    at: '2026-11-03'
+- id: oss-satisfies
+  name: May payslip as proof of recent income
+  function: jeff.reasoning.satisfies.satisfies
+  context:
+    context:
+      organisation: A regional housing association
+      checker: Lettings officer
+      item_kind: Proof of income
+      date: 2 November 2026
+    requirement: The document must be dated in August, September or October 2026.
+  input: |-
+    Payslip - Marlow Cleaning Services Ltd
+    Employee: Joan Pereira
+    Pay date: 31 May 2026
+    Gross pay: 1,840.00  Net pay: 1,512.36
+  recorded:
+    value: fail
+    confidence: 0.908
+    top_options:
+    - option: fail
+      probability: 0.908
+    - option: unclear
+      probability: 0.078
+    - option: pass
+      probability: 0.014
+    server: v1.4
+    at: '2026-11-03'
+- id: oss-is-complete
+  name: Bakery's business loan pack
+  function: jeff.reasoning.is-complete.is_complete
+  context:
+    context:
+      organisation: A small business lender
+      reviewer: Loan operations analyst
+      pack_kind: Business loan application
+      purpose: Check the application pack is complete before credit review
+      review_date: 2 November 2026
+    checklist:
+    - Signed loan application form (all pages)
+    - Business bank statements for the last three months
+    - Photo identification of every director
+    - Latest annual accounts (only for businesses trading more than two years)
+  input:
+    case:
+      name: Ferngrove Bakery Ltd
+      reference: APP-20931
+      trading_since: March 2025
+      directors:
+      - Priya Natarajan
+      - Tom Okafor
+    documents_received:
+    - kind: Loan application form
+      date: 28 October 2026
+      pages: 4 of 4
+      signatures: signed by Priya Natarajan
+    - kind: Business bank statements
+      date: July, August and September 2026
+      pages: complete
+    - kind: Passport
+      date: valid until 2031
+      about: Priya Natarajan
+  recorded:
+    value: incomplete
+    confidence: 0.965
+    top_options:
+    - option: incomplete
+      probability: 0.965
+    - option: complete
+      probability: 0.034
+    - option: unclear
+      probability: 0.001
+    server: v1.4
+    at: '2026-11-03'

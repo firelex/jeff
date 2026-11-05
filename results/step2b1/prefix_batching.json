@@ -1,0 +1,224 @@
+{
+ "script": "results/step2b1/task6/bench_prefix_batching.py",
+ "date": "2026-10-24 18:29",
+ "versions": {
+  "torch": "2.14.0+cu130",
+  "cuda": "13.0",
+  "gpu": "NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition"
+ },
+ "setup": {
+  "adapters": [
+   "emotion",
+   "ground",
+   "guard",
+   "legal-clauses",
+   "nav",
+   "spam",
+   "support-intents",
+   "tools",
+   "triage"
+  ],
+  "rows": 1786,
+  "distinct_prefixes": 1622,
+  "skipped_to_standard_path": {
+   "guard": 12,
+   "spam": 2
+  },
+  "micro_batch_rows": 64,
+  "prefix_tokens": {
+   "min": 95,
+   "median": 552,
+   "max": 7647
+  },
+  "prefix_pass_rows": {
+   "64": 16,
+   "128": 32,
+   "256": 16,
+   "512": 8,
+   "768": 4,
+   "1024": 4,
+   "1536": 4,
+   "2048": 2,
+   "3072": 2,
+   "4096": 1,
+   "6144": 1,
+   "8192": 1
+  },
+  "batched_path_record_s": 24.8,
+  "batched_path_reserved_gb_added": 2.81,
+  "note": "other Jeff servers resident on the GPU during the runs (light load)"
+ },
+ "runs": {
+  "one_at_a_time": [
+   {
+    "wall_s": 23.708,
+    "rows_per_s": 75.3,
+    "prefix_gpu_s": 18.618,
+    "decide_gpu_s": 3.01,
+    "prefix_misses": 1676,
+    "prefix_passes": 1676,
+    "decide_passes": 161
+   },
+   {
+    "wall_s": 24.166,
+    "rows_per_s": 73.9,
+    "prefix_gpu_s": 19.049,
+    "decide_gpu_s": 3.075,
+    "prefix_misses": 1676,
+    "prefix_passes": 1676,
+    "decide_passes": 161
+   }
+  ],
+  "batched": [
+   {
+    "wall_s": 21.049,
+    "rows_per_s": 84.9,
+    "prefix_gpu_s": 16.117,
+    "decide_gpu_s": 3.107,
+    "prefix_misses": 1675,
+    "prefix_passes": 567,
+    "decide_passes": 161
+   },
+   {
+    "wall_s": 21.227,
+    "rows_per_s": 84.1,
+    "prefix_gpu_s": 16.258,
+    "decide_gpu_s": 3.135,
+    "prefix_misses": 1675,
+    "prefix_passes": 567,
+    "decide_passes": 161
+   }
+  ]
+ },
+ "best_wall_s": {
+  "one_at_a_time": 23.708,
+  "batched": 21.049
+ },
+ "speedup_end_to_end": 1.13,
+ "speedup_prefix_gpu": 1.16,
+ "decisions": {
+  "compared": "the same rows in the same decision passes; only how their prefixes were made differs",
+  "same_top_option": 1783,
+  "rows": 1786,
+  "largest_probability_difference": 0.0472,
+  "probability_difference_p50_p99": [
+   0.0,
+   0.0283
+  ],
+  "rows_with_another_top_option": [
+   {
+    "adapter": "emotion",
+    "one_at_a_time_top2": [
+     [
+      18,
+      0.3836
+     ],
+     [
+      7,
+      0.3609
+     ]
+    ],
+    "batched_top2": [
+     [
+      7,
+      0.37
+     ],
+     [
+      18,
+      0.37
+     ]
+    ],
+    "standard_top2": [
+     [
+      18,
+      0.3853
+     ],
+     [
+      7,
+      0.3625
+     ]
+    ],
+    "matched_standard_path": [
+     "one_at_a_time"
+    ]
+   },
+   {
+    "adapter": "triage",
+    "one_at_a_time_top2": [
+     [
+      2,
+      0.5387
+     ],
+     [
+      1,
+      0.4602
+     ]
+    ],
+    "batched_top2": [
+     [
+      1,
+      0.4995
+     ],
+     [
+      2,
+      0.4995
+     ]
+    ],
+    "standard_top2": [
+     [
+      1,
+      0.4994
+     ],
+     [
+      2,
+      0.4994
+     ]
+    ],
+    "matched_standard_path": [
+     "batched"
+    ]
+   },
+   {
+    "adapter": "spam",
+    "one_at_a_time_top2": [
+     [
+      0,
+      0.4439
+     ],
+     [
+      2,
+      0.4439
+     ]
+    ],
+    "batched_top2": [
+     [
+      2,
+      0.4646
+     ],
+     [
+      0,
+      0.418
+     ]
+    ],
+    "standard_top2": [
+     [
+      2,
+      0.4646
+     ],
+     [
+      0,
+      0.418
+     ]
+    ],
+    "matched_standard_path": [
+     "batched"
+    ]
+   }
+  ],
+  "flips_matching_standard_path": {
+   "one_at_a_time": 1,
+   "batched": 2
+  }
+ },
+ "design_reference": "design Section 6: 27 s for these rows in the prototype, almost all prefix passes"
+}

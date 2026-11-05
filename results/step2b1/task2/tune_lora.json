@@ -1,0 +1,1998 @@
+{
+ "32": {
+  "per_shape": {
+   "gdn_proj": {
+    "count": 18,
+    "today": {
+     "tiles": {
+      "bm": 32,
+      "split": 16,
+      "bk": 64,
+      "mid_warps": 4,
+      "out_bm": 32,
+      "bn": 64,
+      "nc": 1,
+      "out_warps": 4
+     },
+     "pair_us": 6.414
+    },
+    "best": {
+     "tiles": {
+      "bm": 16,
+      "bk": 128,
+      "split": 4,
+      "mid_warps": 4,
+      "out_bm": 16,
+      "bn": 128,
+      "nc": 1,
+      "out_warps": 8
+     },
+     "pair_us": 4.388,
+     "sum_us": 4.326
+    },
+    "runners_up": [
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 128,
+       "split": 8,
+       "mid_warps": 4,
+       "out_bm": 16,
+       "bn": 128,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 4.404,
+      "sum_us": 4.303
+     },
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 64,
+       "split": 16,
+       "mid_warps": 4,
+       "out_bm": 16,
+       "bn": 128,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 4.649,
+      "sum_us": 4.679
+     },
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 128,
+       "split": 2,
+       "mid_warps": 4,
+       "out_bm": 16,
+       "bn": 128,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 4.652,
+      "sum_us": 4.58
+     }
+    ],
+    "per_split_sum_us": {
+     "8": 4.303,
+     "4": 4.326,
+     "2": 4.58,
+     "16": 4.679,
+     "1": 5.457
+    }
+   },
+   "gdn_out": {
+    "count": 18,
+    "today": {
+     "tiles": {
+      "bm": 32,
+      "split": 32,
+      "bk": 64,
+      "mid_warps": 4,
+      "out_bm": 32,
+      "bn": 64,
+      "nc": 1,
+      "out_warps": 4
+     },
+     "pair_us": 5.169
+    },
+    "best": {
+     "tiles": {
+      "bm": 16,
+      "bk": 128,
+      "split": 8,
+      "mid_warps": 2,
+      "out_bm": 16,
+      "bn": 64,
+      "nc": 1,
+      "out_warps": 8
+     },
+     "pair_us": 3.654,
+     "sum_us": 3.774
+    },
+    "runners_up": [
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 128,
+       "split": 4,
+       "mid_warps": 2,
+       "out_bm": 16,
+       "bn": 32,
+       "nc": 1,
+       "out_warps": 4
+      },
+      "pair_us": 3.88,
+      "sum_us": 3.914
+     },
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 128,
+       "split": 16,
+       "mid_warps": 2,
+       "out_bm": 16,
+       "bn": 32,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 3.886,
+      "sum_us": 3.917
+     },
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 64,
+       "split": 32,
+       "mid_warps": 2,
+       "out_bm": 16,
+       "bn": 32,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 4.648,
+      "sum_us": 4.587
+     }
+    ],
+    "per_split_sum_us": {
+     "8": 3.774,
+     "4": 3.914,
+     "16": 3.917,
+     "32": 4.587,
+     "2": 4.697,
+     "1": 6.195
+    }
+   },
+   "attn_proj": {
+    "count": 6,
+    "today": {
+     "tiles": {
+      "bm": 32,
+      "split": 16,
+      "bk": 64,
+      "mid_warps": 4,
+      "out_bm": 32,
+      "bn": 64,
+      "nc": 1,
+      "out_warps": 4
+     },
+     "pair_us": 8.189
+    },
+    "best": {
+     "tiles": {
+      "bm": 16,
+      "bk": 64,
+      "split": 4,
+      "mid_warps": 4,
+      "out_bm": 16,
+      "bn": 128,
+      "nc": 1,
+      "out_warps": 8
+     },
+     "pair_us": 4.804,
+     "sum_us": 4.773
+    },
+    "runners_up": [
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 64,
+       "split": 8,
+       "mid_warps": 4,
+       "out_bm": 16,
+       "bn": 128,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 4.884,
+      "sum_us": 4.829
+     },
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 64,
+       "split": 16,
+       "mid_warps": 4,
+       "out_bm": 16,
+       "bn": 128,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 5.366,
+      "sum_us": 5.33
+     },
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 128,
+       "split": 2,
+       "mid_warps": 4,
+       "out_bm": 16,
+       "bn": 128,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 5.376,
+      "sum_us": 5.35
+     }
+    ],
+    "per_split_sum_us": {
+     "4": 4.773,
+     "8": 4.829,
+     "16": 5.33,
+     "2": 5.35,
+     "1": 6.33
+    }
+   },
+   "attn_out": {
+    "count": 6,
+    "today": {
+     "tiles": {
+      "bm": 32,
+      "split": 32,
+      "bk": 64,
+      "mid_warps": 4,
+      "out_bm": 32,
+      "bn": 64,
+      "nc": 1,
+      "out_warps": 4
+     },
+     "pair_us": 5.16
+    },
+    "best": {
+     "tiles": {
+      "bm": 16,
+      "bk": 128,
+      "split": 8,
+      "mid_warps": 2,
+      "out_bm": 16,
+      "bn": 32,
+      "nc": 1,
+      "out_warps": 4
+     },
+     "pair_us": 3.626,
+     "sum_us": 3.719
+    },
+    "runners_up": [
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 128,
+       "split": 16,
+       "mid_warps": 2,
+       "out_bm": 16,
+       "bn": 32,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 3.882,
+      "sum_us": 3.915
+     },
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 128,
+       "split": 4,
+       "mid_warps": 2,
+       "out_bm": 16,
+       "bn": 32,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 3.894,
+      "sum_us": 3.927
+     },
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 64,
+       "split": 32,
+       "mid_warps": 4,
+       "out_bm": 16,
+       "bn": 64,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 4.646,
+      "sum_us": 4.578
+     }
+    ],
+    "per_split_sum_us": {
+     "8": 3.719,
+     "16": 3.915,
+     "4": 3.927,
+     "32": 4.578,
+     "2": 4.683,
+     "1": 6.172
+    }
+   },
+   "mlp_in": {
+    "count": 24,
+    "today": {
+     "tiles": {
+      "bm": 32,
+      "split": 16,
+      "bk": 64,
+      "mid_warps": 4,
+      "out_bm": 32,
+      "bn": 64,
+      "nc": 1,
+      "out_warps": 4
+     },
+     "pair_us": 5.978
+    },
+    "best": {
+     "tiles": {
+      "bm": 16,
+      "bk": 64,
+      "split": 8,
+      "mid_warps": 2,
+      "out_bm": 16,
+      "bn": 128,
+      "nc": 1,
+      "out_warps": 8
+     },
+     "pair_us": 4.122,
+     "sum_us": 4.087
+    },
+    "runners_up": [
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 128,
+       "split": 4,
+       "mid_warps": 4,
+       "out_bm": 16,
+       "bn": 128,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 4.132,
+      "sum_us": 4.117
+     },
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 64,
+       "split": 16,
+       "mid_warps": 4,
+       "out_bm": 16,
+       "bn": 128,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 4.395,
+      "sum_us": 4.447
+     },
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 128,
+       "split": 2,
+       "mid_warps": 4,
+       "out_bm": 16,
+       "bn": 128,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 4.522,
+      "sum_us": 4.562
+     }
+    ],
+    "per_split_sum_us": {
+     "8": 4.087,
+     "4": 4.117,
+     "16": 4.447,
+     "2": 4.562,
+     "1": 5.448
+    }
+   },
+   "mlp_down": {
+    "count": 24,
+    "today": {
+     "tiles": {
+      "bm": 32,
+      "split": 56,
+      "bk": 64,
+      "mid_warps": 4,
+      "out_bm": 32,
+      "bn": 64,
+      "nc": 1,
+      "out_warps": 4
+     },
+     "pair_us": 6.6
+    },
+    "best": {
+     "tiles": {
+      "bm": 16,
+      "bk": 128,
+      "split": 14,
+      "mid_warps": 2,
+      "out_bm": 16,
+      "bn": 32,
+      "nc": 1,
+      "out_warps": 8
+     },
+     "pair_us": 4.129,
+     "sum_us": 4.157
+    },
+    "runners_up": [
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 128,
+       "split": 7,
+       "mid_warps": 2,
+       "out_bm": 16,
+       "bn": 32,
+       "nc": 1,
+       "out_warps": 4
+      },
+      "pair_us": 4.301,
+      "sum_us": 4.292
+     },
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 64,
+       "split": 8,
+       "mid_warps": 2,
+       "out_bm": 16,
+       "bn": 32,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 4.378,
+      "sum_us": 4.406
+     },
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 128,
+       "split": 4,
+       "mid_warps": 2,
+       "out_bm": 16,
+       "bn": 64,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 4.64,
+      "sum_us": 4.55
+     }
+    ],
+    "per_split_sum_us": {
+     "14": 4.157,
+     "7": 4.292,
+     "8": 4.406,
+     "4": 4.55,
+     "28": 4.567,
+     "56": 5.836,
+     "2": 5.969,
+     "1": 8.713
+    }
+   }
+  },
+  "per_decision_ms": {
+   "today": 0.5905,
+   "best": 0.3934
+  }
+ },
+ "64": {
+  "per_shape": {
+   "gdn_proj": {
+    "count": 18,
+    "today": {
+     "tiles": {
+      "bm": 64,
+      "split": 16,
+      "bk": 64,
+      "mid_warps": 4,
+      "out_bm": 64,
+      "bn": 64,
+      "nc": 1,
+      "out_warps": 4
+     },
+     "pair_us": 8.529
+    },
+    "best": {
+     "tiles": {
+      "bm": 16,
+      "bk": 128,
+      "split": 4,
+      "mid_warps": 4,
+      "out_bm": 16,
+      "bn": 256,
+      "nc": 1,
+      "out_warps": 8
+     },
+     "pair_us": 4.648,
+     "sum_us": 4.691
+    },
+    "runners_up": [
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 128,
+       "split": 8,
+       "mid_warps": 4,
+       "out_bm": 16,
+       "bn": 256,
+       "nc": 1,
+       "out_warps": 4
+      },
+      "pair_us": 4.65,
+      "sum_us": 4.683
+     },
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 128,
+       "split": 2,
+       "mid_warps": 4,
+       "out_bm": 32,
+       "bn": 128,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 4.904,
+      "sum_us": 4.94
+     },
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 64,
+       "split": 16,
+       "mid_warps": 4,
+       "out_bm": 16,
+       "bn": 256,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 4.912,
+      "sum_us": 4.952
+     }
+    ],
+    "per_split_sum_us": {
+     "8": 4.683,
+     "4": 4.691,
+     "2": 4.94,
+     "16": 4.952,
+     "1": 5.726
+    }
+   },
+   "gdn_out": {
+    "count": 18,
+    "today": {
+     "tiles": {
+      "bm": 64,
+      "split": 32,
+      "bk": 64,
+      "mid_warps": 4,
+      "out_bm": 64,
+      "bn": 64,
+      "nc": 1,
+      "out_warps": 4
+     },
+     "pair_us": 7.184
+    },
+    "best": {
+     "tiles": {
+      "bm": 16,
+      "bk": 128,
+      "split": 8,
+      "mid_warps": 2,
+      "out_bm": 16,
+      "bn": 32,
+      "nc": 1,
+      "out_warps": 2
+     },
+     "pair_us": 3.809,
+     "sum_us": 3.791
+    },
+    "runners_up": [
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 128,
+       "split": 4,
+       "mid_warps": 2,
+       "out_bm": 16,
+       "bn": 64,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 3.883,
+      "sum_us": 3.924
+     },
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 128,
+       "split": 16,
+       "mid_warps": 2,
+       "out_bm": 16,
+       "bn": 32,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 3.888,
+      "sum_us": 3.944
+     },
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 64,
+       "split": 32,
+       "mid_warps": 4,
+       "out_bm": 16,
+       "bn": 32,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 4.645,
+      "sum_us": 4.652
+     }
+    ],
+    "per_split_sum_us": {
+     "8": 3.791,
+     "4": 3.924,
+     "16": 3.944,
+     "32": 4.652,
+     "2": 4.695,
+     "1": 6.228
+    }
+   },
+   "attn_proj": {
+    "count": 6,
+    "today": {
+     "tiles": {
+      "bm": 64,
+      "split": 16,
+      "bk": 64,
+      "mid_warps": 4,
+      "out_bm": 64,
+      "bn": 64,
+      "nc": 1,
+      "out_warps": 4
+     },
+     "pair_us": 10.277
+    },
+    "best": {
+     "tiles": {
+      "bm": 16,
+      "bk": 64,
+      "split": 4,
+      "mid_warps": 4,
+      "out_bm": 16,
+      "bn": 128,
+      "nc": 1,
+      "out_warps": 8
+     },
+     "pair_us": 4.921,
+     "sum_us": 5.01
+    },
+    "runners_up": [
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 64,
+       "split": 8,
+       "mid_warps": 4,
+       "out_bm": 16,
+       "bn": 128,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 5.154,
+      "sum_us": 5.144
+     },
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 128,
+       "split": 2,
+       "mid_warps": 4,
+       "out_bm": 16,
+       "bn": 128,
+       "nc": 1,
+       "out_warps": 4
+      },
+      "pair_us": 5.434,
+      "sum_us": 5.565
+     },
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 64,
+       "split": 16,
+       "mid_warps": 4,
+       "out_bm": 16,
+       "bn": 128,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 5.933,
+      "sum_us": 5.929
+     }
+    ],
+    "per_split_sum_us": {
+     "4": 5.01,
+     "8": 5.144,
+     "2": 5.565,
+     "16": 5.929,
+     "1": 6.479
+    }
+   },
+   "attn_out": {
+    "count": 6,
+    "today": {
+     "tiles": {
+      "bm": 64,
+      "split": 32,
+      "bk": 64,
+      "mid_warps": 4,
+      "out_bm": 64,
+      "bn": 64,
+      "nc": 1,
+      "out_warps": 4
+     },
+     "pair_us": 7.16
+    },
+    "best": {
+     "tiles": {
+      "bm": 16,
+      "bk": 128,
+      "split": 8,
+      "mid_warps": 2,
+      "out_bm": 16,
+      "bn": 32,
+      "nc": 1,
+      "out_warps": 4
+     },
+     "pair_us": 3.688,
+     "sum_us": 3.79
+    },
+    "runners_up": [
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 128,
+       "split": 4,
+       "mid_warps": 2,
+       "out_bm": 16,
+       "bn": 32,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 3.881,
+      "sum_us": 3.913
+     },
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 128,
+       "split": 16,
+       "mid_warps": 4,
+       "out_bm": 16,
+       "bn": 32,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 3.902,
+      "sum_us": 3.938
+     },
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 64,
+       "split": 32,
+       "mid_warps": 2,
+       "out_bm": 16,
+       "bn": 32,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 4.651,
+      "sum_us": 4.634
+     }
+    ],
+    "per_split_sum_us": {
+     "8": 3.79,
+     "4": 3.913,
+     "16": 3.938,
+     "32": 4.634,
+     "2": 4.696,
+     "1": 6.173
+    }
+   },
+   "mlp_in": {
+    "count": 24,
+    "today": {
+     "tiles": {
+      "bm": 64,
+      "split": 16,
+      "bk": 64,
+      "mid_warps": 4,
+      "out_bm": 64,
+      "bn": 64,
+      "nc": 1,
+      "out_warps": 4
+     },
+     "pair_us": 8.327
+    },
+    "best": {
+     "tiles": {
+      "bm": 16,
+      "bk": 128,
+      "split": 4,
+      "mid_warps": 4,
+      "out_bm": 16,
+      "bn": 256,
+      "nc": 1,
+      "out_warps": 8
+     },
+     "pair_us": 4.595,
+     "sum_us": 4.564
+    },
+    "runners_up": [
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 64,
+       "split": 8,
+       "mid_warps": 2,
+       "out_bm": 16,
+       "bn": 256,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 4.632,
+      "sum_us": 4.555
+     },
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 128,
+       "split": 2,
+       "mid_warps": 4,
+       "out_bm": 32,
+       "bn": 128,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 4.86,
+      "sum_us": 4.844
+     },
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 64,
+       "split": 16,
+       "mid_warps": 4,
+       "out_bm": 16,
+       "bn": 256,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 4.908,
+      "sum_us": 4.932
+     }
+    ],
+    "per_split_sum_us": {
+     "8": 4.555,
+     "4": 4.564,
+     "2": 4.844,
+     "16": 4.932,
+     "1": 5.705
+    }
+   },
+   "mlp_down": {
+    "count": 24,
+    "today": {
+     "tiles": {
+      "bm": 64,
+      "split": 56,
+      "bk": 64,
+      "mid_warps": 4,
+      "out_bm": 64,
+      "bn": 64,
+      "nc": 1,
+      "out_warps": 4
+     },
+     "pair_us": 9.764
+    },
+    "best": {
+     "tiles": {
+      "bm": 16,
+      "bk": 128,
+      "split": 14,
+      "mid_warps": 2,
+      "out_bm": 16,
+      "bn": 32,
+      "nc": 1,
+      "out_warps": 8
+     },
+     "pair_us": 4.131,
+     "sum_us": 4.174
+    },
+    "runners_up": [
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 128,
+       "split": 7,
+       "mid_warps": 2,
+       "out_bm": 16,
+       "bn": 32,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 4.285,
+      "sum_us": 4.299
+     },
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 64,
+       "split": 8,
+       "mid_warps": 2,
+       "out_bm": 16,
+       "bn": 32,
+       "nc": 1,
+       "out_warps": 2
+      },
+      "pair_us": 4.389,
+      "sum_us": 4.325
+     },
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 128,
+       "split": 4,
+       "mid_warps": 2,
+       "out_bm": 16,
+       "bn": 32,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 4.63,
+      "sum_us": 4.561
+     }
+    ],
+    "per_split_sum_us": {
+     "14": 4.174,
+     "7": 4.299,
+     "8": 4.325,
+     "4": 4.561,
+     "28": 4.618,
+     "2": 5.959,
+     "56": 5.964,
+     "1": 8.696
+    }
+   }
+  },
+  "per_decision_ms": {
+   "today": 0.8216,
+   "best": 0.4133
+  }
+ },
+ "128": {
+  "per_shape": {
+   "gdn_proj": {
+    "count": 18,
+    "today": {
+     "tiles": {
+      "bm": 64,
+      "split": 16,
+      "bk": 64,
+      "mid_warps": 4,
+      "out_bm": 64,
+      "bn": 64,
+      "nc": 1,
+      "out_warps": 4
+     },
+     "pair_us": 10.807
+    },
+    "best": {
+     "tiles": {
+      "bm": 16,
+      "bk": 64,
+      "split": 4,
+      "mid_warps": 4,
+      "out_bm": 16,
+      "bn": 256,
+      "nc": 1,
+      "out_warps": 8
+     },
+     "pair_us": 5.409,
+     "sum_us": 5.38
+    },
+    "runners_up": [
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 128,
+       "split": 8,
+       "mid_warps": 2,
+       "out_bm": 16,
+       "bn": 256,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 5.421,
+      "sum_us": 5.381
+     },
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 128,
+       "split": 2,
+       "mid_warps": 4,
+       "out_bm": 16,
+       "bn": 128,
+       "nc": 1,
+       "out_warps": 4
+      },
+      "pair_us": 5.48,
+      "sum_us": 5.483
+     },
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 64,
+       "split": 16,
+       "mid_warps": 4,
+       "out_bm": 16,
+       "bn": 256,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 5.935,
+      "sum_us": 5.962
+     }
+    ],
+    "per_split_sum_us": {
+     "4": 5.38,
+     "8": 5.381,
+     "2": 5.483,
+     "16": 5.962,
+     "1": 6.347
+    }
+   },
+   "gdn_out": {
+    "count": 18,
+    "today": {
+     "tiles": {
+      "bm": 64,
+      "split": 32,
+      "bk": 64,
+      "mid_warps": 4,
+      "out_bm": 64,
+      "bn": 64,
+      "nc": 1,
+      "out_warps": 4
+     },
+     "pair_us": 7.219
+    },
+    "best": {
+     "tiles": {
+      "bm": 16,
+      "bk": 128,
+      "split": 8,
+      "mid_warps": 2,
+      "out_bm": 16,
+      "bn": 64,
+      "nc": 1,
+      "out_warps": 8
+     },
+     "pair_us": 3.869,
+     "sum_us": 3.807
+    },
+    "runners_up": [
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 128,
+       "split": 4,
+       "mid_warps": 2,
+       "out_bm": 16,
+       "bn": 64,
+       "nc": 1,
+       "out_warps": 2
+      },
+      "pair_us": 4.054,
+      "sum_us": 4.041
+     },
+     {
+      "tiles": {
+       "bm": 32,
+       "bk": 128,
+       "split": 16,
+       "mid_warps": 2,
+       "out_bm": 16,
+       "bn": 64,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 4.131,
+      "sum_us": 4.165
+     },
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 128,
+       "split": 2,
+       "mid_warps": 2,
+       "out_bm": 16,
+       "bn": 64,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 4.695,
+      "sum_us": 4.736
+     }
+    ],
+    "per_split_sum_us": {
+     "8": 3.807,
+     "4": 4.041,
+     "16": 4.165,
+     "2": 4.736,
+     "32": 4.815,
+     "1": 6.206
+    }
+   },
+   "attn_proj": {
+    "count": 6,
+    "today": {
+     "tiles": {
+      "bm": 64,
+      "split": 16,
+      "bk": 64,
+      "mid_warps": 4,
+      "out_bm": 64,
+      "bn": 64,
+      "nc": 1,
+      "out_warps": 4
+     },
+     "pair_us": 12.092
+    },
+    "best": {
+     "tiles": {
+      "bm": 16,
+      "bk": 64,
+      "split": 4,
+      "mid_warps": 4,
+      "out_bm": 32,
+      "bn": 128,
+      "nc": 1,
+      "out_warps": 8
+     },
+     "pair_us": 5.671,
+     "sum_us": 5.637
+    },
+    "runners_up": [
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 128,
+       "split": 2,
+       "mid_warps": 4,
+       "out_bm": 32,
+       "bn": 128,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 5.931,
+      "sum_us": 5.965
+     },
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 64,
+       "split": 8,
+       "mid_warps": 4,
+       "out_bm": 16,
+       "bn": 256,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 5.934,
+      "sum_us": 5.876
+     },
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 64,
+       "split": 16,
+       "mid_warps": 4,
+       "out_bm": 16,
+       "bn": 256,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 6.701,
+      "sum_us": 6.628
+     }
+    ],
+    "per_split_sum_us": {
+     "4": 5.637,
+     "8": 5.876,
+     "2": 5.965,
+     "16": 6.628,
+     "1": 7.085
+    }
+   },
+   "attn_out": {
+    "count": 6,
+    "today": {
+     "tiles": {
+      "bm": 64,
+      "split": 32,
+      "bk": 64,
+      "mid_warps": 4,
+      "out_bm": 64,
+      "bn": 64,
+      "nc": 1,
+      "out_warps": 4
+     },
+     "pair_us": 7.219
+    },
+    "best": {
+     "tiles": {
+      "bm": 16,
+      "bk": 128,
+      "split": 8,
+      "mid_warps": 2,
+      "out_bm": 16,
+      "bn": 64,
+      "nc": 1,
+      "out_warps": 8
+     },
+     "pair_us": 3.871,
+     "sum_us": 3.796
+    },
+    "runners_up": [
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 128,
+       "split": 4,
+       "mid_warps": 2,
+       "out_bm": 16,
+       "bn": 64,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 3.974,
+      "sum_us": 4.042
+     },
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 128,
+       "split": 16,
+       "mid_warps": 2,
+       "out_bm": 16,
+       "bn": 64,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 4.128,
+      "sum_us": 4.164
+     },
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 128,
+       "split": 2,
+       "mid_warps": 2,
+       "out_bm": 16,
+       "bn": 64,
+       "nc": 1,
+       "out_warps": 4
+      },
+      "pair_us": 4.656,
+      "sum_us": 4.736
+     }
+    ],
+    "per_split_sum_us": {
+     "8": 3.796,
+     "4": 4.042,
+     "16": 4.164,
+     "2": 4.736,
+     "32": 4.815,
+     "1": 6.218
+    }
+   },
+   "mlp_in": {
+    "count": 24,
+    "today": {
+     "tiles": {
+      "bm": 64,
+      "split": 16,
+      "bk": 64,
+      "mid_warps": 4,
+      "out_bm": 64,
+      "bn": 64,
+      "nc": 1,
+      "out_warps": 4
+     },
+     "pair_us": 10.024
+    },
+    "best": {
+     "tiles": {
+      "bm": 16,
+      "bk": 128,
+      "split": 4,
+      "mid_warps": 4,
+      "out_bm": 16,
+      "bn": 128,
+      "nc": 1,
+      "out_warps": 8
+     },
+     "pair_us": 5.162,
+     "sum_us": 5.167
+    },
+    "runners_up": [
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 128,
+       "split": 8,
+       "mid_warps": 2,
+       "out_bm": 16,
+       "bn": 256,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 5.169,
+      "sum_us": 5.22
+     },
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 128,
+       "split": 2,
+       "mid_warps": 4,
+       "out_bm": 16,
+       "bn": 128,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 5.425,
+      "sum_us": 5.482
+     },
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 64,
+       "split": 16,
+       "mid_warps": 4,
+       "out_bm": 16,
+       "bn": 256,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 5.682,
+      "sum_us": 5.655
+     }
+    ],
+    "per_split_sum_us": {
+     "4": 5.167,
+     "8": 5.22,
+     "2": 5.482,
+     "16": 5.655,
+     "1": 6.09
+    }
+   },
+   "mlp_down": {
+    "count": 24,
+    "today": {
+     "tiles": {
+      "bm": 64,
+      "split": 28,
+      "bk": 64,
+      "mid_warps": 4,
+      "out_bm": 64,
+      "bn": 64,
+      "nc": 1,
+      "out_warps": 4
+     },
+     "pair_us": 7.065
+    },
+    "best": {
+     "tiles": {
+      "bm": 16,
+      "bk": 128,
+      "split": 14,
+      "mid_warps": 2,
+      "out_bm": 16,
+      "bn": 64,
+      "nc": 1,
+      "out_warps": 8
+     },
+     "pair_us": 4.386,
+     "sum_us": 4.332
+    },
+    "runners_up": [
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 128,
+       "split": 7,
+       "mid_warps": 2,
+       "out_bm": 16,
+       "bn": 64,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 4.397,
+      "sum_us": 4.397
+     },
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 64,
+       "split": 8,
+       "mid_warps": 2,
+       "out_bm": 16,
+       "bn": 64,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 4.405,
+      "sum_us": 4.45
+     },
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 128,
+       "split": 4,
+       "mid_warps": 2,
+       "out_bm": 16,
+       "bn": 64,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 4.661,
+      "sum_us": 4.786
+     }
+    ],
+    "per_split_sum_us": {
+     "14": 4.332,
+     "7": 4.397,
+     "8": 4.45,
+     "4": 4.786,
+     "28": 4.795,
+     "2": 6.024,
+     "56": 6.242,
+     "1": 8.769
+    }
+   }
+  },
+  "per_decision_ms": {
+   "today": 0.8505,
+   "best": 0.4534
+  }
+ },
+ "256": {
+  "per_shape": {
+   "gdn_proj": {
+    "count": 18,
+    "today": {
+     "tiles": {
+      "bm": 64,
+      "split": 16,
+      "bk": 64,
+      "mid_warps": 4,
+      "out_bm": 64,
+      "bn": 64,
+      "nc": 1,
+      "out_warps": 4
+     },
+     "pair_us": 15.933
+    },
+    "best": {
+     "tiles": {
+      "bm": 16,
+      "bk": 128,
+      "split": 2,
+      "mid_warps": 4,
+      "out_bm": 32,
+      "bn": 128,
+      "nc": 1,
+      "out_warps": 8
+     },
+     "pair_us": 6.694,
+     "sum_us": 6.628
+    },
+    "runners_up": [
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 64,
+       "split": 4,
+       "mid_warps": 4,
+       "out_bm": 16,
+       "bn": 256,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 6.71,
+      "sum_us": 6.601
+     },
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 128,
+       "split": 8,
+       "mid_warps": 2,
+       "out_bm": 16,
+       "bn": 256,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 6.976,
+      "sum_us": 6.999
+     },
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 128,
+       "split": 1,
+       "mid_warps": 4,
+       "out_bm": 32,
+       "bn": 128,
+       "nc": 1,
+       "out_warps": 4
+      },
+      "pair_us": 7.216,
+      "sum_us": 7.271
+     }
+    ],
+    "per_split_sum_us": {
+     "4": 6.601,
+     "2": 6.628,
+     "8": 6.999,
+     "1": 7.271,
+     "16": 8.13
+    }
+   },
+   "gdn_out": {
+    "count": 18,
+    "today": {
+     "tiles": {
+      "bm": 64,
+      "split": 16,
+      "bk": 64,
+      "mid_warps": 4,
+      "out_bm": 64,
+      "bn": 64,
+      "nc": 1,
+      "out_warps": 4
+     },
+     "pair_us": 5.92
+    },
+    "best": {
+     "tiles": {
+      "bm": 16,
+      "bk": 128,
+      "split": 8,
+      "mid_warps": 2,
+      "out_bm": 16,
+      "bn": 128,
+      "nc": 1,
+      "out_warps": 8
+     },
+     "pair_us": 4.128,
+     "sum_us": 4.064
+    },
+    "runners_up": [
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 128,
+       "split": 4,
+       "mid_warps": 2,
+       "out_bm": 16,
+       "bn": 128,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 4.135,
+      "sum_us": 4.194
+     },
+     {
+      "tiles": {
+       "bm": 32,
+       "bk": 128,
+       "split": 16,
+       "mid_warps": 2,
+       "out_bm": 16,
+       "bn": 128,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 4.345,
+      "sum_us": 4.305
+     },
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 128,
+       "split": 2,
+       "mid_warps": 2,
+       "out_bm": 16,
+       "bn": 128,
+       "nc": 1,
+       "out_warps": 4
+      },
+      "pair_us": 4.918,
+      "sum_us": 4.94
+     }
+    ],
+    "per_split_sum_us": {
+     "8": 4.064,
+     "4": 4.194,
+     "16": 4.305,
+     "2": 4.94,
+     "32": 5.185,
+     "1": 6.454
+    }
+   },
+   "attn_proj": {
+    "count": 6,
+    "today": {
+     "tiles": {
+      "bm": 64,
+      "split": 16,
+      "bk": 64,
+      "mid_warps": 4,
+      "out_bm": 64,
+      "bn": 64,
+      "nc": 1,
+      "out_warps": 4
+     },
+     "pair_us": 17.591
+    },
+    "best": {
+     "tiles": {
+      "bm": 16,
+      "bk": 64,
+      "split": 4,
+      "mid_warps": 4,
+      "out_bm": 32,
+      "bn": 256,
+      "nc": 1,
+      "out_warps": 8
+     },
+     "pair_us": 6.957,
+     "sum_us": 6.942
+    },
+    "runners_up": [
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 64,
+       "split": 2,
+       "mid_warps": 4,
+       "out_bm": 32,
+       "bn": 128,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 7.14,
+      "sum_us": 7.117
+     },
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 64,
+       "split": 8,
+       "mid_warps": 4,
+       "out_bm": 32,
+       "bn": 256,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 7.36,
+      "sum_us": 7.388
+     },
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 128,
+       "split": 1,
+       "mid_warps": 4,
+       "out_bm": 32,
+       "bn": 128,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 7.734,
+      "sum_us": 7.784
+     }
+    ],
+    "per_split_sum_us": {
+     "4": 6.942,
+     "2": 7.117,
+     "8": 7.388,
+     "1": 7.784,
+     "16": 8.54
+    }
+   },
+   "attn_out": {
+    "count": 6,
+    "today": {
+     "tiles": {
+      "bm": 64,
+      "split": 16,
+      "bk": 64,
+      "mid_warps": 4,
+      "out_bm": 64,
+      "bn": 64,
+      "nc": 1,
+      "out_warps": 4
+     },
+     "pair_us": 5.929
+    },
+    "best": {
+     "tiles": {
+      "bm": 16,
+      "bk": 128,
+      "split": 8,
+      "mid_warps": 2,
+      "out_bm": 16,
+      "bn": 128,
+      "nc": 1,
+      "out_warps": 8
+     },
+     "pair_us": 4.128,
+     "sum_us": 4.064
+    },
+    "runners_up": [
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 128,
+       "split": 4,
+       "mid_warps": 2,
+       "out_bm": 16,
+       "bn": 128,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 4.139,
+      "sum_us": 4.189
+     },
+     {
+      "tiles": {
+       "bm": 32,
+       "bk": 128,
+       "split": 16,
+       "mid_warps": 2,
+       "out_bm": 16,
+       "bn": 128,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 4.336,
+      "sum_us": 4.32
+     },
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 128,
+       "split": 2,
+       "mid_warps": 2,
+       "out_bm": 16,
+       "bn": 128,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 4.908,
+      "sum_us": 4.95
+     }
+    ],
+    "per_split_sum_us": {
+     "8": 4.064,
+     "4": 4.189,
+     "16": 4.32,
+     "2": 4.95,
+     "32": 5.186,
+     "1": 6.392
+    }
+   },
+   "mlp_in": {
+    "count": 24,
+    "today": {
+     "tiles": {
+      "bm": 64,
+      "split": 16,
+      "bk": 64,
+      "mid_warps": 4,
+      "out_bm": 64,
+      "bn": 64,
+      "nc": 1,
+      "out_warps": 4
+     },
+     "pair_us": 13.949
+    },
+    "best": {
+     "tiles": {
+      "bm": 16,
+      "bk": 128,
+      "split": 4,
+      "mid_warps": 4,
+      "out_bm": 16,
+      "bn": 256,
+      "nc": 1,
+      "out_warps": 8
+     },
+     "pair_us": 6.217,
+     "sum_us": 6.283
+    },
+    "runners_up": [
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 128,
+       "split": 2,
+       "mid_warps": 4,
+       "out_bm": 32,
+       "bn": 128,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 6.372,
+      "sum_us": 6.312
+     },
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 64,
+       "split": 8,
+       "mid_warps": 4,
+       "out_bm": 16,
+       "bn": 256,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 6.705,
+      "sum_us": 6.691
+     },
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 128,
+       "split": 1,
+       "mid_warps": 4,
+       "out_bm": 32,
+       "bn": 128,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 6.953,
+      "sum_us": 6.956
+     }
+    ],
+    "per_split_sum_us": {
+     "4": 6.283,
+     "2": 6.312,
+     "8": 6.691,
+     "1": 6.956,
+     "16": 7.578
+    }
+   },
+   "mlp_down": {
+    "count": 24,
+    "today": {
+     "tiles": {
+      "bm": 64,
+      "split": 14,
+      "bk": 64,
+      "mid_warps": 4,
+      "out_bm": 64,
+      "bn": 64,
+      "nc": 1,
+      "out_warps": 4
+     },
+     "pair_us": 6.109
+    },
+    "best": {
+     "tiles": {
+      "bm": 16,
+      "bk": 64,
+      "split": 8,
+      "mid_warps": 2,
+      "out_bm": 16,
+      "bn": 128,
+      "nc": 1,
+      "out_warps": 8
+     },
+     "pair_us": 4.644,
+     "sum_us": 4.568
+    },
+    "runners_up": [
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 128,
+       "split": 7,
+       "mid_warps": 2,
+       "out_bm": 16,
+       "bn": 128,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 4.651,
+      "sum_us": 4.581
+     },
+     {
+      "tiles": {
+       "bm": 32,
+       "bk": 64,
+       "split": 14,
+       "mid_warps": 2,
+       "out_bm": 16,
+       "bn": 128,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 4.661,
+      "sum_us": 4.7
+     },
+     {
+      "tiles": {
+       "bm": 16,
+       "bk": 128,
+       "split": 4,
+       "mid_warps": 2,
+       "out_bm": 16,
+       "bn": 128,
+       "nc": 1,
+       "out_warps": 8
+      },
+      "pair_us": 4.911,
+      "sum_us": 4.888
+     }
+    ],
+    "per_split_sum_us": {
+     "8": 4.568,
+     "7": 4.581,
+     "14": 4.7,
+     "4": 4.888,
+     "28": 5.1,
+     "2": 6.223,
+     "56": 6.665,
+     "1": 8.892
+    }
+   }
+  },
+  "per_decision_ms": {
+   "today": 1.0159,
+   "best": 0.522
+  }
+ }
+}

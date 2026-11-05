@@ -1,0 +1,63 @@
+[package]
+name = "jeff-sdk"
+version = "1.4.0"
+edition = "2024"
+rust-version = "1.99.1"
+description = "The Jeff SDK for Rust: call Jeff's decision functions, route, escalate and run decision graphs, against an engine on this machine or a Jeff server."
+license = "MIT"
+authors = ["Casperaki Multimedia Solutions Ltd."]
+homepage = "https://jeffhub.ai"
+documentation = "https://jeffhub.ai/docs/sdk/rust"
+repository = "https://github.com/firelex/jeff"
+readme = "README.md"
+keywords = ["jeff", "llm", "classification", "decision", "sdk"]
+categories = ["api-bindings", "science"]
+publish = ["crates-io"]
+build = "build.rs"
+# What `cargo package` ships: the code, the build script and the copy of the contract and catalogue it embeds. The
+# tests, their recorded data and the sync script read the repository around the crate, so they stay out.
+include = ["/src/**", "/shipped/**", "/build.rs", "/README.md", "/LICENSE", "/Cargo.toml", "/Cargo.lock"]
+
+[lib]
+name = "jeff_sdk"
+
+[features]
+# Test-only helpers that change process-wide behaviour (testing::pin_proxy_environment). Off by default, so normal
+# builds cannot call them; this crate's own tests turn it on through the dev-dependency on itself below.
+testing = []
+
+[dependencies]
+async-trait = "=0.1.92"
+base64 = "=0.23.1"
+bytes = "=1.12.1"
+fancy-regex = "=0.20.0"
+flate2 = { version = "=1.1.10", default-features = false, features = ["zlib-rs"] }
+futures-util = { version = "=0.3.34", default-features = false, features = ["sink", "std"] }
+http = "=1.5.0"
+http-body-util = "=0.1.5"
+hyper = { version = "=1.12.0", features = ["client", "http1"] }
+hyper-util = { version = "=0.1.21", features = ["tokio"] }
+indexmap = "=2.14.2"
+jsonschema = { version = "=0.60.2", default-features = false }
+log = "=0.4.35"
+regex = "=1.13.1"
+rmp = "=0.8.15"
+rmpv = "=1.3.1"
+rustls = { version = "=0.23.46", default-features = false, features = ["ring", "std", "tls12"] }
+saphyr-parser = "=0.3.3"
+serde_json = { version = "=1.0.154", features = ["preserve_order", "float_roundtrip"] }
+tokio = { version = "=1.54.1", features = ["rt", "rt-multi-thread", "macros", "net", "time", "sync", "io-util"] }
+tokio-rustls = { version = "=0.26.6", default-features = false, features = ["ring", "tls12"] }
+tokio-tungstenite = { version = "=0.30.0", default-features = false, features = ["handshake"] }
+tokio-util = "=0.7.20"
+unicode-general-category = "=1.1.0"
+webpki-roots = "=1.0.11"
+
+[dev-dependencies]
+jeff-sdk = { path = ".", features = ["testing"] }
+tempfile = "=3.27.0"
+
+# zlib (the zlib-rs port flate2 decodes answers with) unoptimised takes seconds per 64 MiB, so the tests of the answer
+# size limit would take half a minute; debug builds compile it optimised.
+[profile.dev.package.zlib-rs]
+opt-level = 3
