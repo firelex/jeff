@@ -1,6 +1,6 @@
 # jeff-sdk: Jeff for Node
 
-Jeff gives you learned decision functions you can import: small trained adapters on one base model that classify,
+Jeff gives you decision functions you can import: small trained adapters on one base model that classify,
 route and decide, each with a calibrated confidence. This package is the Node SDK, written in TypeScript with its
 type declarations. It calls a Jeff server through the API, or an engine on your own machine (the Python package
 `jeff-runtime`, started with `jeff runtime serve`).

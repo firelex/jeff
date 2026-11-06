@@ -50,9 +50,10 @@ A System 1 model makes that decision the way software makes any other:
 For a measured comparison of accuracy, calibration, latency and cost against hosted decision APIs, see
 [Jeff vs. hosted decision APIs](/docs/guides/hosted-decision-apis).
 
-## A decision becomes a function call
+## A new software primitive
 
-With a System 1 model, a decision about unstructured text is a function in your program, like any other:
+With a System 1 model, a decision about unstructured text becomes a primitive of your program: a function call, like
+any other, that you can rely on in the same ways:
 
 - **Test it.** Keep a set of real inputs with the answers you expect and run them in CI, as you would run unit
   tests (see [Test it like code](/docs/guides/how-to-build#section-test-it-like-code)).

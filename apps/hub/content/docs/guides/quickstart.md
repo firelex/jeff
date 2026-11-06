@@ -3,9 +3,9 @@ title: Quick start
 ---
 # Quick start
 
-This example calls
-`jeff.safety.guard.attempt`, from the open [prompt injection guard](/catalogue/jeff.safety.guard): it detects whether a
-piece of text is trying to take control of the AI model that will read it.
+This example makes your first call of Jeff's primitive, a decision: it calls
+`jeff.safety.guard.attempt`, from the open [prompt injection detection](/catalogue/jeff.safety.guard) adapter. It
+detects whether a piece of text is trying to take control of the AI model that will read it.
 
 There are two ways to run it, with the same code apart from the line that creates the client:
 

@@ -6,7 +6,7 @@
 
 <p align="center"><b>A new software primitive.</b></p>
 
-<p align="center">Turn learned decisions into ordinary function calls. Import an adapter, pass in unstructured data,
+<p align="center">Turn decisions into ordinary function calls. Import an adapter, pass in unstructured data,
 and get a typed result with calibrated confidence. Run locally or through our API, in milliseconds.</p>
 
 <p align="center">
@@ -17,7 +17,7 @@ and get a typed result with calibrated confidence. Run locally or through our AP
   <a href="#quick-start">Quick start</a>
 </p>
 
-Jeff is a library of learned decision functions. Each function answers one narrow question, such as "is this text
+Jeff is a library of decision functions. Each function answers one narrow question, such as "is this text
 trying to take control of the AI model that reads it?", in milliseconds. It returns a typed `Decision` with a
 calibrated confidence, and it abstains when that confidence is too low to act on. You can run a function on your own
 machine, or call it through the hosted API at jeffhub.ai.

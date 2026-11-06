@@ -3,8 +3,8 @@ title: How Jeff works
 ---
 # How Jeff works
 
-Jeff returns typed values that code can use directly. Each answer comes from
-a **function**, one trained decision with a fixed set of possible answers, and Jeff returns a probability for each of
+This page describes what Jeff's primitive, the decision, is made of. Jeff returns typed values that code can
+use directly. Each answer comes from a **function**, one trained decision with a fixed set of possible answers, and Jeff returns a probability for each of
 those answers rather than generated text.
 
 Jeff processes natural language without generating text. It uses a small language model whose output probabilities are

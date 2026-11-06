@@ -3,10 +3,23 @@ title: Introduction
 ---
 # Introduction
 
-Software often needs a label, a boolean or a level on a scale from a language model. With a generative model,
-this requires a structured response, parsing and validation.
+Programs are built from a few primitives: values, conditions, loops and function calls. None of them can read an
+email, a contract clause or a support chat and decide something about it. Until now that took a person, or a
+language model asked for a structured response that then had to be parsed and checked.
 
-**Jeff** is a library of learned **decision functions**. Each function is trained for a specific task, such as
+**Jeff adds a new software primitive: the decision.**
+
+- A **variable** stores a value.
+- A **function** performs an operation.
+- An **object** holds state and behaviour.
+- A **decision** reads unstructured input and returns a typed answer with a calibrated confidence.
+
+A decision about unstructured data becomes an ordinary function call. You import an adapter, pass in the text, and get back a typed result with a calibrated
+confidence, in milliseconds, on your own machine or through the API. Like any function, it can be tested, versioned
+and composed with others. These docs are organised around that primitive: how to call one, what one is made of,
+and how to build programs from them.
+
+Each decision is made by a **decision function**, a small model trained for one specific task, such as
 detecting prompt injection or routing a message to a team. It takes an input and, for most functions, a
 **context**: fixed facts about the application. It returns a typed **decision** with a selected answer, a
 probability for each possible answer and calibrated **confidence**. Jeff does not generate text.
@@ -49,8 +62,8 @@ See [Adapters](/docs/guides/adapters).
 
 ## Next steps
 
-- [What are System 1 models?](/docs/guides/system-1): small, fast functions for narrow decisions, and why
-  they matter.
+- [What are System 1 models?](/docs/guides/system-1): the models behind the primitive, and why a decision
+  that is a function call matters.
 - [Quick start](/docs/guides/quickstart): make your first call, on your machine or through the API.
 - [Worked examples](/docs/guides/worked-support-agent): four small systems built from Jeff functions, from a
   support agent to CI failure routing, each step a live call.

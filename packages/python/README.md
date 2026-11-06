@@ -1,6 +1,6 @@
 # jeff-sdk: Jeff for Python
 
-Jeff gives you learned decision functions you can import: small trained adapters on one base model that classify,
+Jeff gives you decision functions you can import: small trained adapters on one base model that classify,
 route and decide, each with a calibrated confidence. This package is the Python SDK, imported as `jeff`. It calls a
 Jeff server, or runs the models in your own process with the engine package `jeff-runtime`. It also installs the
 `jeff` command.

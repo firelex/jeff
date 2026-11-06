@@ -3,8 +3,8 @@ title: How to build with Jeff
 ---
 # How to build with Jeff
 
-Jeff is a component, not an agent. Your program keeps the plan, the loop and the side effects; Jeff is called when
-the program encounters messy input and needs a judgement about it. It never decides what to do next on its
+Jeff is a software primitive, not an agent. Your program keeps the plan, the loop and the side effects; it calls a
+Jeff function, as it calls any other function, when it meets messy input and needs a judgement about it. It never decides what to do next on its
 own, and it is fast enough to be called on every request.
 
 ## Where Jeff sits

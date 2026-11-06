@@ -177,7 +177,7 @@ describe('Home', () => {
     expect(link.getAttribute('href')).toBe('/pricing');
     const line = link.closest('p')!;
     expect(line.textContent).toBe('Free for local use. $2.50 a month for the API.');
-    expect(line.previousElementSibling?.textContent).toMatch(/^Turn learned decisions into ordinary function calls/);
+    expect(line.previousElementSibling?.textContent).toMatch(/^Turn decisions into ordinary function calls/);
   });
 
   it('renders both buttons with the right hrefs', async () => {

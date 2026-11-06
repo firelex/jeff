@@ -30,7 +30,7 @@ export function loader() {
 export function meta() {
   return [
     { title: 'Jeff | A New Software Primitive' },
-    { name: 'description', content: 'Jeff: learned decision functions for any domain, answering in milliseconds with a typed value and a calibrated confidence.' },
+    { name: 'description', content: 'Jeff: decision functions for any domain, answering in milliseconds with a typed value and a calibrated confidence.' },
   ];
 }
 
@@ -132,7 +132,7 @@ export default function Home() {
         <div className="mx-auto max-w-5xl px-4 pt-16 pb-12 text-center sm:pt-20">
           <HeroHeadline />
           <p className="mx-auto mt-6 max-w-[62ch] text-base leading-7 text-soft">
-            Turn learned decisions into ordinary function calls. Import an adapter, pass in unstructured data, and
+            Turn decisions into ordinary function calls. Import an adapter, pass in unstructured data, and
             get a typed result with calibrated confidence. Run locally or through our API, in milliseconds.
           </p>
           <p className="mt-3 font-mono text-sm text-text">
