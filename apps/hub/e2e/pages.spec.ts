@@ -5,7 +5,7 @@ import { expect, test } from './fixtures';
 // does with addresses the build has no page for, as vercel.json sets it up.
 
 const PAGES: [string, string][] = [
-  ['/', 'Millisecond Decisions, Any Domain'],
+  ['/', 'A New Software Primitive'],
   ['/docs/guides/introduction', 'Introduction'],
   ['/docs/guides/quickstart', 'Quick start'],
   ['/docs/sdk/install', 'Install'],

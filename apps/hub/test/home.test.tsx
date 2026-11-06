@@ -120,7 +120,7 @@ function getPreByText(text: string): HTMLElement {
 describe('Home', () => {
   it('renders the headline as real text in the pixel font, with no gradient', async () => {
     renderHome({ example: EXAMPLE, adapterCount: 71, price: '$1' });
-    const headline = await screen.findByRole('heading', { level: 1, name: 'Millisecond Decisions, Any Domain' });
+    const headline = await screen.findByRole('heading', { level: 1, name: 'A New Software Primitive' });
     expect(headline.className).toContain('font-pixel');
     expect(headline.querySelector('svg')).toBeNull();
     expect(document.querySelector('main')!.innerHTML).not.toMatch(/bg-grad|shadow-violet|bg-clip-text/);
@@ -128,7 +128,7 @@ describe('Home', () => {
 
   it('boots its screen with the banner and the catalogue counts, types the example in, and ends on one READY. and a cursor', async () => {
     renderHome({ example: EXAMPLE, adapterCount: 19, price: '$1' });
-    await screen.findByRole('heading', { name: 'Millisecond Decisions, Any Domain' });
+    await screen.findByRole('heading', { name: 'A New Software Primitive' });
     expect(screen.getByText('**** Jeff decision engine ****')).toBeTruthy();
     expect(screen.getByText('19 adapters loaded')).toBeTruthy();
     // READY. only once, at the very end of the screen, followed by the cursor.
@@ -143,7 +143,7 @@ describe('Home', () => {
 
   it('lays both example columns on one shared two-row grid, so the code boxes line up side by side', async () => {
     renderHome({ example: EXAMPLE, adapterCount: 19, price: '$1' });
-    await screen.findByRole('heading', { name: 'Millisecond Decisions, Any Domain' });
+    await screen.findByRole('heading', { name: 'A New Software Primitive' });
     const columns = screen.getAllByRole('tabpanel');
     expect(columns).toHaveLength(2);
     for (const column of columns) {
@@ -166,7 +166,7 @@ describe('Home', () => {
     const writeText = vi.fn(async () => {});
     Object.defineProperty(navigator, 'clipboard', { value: { writeText }, configurable: true });
     renderHome({ example: EXAMPLE, adapterCount: 19, price: '$1' });
-    await screen.findByRole('heading', { name: 'Millisecond Decisions, Any Domain' });
+    await screen.findByRole('heading', { name: 'A New Software Primitive' });
     fireEvent.click(screen.getAllByRole('button', { name: 'Copy' })[0]!);
     expect(writeText).toHaveBeenCalledWith(PYTHON_LOCAL_EXAMPLE);
   });
@@ -177,7 +177,7 @@ describe('Home', () => {
     expect(link.getAttribute('href')).toBe('/pricing');
     const line = link.closest('p')!;
     expect(line.textContent).toBe('Free for local use. $2.50 a month for the API.');
-    expect(line.previousElementSibling?.textContent).toMatch(/^Jeff gives you learned decision functions/);
+    expect(line.previousElementSibling?.textContent).toMatch(/^Turn learned decisions into ordinary function calls/);
   });
 
   it('renders both buttons with the right hrefs', async () => {
@@ -193,7 +193,7 @@ describe('Home', () => {
 
   it('shows the Python examples by default, with the configured origin and no {{origin}} left', async () => {
     renderHome({ example: EXAMPLE, adapterCount: 71, price: '$1' });
-    await screen.findByRole('heading', { name: 'Millisecond Decisions, Any Domain' });
+    await screen.findByRole('heading', { name: 'A New Software Primitive' });
     expect(document.body.textContent).toContain('Jeff.local');
     expect(document.body.textContent).toContain('jeff.safety.guard.attempt');
     expect(document.body.textContent).toContain('https://api.example.com');
@@ -219,7 +219,7 @@ describe('Home', () => {
 
   it('shows a Python/Node language tablist, with Python selected and shown by default', async () => {
     renderHome({ example: EXAMPLE, adapterCount: 71, price: '$1' });
-    await screen.findByRole('heading', { name: 'Millisecond Decisions, Any Domain' });
+    await screen.findByRole('heading', { name: 'A New Software Primitive' });
     expect(screen.getByRole('tablist', { name: 'Language' })).toBeTruthy();
     const pythonTab = screen.getByRole('tab', { name: 'Python' });
     const nodeTab = screen.getByRole('tab', { name: 'Node' });
@@ -231,7 +231,7 @@ describe('Home', () => {
 
   it('switching to Node shows the Node code in both columns and the npm install lines, and hides the Python code', async () => {
     renderHome({ example: EXAMPLE, adapterCount: 71, price: '$1' });
-    await screen.findByRole('heading', { name: 'Millisecond Decisions, Any Domain' });
+    await screen.findByRole('heading', { name: 'A New Software Primitive' });
     fireEvent.click(screen.getByRole('tab', { name: 'Node' }));
 
     expect(screen.getByRole('tab', { name: 'Node' }).getAttribute('aria-selected')).toBe('true');
@@ -260,7 +260,7 @@ describe('Home', () => {
       { language: 'java' as const, package: 'ai.example:jeff', local: 'import ai.jeff.sdk.*; // local', remote: 'import ai.jeff.sdk.*; // remote' },
     ];
     renderHome({ example: more, adapterCount: 71, price: '$1' });
-    await screen.findByRole('heading', { name: 'Millisecond Decisions, Any Domain' });
+    await screen.findByRole('heading', { name: 'A New Software Primitive' });
     expect(screen.getAllByRole('tab').map((t) => t.textContent)).toEqual(['Python', 'Node', 'Rust', 'C#', 'Java']);
     fireEvent.click(screen.getByRole('tab', { name: 'C#' }));
     expect(isShown(getPreByText('using Jeff.Sdk; // remote'))).toBe(true);
@@ -276,7 +276,7 @@ describe('Home', () => {
 
   it('switches back to Python with the ArrowLeft key, moving focus to the Python tab', async () => {
     renderHome({ example: EXAMPLE, adapterCount: 71, price: '$1' });
-    await screen.findByRole('heading', { name: 'Millisecond Decisions, Any Domain' });
+    await screen.findByRole('heading', { name: 'A New Software Primitive' });
     const nodeTab = screen.getByRole('tab', { name: 'Node' });
     fireEvent.click(nodeTab);
     fireEvent.keyDown(nodeTab, { key: 'ArrowLeft' });

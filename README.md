@@ -4,7 +4,10 @@
 
 <h1 align="center">Jeff</h1>
 
-<p align="center"><b>Millisecond decisions. Any domain.</b></p>
+<p align="center"><b>A new software primitive.</b></p>
+
+<p align="center">Turn learned decisions into ordinary function calls. Import an adapter, pass in unstructured data,
+and get a typed result with calibrated confidence. Run locally or through our API, in milliseconds.</p>
 
 <p align="center">
   <a href="https://jeffhub.ai"><b>jeffhub.ai</b></a> ·

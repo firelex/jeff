@@ -5,8 +5,8 @@ import { HEADLINE, HEADLINE_LINES, HeroHeadline } from '../app/components/HeroHe
 describe('HeroHeadline', () => {
   it('is a real-text heading in the pixel font, one block per wide-screen line', () => {
     const { container } = render(<HeroHeadline />);
-    const h1 = screen.getByRole('heading', { level: 1, name: 'Millisecond Decisions, Any Domain' });
-    expect(HEADLINE).toBe('Millisecond Decisions, Any Domain');
+    const h1 = screen.getByRole('heading', { level: 1, name: 'A New Software Primitive' });
+    expect(HEADLINE).toBe('A New Software Primitive');
     expect(h1.textContent).toBe(HEADLINE);
     expect(h1.className).toContain('font-pixel');
     expect(container.querySelectorAll('svg')).toHaveLength(0);

@@ -3,7 +3,7 @@
 // a wide screen; on a phone a line wraps between its words.
 import { Fragment } from 'react';
 
-export const HEADLINE_LINES = ['Millisecond Decisions,', 'Any Domain'];
+export const HEADLINE_LINES = ['A New Software', 'Primitive'];
 export const HEADLINE = HEADLINE_LINES.join(' ');
 
 export function HeroHeadline() {
