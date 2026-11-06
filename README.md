@@ -1,6 +1,5 @@
 <p align="center">
-  <a href="https://jeffhub.ai"><img src="assets/jeff-logo-light.svg#gh-light-mode-only" width="320" alt="Jeff"></a>
-  <a href="https://jeffhub.ai"><img src="assets/jeff-logo-dark.svg#gh-dark-mode-only" width="320" alt="Jeff"></a>
+  <a href="https://jeffhub.ai"><img src="assets/jeff-logo.svg" width="320" alt="Jeff"></a>
 </p>
 
 <h1 align="center">Jeff</h1>
