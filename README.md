@@ -126,7 +126,18 @@ Python engine. The other SDKs call it through the API, or through a local engine
 | `deploy/` | Scripts that start and stop a whole instance in tmux |
 | `docs/` | [Operating Jeff](docs/operating.md) and the [training data sources](docs/data-sources.md) |
 
-Python is one uv workspace (`uv run pytest`). Node is one pnpm workspace (`pnpm install`, then `pnpm test`).
+## Working on Jeff itself
+
+To use Jeff, install the packages above; you do not need this repository. To change Jeff, run its server yourself,
+or build adapters, clone it:
+
+```bash
+git clone https://github.com/firelex/jeff && cd jeff
+uv sync                     # Python: the SDK, the engine and the server, as one uv workspace; uv run pytest
+pnpm install && pnpm test   # Node: the SDK and the site, as one pnpm workspace
+```
+
+[docs/operating.md](docs/operating.md) covers running the server, the engine and the adapter factory.
 
 ## Learn more
 
