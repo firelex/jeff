@@ -8,7 +8,6 @@ import { Link, useLoaderData } from 'react-router';
 import { CodeBlock } from '../components/docs/CodeBlock';
 import { readStoredCodeLanguage, storeCodeLanguage } from '../lib/code-language';
 import { CODE_MODE_LABELS } from '../lib/code-mode';
-import { engineServe } from '../lib/engine-socket';
 import { SDK_CODE_NAMES, SDK_LABELS, type SdkLanguage } from '../lib/sdk-languages';
 import { HeroHeadline } from '../components/HeroHeadline';
 import { ScreenTabs } from '../components/ScreenTabs';
@@ -35,9 +34,9 @@ export function meta() {
 }
 
 const PANELS = [
-  { title: 'Functions', to: '/docs/guides/decide', body: 'Call a named function directly and get a typed, calibrated decision back — never free text.' },
-  { title: 'Graphs', to: '/docs/guides/graphs', body: 'Wire several functions together with declarative conditions, so the same graph runs locally or through the server.' },
-  { title: 'Escalation', to: '/docs/guides/escalation', body: 'Decide what happens when a decision is not confident enough to act on, from handing it back to asking a person.' },
+  { title: 'Decisions', to: '/docs/guides/decide', body: 'Call a trained decision function with unstructured data. Get a typed result with calibrated confidence, in milliseconds.' },
+  { title: 'Graphs', to: '/docs/guides/graphs', body: 'Combine decisions into workflows using simple conditions. Run the same graph locally or through our API.' },
+  { title: 'Escalation', to: '/docs/guides/escalation', body: 'Set confidence thresholds and decide what happens when they are not met, from requesting another decision to involving a person.' },
 ];
 
 // When each line of the home screen appears, as if typed (app.css: .type-line): the banner and the catalogue's counts
@@ -51,13 +50,20 @@ function lineDelay(ms: number): CSSProperties {
   return { '--line-delay': `${ms}ms` } as CSSProperties;
 }
 
-// The engine the languages other than Python attach to on the reader's machine (the model runs only in it).
-const ENGINE_SERVE = engineServe('jeff.safety.guard');
+// The one thing the languages other than Python need besides their package to run on the reader's machine: uv, which
+// local mode uses to start the Jeff engine (the model runs only in it; contract/local-engine.md).
+const UV_INSTALL = 'curl -LsSf https://astral.sh/uv/install.sh | sh';
 const LINK = 'font-medium text-screen-text underline underline-offset-2 hover:text-white';
 
 // What each column says to install, given the package the language installs (content/sdk-languages.yaml).
 function installLines(language: SdkLanguage, name: string): { local: string[]; remote: string[] } {
-  if (language === 'python') return { local: [`pip install ${name} jeff-runtime`], remote: [`pip install ${name}`] };
+  // Python's engine needs its backend's extra: without [mac], Apple silicon raises BackendUnavailable (docs/sdk/install).
+  if (language === 'python') {
+    return {
+      local: [`pip install ${name} "jeff-runtime[mac]"    # Apple silicon`, `pip install ${name} "jeff-runtime[cuda]"   # NVIDIA GPU`],
+      remote: [`pip install ${name}`],
+    };
+  }
   const add = {
     node: `npm install ${name}`,
     rust: `cargo add ${name} serde_json tokio --features tokio/macros,tokio/rt-multi-thread`,
@@ -65,7 +71,7 @@ function installLines(language: SdkLanguage, name: string): { local: string[]; r
     // ${name} is the Maven coordinates (ai.jeffhub:jeff-sdk:<version>), as a Gradle dependency line.
     java: `implementation("${name}")`,
   }[language];
-  return { local: [add, 'pip install jeff-runtime', ENGINE_SERVE], remote: [add] };
+  return { local: [UV_INSTALL, add], remote: [add] };
 }
 
 // The line under the example: how the call on your machine runs in the language, and where to read how to install it.
@@ -83,8 +89,9 @@ function note(language: SdkLanguage): ReactNode {
   const label = SDK_LABELS[language];
   return (
     <>
-      {label} attaches to a Jeff engine running on your machine; the model runs in the engine (on an NVIDIA GPU,
-      the engine takes two more options): <Link to={`/docs/sdk/${language}`} className={LINK}>Install the {label} SDK</Link>.
+      {label} starts the Jeff engine on your machine with uv, or uses the one already running; the model runs in the
+      engine, on a Mac with Apple silicon or on Linux with an NVIDIA GPU. The first start downloads the engine and base
+      model (about 2 GB, once): <Link to={`/docs/sdk/${language}`} className={LINK}>Install the {label} SDK</Link>.
     </>
   );
 }

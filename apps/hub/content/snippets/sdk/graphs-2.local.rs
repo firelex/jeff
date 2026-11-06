@@ -1,6 +1,6 @@
 use std::path::PathBuf;
 
-use jeff_sdk::{BoxError, CodeCall, Jeff, LocalOptions, NodeResult, Value, code_function};
+use jeff_sdk::{BoxError, CodeCall, Jeff, NodeResult, StartOptions, Value, code_function};
 use serde_json::json;
 
 #[tokio::main]
@@ -22,7 +22,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         Ok(json!(reply))
     });
 
-    let jeff = Jeff::local("/tmp/jeff.sock", LocalOptions::new(30_000)).await?;
+    let jeff = Jeff::local_adapters(["spam", "guard"], StartOptions::default()).await?;
 
     let result = jeff.run_graph(
         PathBuf::from("graphs-message-check.yaml"),

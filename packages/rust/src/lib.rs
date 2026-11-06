@@ -4,7 +4,8 @@
 //! replays every file of contract/conformance/ exactly as the Python SDK recorded it. See README.md.
 //!
 //! Feature `testing` (off by default): `testing::pin_proxy_environment`, a test-only helper that changes how every
-//! connection in the process picks its proxy. The rest of `testing` (FakeEngine, the golden comparison) is always on.
+//! connection in the process picks its proxy, and the `local_engine` module (local mode's engine start, with an
+//! environment the test gives). The rest of `testing` (FakeEngine, the golden comparison) is always on.
 
 #![warn(missing_docs)]
 
@@ -22,6 +23,12 @@ pub mod graph;
 mod http;
 pub mod ids;
 pub mod json;
+// Public only with the `testing` feature, so tests can give the environment (HOME, PATH, the platform) instead of the
+// process's own, and check the pure parts against contract/conformance/local_engine.json.
+#[cfg(feature = "testing")]
+pub mod local_engine;
+#[cfg(not(feature = "testing"))]
+mod local_engine;
 pub mod manifest;
 pub mod msgpack;
 pub mod protocol;
@@ -39,7 +46,7 @@ pub use binding::{Call, Context, Labels};
 pub use catalogue::Catalogue;
 pub use channel::ChannelTransport;
 pub use client::{
-    BoundFunction, CallOptions, DispatchOptions, Jeff, LocalOptions, ShorthandOptions,
+    BoundFunction, CallOptions, DispatchOptions, Jeff, LocalOptions, ShorthandOptions, StartOptions,
 };
 pub use decision::{Decision, EscalationRecord, RouteStep, Value};
 pub use engine::{BaseFormat, Engine, EngineResult};

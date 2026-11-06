@@ -270,6 +270,8 @@ class ai.jeff.sdk.Jeff implements ai.jeff.sdk.Decider, java.lang.AutoCloseable
   public java.util.concurrent.CompletableFuture<java.util.List<ai.jeff.sdk.Decision>> ai.jeff.sdk.Jeff.decideAsync(java.util.List<ai.jeff.sdk.Call>)
   public static ai.jeff.sdk.Jeff ai.jeff.sdk.Jeff.create(ai.jeff.sdk.Engine,ai.jeff.sdk.Catalogue)
   public static ai.jeff.sdk.Jeff ai.jeff.sdk.Jeff.local(java.lang.String,ai.jeff.sdk.LocalOptions)
+  public static ai.jeff.sdk.Jeff ai.jeff.sdk.Jeff.local(java.util.List<java.lang.String>)
+  public static ai.jeff.sdk.Jeff ai.jeff.sdk.Jeff.local(java.util.List<java.lang.String>,ai.jeff.sdk.StartOptions)
   public static ai.jeff.sdk.RemoteJeff ai.jeff.sdk.Jeff.remote(java.lang.String,ai.jeff.sdk.TokenSource,ai.jeff.sdk.RemoteOptions)
   public static ai.jeff.sdk.RemoteJeff ai.jeff.sdk.Jeff.remote(java.lang.String,java.lang.String,ai.jeff.sdk.RemoteOptions)
   public static ai.jeff.sdk.RemoteJeff ai.jeff.sdk.Jeff.remote(java.lang.String,java.util.function.Supplier<java.lang.String>,ai.jeff.sdk.RemoteOptions)
@@ -560,6 +562,18 @@ class ai.jeff.sdk.SocketEngine final implements ai.jeff.sdk.Engine
   public static ai.jeff.sdk.SocketEngine ai.jeff.sdk.SocketEngine.connect(java.lang.String,long)
   public static final long ai.jeff.sdk.SocketEngine.RECONNECT_INTERVAL_MS
   public void ai.jeff.sdk.SocketEngine.close()
+record ai.jeff.sdk.StartOptions
+  public ai.jeff.sdk.StartOptions ai.jeff.sdk.StartOptions.withStartTimeoutMs(long)
+  public ai.jeff.sdk.StartOptions ai.jeff.sdk.StartOptions.withTimeoutMs(long)
+  public ai.jeff.sdk.StartOptions(long,long)
+  public final boolean ai.jeff.sdk.StartOptions.equals(java.lang.Object)
+  public final int ai.jeff.sdk.StartOptions.hashCode()
+  public final java.lang.String ai.jeff.sdk.StartOptions.toString()
+  public long ai.jeff.sdk.StartOptions.startTimeoutMs()
+  public long ai.jeff.sdk.StartOptions.timeoutMs()
+  public static ai.jeff.sdk.StartOptions ai.jeff.sdk.StartOptions.defaults()
+  public static final long ai.jeff.sdk.StartOptions.DEFAULT_START_TIMEOUT_MS
+  public static final long ai.jeff.sdk.StartOptions.DEFAULT_TIMEOUT_MS
 interface ai.jeff.sdk.Step sealed
   public abstract java.lang.String ai.jeff.sdk.Step.name()
   public static ai.jeff.sdk.Step$AskStep ai.jeff.sdk.Step.human(ai.jeff.sdk.Ask)

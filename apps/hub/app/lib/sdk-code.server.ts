@@ -10,15 +10,15 @@
 // No snippet sets a proxy or any other connection option: each SDK reads HTTPS_PROXY, HTTP_PROXY and NO_PROXY from
 // the environment itself.
 //
-//   local (the same open function on the reader's machine): the SDK's local client on the engine socket
-//     (Jeff::local, JeffClient.LocalAsync, Jeff.local on ENGINE_SOCKET), as content/home-example-local.<ext> writes
-//     it; no key.
+//   local (the same open function on the reader's machine): the SDK's local client named with the adapter it calls
+//     (Jeff::local_adapters, JeffClient.LocalAsync, Jeff.local with a list of adapters), which finds the engine
+//     running for this user or starts it (contract/local-engine.md), as content/home-example-local.<ext> writes it;
+//     no key.
 //
 // An offline example has none: its adapter runs locally, with the Python SDK. Every snippet prints the value and the
 // confidence on one line, as the Python and Node ones do (scripts/sdk-samples.ts reads that line back); it compiles
 // against its SDK (scripts/sdk-samples.ts compile).
 import { indentLines, statements } from './code-statements.js';
-import { ENGINE_SOCKET } from './engine-socket.js';
 import type { Example } from './examples.server.js';
 
 type Json = null | boolean | number | string | Json[] | { [key: string]: Json };
@@ -85,7 +85,7 @@ const RUST_MAIN = [
 const RUST_LOCAL_MAIN = RUST_MAIN.slice(0, 2);
 
 // The open function bound and called: `clientNames` are the SDK's names for the client's options (RemoteOptions with
-// TokenSource, or LocalOptions) for the use line, and `opening` the main function's opening statements up to and
+// TokenSource, or StartOptions) for the use line, and `opening` the main function's opening statements up to and
 // including making the client.
 function rustSdk(e: Example, opening: string[][], clientNames: string[]): string {
   const options: string[] = [];
@@ -119,9 +119,10 @@ export function rustRemote(e: Example, apiOrigin: string): string {
   ['RemoteOptions', 'TokenSource']);
 }
 
-export function rustLocal(e: Example): string {
-  return rustSdk(e, [[...RUST_LOCAL_MAIN, `    let jeff = Jeff::local(${quoted(ENGINE_SOCKET, 'rust')}, LocalOptions::new(30_000)).await?;`]],
-    ['LocalOptions']);
+// `adapter`: the name local mode is given for the adapter the call uses (its short name, CatalogueEntry.localName).
+export function rustLocal(e: Example, adapter: string): string {
+  return rustSdk(e, [[...RUST_LOCAL_MAIN, `    let jeff = Jeff::local_adapters([${quoted(adapter, 'rust')}], StartOptions::default()).await?;`]],
+    ['StartOptions']);
 }
 
 export function rustHttp(call: DecideCall, apiOrigin: string): string {
@@ -188,9 +189,9 @@ export function csharpRemote(e: Example, apiOrigin: string): string {
   ]);
 }
 
-export function csharpLocal(e: Example): string {
+export function csharpLocal(e: Example, adapter: string): string {
   return csharpSdk(e, [
-    ['await using var jeff = await JeffClient.LocalAsync(', `    ${quoted(ENGINE_SOCKET, 'csharp')}, new LocalOptions { Timeout = TimeSpan.FromSeconds(30) });`],
+    [`await using var jeff = await JeffClient.LocalAsync(new[] { ${quoted(adapter, 'csharp')} });`],
   ]);
 }
 
@@ -320,8 +321,8 @@ export function javaRemote(e: Example, apiOrigin: string): string {
   return javaSdk(e, `try (RemoteJeff jeff = Jeff.remote(${quoted(apiOrigin, 'java')}, token, RemoteOptions.timeoutMs(30000))) {`, true);
 }
 
-export function javaLocal(e: Example): string {
-  return javaSdk(e, `try (Jeff jeff = Jeff.local(${quoted(ENGINE_SOCKET, 'java')}, LocalOptions.timeoutMs(30000))) {`, false);
+export function javaLocal(e: Example, adapter: string): string {
+  return javaSdk(e, `try (Jeff jeff = Jeff.local(List.of(${quoted(adapter, 'java')}))) {`, false);
 }
 
 export function javaHttp(call: DecideCall, apiOrigin: string): string {

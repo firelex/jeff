@@ -7,8 +7,8 @@ use jeff_sdk::{
     CodeFunction, Context, Decision, DispatchOptions, Engine, EngineResult, ErrorType,
     EscalationRecord, Graph, GraphResult, GraphSource, Jeff, JeffError, Json, JsonMap, Labels,
     LocalOptions, NodeResult, Policy, Question, QuestionState, RemoteOptions, RestTransport,
-    Result, RouteStep, ShorthandOptions, SocketEngine, Step, TokenSource, Transport, Value,
-    code_function, escalate, function_step, human, llm, remote_step,
+    Result, RouteStep, ShorthandOptions, SocketEngine, StartOptions, Step, TokenSource, Transport,
+    Value, code_function, escalate, function_step, human, llm, remote_step,
 };
 #[allow(unused_imports)]
 use jeff_sdk::{binding, contract, manifest, msgpack, protocol, pyformat, routing, testing, yaml};
@@ -22,6 +22,11 @@ fn the_crate_root_names_the_sdk_surface() {
         limit.used(),
         limit.allowance(),
         limit.period_end(),
+    );
+    let defaults = StartOptions::default();
+    assert_eq!(
+        (defaults.timeout_ms, defaults.start_timeout_ms),
+        (60_000, 1_800_000)
     );
     let _ = (
         FakeEngine::new(|_, _| vec![], Vec::<String>::new()),

@@ -29,6 +29,10 @@ public class JeffError : Exception
     /// <summary>Further failures noticed while handling this one (Python's add_note); not part of the message.</summary>
     public List<string> Notes { get; } = new();
 
+    /// <summary>True for an error the engine answered a socket request with (its failure reply), as opposed to the
+    /// socket failing or a reply not coming in time.</summary>
+    internal bool Refusal { get; set; }
+
     private protected string DetailString(string key) => JsonRead.String(Details, key, $"{Type}.details");
 
     private protected long DetailLong(string key) => JsonRead.Long(Details, key, $"{Type}.details");
@@ -128,7 +132,7 @@ public sealed class InvalidPolicy(string message, JsonObject? details = null) : 
 /// <param name="innerException">The failure that caused this one, if any.</param>
 public sealed class GraphError(string message, JsonObject? details = null, Exception? innerException = null)
     : JeffError(message, details, innerException);
-/// <summary>Local mode needs the jeff-runtime package (raised by the Python SDK; it can reach this SDK over the wire).</summary>
+/// <summary>Local mode needs uv to start the Jeff engine (no uvx found); the Python SDK raises it when the jeff-runtime package is missing.</summary>
 /// <param name="message">What went wrong, naming what is missing or wrong.</param>
 /// <param name="details">The error's wire details (snake_case keys, as the Python SDK sends them); empty when not given.</param>
 public sealed class RuntimeMissing(string message, JsonObject? details = null) : JeffError(message, details);

@@ -1,6 +1,6 @@
 import { Jeff } from "jeff-sdk";
 
-const jeff = await Jeff.local("/tmp/jeff.sock", { timeoutMs: 30000 });
+const jeff = await Jeff.local(["guard"]);
 
 const guard = await jeff.function("jeff.safety.guard.attempt", {
   context: {

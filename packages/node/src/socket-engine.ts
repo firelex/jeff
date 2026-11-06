@@ -31,7 +31,13 @@ interface Pending {
 }
 
 /** Nothing listens at the path: the socket's own error, which connect and reconnect each word. */
-class DialFailure extends Error {}
+class DialFailure extends Error {
+  constructor(message: string, readonly code: string | undefined) { super(message); }
+}
+
+/** The dial errors that mean no engine listens at the path: no socket file there, or a socket file nothing accepts on
+ * (an engine that exited without removing it, or one that has bound its socket and is not listening yet). */
+const NOT_LISTENING = new Set(["ENOENT", "ECONNREFUSED"]);
 
 /** The error a failure reply describes. The engine puts its adapters_version in every failure's details; that is
  * protocol information, not an attribute of the error, so it is left out. */
@@ -64,13 +70,30 @@ export class SocketEngine implements Engine {
 
   /** Connects to the engine at `path`, exchanges hellos, and reads its installed list and base once. */
   static async connect(path: string, options: { timeoutMs: number }): Promise<SocketEngine> {
+    const engine = await SocketEngine.dialAndConnect(path, options);
+    if (engine instanceof DialFailure) {
+      throw new EngineError(`No engine is listening at ${path}: ${engine.message}. Start one with: ${startCommand(path)}`);
+    }
+    return engine;
+  }
+
+  /** As connect, but null when no engine listens at `path` (no socket file, or a refused connection): local mode
+   * then starts one (contract/local-engine.md). Every other failure is raised. */
+  static async connectIfListening(path: string, options: { timeoutMs: number }): Promise<SocketEngine | null> {
+    const engine = await SocketEngine.dialAndConnect(path, options);
+    if (engine instanceof DialFailure) {
+      if (engine.code !== undefined && NOT_LISTENING.has(engine.code)) return null;
+      throw new EngineError(`Cannot connect to the engine socket at ${path}: ${engine.message}`);
+    }
+    return engine;
+  }
+
+  private static async dialAndConnect(path: string, options: { timeoutMs: number }): Promise<SocketEngine | DialFailure> {
     const engine = new SocketEngine(path, options.timeoutMs);
     try {
       await engine.open();
     } catch (error) {
-      if (error instanceof DialFailure) {
-        throw new EngineError(`No engine is listening at ${path}: ${error.message}. Start one with: ${startCommand(path)}`);
-      }
+      if (error instanceof DialFailure) return error;
       throw error;
     }
     try {
@@ -94,7 +117,7 @@ export class SocketEngine implements Engine {
   private dial(): Promise<Socket> {
     return new Promise<Socket>((resolve, reject) => {
       const socket = createConnection(this.path);
-      const failed = (error: Error) => reject(new DialFailure(error.message));
+      const failed = (error: NodeJS.ErrnoException) => reject(new DialFailure(error.message, error.code));
       socket.once("error", failed);
       socket.once("connect", () => {
         socket.off("error", failed);
@@ -411,6 +434,12 @@ export class SocketEngine implements Engine {
       // optional in the reply: an engine that does not count tokens leaves it out
       inputTokens: "input_tokens" in result ? (result.input_tokens as number[]).map(Number) : null,
     };
+  }
+
+  /** Asks the engine to serve exactly `adapters` (contract/socket.md `serve`); its installed list after the change. */
+  async serve(adapters: readonly string[], timeoutMs?: number): Promise<Set<string>> {
+    const result = await this.call({ op: "serve", adapters: [...adapters] }, timeoutMs);
+    return new Set(result.adapters as string[]);
   }
 
   health(timeoutMs?: number): Promise<Record<string, unknown>> { return this.call({ op: "health" }, timeoutMs); }

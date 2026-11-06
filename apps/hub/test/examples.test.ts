@@ -206,12 +206,15 @@ describe('example markers', () => {
       '',
       'print(decision.value, decision.confidence)',
     ].join('\n'));
-    expect(local('node')).toContain('const jeff = await Jeff.local("/tmp/jeff.sock", { timeoutMs: 30000 });\n\nconst decide = await jeff.function(');
-    expect(local('rust')).toContain('use jeff_sdk::{CallOptions, Jeff, LocalOptions};');
-    expect(local('rust')).toContain('async fn main() -> Result<(), Box<dyn std::error::Error>> {\n    let jeff = Jeff::local("/tmp/jeff.sock", LocalOptions::new(30_000)).await?;\n\n    let options = CallOptions {');
-    expect(local('csharp')).toContain('using Jeff.Sdk;\n\nawait using var jeff = await JeffClient.LocalAsync(\n    "/tmp/jeff.sock", new LocalOptions { Timeout = TimeSpan.FromSeconds(30) });');
+    expect(local('node')).toContain('const jeff = await Jeff.local(["guard"]);\n\nconst decide = await jeff.function(');
+    expect(local('rust')).toContain('use jeff_sdk::{CallOptions, Jeff, StartOptions};');
+    expect(local('rust')).toContain('async fn main() -> Result<(), Box<dyn std::error::Error>> {\n    let jeff = Jeff::local_adapters(["guard"], StartOptions::default()).await?;\n\n    let options = CallOptions {');
+    expect(local('csharp')).toContain('using Jeff.Sdk;\n\nawait using var jeff = await JeffClient.LocalAsync(new[] { "guard" });');
     expect(local('java')).toContain('    public static void main(String[] args) {\n        var context = new LinkedHashMap<String, Object>();');
-    expect(local('java')).toContain('        try (Jeff jeff = Jeff.local("/tmp/jeff.sock", LocalOptions.timeoutMs(30000))) {');
+    expect(local('java')).toContain('import java.util.List;');
+    expect(local('java')).toContain('        try (Jeff jeff = Jeff.local(List.of("guard"))) {');
+    // Local mode is named with the adapter, never an engine socket.
+    for (const { code } of block.local!.code) expect(code).not.toContain('/tmp/jeff.sock');
     // A local call needs no key and makes no HTTP request.
     for (const { code } of block.local!.code) expect(code).not.toMatch(/JEFF_API_KEY|api\.example\.com|token/);
   });

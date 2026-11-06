@@ -21,7 +21,7 @@ public class DecideBatch {
             new Call("guard.kind", text, guardContext, null),
             new Call("triage.route", "My wardrobe arrived broken.", shop, teams));
 
-        try (Jeff jeff = Jeff.local("/tmp/jeff.sock", LocalOptions.timeoutMs(30000))) {
+        try (Jeff jeff = Jeff.local(List.of("guard", "triage"))) {
             List<Decision> decisions = jeff.decide(calls);
 
             for (int i = 0; i < calls.size(); i++) {

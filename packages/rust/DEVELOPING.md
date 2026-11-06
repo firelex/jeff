@@ -15,8 +15,36 @@ jeff-sdk = { path = "../jeff/packages/rust" }
 ## Two ways to run
 
 **Local** (the fastest): the crate talks straight to a Jeff engine running on the same machine, over the engine's Unix
-socket. There is no server in between. The crate never starts the engine; start it yourself (the model runs only in
-the Python engine) and keep it running with your process manager:
+socket. There is no server in between. The model runs only in the Python engine, `jeff-runtime`; the crate either finds
+or starts it for you, or uses one you start yourself.
+
+With a list of adapters, the crate finds the engine running for this user on this machine, or starts one
+(contract/local-engine.md has every rule). Install uv once (`curl -LsSf https://astral.sh/uv/install.sh | sh`), then:
+
+```rust
+use jeff_sdk::{Jeff, StartOptions};
+
+let jeff = Jeff::local_adapters(["guard", "triage"], StartOptions::default()).await?;
+```
+
+- The engine is `jeff-runtime[mac]` (macOS with Apple silicon) or `jeff-runtime[cuda]` (Linux with an NVIDIA GPU) of
+  this crate's own version, run as `uvx --from jeff-runtime[<extra>]==<version> jeff runtime serve ...`. Any other
+  machine is refused with `BackendUnavailable`; no uvx (on `PATH`, at `~/.local/bin/uvx` or `~/.cargo/bin/uvx`) is
+  `RuntimeMissing`.
+- Its folder is `~/Library/Caches/jeff/engine` on macOS and `$XDG_CACHE_HOME/jeff/engine` (or `~/.cache/jeff/engine`)
+  on Linux: `engine.sock`, `engine.lock` (held while a program starts the engine) and `engine.log` (the last start's
+  output).
+- The first start downloads the engine and the base model (about 2 GB, once) and prints one line to standard error.
+  The engine runs in its own process group, so it outlives the program and a Ctrl+C meant for the program. It stops
+  by itself 5 minutes after the last program using it disconnects (`--exit-when-unused-s 300`).
+- A second client, in this program or another, uses the running engine. When it lacks an adapter asked for, the crate
+  sends one `serve` request with the adapters it serves plus the missing ones; a refusal is `NotInstalled`.
+- `StartOptions { timeout_ms, start_timeout_ms }`: each reply (60,000 ms by default) and everything before the client
+  is ready (1,800,000 ms by default). An engine that does not answer within the start timeout is sent SIGTERM (its
+  whole process group) and the error shows its log's last lines.
+
+To use exactly an engine you start and manage yourself (proprietary adapters with `--path`, an INT4 base with `--base`,
+your own batching settings), start it and give its socket to `Jeff::local`, which never starts anything:
 
 ```bash
 jeff runtime serve --socket /tmp/jeff.sock --adapter jeff.support.triage \
@@ -174,6 +202,10 @@ field when the details lack it, never a made-up value.
 Lower-level modules are public for tools built on the SDK: `contract` (the schemas and error catalogue), `manifest`,
 `binding`, `routing`, `protocol` (the engine socket's frames), `msgpack`, `pyformat` (Python-style text), `yaml` and
 `testing`.
+With the `testing` feature, `local_engine` is public too: local mode's engine start with an `Environment` the test
+gives (HOME, PATH, XDG_CACHE_HOME, the platform, where printed lines go) instead of the process's, and its pure parts,
+which tests/conformance_local_engine.rs checks against contract/conformance/local_engine.json. tests/local_engine.rs
+runs it against a fake `uvx` (a shell script on the test's PATH) and the stub engine of tests/support.
 
 ## Testing code that uses the SDK
 

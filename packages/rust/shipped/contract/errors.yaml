@@ -18,7 +18,7 @@ EscalationFailed: {status: 502, meaning: An escalation step failed.}
 EscalationBudgetExceeded: {status: 504, meaning: An escalation ran past its budget_ms.}
 InvalidPolicy: {status: 422, meaning: on_low_confidence is not valid for this call.}
 GraphError: {status: 422, meaning: A decision graph is invalid or cannot run.}
-RuntimeMissing: {status: null, meaning: Local mode needs the jeff-runtime package.}
+RuntimeMissing: {status: null, meaning: "Local mode needs the jeff-runtime package (Python), or uv to start the engine (Node, Rust, C#, Java)."}
 ProprietaryWeights: {status: null, meaning: A proprietary adapter's weights need a licence or a local folder.}
 CalibrationError: {status: null, meaning: Calibration cannot reach the target or has no data.}
 EngineError: {status: 500, meaning: The engine failed or broke its contract.}

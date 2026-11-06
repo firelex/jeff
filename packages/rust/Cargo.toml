@@ -1,6 +1,6 @@
 [package]
 name = "jeff-sdk"
-version = "1.4.0"
+version = "1.4.1"
 edition = "2024"
 rust-version = "1.99.1"
 description = "The Jeff SDK for Rust: call Jeff's decision functions, route, escalate and run decision graphs, against an engine on this machine or a Jeff server."
@@ -39,6 +39,9 @@ hyper = { version = "=1.12.0", features = ["client", "http1"] }
 hyper-util = { version = "=0.1.21", features = ["tokio"] }
 indexmap = "=2.14.2"
 jsonschema = { version = "=0.60.2", default-features = false }
+# Local mode's engine start: whether a process is running (kill with signal 0) and SIGTERM to the engine's process
+# group. Already in the build through Tokio, at this version.
+libc = "=0.2.191"
 log = "=0.4.35"
 regex = "=1.13.1"
 rmp = "=0.8.15"

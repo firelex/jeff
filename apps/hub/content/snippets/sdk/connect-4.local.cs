@@ -1,7 +1,7 @@
 using System.Text.Json.Nodes;
 using Jeff.Sdk;
 
-await using var jeff = await JeffClient.LocalAsync("/tmp/jeff.sock", new LocalOptions { Timeout = TimeSpan.FromSeconds(30) });
+await using var jeff = await JeffClient.LocalAsync(new[] { "guard" });
 
 await using var guard = await jeff.FunctionAsync("guard.attempt", new CallOptions
 {

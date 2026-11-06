@@ -174,7 +174,8 @@ describe('an example block', () => {
     expect(screen.getByText(/the first call downloads the open adapter/)).toBeTruthy();
     fireEvent.click(screen.getByRole('tab', { name: 'Node' }));
     expect(screen.getByText('Jeff.local # node local')).toBeTruthy();
-    expect(screen.getByText(/jeff runtime serve --socket \/tmp\/jeff.sock --adapter jeff.safety.guard/)).toBeTruthy();
+    expect(screen.getByText(/Uses the Jeff engine running on your machine, or starts it/)).toBeTruthy();
+    expect(screen.queryByText(/jeff runtime serve/)).toBeNull();
   });
   it("remembers the choice for the whole site and switches every open block on the page, as the language choice does", () => {
     render(<MemoryRouter><Example block={open} /><Example block={{ ...open, id: 'guard-open-2' }} /><Example block={recorded} /></MemoryRouter>);

@@ -18,7 +18,10 @@ export interface EngineServer { path: string; close(): Promise<void>; stopAnswer
  * `jeff runtime serve` over a fake model; with predictDelayMs, each predict is answered that long after it arrives. Without `path` it listens in a temporary directory of its own, removed by
  * close(); with `path` the caller owns that path's directory. */
 export async function startEngineServer(options: { answers: (adapter: string, row: any) => number[];
-  installed: string[]; path?: string; predictDelayMs?: number }): Promise<EngineServer> {
+  installed: string[]; path?: string; predictDelayMs?: number;
+  /** Answers a `serve` request with the adapters it lists: a list of the adapters now installed, or an error to send.
+   * Without it, a `serve` is not answered. */
+  serve?: (adapters: string[]) => string[] | { type: string; message: string } }): Promise<EngineServer> {
   const ownDirectory = options.path === undefined ? mkdtempSync(join(tmpdir(), "jeffnode")) : null;
   const path = options.path ?? join(ownDirectory as string, "e.sock");
   const sockets = new Set<Socket>();
@@ -40,6 +43,14 @@ export async function startEngineServer(options: { answers: (adapter: string, ro
         } else if (message.op === "health") {
           socket.write(frame({ id: message.id, ok: true, result: { status: "ready", backend: "fake", adapters: options.installed,
             adapters_version: version, base: { id: "jeff-base", version: "v1.3", checkpoint: "fake", max_options: 252, format: "bf16" } } }));
+        } else if (message.op === "serve" && options.serve !== undefined) {
+          const outcome = options.serve(message.adapters);
+          if (Array.isArray(outcome)) {
+            options.installed.splice(0, options.installed.length, ...outcome);
+            socket.write(frame({ id: message.id, ok: true, result: { adapters: ["base", ...outcome], adapters_version: version } }));
+          } else {
+            socket.write(frame({ id: message.id, ok: false, error: { ...outcome, details: { adapters_version: version } } }));
+          }
         } else if (message.op === "predict" && answering) {
           const reply = frame({ id: message.id, ok: true, result: {
             probabilities: message.rows.map((row: any) => options.answers(message.adapter, row)),

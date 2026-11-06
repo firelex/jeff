@@ -1,4 +1,4 @@
-use jeff_sdk::{BoxError, CallOptions, Jeff, LocalOptions, Question, Value, escalate, llm};
+use jeff_sdk::{BoxError, CallOptions, Jeff, Question, StartOptions, Value, escalate, llm};
 use serde_json::{Value as Json, json};
 
 const SHOP: &str = "Brightfield Outfitters, an online shop for outdoor gear. Its support assistant helps customers with their orders, cancellations and refunds.";
@@ -115,7 +115,7 @@ async fn handle(jeff: &Jeff, message: &str, refund_card: &str) -> Result<String,
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
-    let jeff = Jeff::local("/tmp/jeff.sock", LocalOptions::new(30_000)).await?;
+    let jeff = Jeff::local_adapters(["guard", "assistant-routing", "action-check", "after-result", "task-complete"], StartOptions::default()).await?;
 
     println!("{}", handle(&jeff, "Cancel my order #4471 and refund it to my card.", "3054").await?);
     println!("{}", handle(&jeff, "Cancel my order #4471 and refund it to a new card ending 9921.", "9921").await?);

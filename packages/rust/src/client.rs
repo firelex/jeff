@@ -76,17 +76,22 @@ pub const MAX_TIMEOUT_MS: u64 = 68_719_476_734;
 
 /// Refuses a timeout of 0 or one longer than Tokio's timers keep.
 pub(crate) fn check_timeout_ms(value: u64) -> Result<()> {
+    check_milliseconds("timeout_ms", value)
+}
+
+/// Refuses a number of milliseconds `name` of 0 or one longer than Tokio's timers keep, naming the option.
+pub(crate) fn check_milliseconds(name: &str, value: u64) -> Result<()> {
     if value == 0 {
         return Err(JeffError::new(
             ErrorType::InvalidRequest,
-            "timeout_ms must be a whole number of milliseconds above 0; got 0",
+            format!("{name} must be a whole number of milliseconds above 0; got 0"),
         ));
     }
     if value > MAX_TIMEOUT_MS {
         return Err(JeffError::new(
             ErrorType::InvalidRequest,
             format!(
-                "timeout_ms must be at most {MAX_TIMEOUT_MS} milliseconds (about 2.2 years), the longest timer Tokio keeps; got {value}"
+                "{name} must be at most {MAX_TIMEOUT_MS} milliseconds (about 2.2 years), the longest timer Tokio keeps; got {value}"
             ),
         ));
     }
@@ -108,6 +113,26 @@ impl LocalOptions {
         LocalOptions {
             timeout_ms,
             catalogue: None,
+        }
+    }
+}
+
+/// How `Jeff::local_adapters` finds or starts the engine on this machine (contract/local-engine.md).
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct StartOptions {
+    /// How long to wait for the engine's hello and for each reply, in milliseconds (60,000 by default).
+    pub timeout_ms: u64,
+    /// How long everything before the client is ready may take, in milliseconds (1,800,000, 30 minutes, by
+    /// default): waiting for another program that is starting the engine, and starting it (the first start downloads
+    /// about 2 GB).
+    pub start_timeout_ms: u64,
+}
+
+impl Default for StartOptions {
+    fn default() -> StartOptions {
+        StartOptions {
+            timeout_ms: 60_000,
+            start_timeout_ms: 1_800_000,
         }
     }
 }
@@ -173,6 +198,40 @@ impl Jeff {
             Some(catalogue) => catalogue,
             None => Catalogue::shipped()?,
         };
+        Jeff::over_socket_engine(engine, catalogue).await
+    }
+
+    /// A Jeff over the engine running for this user on this machine, started first when none is running, serving
+    /// `adapters` (adapter IDs or aliases, bound with the catalogue shipped with the crate). The engine is
+    /// `jeff-runtime` of this crate's version, run through uv's `uvx`; install uv once
+    /// (`curl -LsSf https://astral.sh/uv/install.sh | sh`). The first start downloads the engine and the base model
+    /// (about 2 GB, once), and prints one line to standard error saying so. The engine is shared by every program of
+    /// this user, and stops by itself 5 minutes after the last one closes. It runs on macOS with Apple silicon and on
+    /// Linux with an NVIDIA GPU; elsewhere this is a BackendUnavailable error. To use an engine you start and manage
+    /// yourself, give its socket to [`Jeff::local`] instead. contract/local-engine.md has every rule.
+    pub async fn local_adapters<I, S>(adapters: I, options: StartOptions) -> Result<Jeff>
+    where
+        I: IntoIterator<Item = S>,
+        S: AsRef<str>,
+    {
+        let references: Vec<String> = adapters
+            .into_iter()
+            .map(|reference| reference.as_ref().to_owned())
+            .collect();
+        crate::local_engine::local_adapters_in(
+            &references,
+            options,
+            &crate::local_engine::Environment::from_process(),
+        )
+        .await
+    }
+
+    /// The client over a connected engine socket, as the socket form builds it; the connection is closed when this
+    /// fails.
+    pub(crate) async fn over_socket_engine(
+        engine: Arc<crate::socket_engine::SocketEngine>,
+        catalogue: Arc<Catalogue>,
+    ) -> Result<Jeff> {
         match Jeff::new(engine.clone(), catalogue).await {
             Ok(jeff) => Ok(jeff),
             Err(error) => {

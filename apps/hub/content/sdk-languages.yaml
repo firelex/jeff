@@ -22,4 +22,4 @@ csharp:
 java:
   # The Maven coordinates (group id:artifact id:version) on Maven Central; the Java package itself is ai.jeff.sdk.
   shown: true
-  package: ai.jeffhub:jeff-sdk:1.4.0
+  package: ai.jeffhub:jeff-sdk:1.4.1

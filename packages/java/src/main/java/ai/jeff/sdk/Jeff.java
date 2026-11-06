@@ -96,6 +96,58 @@ public class Jeff implements Decider, AutoCloseable {
         }
     }
 
+    /** {@link #local(List, StartOptions)} with the default options (a reply timeout of 60,000 ms, a start timeout of
+     * 1,800,000 ms).
+     *
+     * @param adapters adapter IDs or aliases, for example {@code List.of("guard")}
+     * @return the client, over one connection to the engine all its threads share
+     * @throws JeffError the errors of {@link #local(List, StartOptions)} */
+    public static Jeff local(List<String> adapters) {
+        return local(adapters, StartOptions.defaults());
+    }
+
+    /** A Jeff over the Jeff engine running for this user on this machine, started first when none runs
+     * (contract/local-engine.md). The engine is {@code jeff runtime serve} of this package's own version, run through
+     * uvx (install uv once); it serves every program of this user and stops by itself 5 minutes after the last one
+     * using it closes. The first start downloads the engine and the base model (about 2 GB, once) and prints a line
+     * saying so to standard error. The adapters are bound with the catalogue shipped with the package. To use an
+     * engine you start yourself (proprietary adapters, another base, your own batching settings), give its socket to
+     * {@link #local(String, LocalOptions)} instead.
+     *
+     * @param adapters adapter IDs or aliases, for example {@code List.of("guard")}
+     * @param options the reply timeout and the start timeout
+     * @return the client, over one connection to the engine all its threads share
+     * @throws JeffError.InvalidRequest when a timeout is not above 0
+     * @throws JeffError.UnknownFunction when the catalogue has no such adapter
+     * @throws JeffError.ManifestError when no adapter is given, or the adapters are trained on different bases
+     * @throws JeffError.ProprietaryWeights when an adapter's weights are not open
+     * @throws JeffError.BackendUnavailable when the engine cannot run on this machine (it runs on macOS with Apple
+     *     silicon, or on Linux with an NVIDIA GPU)
+     * @throws JeffError.RuntimeMissing when uvx is not found
+     * @throws JeffError.EngineError when HOME is not set, the engine exits while starting, it does not answer within
+     *     the start timeout (it is then stopped), another program's start takes longer than the start timeout, or the
+     *     engine does not answer in time
+     * @throws JeffError.NotInstalled when the engine already running does not serve an adapter and refuses to load it
+     * @throws JeffError.ProtocolMismatch when the engine speaks another protocol version */
+    public static Jeff local(List<String> adapters, StartOptions options) {
+        return local(adapters, options, LocalEngine.Environment.real());
+    }
+
+    static Jeff local(List<String> adapters, StartOptions options, LocalEngine.Environment environment) {
+        Catalogue catalogue = Catalogue.shipped();
+        SocketEngine engine = LocalEngine.engineFor(adapters, options, environment, catalogue);
+        try {
+            return create(engine, catalogue);
+        } catch (RuntimeException | Error error) {
+            try {
+                engine.close();
+            } catch (RuntimeException closing) {
+                error.addSuppressed(closing);
+            }
+            throw error;
+        }
+    }
+
     /** A Jeff over the Jeff server at {@code url} (ours or your own): reads {@code GET /v1/functions} once, and
      * refuses a server serving another version of an adapter this client's catalogue has.
      *

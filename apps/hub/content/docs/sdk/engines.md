@@ -57,7 +57,8 @@ the client built on it binds and checks calls exactly as with a real engine:
 ## SocketEngine
 
 This section and the next cover the Python package. The other SDKs have a `SocketEngine` too, which their local
-client builds, but not `ServingEngine`: only the engine in `jeff-runtime` serves.
+client builds (on the engine local mode finds or starts, or on the socket you give), but not `ServingEngine`: only
+the engine in `jeff-runtime` serves.
 
 `SocketEngine(path, *, timeout_s)` is the `Engine` that `Jeff.connect` builds: it talks to an engine process started
 with `jeff runtime serve --socket <path>`, over that Unix socket. `timeout_s` is how long to wait for each answer.

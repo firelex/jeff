@@ -352,3 +352,16 @@ def test_runtime_gate_needs_its_settings() -> None:
                     ["--base", "b", "--reference", "r"]):
         with pytest.raises(SystemExit):
             main(["runtime", "gate", *missing])
+
+
+@pytest.mark.parametrize("value", ["0", "-1", "nan", "inf"])
+def test_runtime_serve_refuses_an_exit_when_unused_that_is_not_above_0(
+        value: str, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]) -> None:
+    import jeff.cli
+
+    def must_not_run(*args: object) -> None:
+        raise AssertionError("resolve_base ran before --exit-when-unused-s was checked")
+
+    monkeypatch.setattr(jeff.cli, "resolve_base", must_not_run)
+    assert main([*SERVE_ARGS, "--exit-when-unused-s", value]) == 1
+    assert "--exit-when-unused-s" in capsys.readouterr().err

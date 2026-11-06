@@ -29,7 +29,7 @@ static JsonObject RunTool(JsonObject call) => (string?)call["tool"] == "lookup_o
     ? new JsonObject { ["order_id"] = "4471", ["total"] = 189.00, ["paid_with"] = "Visa ending 3054", ["shipped"] = false }
     : new JsonObject { ["status"] = "ok", ["order_id"] = "4471" };
 
-await using var jeff = await JeffClient.LocalAsync("/tmp/jeff.sock", new LocalOptions { Timeout = TimeSpan.FromSeconds(30) });
+await using var jeff = await JeffClient.LocalAsync(new[] { "guard", "assistant-routing", "action-check", "after-result", "task-complete" });
 
 Console.WriteLine(await Handle("Cancel my order #4471 and refund it to my card.", "3054"));
 Console.WriteLine(await Handle("Cancel my order #4471 and refund it to a new card ending 9921.", "9921"));

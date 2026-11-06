@@ -21,8 +21,8 @@ Both are on PyPI; their source is in the repository
 
 The engine is written in Python, so the Python package offers a few features the other SDKs do not:
 
-- `Jeff.local(adapters)` runs the models in your own process; the other SDKs attach to an engine process
-  ([Connect](/docs/sdk/connect#section-python-in-your-own-process)).
+- `Jeff.local(adapters)` runs the models in your own process; the other SDKs talk to an engine process, which their
+  local mode starts when none is running ([Connect](/docs/sdk/connect#section-python-in-your-own-process)).
 - A [decision log](/docs/sdk/decision-log), `DecisionLog`.
 - An `authorise` function on a client made from your own engine, and `with_authorise` ([Engines](/docs/sdk/engines)).
 - The `jeff` command: `jeff test`, `jeff calibrate`, `jeff gen`, `jeff mcp` and `jeff runtime`

@@ -1,6 +1,6 @@
 [project]
 name = "jeff-sdk"
-version = "1.4.0"
+version = "1.4.1"
 description = "The Jeff SDK for Python (imported as jeff): call Jeff's decision functions, route, escalate and run decision graphs, against a Jeff server or the engine in your own process."
 readme = "README.md"
 requires-python = ">=3.13"

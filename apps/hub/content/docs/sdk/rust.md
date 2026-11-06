@@ -27,9 +27,13 @@ async-trait = "0.1"   # only to implement the Engine trait yourself
 
 Its source is in the repository [github.com/firelex/jeff](https://github.com/firelex/jeff), in `packages/rust`.
 
-To run the models [on your own machine](/docs/sdk/connect#section-on-your-machine-free) you also need the Jeff engine,
-which is written in Python: install `jeff-sdk` and `jeff-runtime` as described in [Install](/docs/sdk/install), and
-start it with `jeff runtime serve`. The model runs only in the engine; the Rust SDK talks to it.
+To run the models [on your own machine](/docs/sdk/connect#section-on-your-machine-free), install uv once
+(`curl -LsSf https://astral.sh/uv/install.sh | sh`, see [docs.astral.sh/uv](https://docs.astral.sh/uv/)) and call
+local mode with the adapters you use: `Jeff::local_adapters(["guard"], StartOptions::default()).await?`. The model runs only in the Jeff engine, which
+is written in Python; the Rust SDK finds the engine running for you on this machine, or starts it with uv (the
+first start downloads about 2 GB, once), and talks to it. It runs on a Mac with Apple silicon or on Linux with an
+NVIDIA GPU. To use an engine you start yourself with `jeff runtime serve`, pass its socket instead:
+`Jeff::local(socket_path, LocalOptions::new(ms))` ([Using an engine you start yourself](/docs/sdk/connect#section-using-an-engine-you-start-yourself)).
 
 ## Idioms
 
@@ -62,7 +66,9 @@ lack it; they never make up a value. A token never appears in a message or in `D
 - **Timeouts**: `timeout_ms`, in milliseconds (`LocalOptions::new(ms)`, `RemoteOptions::new(ms)`): a whole number
   above 0 and at most 68,719,476,734 (about 2.2 years, the longest timer Tokio keeps), else `InvalidRequest`. Over
   the channel, a request also waits at most `timeout_ms` for its turn to be written behind earlier messages, else
-  `DeadlineExceeded`, and it is never sent.
+  `DeadlineExceeded`, and it is never sent. `Jeff::local_adapters` takes `StartOptions { timeout_ms,
+  start_timeout_ms }` (both `u64` milliseconds of at least 1; `StartOptions::default()` gives 60,000 and 1,800,000,
+  30 minutes); see [what local mode does](/docs/sdk/connect#section-what-local-mode-does-in-node-rust-c-and-java).
 - **Proxies**: HTTP requests as httpx chooses them: `HTTPS_PROXY` for `https://` servers, `HTTP_PROXY` for `http://`
   ones, `ALL_PROXY` for both, and `NO_PROXY` matched as httpx matches it (`*` turns every proxy off; `example.com`
   bypasses that host and its subdomains; `.example.com` only the subdomains). The channel as the websockets library

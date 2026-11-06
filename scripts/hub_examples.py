@@ -23,12 +23,14 @@ real answer. Modes, one per run:
                  apps/hub/content/sdk-languages.yaml shows (home-example.<ext>, every recorded example's code and
                  every docs snippet in that language that is not local, built against that SDK's source). Every
                  failure is listed.
-  --check-local  starts a Jeff engine on this machine serving the guard and the adapter of every worked example the
-                 site shows "On your machine" (apps/hub/scripts/local-examples.ts; `jeff runtime serve`, as the pages
-                 show it) and runs the local samples against it: home-example-local.py and every such example's
-                 Python code and the Python docs snippets *.local.py (Jeff.local, which downloads the public
-                 weights); through run-node-samples.ts,
-                 home-example-local.mjs, the Node snippets marked `// local` and every such example's Node code; and
+  --check-local  starts a Jeff engine on this machine serving the guard, triage, spam and the adapter of every worked
+                 example the site shows "On your machine" (apps/hub/scripts/local-examples.ts), with this
+                 repository's `jeff runtime serve`, on the socket local mode looks for (engine.sock in this user's
+                 engine folder, contract/local-engine.md; it refuses to run when something is already there), and
+                 runs the local samples: home-example-local.py and every such example's Python code and the Python
+                 docs snippets *.local.py (Jeff.local in their own process, which downloads the public weights);
+                 and, finding that engine through local mode with their adapters, through run-node-samples.ts
+                 home-example-local.mjs, the Node snippets marked `// local` and every such example's Node code, and
                  the same for each shown Rust, C# or Java language (sdk-samples.ts local). A worked example's printed
                  value must be its recorded value (its confidence is not compared: the recorded one is the live
                  server's). It needs every one of those adapters' weights public at the catalogue's revision (see
@@ -693,49 +695,71 @@ def run_python_code(name: str, code: str, env: dict[str, str]) -> tuple[list[str
     return [], result.stdout
 
 
+# The adapters the local docs snippets call besides the worked examples' (the guard, triage and spam).
+SNIPPET_ADAPTERS = {"jeff.safety.guard", "jeff.support.triage", "jeff.safety.spam"}
+
+
+def engine_folder(environ: dict[str, str], platform: str) -> Path:
+    """The folder where local mode in the Node, Rust, C# and Java SDKs looks for this user's engine
+    (contract/local-engine.md, "The engine folder"): its socket is engine.sock there."""
+    home = environ.get("HOME", "")
+    if home == "":
+        raise ExampleError("HOME is not set, so the engine folder (the user's cache folder) cannot be found")
+    if platform == "darwin":
+        return Path(home) / "Library/Caches/jeff/engine"
+    if platform.startswith("linux"):
+        cache = environ.get("XDG_CACHE_HOME", "")
+        return (Path(cache) if cache.startswith("/") else Path(home) / ".cache") / "jeff/engine"
+    raise ExampleError(f"--check-local runs on macOS or Linux, where local mode starts its engine; not on {platform}")
+
+
 def check_local() -> list[str]:
-    """Starts an engine serving the guard and every local example's adapter, as the pages start it, and runs the
-    local samples."""
-    import tempfile
+    """Starts an engine serving the guard, triage, spam and every local example's adapter on the socket local mode
+    looks for, and runs the local samples (the Node, Rust, C# and Java ones find it through local mode)."""
     import time
     listed = local_examples()
-    adapters = sorted({"jeff.safety.guard", *listed["adapters"]})
-    with tempfile.TemporaryDirectory() as work:
-        socket_path = str(Path(work) / "jeff.sock")
-        log_path = Path(work) / "engine.log"
-        with log_path.open("w") as log:
-            engine = subprocess.Popen(["uv", "run", "--project", str(ROOT), "jeff", "runtime", "serve", "--socket",
-                                       socket_path, *[a for adapter in adapters for a in ("--adapter", adapter)],
-                                       "--batch-window-ms", "0.1",
-                                       "--max-batch-rows", "64", "--queue-limit-rows", "4096", "--prepare-workers", "2"],
-                                      stdout=log, stderr=subprocess.STDOUT)
-        try:
-            deadline = time.monotonic() + ENGINE_START_TIMEOUT_S
-            while not Path(socket_path).exists():
-                if engine.poll() is not None:
-                    tail = " | ".join(log_path.read_text().strip().splitlines()[-8:])
-                    return [f"jeff runtime serve exited with {engine.returncode} before listening: {tail}"]
-                if time.monotonic() > deadline:
-                    return [f"jeff runtime serve did not listen on its socket within {ENGINE_START_TIMEOUT_S:.0f} s"]
-                time.sleep(0.5)
-            env = dict(os.environ)
-            languages = shown_sample_languages()
-            python: list[str] = []
-            for example in listed["examples"]:
-                name = f"example {example['id']} (Python, local)"
-                failed, stdout = run_python_code(name, example["python"], env)
-                problems = failed or value_problem(example["id"], example["recorded"], stdout)
-                if not problems:
-                    print(f"ok   {name}")
-                python.extend(problems)
-            return [*run_python_sample(HUB / "content/home-example-local.py", {}, env),
-                    *python,
-                    *run_python_snippets(python_snippets(local=True), {}, env),
-                    *run_node_samples(["local", socket_path], env),
-                    *(run_sdk_samples(["local", socket_path, *languages], env) if languages else [])]
-        finally:
-            engine.terminate()
-            engine.wait(timeout=60)
+    adapters = sorted({*SNIPPET_ADAPTERS, *listed["adapters"]})
+    folder = engine_folder(dict(os.environ), sys.platform)
+    folder.mkdir(parents=True, exist_ok=True)
+    folder.chmod(0o700)
+    socket_path = str(folder / "engine.sock")
+    if Path(socket_path).exists():
+        raise ExampleError(f"{socket_path} exists: an engine (or a socket left by one) is there. Stop that engine, or "
+                           f"remove the file if none is running, and run --check-local again")
+    log_path = folder / "engine.log"
+    with log_path.open("w") as log:
+        engine = subprocess.Popen(["uv", "run", "--project", str(ROOT), "jeff", "runtime", "serve", "--socket",
+                                   socket_path, *[a for adapter in adapters for a in ("--adapter", adapter)],
+                                   "--batch-window-ms", "0.1",
+                                   "--max-batch-rows", "64", "--queue-limit-rows", "4096", "--prepare-workers", "2"],
+                                  stdout=log, stderr=subprocess.STDOUT)
+    try:
+        deadline = time.monotonic() + ENGINE_START_TIMEOUT_S
+        while not Path(socket_path).exists():
+            if engine.poll() is not None:
+                tail = " | ".join(log_path.read_text().strip().splitlines()[-8:])
+                return [f"jeff runtime serve exited with {engine.returncode} before listening: {tail}"]
+            if time.monotonic() > deadline:
+                return [f"jeff runtime serve did not listen on its socket within {ENGINE_START_TIMEOUT_S:.0f} s"]
+            time.sleep(0.5)
+        env = dict(os.environ)
+        languages = shown_sample_languages()
+        python: list[str] = []
+        for example in listed["examples"]:
+            name = f"example {example['id']} (Python, local)"
+            failed, stdout = run_python_code(name, example["python"], env)
+            problems = failed or value_problem(example["id"], example["recorded"], stdout)
+            if not problems:
+                print(f"ok   {name}")
+            python.extend(problems)
+        return [*run_python_sample(HUB / "content/home-example-local.py", {}, env),
+                *python,
+                *run_python_snippets(python_snippets(local=True), {}, env),
+                *run_node_samples(["local"], env),
+                *(run_sdk_samples(["local", *languages], env) if languages else [])]
+    finally:
+        engine.terminate()
+        engine.wait(timeout=60)
 
 
 def open_repos(catalogue: Path) -> list[tuple[str, str]]:

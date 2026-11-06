@@ -11,10 +11,14 @@ over to every page.
 | | On your machine (free) | Through the API |
 | - | - | - |
 | Python | `Jeff.local(adapters)`, or `Jeff.connect(socket, timeout_s=...)` | `Jeff.remote(url, token, timeout_s=...)` |
-| Node | `Jeff.local(socket, { timeoutMs })` | `Jeff.remote(url, token, { timeoutMs })` |
-| Rust | `Jeff::local(socket, LocalOptions::new(ms))` | `Jeff::remote(url, token, RemoteOptions::new(ms))` |
-| C# | `JeffClient.LocalAsync(socket, new LocalOptions { Timeout })` | `JeffClient.RemoteAsync(url, token, new RemoteOptions { Timeout })` |
-| Java | `Jeff.local(socket, LocalOptions.timeoutMs(ms))` | `Jeff.remote(url, token, RemoteOptions.timeoutMs(ms))` |
+| Node | `Jeff.local(adapters, options?)`, or `Jeff.local(socket, { timeoutMs })` | `Jeff.remote(url, token, { timeoutMs })` |
+| Rust | `Jeff::local_adapters(adapters, StartOptions::default())`, or `Jeff::local(socket, LocalOptions::new(ms))` | `Jeff::remote(url, token, RemoteOptions::new(ms))` |
+| C# | `JeffClient.LocalAsync(adapters, options?)`, or `JeffClient.LocalAsync(socket, new LocalOptions { Timeout })` | `JeffClient.RemoteAsync(url, token, new RemoteOptions { Timeout })` |
+| Java | `Jeff.local(adapters)`, `Jeff.local(adapters, options)`, or `Jeff.local(socket, LocalOptions.timeoutMs(ms))` | `Jeff.remote(url, token, RemoteOptions.timeoutMs(ms))` |
+
+`adapters` is a list of adapter IDs or aliases, for example `["guard"]`. The first form on your machine is the usual
+one; the socket form uses an engine you start yourself (see
+[Using an engine you start yourself](#section-using-an-engine-you-start-yourself)).
 
 Close the client when you are done: a `with` block in Python, `await jeff.close()` in Node, `jeff.close().await` in
 Rust, `await using` in C#, try-with-resources in Java. Each language's page says more:
@@ -25,18 +29,86 @@ Rust, `await using` in C#, try-with-resources in Java. Each language's page says
 
 The models run only in the Jeff engine, which is written in Python. In Python, `Jeff.local` loads the engine into
 your own process. Every other SDK talks to an engine process on the same machine, over its Unix socket, with no
-server in between: start it yourself with `jeff runtime serve` (see [Install](/docs/sdk/install) for what to install)
-and keep it running with your process manager. The SDK never starts the engine and never falls back to a server.
+server in between, and starts that engine itself. You need only uv, a tool that runs Python programs, installed once
+([docs.astral.sh/uv](https://docs.astral.sh/uv/)):
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+Then install the SDK package and call local mode with the adapters your program uses. The examples on these pages
+use the `guard`, `triage` and `spam` adapters; this one uses the guard (in Python, the same code loads the guard into
+your own process):
+
+<!-- snippet: sdk/connect-4 -->
+
+### What local mode does in Node, Rust, C# and Java
+
+- **It finds or starts the engine.** There is one engine per user and machine, listening on `engine.sock` in your
+  cache folder: `~/Library/Caches/jeff/engine` on macOS, and `$XDG_CACHE_HOME/jeff/engine` (or
+  `~/.cache/jeff/engine` when `XDG_CACHE_HOME` is not set) on Linux. If an engine is listening there, the SDK uses
+  it. If not, it starts one with uv: `uvx --from "jeff-runtime[mac]==<version>" jeff runtime serve ...` (`cuda` in
+  place of `mac` on an NVIDIA GPU), where `<version>` is the SDK's own version, so the engine is always the one the
+  SDK was tested with. You never install `jeff-runtime` yourself.
+- **The first start prints one line and downloads about 2 GB, once.** The line, on standard error, is
+  `Jeff: starting the Jeff engine for jeff.safety.guard; the first time, this downloads the engine and the base model
+  (about 2 GB, once). Its log: ...`. The engine's output goes to `engine.log` in the same folder. Later starts only
+  load the model.
+- **Every program of yours shares it.** A second program, or a second client in the same program, uses the same
+  engine and never starts another. While one program is starting the engine, the others wait for it (and say so on
+  standard error).
+- **It stops by itself.** An engine that local mode started stops 5 minutes after the last program using it closes
+  its client or exits, so a program run again soon finds the model still loaded. The SDK never stops an engine
+  itself (an engine you start by hand runs until you stop it).
+- **It runs on a Mac with Apple silicon, or on Linux with an NVIDIA GPU** (including WSL 2 on Windows). On any other
+  machine local mode refuses at once with `BackendUnavailable`, before looking for anything: use a Jeff server
+  [through the API](#section-through-the-api) instead.
+
+Name every adapter your program uses in the one call. If the running engine does not serve one of them (another
+program started it with other adapters), the SDK asks it to load the missing ones; an engine can usually load only
+the adapters it was started with, so this often fails with `NotInstalled`. When programs that run at the same time
+need different adapters, start one engine yourself with all of them and give its socket (below).
+
+Two options, both in milliseconds and both optional, bound the waits (C# takes them as `TimeSpan`s):
+
+| Option | Node, Java | Rust | C# | Default | What it bounds |
+| - | - | - | - | - | - |
+| Reply timeout | `timeoutMs` | `timeout_ms` | `Timeout` | 60,000 (1 minute) | The engine's first answer, and each reply. |
+| Start timeout | `startTimeoutMs` | `start_timeout_ms` | `StartTimeout` | 1,800,000 (30 minutes) | Everything before the client is ready: waiting for another program that is starting the engine, and starting it (the first start includes the download). |
+
+Node takes them as `{ timeoutMs, startTimeoutMs }` (`StartOptions`), Rust as `StartOptions { timeout_ms,
+start_timeout_ms }`, C# as `new StartOptions { Timeout, StartTimeout }`, and Java as
+`StartOptions.defaults().withTimeoutMs(ms).withStartTimeoutMs(ms)`. A value that is not a whole number of
+milliseconds of at least 1 is refused with `InvalidRequest`.
+
+What can go wrong, besides the errors of any call:
+
+| Error | When |
+| - | - |
+| `RuntimeMissing` | uv is not installed: `uvx` is not on `PATH`, nor in `~/.local/bin` or `~/.cargo/bin`. The message gives the command that installs it. |
+| `RuntimeMissing` (C# and Java on Linux) | The `setsid` command is missing (it comes with util-linux, present on most Linux systems); the engine is started in a session of its own through it. The message says what to install. |
+| `BackendUnavailable` | The machine is neither a Mac with Apple silicon nor Linux with an NVIDIA GPU (an Intel Mac, a Linux machine without an NVIDIA GPU, Windows outside WSL 2). |
+| `NotInstalled` | The running engine does not serve an adapter you named and refused to load it. |
+| `ProprietaryWeights` | An adapter's weights are not open, so local mode cannot start an engine for it: start one yourself with `--path` and give its socket. |
+| `EngineError` | The engine exited while starting, or did not answer within the start timeout (local mode then stops it); the message names `engine.log` and shows its last lines. Also when `HOME` is not set. |
+| `ManifestError` | The list of adapters is empty, or its adapters are trained on different bases. |
+| `UnknownFunction` | An adapter name is not in the catalogue. |
+
+### Using an engine you start yourself
+
+The socket form (`Jeff.local(socket, ...)` and its equivalents in the table above, `Jeff.connect` in Python) uses
+exactly the engine listening on that socket. It never starts an engine, never looks in the engine folder and never
+needs uv. Use it to run an engine with proprietary adapters (`--path`), an INT4 base (`--base`), your own batching
+settings, or adapters for several programs at once, and keep it running with your process manager. Start it with
+`jeff runtime serve`, which comes with the Python package `jeff-runtime` (see [Install](/docs/sdk/install)):
 
 ```bash
 jeff runtime serve --socket /tmp/jeff.sock --adapter guard --adapter triage --adapter spam \
   --batch-window-ms 0.1 --max-batch-rows 64 --queue-limit-rows 4096 --prepare-workers 2
 ```
 
-The examples on these pages use the `guard`, `triage` and `spam` adapters, so this engine serves all three. Then
-attach to it (in Python, the same code loads the guard into your own process):
-
-<!-- snippet: sdk/connect-4 -->
+This engine serves the three adapters the examples on these pages use; give `/tmp/jeff.sock` to the client in place
+of the list of adapters.
 
 These `jeff runtime serve` options are always required:
 
@@ -64,7 +136,7 @@ in the engine and in your program.
 `Jeff.local(adapters, *, catalogue=None, paths=None, backend="auto", log=None, prefix_pool_mb=None, base=None)` loads
 the base model and the adapters you name into this process. It needs `jeff-runtime`. The first run downloads the
 weights into the Hugging Face cache; after that, no network is needed. Only the Python SDK can do this; the others
-attach to an engine as above.
+talk to an engine process, as above.
 
 | Argument | What it is |
 | - | - |
@@ -76,8 +148,8 @@ attach to an engine as above.
 | `log` | A `DecisionLog` to write every decision to (see [Decision log](/docs/sdk/decision-log)). |
 | `base` | A folder holding a base model to load instead of the adapters' base from the catalogue, for example an INT4 base made with `jeff runtime quantize`. |
 
-`Jeff.connect(socket_path, *, timeout_s, catalogue=None, log=None)` is the Python form of what the other SDKs do: it
-attaches to an engine started with `jeff runtime serve`, so several programs can share one loaded model.
+`Jeff.connect(socket_path, *, timeout_s, catalogue=None, log=None)` is the Python form of the other SDKs' socket
+form: it attaches to an engine started with `jeff runtime serve`, so several programs can share one loaded model.
 `jeff.connect` is another name for it. It needs a running engine, so this example is illustrative:
 
 ```python illustrative
@@ -102,7 +174,9 @@ no such pool.
 
 - In Python, pass `prefix_pool_mb` to `Jeff.local`. Without it, `Jeff.local` raises `EngineError` before downloading
   anything.
-- For an engine you start with `jeff runtime serve` (every other SDK, and Python's `Jeff.connect`), pass
+- Local mode in Node, Rust, C# and Java passes them itself when it starts the engine on an NVIDIA GPU
+  (`--max-adapters` the larger of 8 and the number of adapters, `--prefix-pool-mb 7345`).
+- For an engine you start with `jeff runtime serve` (the socket form, and Python's `Jeff.connect`), pass
   `--max-adapters` and `--prefix-pool-mb`; the engine refuses to start without them. The pool must hold
   `--max-batch-rows` prefixes of 8,192 tokens: 7345 for 64 rows.
 
@@ -123,6 +197,7 @@ jeff runtime serve --socket /tmp/jeff.sock --adapter guard --max-adapters 4 --pr
 
 The engine waits `--batch-window-ms` after the first request arrives, so that requests arriving together are decided
 in one batch. That wait is added to every decision, so keep it small unless many requests really do arrive together.
+Local mode starts its engine with 0.1; choose another window only for an engine you start yourself.
 
 Measured on an Apple M4 Max with MLX, with one caller on its own machine deciding one call at a time (the model itself
 took about 28.6 ms per decision), the time the Node SDK and the engine added on top of the model was 0.84 ms at the

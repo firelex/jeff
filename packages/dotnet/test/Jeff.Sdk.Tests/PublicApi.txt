@@ -384,6 +384,7 @@ class JeffClient (IDecider, System.IAsyncDisposable)
   JeffClient: public System.Threading.Tasks.Task<GraphResult> RunGraphAsync(System.String path, System.Text.Json.Nodes.JsonNode input, System.Text.Json.Nodes.JsonObject parameters, System.Collections.Generic.IReadOnlyDictionary<System.String, CodeFunction> code = null, System.Collections.Generic.IReadOnlyDictionary<System.String, Policy> policies = null, System.Threading.CancellationToken cancellationToken = null)
   JeffClient: public System.Threading.Tasks.Task<GraphResult> RunGraphAsync(System.Text.Json.Nodes.JsonObject document, System.Text.Json.Nodes.JsonNode input, System.Text.Json.Nodes.JsonObject parameters, System.Collections.Generic.IReadOnlyDictionary<System.String, CodeFunction> code = null, System.Collections.Generic.IReadOnlyDictionary<System.String, Policy> policies = null, System.Threading.CancellationToken cancellationToken = null)
   JeffClient: public static System.Threading.Tasks.Task<JeffClient> CreateAsync(IEngine engine, Catalogue catalogue, System.Threading.CancellationToken cancellationToken = null)
+  JeffClient: public static System.Threading.Tasks.Task<JeffClient> LocalAsync(System.Collections.Generic.IEnumerable<System.String> adapters, StartOptions options = null, System.Threading.CancellationToken cancellationToken = null)
   JeffClient: public static System.Threading.Tasks.Task<JeffClient> LocalAsync(System.String socketPath, LocalOptions options, System.Threading.CancellationToken cancellationToken = null)
   JeffClient: public static System.Threading.Tasks.Task<RemoteJeffClient> RemoteAsync(System.String url, TokenSource token, RemoteOptions options, System.Threading.CancellationToken cancellationToken = null)
   JeffClient: public virtual System.Threading.Tasks.Task<BoundFunction> FunctionAsync(System.String reference, CallOptions options = null, System.Threading.CancellationToken cancellationToken = null)
@@ -656,6 +657,7 @@ sealed class SocketEngine (IEngine, System.IAsyncDisposable)
   SocketEngine: public System.String Path { get; }
   SocketEngine: public System.Threading.Tasks.Task<EngineResult> PredictAsync(System.String adapterId, System.Collections.Generic.IReadOnlyList<Row> rows, System.Int64? deadlineMs, System.Threading.CancellationToken cancellationToken = null)
   SocketEngine: public System.Threading.Tasks.Task<EngineResult> PredictAsync(System.String adapterId, System.Collections.Generic.IReadOnlyList<Row> rows, System.Threading.CancellationToken cancellationToken = null)
+  SocketEngine: public System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<System.String>> ServeAsync(System.Collections.Generic.IReadOnlyList<System.String> adapters, System.Threading.CancellationToken cancellationToken = null)
   SocketEngine: public System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlySet<System.String>> InstalledAsync(System.Boolean refresh = False, System.Threading.CancellationToken cancellationToken = null)
   SocketEngine: public System.Threading.Tasks.Task<System.Text.Json.Nodes.JsonObject> HealthAsync(System.TimeSpan? timeout = null, System.Threading.CancellationToken cancellationToken = null)
   SocketEngine: public System.Threading.Tasks.Task<System.Text.Json.Nodes.JsonObject> StatsAsync(System.TimeSpan? timeout = null, System.Threading.CancellationToken cancellationToken = null)
@@ -665,6 +667,10 @@ sealed class SocketEngine (IEngine, System.IAsyncDisposable)
   SocketEngine: public System.ValueTuple<System.String, System.String> Base { get; }
   SocketEngine: public static System.Threading.Tasks.Task<SocketEngine> ConnectAsync(System.String path, System.TimeSpan timeout, System.Threading.CancellationToken cancellationToken = null)
   SocketEngine: public static readonly System.TimeSpan ReconnectInterval
+sealed class StartOptions
+  StartOptions: public .ctor()
+  StartOptions: public System.TimeSpan StartTimeout { get; init; }
+  StartOptions: public System.TimeSpan Timeout { get; init; }
 abstract class Step (System.IEquatable<Step>)
   Step: protected .ctor(Step original)
   Step: protected virtual System.Boolean PrintMembers(System.Text.StringBuilder builder)

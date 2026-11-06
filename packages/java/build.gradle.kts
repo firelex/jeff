@@ -7,7 +7,7 @@ plugins {
 
 // The Maven coordinates: ai.jeffhub:jeff-sdk (the artifact id is rootProject.name, settings.gradle.kts).
 group = "ai.jeffhub"
-version = "1.4.0"
+version = "1.4.1"
 
 java {
     withSourcesJar()
@@ -29,6 +29,24 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
     // compiled against by ProxyIsolation, the launcher session listener that pins an empty proxy environment
     testImplementation("org.junit.platform:junit-platform-launcher")
+}
+
+// The SDK's own version as a resource (ai/jeff/sdk/version.txt): local mode starts the engine of exactly this version
+// (uvx --from jeff-runtime[<extra>]==<version>, contract/local-engine.md).
+val generateVersion = tasks.register("generateVersion") {
+    val folder = layout.buildDirectory.dir("generated/version")
+    val text = project.version.toString()
+    inputs.property("version", text)
+    outputs.dir(folder)
+    doLast {
+        val file = folder.get().file("ai/jeff/sdk/version.txt").asFile
+        file.parentFile.mkdirs()
+        file.writeText(text + "\n")
+    }
+}
+
+sourceSets.main {
+    resources.srcDir(generateVersion)
 }
 
 tasks.withType<JavaCompile>().configureEach {

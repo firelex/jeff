@@ -31,7 +31,7 @@ socket, and can never reach an HTTP or channel client.
 | `EscalationBudgetExceeded` | 504 | An escalation ran past its budget_ms. |
 | `InvalidPolicy` | 422 | on_low_confidence is not valid for this call. |
 | `GraphError` | 422 | A decision graph is invalid or cannot run. |
-| `RuntimeMissing` | Not sent over HTTP | Local mode needs the jeff-runtime package. |
+| `RuntimeMissing` | Not sent over HTTP | Local mode needs the jeff-runtime package (Python), or uv to start the engine (Node, Rust, C#, Java). |
 | `ProprietaryWeights` | Not sent over HTTP | A proprietary adapter's weights need a licence or a local folder. |
 | `CalibrationError` | Not sent over HTTP | Calibration cannot reach the target or has no data. |
 | `EngineError` | 500 | The engine failed or broke its contract. |

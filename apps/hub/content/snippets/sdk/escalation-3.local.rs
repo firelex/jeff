@@ -1,4 +1,4 @@
-use jeff_sdk::{BoxError, CallOptions, Jeff, LocalOptions, Question, escalate, llm};
+use jeff_sdk::{BoxError, CallOptions, Jeff, Question, StartOptions, escalate, llm};
 use serde_json::json;
 
 // Stands in for your own language model: given the prompt, it returns one of the option keys. Here it always
@@ -25,7 +25,7 @@ async fn ask_an_llm(question: Question) -> Result<String, BoxError> {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let jeff = Jeff::local("/tmp/jeff.sock", LocalOptions::new(30_000)).await?;
+    let jeff = Jeff::local_adapters(["guard"], StartOptions::default()).await?;
 
     let guard = jeff.function("guard.attempt", CallOptions {
         context: Some(serde_json::from_value(json!({

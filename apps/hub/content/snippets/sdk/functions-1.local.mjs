@@ -1,7 +1,7 @@
 // local
 import { Jeff } from "jeff-sdk";
 
-const jeff = await Jeff.local("/tmp/jeff.sock", { timeoutMs: 30000 });
+const jeff = await Jeff.local(["guard"]);
 
 // Bind once: the context is checked here, and every call below reuses it.
 const guard = await jeff.function("guard.attempt", {

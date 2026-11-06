@@ -11,10 +11,17 @@ language model asked for a structured response that then had to be parsed and ch
 
 - A **variable** stores a value.
 - A **function** performs an operation.
-- An **object** holds state and behaviour.
-- A **decision** reads unstructured input and returns a typed answer with a calibrated confidence.
+- An **object** encapsulates state and behaviour.
+- A **condition** determines which instructions execute.
+- A **loop** repeats instructions.
+- An **expression** evaluates inputs and produces a value: `total > 100 and country == "DE"`.
+- A **decision** interprets unstructured inputs and produces a typed result with calibrated confidence: is this
+  email a refund request, and how sure is that?
 
-A decision about unstructured data becomes an ordinary function call. You import an adapter, pass in the text, and get back a typed result with a calibrated
+The decision is closest to the expression. Both take inputs and give back a value your code can branch on. An
+expression works on numbers, fields and records, and its answer is exact. A decision works on text, such as an
+email, a clause or a chat, so its answer comes with a confidence, and your code decides what to do when that
+confidence is too low. A decision about unstructured data becomes an ordinary function call. You import an adapter, pass in the text, and get back a typed result with a calibrated
 confidence, in milliseconds, on your own machine or through the API. Like any function, it can be tested, versioned
 and composed with others. These docs are organised around that primitive: how to call one, what one is made of,
 and how to build programs from them.
@@ -47,7 +54,10 @@ a person runs in the Python SDK, on the decision the server returned. See [Escal
   [Through the API](/docs/guides/remote).
 - **`Jeff.local`**, in the same package: the model runs in your own process, with no server and no network, for
   the lowest latency. It needs the engine package as well (`pip install jeff-sdk jeff-runtime`), and the weights of
-  the base model and of each adapter it runs, which are public for every adapter in the catalogue.
+  the base model and of each adapter it runs, which are public for every adapter in the catalogue. In the Node,
+  Rust, C# and Java SDKs, local mode runs the model in an engine process on your machine, which it starts itself
+  and your programs share; it needs only uv, installed once (see
+  [Connect](/docs/sdk/connect#section-on-your-machine-free)).
 
 The Python code is the same in both modes: bind a function, call it, read `value` and `confidence`.
 

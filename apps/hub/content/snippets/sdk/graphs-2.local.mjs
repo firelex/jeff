@@ -9,7 +9,7 @@ function chooseReply({ nodes }) {
   return attack.value ? "refuse" : "answer";
 }
 
-const jeff = await Jeff.local("/tmp/jeff.sock", { timeoutMs: 30000 });
+const jeff = await Jeff.local(["spam", "guard"]);
 
 const result = await jeff.runGraph(
   "graphs-message-check.yaml",

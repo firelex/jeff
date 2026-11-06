@@ -978,3 +978,62 @@ def test_the_fake_engine_refuses_an_adapter_past_its_capacity() -> None:
     with pytest.raises(EngineError, match=r"at most 1 adapters \(--max-adapters 1\) and 1 are loaded"):
         engine.add_adapter("a.b.d", Path("/y"))
     assert engine.installed() == {"base", "a.b.c"}
+
+
+def test_wait_unused_returns_only_once_no_client_has_been_connected_for_that_long() -> None:
+    server = Running(FakeEngine(lambda adapter, row: [0.4, 0.6], {"a.b.c"}))
+    try:
+        client = server.client()
+        client.send({"op": "health", "id": 1})
+        client.receive()
+        started = time.monotonic()
+        waiting = asyncio.run_coroutine_threadsafe(server.server.wait_unused(0.3), server.loop)
+        time.sleep(0.6)
+        assert not waiting.done()  # a client is still connected, however long it has been quiet
+        client.disconnect()
+        waiting.result(5)
+        assert time.monotonic() - started >= 0.9  # 0.6 s connected, then 0.3 s with no client
+        again = asyncio.run_coroutine_threadsafe(server.server.wait_unused(0.4), server.loop)
+        time.sleep(0.2)
+        server.client().disconnect()  # a client that comes and goes starts the count again
+        again.result(5)
+    finally:
+        server.close()
+
+
+def test_runtime_serve_exits_cleanly_once_unused(monkeypatch: pytest.MonkeyPatch,
+                                                 caplog: pytest.LogCaptureFixture) -> None:
+    import huggingface_hub
+    import jeff_runtime
+
+    import jeff.cli
+    from jeff_runtime.testing import Client
+
+    monkeypatch.setattr(jeff_runtime, "LocalEngine",
+                        lambda base, available, **options: FakeEngine(lambda a, r: [0.5, 0.5], set(available)))
+    monkeypatch.setattr(huggingface_hub, "snapshot_download", lambda repo, revision: f"/cache/{repo}@{revision}")
+    path = Path(tempfile.mkdtemp(prefix="jeff")) / "e.sock"
+    seen: dict[str, object] = {}
+
+    def use_then_leave() -> None:
+        if not _socket_appears(path):
+            return
+        client = Client(path, PROTOCOL_VERSION)
+        client.send({"op": "health", "id": 1})
+        seen["health"] = client.receive()["result"]["status"]
+        time.sleep(0.5)
+        seen["left"] = time.monotonic()
+        client.disconnect()
+
+    thread = threading.Thread(target=use_then_leave, daemon=True)
+    thread.start()
+    code = jeff.cli.main(["runtime", "serve", "--socket", str(path), "--adapter", "triage", "--backend", "torch",
+                          "--batch-window-ms", "1", "--max-batch-rows", "4", "--queue-limit-rows", "8",
+                          "--prepare-workers", "2", "--exit-when-unused-s", "0.3"])
+    ended = time.monotonic()
+    thread.join(5)
+    assert code == 0
+    assert seen["health"] == "ready"
+    assert ended - seen["left"] >= 0.3  # type: ignore[operator]
+    assert "No client has been connected for 0.3 seconds" in caplog.text
+    assert not path.exists()

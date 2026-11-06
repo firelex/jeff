@@ -1,5 +1,6 @@
 import ai.jeff.sdk.*;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Shorthands {
@@ -12,7 +13,7 @@ public class Shorthands {
         teams.put("deliveries", "Deliveries and damaged goods");
         teams.put("refunds", "Refunds and returns");
 
-        try (Jeff jeff = Jeff.local("/tmp/jeff.sock", LocalOptions.timeoutMs(30000))) {
+        try (Jeff jeff = Jeff.local(List.of("triage", "guard"))) {
             Decision team = jeff.route(message, "triage.route", shop.labels(teams));
 
             Decision urgency = jeff.rate(message, "triage.urgency", shop);

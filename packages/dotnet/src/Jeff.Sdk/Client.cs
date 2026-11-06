@@ -180,6 +180,17 @@ public class JeffClient : IDecider, IAsyncDisposable
         }
     }
 
+    /// <summary>A client over the Jeff engine running for this user on this machine, started first when none is
+    /// (contract/local-engine.md): `adapters` are adapter IDs or aliases, bound with the catalogue shipped with the
+    /// package. Starting needs uv (its uvx runs the engine, jeff-runtime of this package's version) and a Mac with
+    /// Apple silicon or Linux with an NVIDIA GPU; the engine is shared by every program of this user and stops by itself
+    /// 5 minutes after the last one closes. InvalidRequest for bad options; UnknownFunction, ManifestError or
+    /// ProprietaryWeights for the adapters; BackendUnavailable for another machine; RuntimeMissing when uv is missing;
+    /// EngineError when the engine cannot be started; NotInstalled when the running engine cannot load an adapter.
+    /// To use an engine you start yourself, give its socket path instead (the other LocalAsync).</summary>
+    public static Task<JeffClient> LocalAsync(IEnumerable<string> adapters, StartOptions? options = null, CancellationToken cancellationToken = default) =>
+        LocalEngine.LocalAsync(adapters, options, EngineEnvironment.Current(), cancellationToken);
+
     /// <summary>The calibration `fn` decides with on this client's engine, resolved once per function.</summary>
     internal Calibration? CalibrationOf(FunctionSpec fn) => calibrations.GetOrAdd(fn.Id, _ => ResolveCalibrationOf(fn));
 

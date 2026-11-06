@@ -18,7 +18,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
 /** A fake engine on a Unix socket, like `jeff runtime serve` over a fake model: answers hello, installed, health and
- * predict (with `answers`). */
+ * predict (with `answers`), and refuses every serve (recording its adapter list) with an UnknownFunction, as an
+ * engine refuses adapters it was not given at its start. */
 final class EngineServer implements AutoCloseable {
     interface Answers {
         double[] answer(String adapter, Map<String, Object> row);
@@ -29,6 +30,8 @@ final class EngineServer implements AutoCloseable {
     private final ServerSocketChannel server;
     private final Set<SocketChannel> sockets = ConcurrentHashMap.newKeySet();
     private volatile boolean answering = true;
+    /** The adapter list of each serve request read, in order. */
+    final List<List<String>> serveRequests = java.util.Collections.synchronizedList(new ArrayList<>());
 
     private EngineServer(Path path, Path ownDirectory, ServerSocketChannel server) {
         this.path = path;
@@ -113,6 +116,15 @@ final class EngineServer implements AutoCloseable {
                     case "health" -> reply = Fixtures.ordered("id", id, "ok", true, "result", Fixtures.ordered("status", "ready",
                         "backend", "fake", "adapters", new ArrayList<Object>(installed), "adapters_version", 1L, "base",
                         Fixtures.ordered("id", "jeff-base", "version", "v1.3", "checkpoint", "fake", "max_options", 252L, "format", "bf16")));
+                    case "serve" -> {
+                        List<String> asked = Values.strings(message.get("adapters"));
+                        serveRequests.add(asked);
+                        List<String> unknown = new ArrayList<>();
+                        for (String adapter : asked) if (!installed.contains(adapter)) unknown.add(adapter);
+                        reply = Fixtures.ordered("id", id, "ok", false, "error", Fixtures.ordered("type", "UnknownFunction",
+                            "message", "not available to serve from this engine: " + String.join(", ", PyFormat.sorted(unknown)),
+                            "details", Fixtures.ordered("adapters_version", 1L)));
+                    }
                     case "predict" -> {
                         if (!answering) continue;
                         List<Object> probabilities = new ArrayList<>();

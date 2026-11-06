@@ -29,7 +29,7 @@ public class SurfaceTests
     public void ThePackageExportsTheTypesTheReviewKept()
     {
         var types = typeof(JeffClient).Assembly.GetExportedTypes();
-        Assert.Equal(93, types.Length);
+        Assert.Equal(94, types.Length);
         Assert.Equal("jeff.core.router", Routing.DefaultRouter);
         Assert.Equal("Jeff.Sdk", typeof(JeffClient).Assembly.GetName().Name);
     }

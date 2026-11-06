@@ -13,7 +13,7 @@ There are two ways to run it, with the same code apart from the line that create
 | - | - | - |
 | Cost | Free | {{price}} a month, with {{allowance}} input tokens a month |
 | Adapters | Every adapter in the catalogue | Every adapter in the catalogue |
-| You need | `pip install jeff-sdk jeff-runtime` | An API key, and `pip install jeff-sdk` (or only `curl`) |
+| You need | `pip install jeff-sdk "jeff-runtime[mac]"` (or `[cuda]`) | An API key, and `pip install jeff-sdk` (or only `curl`) |
 | The client | `jeff.Jeff.local(["guard"])` | `jeff.Jeff.remote("{{origin}}", token=..., timeout_s=30)` |
 | Where the model runs | In your own process, with no network after the first run | On the Jeff server |
 
@@ -27,7 +27,8 @@ Install the SDK, the Python package `jeff-sdk` (Python 3.13 or later; in code it
 engine package `jeff-runtime`, which runs the model:
 
 ```bash
-pip install jeff-sdk jeff-runtime
+pip install jeff-sdk "jeff-runtime[mac]"     # Apple silicon
+pip install jeff-sdk "jeff-runtime[cuda]"    # NVIDIA GPU
 ```
 
 You do not need an API key, and there is no charge. The first run downloads the open adapter and the base model from Hugging Face;

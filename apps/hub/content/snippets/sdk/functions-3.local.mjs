@@ -12,7 +12,7 @@ const calls = [
     labels: { deliveries: "Deliveries and damaged goods", refunds: "Refunds and returns" } },
 ];
 
-const jeff = await Jeff.local("/tmp/jeff.sock", { timeoutMs: 30000 });
+const jeff = await Jeff.local(["guard", "triage"]);
 
 const decisions = await jeff.decide(calls);
 

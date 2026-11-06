@@ -13,8 +13,13 @@ jackson-core 2.22.4 (Jackson's streaming reader and writer only, not databind) a
 ## Two ways to run
 
 **Local** (the fastest): the SDK talks straight to a Jeff engine running on the same machine, over the engine's Unix
-socket. There is no server in between. The SDK never starts the engine; start it yourself (the model runs only in the
-Python engine) and keep it running with your process manager:
+socket. There is no server in between. `Jeff.local(List.of("guard"))` (or with `StartOptions`) finds the engine
+running for this user on this machine or starts one through uvx (`jeff-runtime` of the SDK's own version, the version
+read from the build-generated resource `ai/jeff/sdk/version.txt`), as contract/local-engine.md specifies; it needs uv
+installed once (and, on Linux, `setsid` from util-linux). Java cannot start a process in its own process group, so
+the engine is started through the contract's shell script: `/bin/bash` with job control on macOS, `/bin/sh` and
+`setsid` on Linux. The socket form below never starts anything: start the engine yourself (the model runs
+only in the Python engine) and keep it running with your process manager:
 
 ```bash
 jeff runtime serve --socket /tmp/jeff.sock --adapter jeff.support.triage \

@@ -2,12 +2,16 @@ package ai.jeff.sdk;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.net.ConnectException;
 import java.net.StandardProtocolFamily;
 import java.net.UnixDomainSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
+import java.nio.file.Path;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -107,7 +111,13 @@ public final class SocketEngine implements Engine {
         }
     }
 
-    private record Snapshot(long version, Set<String> installed) {}
+    /** The engine's adapter list as of {@code version}: as a set, and in the order the engine gave it. */
+    private record Snapshot(long version, Set<String> installed, List<String> order) {
+        static Snapshot of(long version, Object adapters) {
+            List<String> order = List.copyOf(Values.strings(adapters));
+            return new Snapshot(version, Set.copyOf(order), order);
+        }
+    }
 
     private record Base(BaseFormat format, String id, String version) {}
 
@@ -127,6 +137,7 @@ public final class SocketEngine implements Engine {
     private volatile boolean closedByCaller;
     private long snapshotVersion = -1;
     private Set<String> snapshotInstalled = Set.of();
+    private List<String> snapshotOrder = List.of();
     private Attempt lastAttempt;
     /** Completed when the reconnect attempt under way has ended, or by close(); every call that finds the connection
      * closed or being checked waits for it. */
@@ -157,10 +168,25 @@ public final class SocketEngine implements Engine {
      * @throws JeffError.ProtocolMismatch when the engine speaks another protocol version */
     public static SocketEngine connect(String path, long timeoutMs) {
         Jeff.checkTimeoutMs(timeoutMs);
+        return connect(path, timeoutMs, false);
+    }
+
+    /** {@link #connect}, but null when nothing listens at the path: no socket file there, or a refused connection
+     * (contract/local-engine.md, step 5). Any other failure is raised as connect raises it. */
+    static SocketEngine connectIfListening(String path, long timeoutMs) {
+        Jeff.checkTimeoutMs(timeoutMs);
+        return connect(path, timeoutMs, true);
+    }
+
+    private static SocketEngine connect(String path, long timeoutMs, boolean nullWhenNothingListens) {
         SocketEngine engine = new SocketEngine(path, timeoutMs);
         try {
             engine.open();
         } catch (DialFailure failure) {
+            if (nullWhenNothingListens
+                && (failure.getCause() instanceof ConnectException || !Files.exists(Path.of(path), LinkOption.NOFOLLOW_LINKS))) {
+                return null;
+            }
             JeffError.EngineError error = new JeffError.EngineError("No engine is listening at " + path + ": " + failure.getMessage()
                 + ". Start one with: " + startCommand(path));
             error.initCause(failure.getCause());
@@ -852,7 +878,10 @@ public final class SocketEngine implements Engine {
      * installed/serve/reload sets the cached list from its own; any other reply with another version makes this side
      * ask for the list (except a failed {@code installed}). A failure is raised as the error it describes, after that. */
     private Map<String, Object> finish(Sent sent) {
-        Map<String, Object> reply = await(sent);
+        return finish(sent, await(sent));
+    }
+
+    private Map<String, Object> finish(Sent sent, Map<String, Object> reply) {
         if (!Boolean.TRUE.equals(reply.get("ok"))) {
             // The engine's own error always wins; a failure reading its version or refreshing the list is a note on it.
             Map<String, Object> failure = Values.map(reply.get("error"));
@@ -875,7 +904,7 @@ public final class SocketEngine implements Engine {
         }
         Map<String, Object> result = Values.map(reply.get("result"));
         long version = version(result, sent.op());
-        if (CARRY_ADAPTERS.contains(sent.op())) merge(new Snapshot(version, Set.copyOf(Values.strings(result.get("adapters")))));
+        if (CARRY_ADAPTERS.contains(sent.op())) merge(Snapshot.of(version, result.get("adapters")));
         else follow(version, sent.timeoutMs(), sent.reconnect());
         return result;
     }
@@ -900,7 +929,7 @@ public final class SocketEngine implements Engine {
 
     private Snapshot installedNow(long waitMs, boolean reconnect) {
         Map<String, Object> result = call(Fixed.op("installed"), waitMs, reconnect);
-        return new Snapshot(((Number) result.get("adapters_version")).longValue(), Set.copyOf(Values.strings(result.get("adapters"))));
+        return Snapshot.of(((Number) result.get("adapters_version")).longValue(), result.get("adapters"));
     }
 
     /** The one place the cached list is written; replies may arrive out of order, so an older version never replaces
@@ -911,6 +940,7 @@ public final class SocketEngine implements Engine {
             if (snapshot.version() >= snapshotVersion) {
                 snapshotVersion = snapshot.version();
                 snapshotInstalled = snapshot.installed();
+                snapshotOrder = snapshot.order();
             }
         } finally {
             lock.unlock();
@@ -931,6 +961,39 @@ public final class SocketEngine implements Engine {
                 + "(contract/socket.md)");
         }
         return new Base(BaseFormat.fromWire(Values.map(fields)), id, version);
+    }
+
+    /** The adapters the engine has loaded, in the order its last adapter list gave them ({@code base} included). */
+    List<String> installedInOrder() {
+        lock.lock();
+        try {
+            return snapshotOrder;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    /** Asks the engine to serve exactly {@code adapters} (contract/socket.md, {@code serve}); the cached list becomes
+     * the one it answers with.
+     *
+     * @return null when the engine serves them, or the engine's refusal (its failure reply, as the error it describes)
+     * @throws JeffError.EngineError when the engine cannot be reached or the reply does not come within the timeout */
+    JeffError serve(List<String> adapters) {
+        Map<String, Object> message = new LinkedHashMap<>();
+        message.put("op", "serve");
+        message.put("adapters", new ArrayList<Object>(adapters));
+        Sent sent = send(message, timeoutMs, true);
+        Map<String, Object> reply = await(sent);
+        if (Boolean.TRUE.equals(reply.get("ok"))) {
+            finish(sent, reply);
+            return null;
+        }
+        try {
+            finish(sent, reply);
+        } catch (JeffError refusal) {
+            return refusal;
+        }
+        throw new IllegalStateException("A failure reply to 'serve' raised no error");
     }
 
     /** The adapters the engine has loaded, from the list kept since the last reply (every reply carries the version of

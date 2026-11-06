@@ -1,6 +1,6 @@
 [project]
 name = "jeff-runtime"
-version = "1.4.0"
+version = "1.4.1"
 description = "The Jeff engine: runs Jeff's base model and adapters on an NVIDIA GPU (fast path), Apple silicon (MLX) or the CPU, for the Jeff SDKs."
 readme = "README.md"
 requires-python = ">=3.13"
@@ -15,11 +15,11 @@ classifiers = [
   "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]
 dependencies = [
-  "jeff-sdk==1.4.0",
+  "jeff-sdk==1.4.1",
   "torch==2.14.0",
   "torchvision==0.29.0",
   "transformers==5.17.0",
-  "pillow==12.3.0",
+  "pillow==13.0.0",
   "safetensors==0.8.0",
   "numpy==2.5.3",
   "peft==0.21.1",

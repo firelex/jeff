@@ -31,7 +31,7 @@ function runTool(call) {
   return { status: "ok", order_id: "4471" };
 }
 
-const jeff = await Jeff.local("/tmp/jeff.sock", { timeoutMs: 30000 });
+const jeff = await Jeff.local(["guard", "assistant-routing", "action-check", "after-result", "task-complete"]);
 
 // Every step: Jeff's answer when it is confident, your LLM's below the function's threshold.
 async function decide(name, context, input) {

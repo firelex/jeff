@@ -1,5 +1,6 @@
 //! An Engine over the engine socket (contract/socket.md; port of jeff/socket_engine.py). See Task 13 of the Rust SDK
-//! plan for how replies, failures and reconnects are ordered. It never starts an engine.
+//! plan for how replies, failures and reconnects are ordered. It never starts an engine (local_engine.rs does, for
+//! `Jeff::local_adapters`).
 
 use std::collections::{BTreeSet, HashMap};
 use std::path::Path;
@@ -356,8 +357,31 @@ impl std::fmt::Debug for SocketEngine {
 impl SocketEngine {
     /// Connects to the engine at `path`, exchanges hellos, and reads its installed list and base once.
     pub async fn connect(path: impl AsRef<Path>, timeout_ms: u64) -> Result<SocketEngine> {
-        crate::client::check_timeout_ms(timeout_ms)?;
         let path = path.as_ref().display().to_string();
+        SocketEngine::connect_or_absent(&path, timeout_ms, false)
+            .await
+            .map(|engine| {
+                engine.expect("an absent engine is an error when not asked to tell it apart")
+            })
+    }
+
+    /// As [`connect`](SocketEngine::connect), but when nothing listens at `path` (no socket file there, or the
+    /// connection is refused) this is `Ok(None)`. Every other failure is raised as it is. Local mode's engine start
+    /// uses it to find the shared engine (contract/local-engine.md, step 5).
+    pub(crate) async fn connect_if_listening(
+        path: &Path,
+        timeout_ms: u64,
+    ) -> Result<Option<SocketEngine>> {
+        SocketEngine::connect_or_absent(&path.display().to_string(), timeout_ms, true).await
+    }
+
+    async fn connect_or_absent(
+        path: &str,
+        timeout_ms: u64,
+        absent_is_none: bool,
+    ) -> Result<Option<SocketEngine>> {
+        crate::client::check_timeout_ms(timeout_ms)?;
+        let path = path.to_owned();
         let engine = SocketEngine {
             shared: Arc::new(Shared {
                 path: path.clone(),
@@ -384,6 +408,15 @@ impl SocketEngine {
         };
         match engine.open().await {
             Ok(()) => {}
+            Err(OpenFailure::Dial(error))
+                if absent_is_none
+                    && matches!(
+                        error.kind(),
+                        std::io::ErrorKind::NotFound | std::io::ErrorKind::ConnectionRefused
+                    ) =>
+            {
+                return Ok(None);
+            }
             Err(OpenFailure::Dial(error)) => {
                 return Err(engine_error(format!(
                     "No engine is listening at {path}: {error}. Start one with: {}",
@@ -406,7 +439,54 @@ impl SocketEngine {
             engine.close().await;
             return Err(error);
         }
-        Ok(engine)
+        Ok(Some(engine))
+    }
+
+    /// The adapters the engine serves, in the order its `installed` reply lists them (`base` included), from one
+    /// reply, which also updates the cache.
+    pub(crate) async fn installed_in_order(&self) -> Result<Vec<String>> {
+        let result = self.call(SocketEngine::op("installed"), None, true).await?;
+        let in_order = result
+            .get("adapters")
+            .and_then(Json::as_array)
+            .expect("call checked the adapters of an installed reply")
+            .iter()
+            .map(|item| {
+                item.as_str()
+                    .expect("call checked the adapters are text")
+                    .to_owned()
+            })
+            .collect();
+        Ok(in_order)
+    }
+
+    /// Asks the engine to serve exactly `adapters` (contract/socket.md, `serve`): it loads the ones it lacks and
+    /// unloads the ones not listed. Returns the engine's (adapters_version, installed list) after the change. Raises
+    /// the engine's refusal (for example UnknownFunction for an adapter it cannot load) as it is.
+    pub async fn serve(&self, adapters: &[String]) -> Result<(i64, BTreeSet<String>)> {
+        self.serve_or_refusal(adapters).await?
+    }
+
+    /// As [`serve`](SocketEngine::serve), keeping the engine's refusal (the inner error) apart from every other
+    /// failure (the outer one).
+    pub(crate) async fn serve_or_refusal(
+        &self,
+        adapters: &[String],
+    ) -> Result<std::result::Result<(i64, BTreeSet<String>), JeffError>> {
+        let mut message = SocketEngine::op("serve");
+        message.insert(
+            "adapters".into(),
+            Json::Array(adapters.iter().map(|id| Json::from(id.as_str())).collect()),
+        );
+        let result = match self.request(message, None, true).await? {
+            Ok(result) => result,
+            Err(refusal) => return Ok(Err(refusal)),
+        };
+        let version = result
+            .get("adapters_version")
+            .and_then(Json::as_i64)
+            .expect("request checked adapters_version");
+        Ok(Ok((version, adapters_of(&result, &self.shared.path)?)))
     }
 
     /// The path of the engine's socket.
@@ -603,6 +683,17 @@ impl SocketEngine {
         timeout: Option<Duration>,
         reconnect: bool,
     ) -> BoxFuture<'_, Result<JsonMap>> {
+        Box::pin(async move { self.request(message, timeout, reconnect).await? })
+    }
+
+    /// As [`call`](SocketEngine::call), keeping apart the engine's own refusal (the inner error: a failure reply) from
+    /// every other failure (the outer one: the connection, a timeout, a malformed reply).
+    fn request(
+        &self,
+        message: JsonMap,
+        timeout: Option<Duration>,
+        reconnect: bool,
+    ) -> BoxFuture<'_, Result<Reply>> {
         Box::pin(async move {
             let shared = &self.shared;
             let timeout = timeout.unwrap_or(shared.timeout);
@@ -697,7 +788,7 @@ impl SocketEngine {
                         }
                         Ok(_) => {}
                     }
-                    return Err(original);
+                    return Ok(Err(original));
                 }
                 let result = reply
                     .get("result")
@@ -715,7 +806,7 @@ impl SocketEngine {
                 } else {
                     self.follow(version, Some(timeout)).await?;
                 }
-                return Ok(result);
+                return Ok(Ok(result));
             }
         })
     }

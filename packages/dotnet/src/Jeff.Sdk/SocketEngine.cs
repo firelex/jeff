@@ -36,6 +36,7 @@ public sealed class SocketEngine : IEngine
     private long nextId;
     private long snapshotVersion = -1;
     private HashSet<string> snapshotInstalled = new(StringComparer.Ordinal);
+    private List<string> snapshotOrder = new();
     private Attempt? lastAttempt;
     private BaseFormat format = new("");
     private (string Id, string Version) served = ("", "");
@@ -86,8 +87,12 @@ public sealed class SocketEngine : IEngine
         public EngineError? Failure { get; set; }
     }
 
-    /// <summary>Nothing listens at the path: the socket's own error, which connect and reconnect each word.</summary>
-    private sealed class DialFailure(string message) : Exception(message);
+    /// <summary>The connection to the path failed: the socket's own error, which connect and reconnect each word.
+    /// NothingListens: there is no socket file there, or nothing accepts connections on it (refused).</summary>
+    private sealed class DialFailure(string message, bool nothingListens) : Exception(message)
+    {
+        public bool NothingListens { get; } = nothingListens;
+    }
 
     /// <summary>The command that starts an engine listening at `path`.</summary>
     internal static string StartCommand(string path) =>
@@ -95,13 +100,25 @@ public sealed class SocketEngine : IEngine
         + "--queue-limit-rows <rows> --prepare-workers <threads>";
 
     /// <summary>Connects to the engine at `path`, exchanges hellos, and reads its installed list and base once.</summary>
-    public static async Task<SocketEngine> ConnectAsync(string path, TimeSpan timeout, CancellationToken cancellationToken = default)
+    public static async Task<SocketEngine> ConnectAsync(string path, TimeSpan timeout, CancellationToken cancellationToken = default) =>
+        (await ConnectCoreAsync(path, timeout, false, cancellationToken).ConfigureAwait(false))!;
+
+    /// <summary>As ConnectAsync, but null when nothing listens at `path` (no socket file there, or a refused
+    /// connection); every other failure is raised as ConnectAsync raises it. Local mode's start looks for its engine so.</summary>
+    internal static Task<SocketEngine?> ConnectIfListeningAsync(string path, TimeSpan timeout, CancellationToken cancellationToken) =>
+        ConnectCoreAsync(path, timeout, true, cancellationToken);
+
+    private static async Task<SocketEngine?> ConnectCoreAsync(string path, TimeSpan timeout, bool nullWhenNothingListens, CancellationToken cancellationToken)
     {
         Timeouts.Check(timeout);
         var engine = new SocketEngine(path, timeout);
         try
         {
             await engine.OpenAsync(cancellationToken).ConfigureAwait(false);
+        }
+        catch (DialFailure failure) when (nullWhenNothingListens && failure.NothingListens)
+        {
+            return null;
         }
         catch (DialFailure failure)
         {
@@ -302,7 +319,7 @@ public sealed class SocketEngine : IEngine
         catch (ArgumentException error)
         {
             // e.g. a path longer than the platform's limit, which Python reports as the OSError "AF_UNIX path too long"
-            throw new DialFailure(error.Message);
+            throw new DialFailure(error.Message, false);
         }
         var socket = new Socket(AddressFamily.Unix, SocketType.Stream, ProtocolType.Unspecified);
         try
@@ -312,7 +329,8 @@ public sealed class SocketEngine : IEngine
         catch (SocketException error)
         {
             socket.Dispose();
-            throw new DialFailure(error.Message);
+            // no socket file (ENOENT, which .NET reports as AddressNotAvailable) or nothing accepting on it (ECONNREFUSED)
+            throw new DialFailure(error.Message, error.SocketErrorCode is SocketError.AddressNotAvailable or SocketError.ConnectionRefused);
         }
         catch
         {
@@ -646,6 +664,7 @@ public sealed class SocketEngine : IEngine
             catch (EngineError error)
             {
                 original.Notes.Add($"Also failed to read adapters_version from this failure reply: {Errors.Described(error)}");
+                original.Refusal = true;
                 throw original;
             }
             if (op != "installed")
@@ -659,6 +678,7 @@ public sealed class SocketEngine : IEngine
                     original.Notes.Add($"Also failed to refresh the adapter list after this error: {Errors.Described(error)}");
                 }
             }
+            original.Refusal = true;
             throw original;
         }
         var result = JsonRead.Object(reply, "result", "an engine reply");
@@ -694,7 +714,8 @@ public sealed class SocketEngine : IEngine
         {
             if (version < snapshotVersion) return;
             snapshotVersion = version;
-            snapshotInstalled = new HashSet<string>(installed, StringComparer.Ordinal);
+            snapshotOrder = installed.ToList();
+            snapshotInstalled = new HashSet<string>(snapshotOrder, StringComparer.Ordinal);
         }
     }
 
@@ -725,6 +746,24 @@ public sealed class SocketEngine : IEngine
             Merge(version, installed);
         }
         lock (gate) return new HashSet<string>(snapshotInstalled, StringComparer.Ordinal);
+    }
+
+    /// <summary>The cached list of adapters the engine has loaded, in the order its last list gave them ("base" included).</summary>
+    internal IReadOnlyList<string> InstalledInOrder
+    {
+        get
+        {
+            lock (gate) return snapshotOrder.ToList();
+        }
+    }
+
+    /// <summary>Asks the engine to serve exactly these adapters (contract/socket.md `serve`; the base stays served
+    /// whether listed or not), and returns the adapters it serves after, which also updates the cache. The task fails
+    /// with the engine's own error when it refuses (for example UnknownFunction for an adapter it cannot load).</summary>
+    public async Task<IReadOnlyList<string>> ServeAsync(IReadOnlyList<string> adapters, CancellationToken cancellationToken = default)
+    {
+        var result = await CallAsync(new JsonObject { ["op"] = "serve", ["adapters"] = Json.Strings(adapters) }, null, true, cancellationToken).ConfigureAwait(false);
+        return JsonRead.Strings(result, "adapters", "the engine's serve reply");
     }
 
     /// <summary>The engine's (adapters_version, installed list) pair from one reply, which also updates the cache.</summary>

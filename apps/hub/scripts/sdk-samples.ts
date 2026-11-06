@@ -20,10 +20,12 @@
 //                                    here too). A worked example's printed value must be its recorded value, and its
 //                                    confidence within 0.02 of the recorded one; a snippet must exit with status 0. scripts/hub_examples.py --check runs this for
 //                                    the languages that are on.
-//   local <socket> <languages>       builds and runs home-example-local.<ext> and every worked example's local code
-//                                    and every local docs snippet, attached to the engine listening on <socket>
-//                                    (each sample's /tmp/jeff.sock is replaced by it; the engine must serve every
-//                                    adapter local-examples.ts lists, and the guard, triage and spam). A
+//   local <languages>                builds and runs home-example-local.<ext> and every worked example's local code
+//                                    and every local docs snippet. Each calls local mode with its adapters, so it
+//                                    uses the engine listening in this user's engine folder (contract/
+//                                    local-engine.md: engine.sock in the cache folder's jeff/engine), which the
+//                                    caller has started serving every adapter local-examples.ts lists, and the
+//                                    guard, triage and spam (a sample that names an engine socket is refused). A
 //                                    worked example's printed value must be its recorded value; its confidence is
 //                                    not compared (the recorded one is the live server's, on another machine and
 //                                    backend). scripts/hub_examples.py --check-local runs this for the languages
@@ -47,7 +49,9 @@ type Mode = 'local' | 'remote';
 const LANGUAGES: Language[] = ['rust', 'csharp', 'java'];
 const EXTENSIONS: Record<Language, string> = { rust: 'rs', csharp: 'cs', java: 'java' };
 const CONFIDENCE_TOLERANCE = 0.02;
-const ENGINE_SOCKET_IN_SAMPLES = '/tmp/jeff.sock';
+// The socket the docs name for an engine started by hand: no local sample may use it, since local mode with adapters
+// is what the pages show.
+const ENGINE_SOCKET_IN_DOCS = '/tmp/jeff.sock';
 // The origin compiled into the snippets when nothing runs them.
 const COMPILE_ORIGIN = 'https://api.example.com';
 const SNIPPETS = path.join(HUB_ROOT, 'content/snippets/sdk');
@@ -411,7 +415,7 @@ function languagesOf(args: string[], usage: string): Language[] {
 }
 
 async function main(argv: string[]): Promise<void> {
-  const usage = 'usage: sdk-samples.ts compile [rust|csharp|java ...] | remote <languages> | local <engine socket> <languages>';
+  const usage = 'usage: sdk-samples.ts compile [rust|csharp|java ...] | remote <languages> | local <languages>';
   const [mode, ...rest] = argv;
   let failures: string[];
   let count: string;
@@ -428,16 +432,16 @@ async function main(argv: string[]): Promise<void> {
     failures = await runAll(languages, 'remote', (language) => [homeSample(language, 'remote', url), ...exampleSamples(language, url), ...docSamples(language, 'remote', url)], env);
     count = `every ${languages.join(', ')} sample ran against ${url}, each worked example giving its recorded answer`;
   } else if (mode === 'local') {
-    const [socket, ...names] = rest;
-    if (socket === undefined) throw new Error(usage);
-    const languages = languagesOf(names, usage);
+    const languages = languagesOf(rest, usage);
     if (languages.length === 0) throw new Error(`Name the languages to run; ${usage}`);
-    const env = { PATH: required('PATH'), HOME: required('HOME') };
+    // PATH and HOME, and XDG_CACHE_HOME when it is set: on Linux it names the engine folder local mode looks in.
+    const env: NodeJS.ProcessEnv = { PATH: required('PATH'), HOME: required('HOME') };
+    if (process.env.XDG_CACHE_HOME !== undefined) env.XDG_CACHE_HOME = process.env.XDG_CACHE_HOME;
     failures = await runAll(languages, 'local', (language) => [homeSample(language, 'local', COMPILE_ORIGIN), ...localExampleSamples(language), ...docSamples(language, 'local', COMPILE_ORIGIN)].map((sample) => {
-      if (!sample.code.includes(ENGINE_SOCKET_IN_SAMPLES)) throw new Error(`${sample.name} does not name ${ENGINE_SOCKET_IN_SAMPLES}`);
-      return { ...sample, code: sample.code.replaceAll(ENGINE_SOCKET_IN_SAMPLES, socket) };
+      if (sample.code.includes(ENGINE_SOCKET_IN_DOCS)) throw new Error(`${sample.name} names the socket ${ENGINE_SOCKET_IN_DOCS} instead of its adapters`);
+      return sample;
     }), env);
-    count = `every ${languages.join(', ')} local sample ran against the engine at ${socket}, each worked example giving its recorded value`;
+    count = `every ${languages.join(', ')} local sample ran against the engine in this user's engine folder, each worked example giving its recorded value`;
   } else {
     throw new Error(usage);
   }

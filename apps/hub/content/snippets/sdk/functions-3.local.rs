@@ -1,4 +1,4 @@
-use jeff_sdk::{Call, Context, Jeff, Labels, LocalOptions};
+use jeff_sdk::{Call, Context, Jeff, Labels, StartOptions};
 use serde_json::json;
 
 #[tokio::main]
@@ -21,7 +21,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         }))?),
     ];
 
-    let jeff = Jeff::local("/tmp/jeff.sock", LocalOptions::new(30_000)).await?;
+    let jeff = Jeff::local_adapters(["guard", "triage"], StartOptions::default()).await?;
 
     for (call, decision) in calls.iter().zip(jeff.decide(&calls).await?) {
         println!("{} {:?} {:?}", call.function, decision.value, decision.confidence);

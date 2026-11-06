@@ -1,5 +1,5 @@
-//! A fake engine on a Unix socket: answers hello, installed, health and predict (with `answers`), like
-//! `jeff runtime serve` over a fake model.
+//! A fake engine on a Unix socket: answers hello, installed, health, predict (with `answers`) and serve (refused
+//! with `serve_refusal` when set), like `jeff runtime serve` over a fake model. Every request it reads is recorded.
 
 use std::path::PathBuf;
 use std::sync::Arc;
@@ -20,6 +20,8 @@ pub struct EngineServerOptions {
     /// Listen here (the caller owns the directory); a temporary directory of the server's own when None.
     pub path: Option<PathBuf>,
     pub predict_delay_ms: Option<u64>,
+    /// The error (`{"type", "message"}`) a `serve` request is refused with; when None, a `serve` is accepted.
+    pub serve_refusal: Option<Json>,
 }
 
 pub struct EngineServer {
@@ -27,6 +29,8 @@ pub struct EngineServer {
     answering: Arc<AtomicBool>,
     accept: JoinHandle<()>,
     connections: Arc<std::sync::Mutex<Vec<JoinHandle<()>>>>,
+    /// Every request read, on every connection, in the order read.
+    pub received: Arc<std::sync::Mutex<Vec<Json>>>,
     _directory: Option<tempfile::TempDir>,
 }
 
@@ -54,12 +58,15 @@ pub async fn start(options: EngineServerOptions) -> EngineServer {
     let listener = UnixListener::bind(&path).unwrap();
     let answering = Arc::new(AtomicBool::new(true));
     let connections: Arc<std::sync::Mutex<Vec<JoinHandle<()>>>> = Default::default();
+    let received: Arc<std::sync::Mutex<Vec<Json>>> = Default::default();
     let options = Arc::new(options);
     let accept = {
         let (answering, connections) = (Arc::clone(&answering), Arc::clone(&connections));
+        let received = Arc::clone(&received);
         tokio::spawn(async move {
             while let Ok((stream, _)) = listener.accept().await {
                 let (options, answering) = (Arc::clone(&options), Arc::clone(&answering));
+                let received = Arc::clone(&received);
                 connections.lock().unwrap().push(tokio::spawn(async move {
                     let (mut read, write) = stream.into_split();
                     let write = Arc::new(tokio::sync::Mutex::new(write));
@@ -73,6 +80,7 @@ pub async fn start(options: EngineServerOptions) -> EngineServer {
                             return;
                         }
                         let message = unpack(&body).unwrap();
+                        received.lock().unwrap().push(message.clone());
                         let id = message.get("id").cloned().unwrap_or(Json::Null);
                         let installed: Vec<Json> = options.installed.iter().map(|id| json!(id)).collect();
                         let reply = match message["op"].as_str().unwrap() {
@@ -85,6 +93,15 @@ pub async fn start(options: EngineServerOptions) -> EngineServer {
                             "health" => json!({"id": id, "ok": true, "result": {"status": "ready", "backend": "fake",
                                 "adapters": installed, "adapters_version": 1,
                                 "base": {"id": "jeff-base", "version": "v1.3", "checkpoint": "fake", "max_options": 252, "format": "bf16"}}}),
+                            "serve" => match &options.serve_refusal {
+                                Some(error) => json!({"id": id, "ok": false, "error": {"type": error["type"],
+                                    "message": error["message"], "details": {"adapters_version": 1}}}),
+                                None => {
+                                    let mut adapters = vec![json!("base")];
+                                    adapters.extend(message["adapters"].as_array().unwrap().iter().cloned());
+                                    json!({"id": id, "ok": true, "result": {"adapters": adapters, "adapters_version": 2}})
+                                }
+                            },
                             "predict" if answering.load(Ordering::SeqCst) => {
                                 let adapter = message["adapter"].as_str().unwrap().to_owned();
                                 let probabilities: Vec<Json> = message["rows"].as_array().unwrap().iter()
@@ -115,6 +132,7 @@ pub async fn start(options: EngineServerOptions) -> EngineServer {
         answering,
         accept,
         connections,
+        received,
         _directory: directory,
     }
 }
@@ -143,6 +161,7 @@ pub fn answering(
         installed: installed.iter().map(|id| (*id).to_owned()).collect(),
         path: None,
         predict_delay_ms: None,
+        serve_refusal: None,
     }
 }
 

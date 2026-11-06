@@ -16,13 +16,14 @@ import { ScreenTabs } from '../ScreenTabs';
 
 const NOTE_LINK = 'text-screen-text underline underline-offset-2 hover:text-white';
 
-// What local code needs: Python runs the models in its own process; every other SDK attaches to a Jeff engine.
+// What local code needs: Python runs the models in its own process; every other SDK finds the Jeff engine running for
+// this user or starts it, which needs uv (contract/local-engine.md).
 function LocalNote({ language }: { language: SdkLanguage }) {
   return (
     <p className="mx-1.5 mb-1.5 bg-screen px-4 pb-3 text-xs leading-5 text-screen-text">
       {language === 'python'
         ? <>Runs the models in this process, with the engine package <code className="bg-white/10 px-1 font-mono">jeff-runtime</code> installed; the first run downloads the open adapters and base model from Hugging Face.</>
-        : <>Attaches to a Jeff engine on your machine serving the adapters this code calls: start it with <code className="bg-white/10 px-1 font-mono">jeff runtime serve</code>, as <Link to="/docs/sdk/connect#section-on-your-machine-free" className={NOTE_LINK}>Connect</Link> shows.</>}
+        : <>Uses the Jeff engine running on your machine, or starts it, which needs <a href="https://docs.astral.sh/uv/" className={NOTE_LINK}>uv</a>; the first start downloads the engine and base model (about 2 GB, once). <Link to="/docs/sdk/connect#section-on-your-machine-free" className={NOTE_LINK}>Connect</Link> says more.</>}
     </p>
   );
 }

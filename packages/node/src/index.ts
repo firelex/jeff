@@ -20,6 +20,7 @@ export {
 export { MAX_TIMEOUT_MS, checkTimeoutMs, type LocalOptions } from "./client.js";
 export { MAX_FRAME, PROTOCOL_VERSION } from "./protocol.js";
 export { RECONNECT_INTERVAL_MS, SocketEngine, startCommand } from "./socket-engine.js";
+export type { StartOptions } from "./local-engine.js";
 export {
   MAX_CALLS, RemoteBoundFunction, RemoteJeff, RestTransport, ServedFunctions,
   type RemoteOptions, type TokenSource, type Transport, type WirePolicy,

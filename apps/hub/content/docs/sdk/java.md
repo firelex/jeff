@@ -15,23 +15,27 @@ The package is on Maven Central as `ai.jeffhub:jeff-sdk`. With Maven:
 <dependency>
   <groupId>ai.jeffhub</groupId>
   <artifactId>jeff-sdk</artifactId>
-  <version>1.4.0</version>
+  <version>1.4.1</version>
 </dependency>
 ```
 
 With Gradle:
 
 ```kotlin illustrative
-implementation("ai.jeffhub:jeff-sdk:1.4.0")
+implementation("ai.jeffhub:jeff-sdk:1.4.1")
 ```
 
 It brings two libraries with it: Jackson's streaming parser and generator, `jackson-core` 2.22.4 (not
 `jackson-databind`), and `org.yaml:snakeyaml` 2.7. The jar also carries a copy of the catalogue. Its source is in the
 repository [github.com/firelex/jeff](https://github.com/firelex/jeff), in `packages/java`.
 
-To run the models [on your own machine](/docs/sdk/connect#section-on-your-machine-free) you also need the Jeff engine,
-which is written in Python: install `jeff-sdk` and `jeff-runtime` as described in [Install](/docs/sdk/install), and
-start it with `jeff runtime serve`. The model runs only in the engine; the Java SDK talks to it.
+To run the models [on your own machine](/docs/sdk/connect#section-on-your-machine-free), install uv once
+(`curl -LsSf https://astral.sh/uv/install.sh | sh`, see [docs.astral.sh/uv](https://docs.astral.sh/uv/)) and call
+local mode with the adapters you use: `Jeff.local(List.of("guard"))`. The model runs only in the Jeff engine, which
+is written in Python; the Java SDK finds the engine running for you on this machine, or starts it with uv (the
+first start downloads about 2 GB, once), and talks to it. It runs on a Mac with Apple silicon or on Linux with an
+NVIDIA GPU. To use an engine you start yourself with `jeff runtime serve`, pass its socket instead:
+`Jeff.local(socketPath, LocalOptions.timeoutMs(ms))` ([Using an engine you start yourself](/docs/sdk/connect#section-using-an-engine-you-start-yourself)).
 
 ## Idioms
 
@@ -67,7 +71,10 @@ inventing a value. No error message, note or `toString()` includes a token.
   else `InvalidRequest`. Over HTTP it bounds waiting for a free connection, connecting (running out is
   `BackendUnavailable`), waiting for the answer's headers and each wait for more of its body (`DeadlineExceeded`);
   `close()` ends every request still in flight. Over the channel a request also waits at most `timeoutMs` for its
-  turn to be written, else `DeadlineExceeded`, and it is never sent.
+  turn to be written, else `DeadlineExceeded`, and it is never sent. Local mode with a list of adapters takes an
+  optional `StartOptions.defaults().withTimeoutMs(ms).withStartTimeoutMs(ms)`, each a whole number of milliseconds
+  of at least 1, by default 60,000 and 1,800,000 (30 minutes); see
+  [what local mode does](/docs/sdk/connect#section-what-local-mode-does-in-node-rust-c-and-java).
 - **Proxies**: HTTP requests as httpx chooses them (`HTTPS_PROXY`, `HTTP_PROXY`, `ALL_PROXY`, each also in lower case,
   which wins, and `NO_PROXY`; `*` turns every proxy off). A user name and password in the proxy URL become a
   `Proxy-Authorization` header. The channel as the websockets library chooses: for `wss://` the first of

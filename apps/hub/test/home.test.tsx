@@ -24,7 +24,7 @@ describe('loader (real)', () => {
       expect(e.remote).toContain('jeff.safety.guard.attempt');
       expect(e.local).toMatch(/Jeff\w*[.:]+[Ll]ocal/);
       expect(e.local).toContain('jeff.safety.guard.attempt');
-      expect(e.package).toBe(e.language === 'csharp' ? 'Jeff.Sdk' : e.language === 'java' ? 'ai.jeffhub:jeff-sdk:1.4.0' : 'jeff-sdk');
+      expect(e.package).toBe(e.language === 'csharp' ? 'Jeff.Sdk' : e.language === 'java' ? 'ai.jeffhub:jeff-sdk:1.4.1' : 'jeff-sdk');
     }
     const entries = catalogue();
     expect(data.adapterCount).toBe(entries.length);
@@ -62,7 +62,7 @@ const PYTHON_REMOTE_EXAMPLE = [
 const NODE_LOCAL_EXAMPLE = [
   'import { Jeff } from "jeff-sdk";',
   '',
-  'const jeff = await Jeff.local("/tmp/jeff.sock", { timeoutMs: 30000 });',
+  'const jeff = await Jeff.local(["guard"]);',
   'const guard = await jeff.function("jeff.safety.guard.attempt", {',
   '  context: {',
   '    application: "A support chat assistant for an online shop.",',
@@ -207,7 +207,8 @@ describe('Home', () => {
       .toEqual(['On your machine (free)', 'Through the API']);
     expect(await screen.findByRole('heading', { name: CODE_MODE_LABELS.local })).toBeTruthy();
     expect(screen.getByRole('heading', { name: CODE_MODE_LABELS.api })).toBeTruthy();
-    expect(screen.getByText('pip install jeff-sdk jeff-runtime')).toBeTruthy();
+    expect(screen.getByText(/^pip install jeff-sdk "jeff-runtime\[mac\]"\s+# Apple silicon$/)).toBeTruthy();
+    expect(screen.getByText(/^pip install jeff-sdk "jeff-runtime\[cuda\]"\s+# NVIDIA GPU$/)).toBeTruthy();
     expect(screen.getByText('pip install jeff-sdk')).toBeTruthy();
   });
 
@@ -244,8 +245,10 @@ describe('Home', () => {
     const npmInstallLines = screen.getAllByText('npm install jeff-sdk');
     expect(npmInstallLines).toHaveLength(2);
     for (const line of npmInstallLines) expect(isShown(line)).toBe(true);
-    expect(isShown(screen.getByText('pip install jeff-runtime'))).toBe(true);
-    expect(isShown(screen.getByText(/jeff runtime serve --socket \/tmp\/jeff\.sock/))).toBe(true);
+    // Local mode starts the engine itself: the only other install is uv, and no engine command is shown.
+    expect(isShown(screen.getByText('curl -LsSf https://astral.sh/uv/install.sh | sh'))).toBe(true);
+    expect(screen.queryByText('pip install jeff-runtime')).toBeNull();
+    expect(screen.queryByText(/jeff runtime serve/)).toBeNull();
     // The packages are not published yet; the home page says so and links to the Node install page.
     const install = screen.getByRole('link', { name: 'Install the Node SDK' });
     expect(install.getAttribute('href')).toBe('/docs/sdk/node');

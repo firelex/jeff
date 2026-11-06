@@ -3,7 +3,7 @@
     <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
     <RootNamespace>Jeff.Sdk</RootNamespace>
     <PackageId>Jeff.Sdk</PackageId>
-    <Version>1.4.0</Version>
+    <Version>1.4.1</Version>
     <Description>The Jeff SDK for .NET: call Jeff's decision functions, route, escalate and run decision graphs, against an engine on this machine or a Jeff server.</Description>
     <Authors>Casperaki Multimedia Solutions Ltd.</Authors>
     <Company>Casperaki Multimedia Solutions Ltd.</Company>

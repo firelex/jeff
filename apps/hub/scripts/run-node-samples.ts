@@ -10,11 +10,13 @@
 //                   against the server at JEFF_HUB_TEST_URL with the key in JEFF_API_KEY (both read from the
 //                   environment, never from the command line; the key is never printed). A worked example's printed
 //                   value must be its recorded value, and its confidence within 0.02 of the recorded one.
-//   local <socket>  the Node snippets marked `// local`, content/home-example-local.mjs and every worked example's
-//                   "On your machine" Node code (local-examples.ts), attached to the engine listening on <socket>
-//                   (each sample's /tmp/jeff.sock is replaced by it; the engine must serve every adapter
-//                   local-examples.ts lists). A worked example's printed value must be its recorded value; its
-//                   confidence is not compared (the recorded one is the live server's, on another machine).
+//   local           the Node snippets marked `// local`, content/home-example-local.mjs and every worked example's
+//                   "On your machine" Node code (local-examples.ts). Each calls local mode with its adapters, so it
+//                   uses the engine listening in this user's engine folder (contract/local-engine.md: engine.sock
+//                   in the cache folder's jeff/engine), which the caller has started serving every adapter
+//                   local-examples.ts lists, and the guard, triage and spam (a sample that names an engine socket
+//                   is refused). A worked example's printed value must be its recorded value; its confidence is not
+//                   compared (the recorded one is the live server's, on another machine).
 //
 // Each sample runs as its own `node` process, from a temporary copy of the snippets folder (a sample may read a file
 // beside it, such as graphs-message-check.yaml) where `jeff-sdk` resolves to packages/node, built first. Every
@@ -29,7 +31,9 @@ import { localCode, localExamples } from './local-examples';
 
 const SNIPPETS = path.join(HUB_ROOT, 'content/snippets/sdk');
 const CONFIDENCE_TOLERANCE = 0.02;
-const ENGINE_SOCKET_IN_SAMPLES = '/tmp/jeff.sock';
+// The socket the docs name for an engine started by hand: no local sample may use it, since local mode with adapters
+// is what the pages show.
+const ENGINE_SOCKET_IN_DOCS = '/tmp/jeff.sock';
 
 type Marker = 'offline' | 'local' | 'remote';
 interface Sample { name: string; code: string; check?: (stdout: string) => string | null }
@@ -152,11 +156,13 @@ function run(samples: Sample[], substitute: (code: string) => string, env: NodeJ
 }
 
 function main(argv: string[]): void {
-  const [mode, socket] = argv;
+  const [mode, extra] = argv;
   let samples: Sample[];
   let substitute: (code: string) => string;
-  // The samples get only what they need from the environment: PATH and HOME for node itself, and the key.
+  // The samples get only what they need from the environment: PATH and HOME for node itself (and for local mode's
+  // engine folder, with XDG_CACHE_HOME when it is set, as on Linux it names that folder), and the key.
   const env: NodeJS.ProcessEnv = { PATH: required('PATH'), HOME: required('HOME') };
+  if (process.env.XDG_CACHE_HOME !== undefined) env.XDG_CACHE_HOME = process.env.XDG_CACHE_HOME;
   if (mode === 'offline') {
     samples = snippets('offline');
     substitute = (code) => code;
@@ -166,17 +172,17 @@ function main(argv: string[]): void {
     samples = remoteSamples(url);
     substitute = (code) => code.replaceAll('{{origin}}', url);
   } else if (mode === 'local') {
-    if (socket === undefined) throw new Error('Usage: run-node-samples.ts local <engine socket>');
+    if (extra !== undefined) throw new Error('Usage: run-node-samples.ts local (it takes no socket: the samples find the engine themselves)');
     samples = [
       ...snippets('local'),
       { name: 'content/home-example-local.mjs', code: fs.readFileSync(path.join(HUB_ROOT, 'content/home-example-local.mjs'), 'utf8') },
       ...localExamples().map((l) => ({ name: `example ${l.example.id} (Node, local)`, code: localCode(l, 'node'), check: answerCheck(l.example.recorded!, false) })),
     ];
-    const missing = samples.filter((s) => !s.code.includes(ENGINE_SOCKET_IN_SAMPLES)).map((s) => s.name);
-    if (missing.length > 0) throw new Error(`Local samples that do not name ${ENGINE_SOCKET_IN_SAMPLES}: ${missing.join(', ')}`);
-    substitute = (code) => code.replaceAll(ENGINE_SOCKET_IN_SAMPLES, socket);
+    const named = samples.filter((s) => s.code.includes(ENGINE_SOCKET_IN_DOCS)).map((s) => s.name);
+    if (named.length > 0) throw new Error(`Local samples that name the socket ${ENGINE_SOCKET_IN_DOCS} instead of their adapters: ${named.join(', ')}`);
+    substitute = (code) => code;
   } else {
-    throw new Error('Usage: run-node-samples.ts offline | remote | local <engine socket>');
+    throw new Error('Usage: run-node-samples.ts offline | remote | local');
   }
   const failures = run(samples, substitute, env, mode === 'offline');
   if (failures.length > 0) {

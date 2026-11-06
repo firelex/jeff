@@ -11,6 +11,7 @@ import { type CodeFunction, type Graph, type GraphResult, graphFromDict, isGraph
 import { type Calibration, type FunctionSpec, calibrationFor } from "./manifest.js";
 import { pyRepr } from "./pyformat.js";
 import { checkRouters, dispatch } from "./routing.js";
+import { type LocalEnvironment, type StartOptions, processEnvironment, sdkVersion, startOrFind } from "./local-engine.js";
 import { SocketEngine } from "./socket-engine.js";
 import type { RemoteJeff, RemoteOptions, TokenSource } from "./remote.js";
 import type { JSONValue } from "./types.js";
@@ -119,10 +120,23 @@ export class Jeff {
     return new Jeff(await jeffParts(engine, catalogue));
   }
 
-  /** A Jeff over the engine already running on this machine at `socketPath` (start it with `jeff runtime serve`).
-   * It never starts an engine and never falls back to a server: no engine there is an EngineError naming the path
-   * and the command that starts one. */
-  static async local(socketPath: string, options: LocalOptions): Promise<Jeff> {
+  /** With a list of adapter IDs or aliases: a Jeff over the engine running for this user on this machine, started
+   * now through uvx when none is (contract/local-engine.md); the first start prints one line to stderr and downloads
+   * about 2 GB once. With a socket path: a Jeff over exactly the engine listening there (start it with `jeff runtime
+   * serve`); that form never starts an engine and never falls back to a server: no engine there is an EngineError
+   * naming the path and the command that starts one. */
+  static async local(adapters: readonly string[], options?: StartOptions): Promise<Jeff>;
+  static async local(socketPath: string, options: LocalOptions): Promise<Jeff>;
+  static async local(target: string | readonly string[], options?: LocalOptions | StartOptions): Promise<Jeff> {
+    if (Array.isArray(target)) return localWithEnvironment(target, (options ?? {}) as StartOptions, processEnvironment());
+    if (typeof target !== "string") {
+      throw new InvalidRequest(`Jeff.local takes a list of adapters or an engine socket path; got ${pyRepr(target)}`);
+    }
+    if (options === undefined) throw new InvalidRequest("Jeff.local with a socket path needs its options ({ timeoutMs })");
+    return Jeff.localSocket(target, options as LocalOptions);
+  }
+
+  private static async localSocket(socketPath: string, options: LocalOptions): Promise<Jeff> {
     checkTimeoutMs(options.timeoutMs);
     const engine = await SocketEngine.connect(socketPath, { timeoutMs: options.timeoutMs });
     try {
@@ -260,5 +274,19 @@ export class Jeff {
 
   async close(): Promise<void> {
     await this.engine.close?.();
+  }
+}
+
+/** Jeff.local with a list of adapters, in a given environment (the tests give their own HOME, PATH and machine). Not
+ * exported from the package. */
+export async function localWithEnvironment(adapters: readonly string[], options: StartOptions,
+  env: LocalEnvironment): Promise<Jeff> {
+  const catalogue = Catalogue.shipped();
+  const engine = await startOrFind(adapters, options, catalogue, env, sdkVersion());
+  try {
+    return await Jeff.create(engine, catalogue);
+  } catch (error) {
+    await engine.close();
+    throw error;
   }
 }

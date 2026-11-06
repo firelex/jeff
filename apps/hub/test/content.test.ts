@@ -86,7 +86,7 @@ it('opens "Why Jeff" with "What are System 1 models?", which has a recorded exam
 
 it('the quick start sets up both ways to run, and its example offers both', () => {
   const body = docs().pages.find((page) => page.id === 'quickstart')?.body ?? '';
-  for (const text of ['### On your machine (free)', '### Through the API', '| | On your machine (free) | Through the API |', 'pip install jeff-sdk jeff-runtime', 'jeff.Jeff.local(["guard"])',
+  for (const text of ['### On your machine (free)', '### Through the API', '| | On your machine (free) | Through the API |', 'pip install jeff-sdk "jeff-runtime[mac]"', 'jeff.Jeff.local(["guard"])',
     'Hugging Face', '/docs/sdk/connect#section-only-on-an-nvidia-gpu-the-prefix-pool', 'Every adapter in the catalogue']) {
     expect(body, text).toContain(text);
   }

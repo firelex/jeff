@@ -1,6 +1,7 @@
 """The jeff command: test, calibrate, gen, runtime serve, runtime quantize, runtime gate, runtime health, mcp."""
 
 import argparse
+import math
 import json
 import sys
 from collections.abc import Callable, Mapping
@@ -10,7 +11,7 @@ from pathlib import Path
 from jeff.catalogue import Catalogue
 from jeff.client import Jeff
 from jeff.engine import check_capacity, format_id_of
-from jeff.errors import JeffError, ManifestError, RuntimeMissing, Unauthorised
+from jeff.errors import EngineError, JeffError, ManifestError, RuntimeMissing, Unauthorised
 from jeff.evaluate import (BATCH, Report, calibration_set, correct, engine_score, mine_rows, mirror_read, published_set,
                            resolve, run, score, template_rows)
 from jeff.gate import Int4Identity
@@ -357,6 +358,9 @@ def cmd_runtime_serve(args: argparse.Namespace) -> int:
     from jeff.gate import GatedBase, check_served
 
     # checked before anything is downloaded or loaded: a bad setting fails at once, naming the setting
+    if args.exit_when_unused_s is not None and not (math.isfinite(args.exit_when_unused_s)
+                                                    and args.exit_when_unused_s > 0):
+        raise EngineError(f"--exit-when-unused-s {args.exit_when_unused_s!r}: give a number of seconds above 0")
     settings = Settings(window_ms=args.batch_window_ms, max_batch_rows=args.max_batch_rows,
                         queue_limit_rows=args.queue_limit_rows)
     check_prepare_workers(args.prepare_workers)
@@ -460,11 +464,22 @@ def cmd_runtime_serve(args: argparse.Namespace) -> int:
         run_task = asyncio.create_task(server.run())
         stop_wait = asyncio.create_task(stopping.wait())
         broken_wait = asyncio.create_task(server.wait_broken())
+        waits = {run_task, stop_wait, broken_wait}
+        unused_wait = None
+        if args.exit_when_unused_s is not None:
+            unused_wait = asyncio.create_task(server.wait_unused(args.exit_when_unused_s))
+            waits.add(unused_wait)
         # Whichever finishes first: a stop signal, run_task failing outright (e.g. another engine already serving
-        # this socket), or the GPU thread dying. Either way, close and stop before this coroutine returns, so a
-        # failure is reported instead of leaving the process hanging for a signal that will never come.
-        await asyncio.wait({run_task, stop_wait, broken_wait}, return_when=asyncio.FIRST_COMPLETED)
+        # this socket), the GPU thread dying, or (--exit-when-unused-s) no client for that long. Either way, close
+        # and stop before this coroutine returns, so a failure is reported instead of leaving the process hanging for
+        # a signal that will never come.
+        await asyncio.wait(waits, return_when=asyncio.FIRST_COMPLETED)
         stop_wait.cancel()
+        if unused_wait is not None:
+            if unused_wait.done():
+                logging.getLogger("jeff.engine").warning("No client has been connected for %s seconds "
+                                                         "(--exit-when-unused-s); stopping", args.exit_when_unused_s)
+            unused_wait.cancel()
         broken = broken_wait.result() if broken_wait.done() else None
         broken_wait.cancel()
         if broken is not None:
@@ -875,6 +890,11 @@ def main(argv: list[str] | None = None) -> int:
                             "bfloat16 base; refused unless its gate.json (jeff runtime gate) passes for every adapter "
                             "served, at start and on every serve and reload")
     serve.add_argument("--max-tokens", type=int)
+    serve.add_argument("--exit-when-unused-s", type=float, metavar="SECONDS",
+                       help="stop (exit status 0) once no client has been connected for this many seconds in a row, "
+                            "counted from the start and from each time the last client disconnects; local mode in "
+                            "the Node, Rust, C# and Java SDKs starts its engine with 300. Without it, the engine runs "
+                            "until it is stopped")
     serve.set_defaults(handler=cmd_runtime_serve)
     quantize = runtime_commands.add_parser("quantize", help="Write the INT4 base of a bfloat16 base (NVIDIA)")
     quantize.add_argument("--base", required=True, metavar="FOLDER", help="the bfloat16 base folder to quantise")

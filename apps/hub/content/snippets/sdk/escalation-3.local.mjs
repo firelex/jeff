@@ -20,7 +20,7 @@ async function askAnLlm(question) {
   return await callYourLlm(prompt); // must return one of the option keys
 }
 
-const jeff = await Jeff.local("/tmp/jeff.sock", { timeoutMs: 30000 });
+const jeff = await Jeff.local(["guard"]);
 
 const guard = await jeff.function("guard.attempt", {
   context: { application: "A support chat assistant for an online shop.", source: "user message" },

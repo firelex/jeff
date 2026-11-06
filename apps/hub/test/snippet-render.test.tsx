@@ -37,7 +37,7 @@ describe('a snippet group', () => {
     expect(screen.getAllByText('Jeff::remote // rust')).toHaveLength(2);
     fireEvent.click(screen.getByRole('button', { name: CODE_MODE_LABELS.local }));
     expect(screen.getByText('Jeff::local // rust')).toBeTruthy();
-    expect(screen.getByText(/Attaches to a Jeff engine on your machine/)).toBeTruthy();
+    expect(screen.getByText(/Uses the Jeff engine running on your machine, or starts it/)).toBeTruthy();
     expect(window.localStorage.getItem(CODE_LANGUAGE_STORAGE_KEY)).toBe('rust');
     expect(window.localStorage.getItem(CODE_MODE_STORAGE_KEY)).toBe('local');
   });

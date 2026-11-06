@@ -6,14 +6,15 @@ namespace Jeff.Sdk.Tests.Helpers;
 
 /// <summary>A fake engine on a Unix socket: answers hello, installed, health and predict (with `answers`, given the
 /// adapter and each row's JSON), like `jeff runtime serve` over a fake model; with predictDelay, each predict is
-/// answered that long after it arrives. Without `path` it listens in a temporary folder of its own.</summary>
+/// answered that long after it arrives. A serve is recorded in ServeRequests and refused as an engine refuses an
+/// adapter it cannot load, unless AcceptServe is set, when the list asked for becomes the installed one. Without `path` it listens in a temporary folder of its own.</summary>
 internal sealed class EngineServer : IAsyncDisposable
 {
     private readonly Socket listener;
     private readonly CancellationTokenSource stopping = new();
     private readonly List<Socket> connections = new();
     private readonly Func<string, JsonObject, IReadOnlyList<double>> answers;
-    private readonly IReadOnlyList<string> installed;
+    private volatile IReadOnlyList<string> installed;
     private readonly TimeSpan? predictDelay;
     private readonly SocketPaths? ownFolder;
     private readonly Task accepting;
@@ -43,6 +44,12 @@ internal sealed class EngineServer : IAsyncDisposable
     }
 
     public void StopAnswering() => answering = false;
+
+    /// <summary>Whether a serve request is carried out (true) or refused with UnknownFunction (false, the default).</summary>
+    public bool AcceptServe { get; set; }
+
+    /// <summary>The adapters of every serve request received, in order.</summary>
+    public List<List<string>> ServeRequests { get; } = new();
 
     /// <summary>When set, every reply to a request (not the hello) is passed through it before it is written, so a test
     /// can send a malformed answer.</summary>
@@ -143,6 +150,30 @@ internal sealed class EngineServer : IAsyncDisposable
                             },
                         },
                     });
+                }
+                else if (op == "serve")
+                {
+                    var asked = message["adapters"]!.AsArray().Select(item => item!.GetValue<string>()).ToList();
+                    lock (ServeRequests) ServeRequests.Add(asked);
+                    if (AcceptServe)
+                    {
+                        installed = asked.Where(adapter => adapter != "base").ToList();
+                        var adapters = new JsonArray("base");
+                        foreach (var adapter in installed) adapters.Add(adapter);
+                        await Write(new JsonObject { ["id"] = id, ["ok"] = true, ["result"] = new JsonObject { ["adapters"] = adapters, ["adapters_version"] = version } });
+                    }
+                    else
+                    {
+                        var unknown = asked.Where(adapter => adapter != "base" && !installed.Contains(adapter)).Order(StringComparer.Ordinal);
+                        await Write(new JsonObject
+                        {
+                            ["id"] = id, ["ok"] = false, ["error"] = new JsonObject
+                            {
+                                ["type"] = "UnknownFunction", ["message"] = $"not available to serve from this engine: {string.Join(", ", unknown)}",
+                                ["details"] = new JsonObject { ["adapters_version"] = version },
+                            },
+                        });
+                    }
                 }
                 else if (op == "predict" && answering)
                 {

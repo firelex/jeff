@@ -8048,7 +8048,7 @@ export const SDK_LANGUAGES_SETTING: unknown = {
   },
   "java": {
     "shown": true,
-    "package": "ai.jeffhub:jeff-sdk:1.4.0"
+    "package": "ai.jeffhub:jeff-sdk:1.4.1"
   }
 };
 

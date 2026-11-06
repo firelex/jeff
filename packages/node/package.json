@@ -1,6 +1,6 @@
 {
   "name": "jeff-sdk",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "type": "module",
   "description": "The Jeff SDK for Node: call Jeff's decision functions, route, escalate and run decision graphs, against an engine on this machine or a Jeff server.",
   "keywords": [

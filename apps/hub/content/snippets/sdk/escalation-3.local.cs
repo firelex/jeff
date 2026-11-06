@@ -19,7 +19,7 @@ static async Task<string?> AskAnLlm(Question question, CancellationToken cancell
     return await CallYourLlm(prompt, cancellationToken); // must return one of the option keys
 }
 
-await using var jeff = await JeffClient.LocalAsync("/tmp/jeff.sock", new LocalOptions { Timeout = TimeSpan.FromSeconds(30) });
+await using var jeff = await JeffClient.LocalAsync(new[] { "guard" });
 
 await using var guard = await jeff.FunctionAsync("guard.attempt", new CallOptions
 {

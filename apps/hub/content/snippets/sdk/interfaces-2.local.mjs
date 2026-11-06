@@ -5,7 +5,7 @@ const shop = { company: "A furniture shop.", channel: "email" };
 
 const message = "My wardrobe arrived with a broken door and I need it replaced before Friday.";
 
-const jeff = await Jeff.local("/tmp/jeff.sock", { timeoutMs: 30000 });
+const jeff = await Jeff.local(["triage", "guard"]);
 
 const team = await jeff.route(message, { function: "triage.route", context: shop,
   labels: { deliveries: "Deliveries and damaged goods", refunds: "Refunds and returns" } });

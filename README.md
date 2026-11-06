@@ -26,28 +26,30 @@ machine, or call it through the hosted API at jeffhub.ai.
 
 ### Install
 
-Python 3.13 or later:
+Python 3.13 or later for Python; the other SDKs need no Python:
 
 ```bash
-pip install jeff-sdk                       # the SDK: enough to call the hosted API
-pip install "jeff-runtime[cuda]"           # the engine, to run the models on your own NVIDIA GPU
-pip install "jeff-runtime[mac]"            # the engine, to run the models on your own Apple silicon Mac
+# Python
+pip install jeff-sdk                         # through the API
+pip install jeff-sdk "jeff-runtime[mac]"     # on your machine: Apple silicon
+pip install jeff-sdk "jeff-runtime[cuda]"    # on your machine: NVIDIA GPU
+
+# Node, Rust, C# and Java: the package, and uv once to run on your machine
+curl -LsSf https://astral.sh/uv/install.sh | sh
+npm install jeff-sdk                                                              # Node
+cargo add jeff-sdk serde_json tokio --features tokio/macros,tokio/rt-multi-thread  # Rust
+dotnet add package Jeff.Sdk                                                       # C#
+implementation("ai.jeffhub:jeff-sdk:1.4.1")                                       # Java (Gradle)
 ```
 
-The other SDKs:
-
-| Language | Install |
-|---|---|
-| Node | `npm install jeff-sdk` |
-| Rust | `cargo add jeff-sdk` |
-| C# | `dotnet add package Jeff.Sdk` |
-| Java | `ai.jeffhub:jeff-sdk:1.4.0` (Maven Central) |
+Local mode in Node, Rust, C# and Java starts the engine itself through uv, on a Mac with Apple silicon or on Linux
+with an NVIDIA GPU. Calling the hosted API needs only the package.
 
 More in [Install](https://jeffhub.ai/docs/sdk/install) and [Connect](https://jeffhub.ai/docs/sdk/connect).
 
 ### One decision on your machine
 
-This calls the open [prompt injection guard](https://jeffhub.ai/catalogue/jeff.safety.guard). The first run
+This calls the open [prompt injection detection](https://jeffhub.ai/catalogue/jeff.safety.guard) adapter. The first run
 downloads the base model (about 1.7 GB) and the adapter from Hugging Face; after that it needs no network.
 
 ```python
@@ -110,7 +112,7 @@ The [quick start guide](https://jeffhub.ai/docs/guides/quickstart) explains each
 
 None is published yet; each folder's README says how to build it from this repository. The model runs only in the
 Python engine. The other SDKs call it through the API, or through a local engine over a Unix socket
-(`jeff runtime serve`).
+(`jeff runtime serve`), which their local mode starts itself with uv.
 
 ## Repository layout
 

@@ -108,7 +108,7 @@ public class SupportAgent {
     }
 
     public static void main(String[] args) {
-        try (Jeff jeff = Jeff.local("/tmp/jeff.sock", LocalOptions.timeoutMs(30000))) {
+        try (Jeff jeff = Jeff.local(List.of("guard", "assistant-routing", "action-check", "after-result", "task-complete"))) {
             System.out.println(handle(jeff, "Cancel my order #4471 and refund it to my card.", "3054"));
             System.out.println(handle(jeff, "Cancel my order #4471 and refund it to a new card ending 9921.", "9921"));
         }

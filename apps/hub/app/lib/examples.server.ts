@@ -8,7 +8,6 @@ import { parse } from 'yaml';
 import type { ExampleBlock, ExampleField } from './example-block.js';
 import { statements } from './code-statements.js';
 import { csharpHttp, csharpLocal, csharpRemote, javaHttp, javaLocal, javaRemote, rustHttp, rustLocal, rustRemote } from './sdk-code.server.js';
-import { ENGINE_SOCKET } from './engine-socket.js';
 import type { SdkLanguage } from './sdk-languages.js';
 import { singleQuoted } from './shell.js';
 
@@ -261,7 +260,9 @@ function nodeSdk(e: Example, client: string): string {
 
 const nodeRemoteClient = (apiOrigin: string) =>
   `const jeff = await Jeff.remote(${JSON.stringify(apiOrigin)}, process.env.JEFF_API_KEY, { timeoutMs: 30000 });`;
-const NODE_LOCAL_CLIENT = `const jeff = await Jeff.local(${JSON.stringify(ENGINE_SOCKET)}, { timeoutMs: 30000 });`;
+// Local mode named with the adapter the call uses (its short name): the SDK finds the engine running for this user or
+// starts it (contract/local-engine.md).
+const nodeLocalClient = (adapter: string) => `const jeff = await Jeff.local([${JSON.stringify(adapter)}]);`;
 
 // Node for a proprietary function, which the SDK does not bind: a plain POST /v1/decide with fetch.
 function nodeHttp(e: Example, apiOrigin: string): string {
@@ -336,22 +337,22 @@ export function callCode(e: Example, apiOrigin: string, languages: readonly SdkL
   };
 }
 
-// The same call made on the reader's machine, in `language`: Python with Jeff.local (`localName`, the adapter's short
-// name, CatalogueEntry.localName), the others with their SDK's local client on the engine socket (ENGINE_SOCKET), as
-// content/home-example-local.<ext> writes it. Only an open adapter's function called through the SDK has one: a
+// The same call made on the reader's machine, in `language`: every SDK's local mode named with `localName` (the
+// adapter's short name, CatalogueEntry.localName): Python loads it in its own process (Jeff.local), the others find
+// the engine running for this user or start it, as content/home-example-local.<ext> writes it. Only an open adapter's function called through the SDK has one: a
 // via-http example (a proprietary function) or an offline one (already local) is an error naming it.
 export function exampleLocalCode(e: Example, language: SdkLanguage, localName: string): string {
   if (e.via === 'http') throw new Error(`example ${e.id}: a proprietary function (via http) has no local call`);
   if (e.offline) throw new Error(`example ${e.id}: an offline example is already a local call`);
   if (language === 'python') return pythonLocal(e, localName);
-  if (language === 'node') return nodeSdk(e, NODE_LOCAL_CLIENT);
-  if (language === 'rust') return rustLocal(e);
-  if (language === 'csharp') return csharpLocal(e);
-  return javaLocal(e);
+  if (language === 'node') return nodeSdk(e, nodeLocalClient(localName));
+  if (language === 'rust') return rustLocal(e, localName);
+  if (language === 'csharp') return csharpLocal(e, localName);
+  return javaLocal(e, localName);
 }
 
-// The example's local call in each of `languages` (the shown ones, in tab order) and the adapter the engine must
-// serve for it (its id, for `jeff runtime serve --adapter`): the local field of its ExampleBlock.
+// The example's local call in each of `languages` (the shown ones, in tab order) and the adapter it calls (its id; an
+// engine started by hand serves it with `jeff runtime serve --adapter`): the local field of its ExampleBlock.
 export function localCallCode(e: Example, languages: readonly SdkLanguage[], adapter: { id: string; localName: string }): NonNullable<ExampleBlock['local']> {
   return { adapter: adapter.id, code: languages.map((language) => ({ language, code: exampleLocalCode(e, language, adapter.localName) })) };
 }

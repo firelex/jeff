@@ -62,7 +62,7 @@ error_types!(
     EscalationBudgetExceeded => "An escalation ran past its budget_ms.",
     InvalidPolicy => "on_low_confidence is not valid for this call.",
     GraphError => "A decision graph is invalid or cannot run.",
-    RuntimeMissing => "Local mode needs the jeff-runtime package.",
+    RuntimeMissing => "Local mode needs the jeff-runtime package (Python), or uv to start the engine (Node, Rust, C#, Java).",
     ProprietaryWeights => "A proprietary adapter's weights need a licence or a local folder.",
     CalibrationError => "Calibration cannot reach the target or has no data.",
     EngineError => "The engine failed or broke its contract.",

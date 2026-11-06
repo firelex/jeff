@@ -10,8 +10,15 @@ only on .NET 10 so far.
 ## Two ways to run
 
 **Local** (the fastest): the SDK talks straight to a Jeff engine running on the same machine, over the engine's Unix
-socket. There is no server in between. The SDK never starts the engine; start it yourself (the model runs only in the
-Python engine) and keep it running with your process manager:
+socket. There is no server in between. With a list of adapters, `JeffClient.LocalAsync(new[] { "guard" }, options?)`
+finds the engine running for this user (its socket in `~/Library/Caches/jeff/engine` on macOS, `$XDG_CACHE_HOME/jeff/engine`
+or `~/.cache/jeff/engine` on Linux) or starts one through `uvx` (`jeff-runtime[mac]` or `[cuda]` of this package's
+version), as `contract/local-engine.md` specifies; it needs uv, and a Mac with Apple silicon or Linux with an NVIDIA
+GPU. .NET cannot start a process in a process group of its own, so the engine is started through a shell: `/bin/bash`
+with `set -m` on macOS, `/bin/sh` and `setsid` on Linux (needed there; a missing setsid is `RuntimeMissing`). The
+script sends the engine's output to `engine.log` and checks that the engine leads a process group of its own (exit
+status 125, an `EngineError`, when it does not). With a socket path, the SDK never starts anything; start the engine
+yourself (the model runs only in the Python engine) and keep it running with your process manager:
 
 ```bash
 jeff runtime serve --socket /tmp/jeff.sock --adapter jeff.support.triage \

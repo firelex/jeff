@@ -17,9 +17,13 @@ dotnet add package Jeff.Sdk
 
 Its source is in the repository [github.com/firelex/jeff](https://github.com/firelex/jeff), in `packages/dotnet`.
 
-To run the models [on your own machine](/docs/sdk/connect#section-on-your-machine-free) you also need the Jeff engine,
-which is written in Python: install `jeff-sdk` and `jeff-runtime` as described in [Install](/docs/sdk/install), and
-start it with `jeff runtime serve`. The model runs only in the engine; the C# SDK talks to it.
+To run the models [on your own machine](/docs/sdk/connect#section-on-your-machine-free), install uv once
+(`curl -LsSf https://astral.sh/uv/install.sh | sh`, see [docs.astral.sh/uv](https://docs.astral.sh/uv/)) and call
+local mode with the adapters you use: `await JeffClient.LocalAsync(new[] { "guard" })`. The model runs only in the Jeff engine, which
+is written in Python; the C# SDK finds the engine running for you on this machine, or starts it with uv (the
+first start downloads about 2 GB, once), and talks to it. It runs on a Mac with Apple silicon or on Linux with an
+NVIDIA GPU. To use an engine you start yourself with `jeff runtime serve`, pass its socket instead:
+`JeffClient.LocalAsync(socketPath, new LocalOptions { Timeout })` ([Using an engine you start yourself](/docs/sdk/connect#section-using-an-engine-you-start-yourself)).
 
 ## Idioms
 
@@ -48,7 +52,10 @@ an error without it; they never make up a value. No error message includes a tok
 ## Settings
 
 - **Timeouts**: `Timeout`, a `TimeSpan` (`new LocalOptions { Timeout = ... }`, `new RemoteOptions { Timeout = ... }`),
-  positive and at most 2,147,483,647 milliseconds (about 24.8 days), else `InvalidRequest`.
+  positive and at most 2,147,483,647 milliseconds (about 24.8 days), else `InvalidRequest`. Local mode with a list
+  of adapters takes an optional `new StartOptions { Timeout = ..., StartTimeout = ... }`, each a whole number of
+  milliseconds of at least 1, by default 1 minute and 30 minutes; see
+  [what local mode does](/docs/sdk/connect#section-what-local-mode-does-in-node-rust-c-and-java).
 - **The channel's keepalive** needs .NET 9 or later at run time: the .NET 8 `ClientWebSocket` cannot send pings, so on
   .NET 8 the channel sends none and a server that stops answering is noticed only by each request's own timeout.
 - **Proxies**: `HTTPS_PROXY`, `HTTP_PROXY`, `ALL_PROXY` (HTTP requests only) and `NO_PROXY`, in upper or lower case (a

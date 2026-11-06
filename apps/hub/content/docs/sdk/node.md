@@ -17,9 +17,13 @@ npm install jeff-sdk
 
 Its source is in the repository [github.com/firelex/jeff](https://github.com/firelex/jeff), in `packages/node`.
 
-To run the models [on your own machine](/docs/sdk/connect#section-on-your-machine-free) you also need the Jeff engine,
-which is written in Python: install `jeff-sdk` and `jeff-runtime` as described in [Install](/docs/sdk/install), and
-start it with `jeff runtime serve`. The model runs only in the engine; the Node SDK talks to it.
+To run the models [on your own machine](/docs/sdk/connect#section-on-your-machine-free), install uv once
+(`curl -LsSf https://astral.sh/uv/install.sh | sh`, see [docs.astral.sh/uv](https://docs.astral.sh/uv/)) and call
+local mode with the adapters you use: `await Jeff.local(["guard"])`. The model runs only in the Jeff engine, which
+is written in Python; the Node SDK finds the engine running for you on this machine, or starts it with uv (the
+first start downloads about 2 GB, once), and talks to it. It runs on a Mac with Apple silicon or on Linux with an
+NVIDIA GPU. To use an engine you start yourself with `jeff runtime serve`, pass its socket instead:
+`await Jeff.local(socketPath, { timeoutMs })` ([Using an engine you start yourself](/docs/sdk/connect#section-using-an-engine-you-start-yourself)).
 
 ## Idioms
 
@@ -45,9 +49,12 @@ error body, and `error.requestId` the request ID of the server answer that carri
 
 ## Settings
 
-- **Timeouts**: `timeoutMs`, in milliseconds, required by `Jeff.local` and `Jeff.remote`: a finite number above 0 and
-  at most 2147483647 (about 24.8 days, the longest timer Node keeps), or `InvalidRequest`.
-  [What the timeout bounds](/docs/sdk/connect#section-what-the-timeout-bounds) explains the phases.
+- **Timeouts**: `timeoutMs`, in milliseconds, required by `Jeff.local` with a socket and by `Jeff.remote`: a finite
+  number above 0 and at most 2147483647 (about 24.8 days, the longest timer Node keeps), or `InvalidRequest`.
+  [What the timeout bounds](/docs/sdk/connect#section-what-the-timeout-bounds) explains the phases. `Jeff.local`
+  with a list of adapters takes an optional `StartOptions`, `{ timeoutMs, startTimeoutMs }`: whole numbers of
+  milliseconds of at least 1 and at most 2147483647, by default 60,000 and 1,800,000 (30 minutes); see
+  [what local mode does](/docs/sdk/connect#section-what-local-mode-does-in-node-rust-c-and-java).
 - **Proxies**: `HTTPS_PROXY`, `HTTP_PROXY` (and `ALL_PROXY` for HTTP requests) and `NO_PROXY`, lower-case forms first,
   with the same choice of proxy and the same `NO_PROXY` matching as the Python SDK. SOCKS proxies are refused, and the
   operating system's own proxy settings are not read.

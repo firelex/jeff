@@ -22,7 +22,7 @@ Call[] calls =
     }),
 ];
 
-await using var jeff = await JeffClient.LocalAsync("/tmp/jeff.sock", new LocalOptions { Timeout = TimeSpan.FromSeconds(30) });
+await using var jeff = await JeffClient.LocalAsync(new[] { "guard", "triage" });
 
 var decisions = await jeff.DecideAsync(calls);
 

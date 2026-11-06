@@ -1,4 +1,4 @@
-use jeff_sdk::{Jeff, Labels, LocalOptions, ShorthandOptions};
+use jeff_sdk::{Jeff, Labels, ShorthandOptions, StartOptions};
 use serde_json::json;
 
 #[tokio::main]
@@ -7,7 +7,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let message = json!("My wardrobe arrived with a broken door and I need it replaced before Friday.");
 
-    let jeff = Jeff::local("/tmp/jeff.sock", LocalOptions::new(30_000)).await?;
+    let jeff = Jeff::local_adapters(["triage", "guard"], StartOptions::default()).await?;
 
     // Names the function to call, with the shop's context.
     let with = |function: &str| ShorthandOptions {

@@ -5,6 +5,8 @@ import base64
 import importlib.util
 import io
 import platform
+import subprocess
+import sys
 import threading
 import time
 from pathlib import Path
@@ -620,3 +622,49 @@ def test_an_unknown_adapter_names_the_loaded_ones_in_the_shared_wording(backend:
         with pytest.raises(ValueError) as raised:
             refused()
         assert str(raised.value) == f"Unknown adapter 'jeff.c.missing' {loaded(['jeff.a.one', 'jeff.b.two'])}"
+
+
+def _apng_with_background_disposal(width: int, height: int) -> str:
+    """A tiny animated PNG (under 200 bytes) whose canvas is `width` x `height` but whose two frames are one pixel
+    each, the first disposed to the background: GHSA-5xm2-6676-qcp9, where Pillow before 13.0.0 allocated the whole
+    canvas for that disposal before its decompression-bomb check."""
+    import struct
+    import zlib
+
+    def chunk(kind: bytes, data: bytes) -> bytes:
+        return struct.pack(">I", len(data)) + kind + data + struct.pack(">I", zlib.crc32(kind + data))
+
+    def frame_control(sequence: int) -> bytes:  # a 1x1 frame at 0,0, disposed to the background
+        return chunk(b"fcTL", struct.pack(">IIIIIHHBB", sequence, 1, 1, 0, 0, 1, 1, 1, 0))
+
+    pixel = zlib.compress(b"\x00\x00\x00\x00")  # one RGB row: the filter byte, then the pixel
+    data = (b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", struct.pack(">IIBBBBB", width, height, 8, 2, 0, 0, 0))
+            + chunk(b"acTL", struct.pack(">II", 2, 0)) + frame_control(0) + chunk(b"IDAT", pixel)
+            + frame_control(1) + chunk(b"fdAT", struct.pack(">I", 2) + pixel) + chunk(b"IEND", b""))
+    return "data:image/png;base64," + base64.b64encode(data).decode()
+
+
+@pytest.mark.parametrize(("width", "height"), [(22000, 22000), (12000, 12000)])
+def test_an_apng_declaring_a_huge_canvas_is_refused_without_allocating_it(width: int, height: int) -> None:
+    """GHSA-5xm2-6676-qcp9. 22000 x 22000 is past Pillow's own bomb limit; 12000 x 12000 (144 million pixels, about
+    430 MB as RGB) is under it, so only the engine's 16-million-pixel check stands between it and a full-canvas
+    allocation. Measured in a fresh process: the peak resident memory may grow by at most 100 MB across the check."""
+    script = f"""
+import resource, sys
+from jeff.errors import InvalidRequest
+from jeff_runtime.local_engine import open_checked_image
+image = sys.stdin.read()
+before = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+try:
+    open_checked_image(image, 1)
+    print("accepted")
+except InvalidRequest as error:
+    print("refused:", error)
+after = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+print((after - before) / (1 if sys.platform == "darwin" else 1 / 1024) / 2**20)
+"""
+    result = subprocess.run([sys.executable, "-c", script], input=_apng_with_background_disposal(width, height),
+                            capture_output=True, text=True, check=True)
+    verdict, growth_mb = result.stdout.strip().split("\n")
+    assert verdict.startswith("refused: image 1 ")
+    assert float(growth_mb) < 100, f"the check grew the process by {growth_mb} MB"

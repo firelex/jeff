@@ -5,7 +5,7 @@ var shop = new JsonObject { ["company"] = "A furniture shop.", ["channel"] = "em
 
 var message = "My wardrobe arrived with a broken door and I need it replaced before Friday.";
 
-await using var jeff = await JeffClient.LocalAsync("/tmp/jeff.sock", new LocalOptions { Timeout = TimeSpan.FromSeconds(30) });
+await using var jeff = await JeffClient.LocalAsync(new[] { "triage", "guard" });
 
 var team = await jeff.RouteAsync(message, new ShorthandOptions
 {

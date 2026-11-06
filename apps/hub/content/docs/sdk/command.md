@@ -4,8 +4,8 @@ title: The jeff command
 # The jeff command
 
 The Python package `jeff-sdk` installs a command, `jeff`, with five subcommands. Use the same command whichever SDK you
-call Jeff from: the Node, Rust, C# and Java SDKs have no command of their own, and use `jeff runtime serve` to start
-the engine they attach to on your machine. `jeff gen` generates Python only. Each subcommand prints its options with
+call Jeff from: the Node, Rust, C# and Java SDKs have no command of their own; local mode in them starts
+`jeff runtime serve` itself, through uv, and you run it by hand only to manage an engine yourself. `jeff gen` generates Python only. Each subcommand prints its options with
 `--help` (for example `jeff test --help`). When a command fails with a Jeff error, it prints `jeff: ` and the error's message, and exits
 with status 1. Invalid command arguments (such as a missing required option) print the usage and exit with
 status 2.
@@ -121,7 +121,9 @@ agent is in [Jeff with coding agents](/docs/guides/coding-agents).
 
 Serves decisions over a Unix socket: one engine process that loads the base model and adapters once, batches
 requests, and answers the local client of every SDK (`Jeff.connect` in Python), `jeff mcp --socket` and the Jeff
-server.
+server. Local mode in Node, Rust, C# and Java starts it with uv when no engine is running for you
+([Connect](/docs/sdk/connect#section-what-local-mode-does-in-node-rust-c-and-java)); this section is for starting
+one yourself.
 
 ```bash
 jeff runtime serve --socket /tmp/jeff-engine.sock --adapter guard \
@@ -146,6 +148,7 @@ jeff runtime serve --socket /tmp/jeff-engine.sock --adapter guard \
 | `--prepare-workers N` | Required, on every backend. How many requests are prepared at once on arrival (checked, and on the fast backend tokenised), each by a thread with its own copy of the tokeniser. |
 | `--base FOLDER` | Serve this INT4 base folder (`jeff runtime quantize`) of the adapters' base instead of the bfloat16 base; refused unless its `gate.json` (`jeff runtime gate`) passes for every adapter served, at start and on every serve and reload. |
 | `--max-tokens N` | The longest prompt, in tokens, the engine accepts (8,192 unless given); a longer one is refused with `InputTooLong`. |
+| `--exit-when-unused-s SECONDS` | A number above 0: the engine closes its socket and exits with status 0 once no client has been connected for this many seconds in a row, counted from when it starts listening and from each time its last client disconnects. Local mode starts its engine with 300 (5 minutes). Without it, the engine runs until it is stopped. |
 
 Settings are checked before anything is downloaded or loaded, so an invalid setting fails immediately with a message
 that names it.

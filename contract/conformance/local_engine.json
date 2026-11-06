@@ -1,0 +1,870 @@
+{
+ "description": "Local mode's engine start in the Node, Rust, C# and Java SDKs (contract/local-engine.md). 'platforms': an operating system, processor and whether an NVIDIA GPU was found, and the jeff-runtime extra chosen or the error. 'folders': the engine folder from the system, HOME and XDG_CACHE_HOME (null: not set). 'uvx': where uvx is found from PATH and HOME, 'executables' being the executable files that exist (every other path does not exist or is not executable). 'adapters': adapter references resolved with the shipped catalogue. 'commands': the argument list that starts the engine. 'log_tails': a log's text and its last lines. 'messages': each line printed and each error, from its inputs. 'shell_starts': the command Java and C# run, from the system, the setsid found (Linux) and the uvx argument list. 'setsid': where setsid is found on Linux, as for 'uvx'.",
+ "platforms": [
+  {
+   "os": "macos",
+   "arch": "arm64",
+   "nvidia": false,
+   "extra": "mac"
+  },
+  {
+   "os": "macos",
+   "arch": "arm64",
+   "nvidia": true,
+   "extra": "mac"
+  },
+  {
+   "os": "linux",
+   "arch": "x86_64",
+   "nvidia": true,
+   "extra": "cuda"
+  },
+  {
+   "os": "linux",
+   "arch": "arm64",
+   "nvidia": true,
+   "extra": "cuda"
+  },
+  {
+   "os": "linux",
+   "arch": "x86_64",
+   "nvidia": false,
+   "error": {
+    "type": "BackendUnavailable",
+    "message": "The Jeff engine runs on macOS with Apple silicon, or on Linux with an NVIDIA GPU; this Linux machine has no NVIDIA GPU (no /proc/driver/nvidia/version, and no nvidia-smi on PATH), so local mode cannot start it here. Use a Jeff server instead (remote mode)"
+   }
+  },
+  {
+   "os": "linux",
+   "arch": "arm64",
+   "nvidia": false,
+   "error": {
+    "type": "BackendUnavailable",
+    "message": "The Jeff engine runs on macOS with Apple silicon, or on Linux with an NVIDIA GPU; this Linux machine has no NVIDIA GPU (no /proc/driver/nvidia/version, and no nvidia-smi on PATH), so local mode cannot start it here. Use a Jeff server instead (remote mode)"
+   }
+  },
+  {
+   "os": "macos",
+   "arch": "x86_64",
+   "nvidia": false,
+   "error": {
+    "type": "BackendUnavailable",
+    "message": "The Jeff engine runs on macOS with Apple silicon, or on Linux with an NVIDIA GPU; this is an Intel Mac (or a program running under Rosetta), so local mode cannot start it here. Use a Jeff server instead (remote mode)"
+   }
+  },
+  {
+   "os": "macos",
+   "arch": "riscv64",
+   "nvidia": false,
+   "error": {
+    "type": "BackendUnavailable",
+    "message": "The Jeff engine runs on macOS with Apple silicon, or on Linux with an NVIDIA GPU; this Mac's processor is riscv64, so local mode cannot start it here. Use a Jeff server instead (remote mode)"
+   }
+  },
+  {
+   "os": "windows",
+   "arch": "x86_64",
+   "nvidia": true,
+   "error": {
+    "type": "BackendUnavailable",
+    "message": "The Jeff engine runs on macOS with Apple silicon, or on Linux with an NVIDIA GPU; the engine cannot run on Windows itself, so local mode cannot start it here. Run your program in WSL 2 on a machine with an NVIDIA GPU, or use a Jeff server instead (remote mode)"
+   }
+  },
+  {
+   "os": "windows",
+   "arch": "arm64",
+   "nvidia": false,
+   "error": {
+    "type": "BackendUnavailable",
+    "message": "The Jeff engine runs on macOS with Apple silicon, or on Linux with an NVIDIA GPU; the engine cannot run on Windows itself, so local mode cannot start it here. Run your program in WSL 2 on a machine with an NVIDIA GPU, or use a Jeff server instead (remote mode)"
+   }
+  },
+  {
+   "os": "freebsd",
+   "arch": "x86_64",
+   "nvidia": true,
+   "error": {
+    "type": "BackendUnavailable",
+    "message": "The Jeff engine runs on macOS with Apple silicon, or on Linux with an NVIDIA GPU; this machine runs freebsd, so local mode cannot start it here. Use a Jeff server instead (remote mode)"
+   }
+  }
+ ],
+ "folders": [
+  {
+   "os": "macos",
+   "home": "/Users/ada",
+   "xdg_cache_home": null,
+   "folder": "/Users/ada/Library/Caches/jeff/engine"
+  },
+  {
+   "os": "macos",
+   "home": "/Users/ada",
+   "xdg_cache_home": "/var/cache/ada",
+   "folder": "/Users/ada/Library/Caches/jeff/engine"
+  },
+  {
+   "os": "linux",
+   "home": "/home/ada",
+   "xdg_cache_home": null,
+   "folder": "/home/ada/.cache/jeff/engine"
+  },
+  {
+   "os": "linux",
+   "home": "/home/ada",
+   "xdg_cache_home": "/var/cache/ada",
+   "folder": "/var/cache/ada/jeff/engine"
+  },
+  {
+   "os": "linux",
+   "home": "/home/ada",
+   "xdg_cache_home": "relative/cache",
+   "folder": "/home/ada/.cache/jeff/engine"
+  },
+  {
+   "os": "linux",
+   "home": "/home/ada",
+   "xdg_cache_home": "",
+   "folder": "/home/ada/.cache/jeff/engine"
+  },
+  {
+   "os": "linux",
+   "home": null,
+   "xdg_cache_home": null,
+   "error": {
+    "type": "EngineError",
+    "message": "HOME is not set, so local mode cannot find the folder for the Jeff engine (the user's cache folder)"
+   }
+  },
+  {
+   "os": "linux",
+   "home": "",
+   "xdg_cache_home": "/var/cache/ada",
+   "error": {
+    "type": "EngineError",
+    "message": "HOME is not set, so local mode cannot find the folder for the Jeff engine (the user's cache folder)"
+   }
+  },
+  {
+   "os": "macos",
+   "home": null,
+   "xdg_cache_home": null,
+   "error": {
+    "type": "EngineError",
+    "message": "HOME is not set, so local mode cannot find the folder for the Jeff engine (the user's cache folder)"
+   }
+  },
+  {
+   "os": "macos",
+   "home": "",
+   "xdg_cache_home": null,
+   "error": {
+    "type": "EngineError",
+    "message": "HOME is not set, so local mode cannot find the folder for the Jeff engine (the user's cache folder)"
+   }
+  }
+ ],
+ "uvx": [
+  {
+   "name": "on PATH",
+   "path": "/usr/bin:/opt/homebrew/bin",
+   "home": "/Users/ada",
+   "executables": [
+    "/opt/homebrew/bin/uvx"
+   ],
+   "found": "/opt/homebrew/bin/uvx"
+  },
+  {
+   "name": "the first folder on PATH wins",
+   "path": "/opt/a:/opt/b",
+   "home": "/Users/ada",
+   "executables": [
+    "/opt/b/uvx",
+    "/opt/a/uvx",
+    "/Users/ada/.local/bin/uvx"
+   ],
+   "found": "/opt/a/uvx"
+  },
+  {
+   "name": "empty PATH entries are skipped",
+   "path": "::/opt/uv:",
+   "home": "/home/ada",
+   "executables": [
+    "/opt/uv/uvx"
+   ],
+   "found": "/opt/uv/uvx"
+  },
+  {
+   "name": "relative PATH entries are skipped",
+   "path": "bin:.:./tools:/opt/uv",
+   "home": "/home/ada",
+   "executables": [
+    "bin/uvx",
+    "./uvx",
+    "./tools/uvx",
+    "/opt/uv/uvx"
+   ],
+   "found": "/opt/uv/uvx"
+  },
+  {
+   "name": "PATH before the install places",
+   "path": "/opt/uv",
+   "home": "/home/ada",
+   "executables": [
+    "/home/ada/.local/bin/uvx",
+    "/opt/uv/uvx"
+   ],
+   "found": "/opt/uv/uvx"
+  },
+  {
+   "name": "uv's installer place",
+   "path": "/usr/bin",
+   "home": "/home/ada",
+   "executables": [
+    "/home/ada/.local/bin/uvx"
+   ],
+   "found": "/home/ada/.local/bin/uvx"
+  },
+  {
+   "name": "cargo's place",
+   "path": "/usr/bin",
+   "home": "/home/ada",
+   "executables": [
+    "/home/ada/.cargo/bin/uvx"
+   ],
+   "found": "/home/ada/.cargo/bin/uvx"
+  },
+  {
+   "name": "the installer place before cargo's",
+   "path": "",
+   "home": "/home/ada",
+   "executables": [
+    "/home/ada/.cargo/bin/uvx",
+    "/home/ada/.local/bin/uvx"
+   ],
+   "found": "/home/ada/.local/bin/uvx"
+  },
+  {
+   "name": "a uv that is not uvx is not enough",
+   "path": "/opt/uv",
+   "home": "/home/ada",
+   "executables": [
+    "/opt/uv/uv",
+    "/home/ada/.local/bin/uv"
+   ],
+   "error": {
+    "type": "RuntimeMissing",
+    "message": "Local mode needs uv to start the Jeff engine, and uvx is not on PATH, nor at /home/ada/.local/bin/uvx or /home/ada/.cargo/bin/uvx. Install uv once with: curl -LsSf https://astral.sh/uv/install.sh | sh (see https://docs.astral.sh/uv/). Or start an engine yourself (jeff runtime serve) and give its socket instead of the adapters"
+   }
+  },
+  {
+   "name": "nowhere",
+   "path": "/usr/bin:/bin",
+   "home": "/home/ada",
+   "executables": [],
+   "error": {
+    "type": "RuntimeMissing",
+    "message": "Local mode needs uv to start the Jeff engine, and uvx is not on PATH, nor at /home/ada/.local/bin/uvx or /home/ada/.cargo/bin/uvx. Install uv once with: curl -LsSf https://astral.sh/uv/install.sh | sh (see https://docs.astral.sh/uv/). Or start an engine yourself (jeff runtime serve) and give its socket instead of the adapters"
+   }
+  },
+  {
+   "name": "nowhere, on a Mac",
+   "path": "/usr/bin",
+   "home": "/Users/ada",
+   "executables": [],
+   "error": {
+    "type": "RuntimeMissing",
+    "message": "Local mode needs uv to start the Jeff engine, and uvx is not on PATH, nor at /Users/ada/.local/bin/uvx or /Users/ada/.cargo/bin/uvx. Install uv once with: curl -LsSf https://astral.sh/uv/install.sh | sh (see https://docs.astral.sh/uv/). Or start an engine yourself (jeff runtime serve) and give its socket instead of the adapters"
+   }
+  }
+ ],
+ "adapters": [
+  {
+   "adapters": [
+    "guard"
+   ],
+   "adapter_ids": [
+    "jeff.safety.guard"
+   ],
+   "base": "jeff-base@v1.4"
+  },
+  {
+   "adapters": [
+    "jeff.safety.guard"
+   ],
+   "adapter_ids": [
+    "jeff.safety.guard"
+   ],
+   "base": "jeff-base@v1.4"
+  },
+  {
+   "adapters": [
+    "guard",
+    "triage",
+    "spam"
+   ],
+   "adapter_ids": [
+    "jeff.safety.guard",
+    "jeff.support.triage",
+    "jeff.safety.spam"
+   ],
+   "base": "jeff-base@v1.4"
+  },
+  {
+   "adapters": [
+    "guard",
+    "jeff.safety.guard",
+    "spam",
+    "guard"
+   ],
+   "adapter_ids": [
+    "jeff.safety.guard",
+    "jeff.safety.spam"
+   ],
+   "base": "jeff-base@v1.4"
+  },
+  {
+   "adapters": [],
+   "error": {
+    "type": "ManifestError",
+    "message": "local mode needs at least one adapter (none were given)"
+   }
+  },
+  {
+   "adapters": [
+    "nope"
+   ],
+   "error": {
+    "type": "UnknownFunction",
+    "message": "No adapter 'nope' in the catalogue"
+   }
+  },
+  {
+   "adapters": [
+    "guard",
+    "jeff.nope.nope"
+   ],
+   "error": {
+    "type": "UnknownFunction",
+    "message": "No adapter 'jeff.nope.nope' in the catalogue"
+   }
+  }
+ ],
+ "commands": [
+  {
+   "name": "Apple silicon, one adapter",
+   "uvx": "/opt/homebrew/bin/uvx",
+   "extra": "mac",
+   "version": "1.4.1",
+   "folder": "/Users/ada/Library/Caches/jeff/engine",
+   "adapters": [
+    "guard"
+   ],
+   "argv": [
+    "/opt/homebrew/bin/uvx",
+    "--from",
+    "jeff-runtime[mac]==1.4.1",
+    "jeff",
+    "runtime",
+    "serve",
+    "--socket",
+    "/Users/ada/Library/Caches/jeff/engine/engine.sock",
+    "--base-version",
+    "jeff-base@v1.4",
+    "--adapter",
+    "jeff.safety.guard",
+    "--batch-window-ms",
+    "0.1",
+    "--max-batch-rows",
+    "64",
+    "--queue-limit-rows",
+    "4096",
+    "--prepare-workers",
+    "2",
+    "--exit-when-unused-s",
+    "300"
+   ]
+  },
+  {
+   "name": "Apple silicon, three adapters",
+   "uvx": "/Users/ada/.local/bin/uvx",
+   "extra": "mac",
+   "version": "1.4.1",
+   "folder": "/Users/ada/Library/Caches/jeff/engine",
+   "adapters": [
+    "guard",
+    "triage",
+    "spam"
+   ],
+   "argv": [
+    "/Users/ada/.local/bin/uvx",
+    "--from",
+    "jeff-runtime[mac]==1.4.1",
+    "jeff",
+    "runtime",
+    "serve",
+    "--socket",
+    "/Users/ada/Library/Caches/jeff/engine/engine.sock",
+    "--base-version",
+    "jeff-base@v1.4",
+    "--adapter",
+    "jeff.safety.guard",
+    "--adapter",
+    "jeff.support.triage",
+    "--adapter",
+    "jeff.safety.spam",
+    "--batch-window-ms",
+    "0.1",
+    "--max-batch-rows",
+    "64",
+    "--queue-limit-rows",
+    "4096",
+    "--prepare-workers",
+    "2",
+    "--exit-when-unused-s",
+    "300"
+   ]
+  },
+  {
+   "name": "NVIDIA, three adapters",
+   "uvx": "/home/ada/.local/bin/uvx",
+   "extra": "cuda",
+   "version": "1.4.1",
+   "folder": "/home/ada/.cache/jeff/engine",
+   "adapters": [
+    "guard",
+    "triage",
+    "spam"
+   ],
+   "argv": [
+    "/home/ada/.local/bin/uvx",
+    "--from",
+    "jeff-runtime[cuda]==1.4.1",
+    "jeff",
+    "runtime",
+    "serve",
+    "--socket",
+    "/home/ada/.cache/jeff/engine/engine.sock",
+    "--base-version",
+    "jeff-base@v1.4",
+    "--adapter",
+    "jeff.safety.guard",
+    "--adapter",
+    "jeff.support.triage",
+    "--adapter",
+    "jeff.safety.spam",
+    "--batch-window-ms",
+    "0.1",
+    "--max-batch-rows",
+    "64",
+    "--queue-limit-rows",
+    "4096",
+    "--prepare-workers",
+    "2",
+    "--max-adapters",
+    "8",
+    "--prefix-pool-mb",
+    "7345",
+    "--exit-when-unused-s",
+    "300"
+   ]
+  },
+  {
+   "name": "NVIDIA, nine adapters",
+   "uvx": "/usr/local/bin/uvx",
+   "extra": "cuda",
+   "version": "1.4.1",
+   "folder": "/var/cache/ada/jeff/engine",
+   "adapters": [
+    "guard",
+    "triage",
+    "spam",
+    "jeff.language.emotion",
+    "jeff.security.soc",
+    "jeff.retrieval.ground",
+    "jeff.legal.legal-clauses",
+    "jeff.routing.tools",
+    "jeff.compliance.sanctions"
+   ],
+   "argv": [
+    "/usr/local/bin/uvx",
+    "--from",
+    "jeff-runtime[cuda]==1.4.1",
+    "jeff",
+    "runtime",
+    "serve",
+    "--socket",
+    "/var/cache/ada/jeff/engine/engine.sock",
+    "--base-version",
+    "jeff-base@v1.4",
+    "--adapter",
+    "jeff.safety.guard",
+    "--adapter",
+    "jeff.support.triage",
+    "--adapter",
+    "jeff.safety.spam",
+    "--adapter",
+    "jeff.language.emotion",
+    "--adapter",
+    "jeff.security.soc",
+    "--adapter",
+    "jeff.retrieval.ground",
+    "--adapter",
+    "jeff.legal.legal-clauses",
+    "--adapter",
+    "jeff.routing.tools",
+    "--adapter",
+    "jeff.compliance.sanctions",
+    "--batch-window-ms",
+    "0.1",
+    "--max-batch-rows",
+    "64",
+    "--queue-limit-rows",
+    "4096",
+    "--prepare-workers",
+    "2",
+    "--max-adapters",
+    "9",
+    "--prefix-pool-mb",
+    "7345",
+    "--exit-when-unused-s",
+    "300"
+   ]
+  },
+  {
+   "name": "aliases and repeats",
+   "uvx": "/usr/local/bin/uvx",
+   "extra": "mac",
+   "version": "2.0.0",
+   "folder": "/Users/ada/Library/Caches/jeff/engine",
+   "adapters": [
+    "spam",
+    "jeff.safety.spam",
+    "guard"
+   ],
+   "argv": [
+    "/usr/local/bin/uvx",
+    "--from",
+    "jeff-runtime[mac]==2.0.0",
+    "jeff",
+    "runtime",
+    "serve",
+    "--socket",
+    "/Users/ada/Library/Caches/jeff/engine/engine.sock",
+    "--base-version",
+    "jeff-base@v1.4",
+    "--adapter",
+    "jeff.safety.spam",
+    "--adapter",
+    "jeff.safety.guard",
+    "--batch-window-ms",
+    "0.1",
+    "--max-batch-rows",
+    "64",
+    "--queue-limit-rows",
+    "4096",
+    "--prepare-workers",
+    "2",
+    "--exit-when-unused-s",
+    "300"
+   ]
+  }
+ ],
+ "log_tails": [
+  {
+   "name": "short, ending in a line feed",
+   "log": "one\ntwo\n",
+   "tail": "one\ntwo"
+  },
+  {
+   "name": "no final line feed",
+   "log": "one\ntwo",
+   "tail": "one\ntwo"
+  },
+  {
+   "name": "25 lines keep the last 20",
+   "log": "line 1\nline 2\nline 3\nline 4\nline 5\nline 6\nline 7\nline 8\nline 9\nline 10\nline 11\nline 12\nline 13\nline 14\nline 15\nline 16\nline 17\nline 18\nline 19\nline 20\nline 21\nline 22\nline 23\nline 24\nline 25\n",
+   "tail": "line 6\nline 7\nline 8\nline 9\nline 10\nline 11\nline 12\nline 13\nline 14\nline 15\nline 16\nline 17\nline 18\nline 19\nline 20\nline 21\nline 22\nline 23\nline 24\nline 25"
+  },
+  {
+   "name": "blank lines are kept",
+   "log": "a\n\nb\n\n",
+   "tail": "a\n\nb\n"
+  },
+  {
+   "name": "carriage returns are kept as they are",
+   "log": "Fetching 1%\rFetching 100%\nready\n",
+   "tail": "Fetching 1%\rFetching 100%\nready"
+  },
+  {
+   "name": "empty",
+   "log": "",
+   "tail": ""
+  }
+ ],
+ "messages": [
+  {
+   "kind": "starting",
+   "adapter_ids": [
+    "jeff.safety.guard"
+   ],
+   "log_path": "/home/ada/.cache/jeff/engine/engine.log",
+   "text": "Jeff: starting the Jeff engine for jeff.safety.guard; the first time, this downloads the engine and the base model (about 2 GB, once). Its log: /home/ada/.cache/jeff/engine/engine.log"
+  },
+  {
+   "kind": "starting",
+   "adapter_ids": [
+    "jeff.safety.guard",
+    "jeff.support.triage"
+   ],
+   "log_path": "/home/ada/.cache/jeff/engine/engine.log",
+   "text": "Jeff: starting the Jeff engine for jeff.safety.guard, jeff.support.triage; the first time, this downloads the engine and the base model (about 2 GB, once). Its log: /home/ada/.cache/jeff/engine/engine.log"
+  },
+  {
+   "kind": "waiting",
+   "log_path": "/home/ada/.cache/jeff/engine/engine.log",
+   "text": "Jeff: waiting for the Jeff engine that another program is starting. Its log: /home/ada/.cache/jeff/engine/engine.log"
+  },
+  {
+   "kind": "exited",
+   "status": 1,
+   "log_path": "/home/ada/.cache/jeff/engine/engine.log",
+   "log": "warning: something\nTraceback (most recent call last):\nManifestError: bad\n",
+   "error": {
+    "type": "EngineError",
+    "message": "The Jeff engine exited while starting, with status 1. Its log is /home/ada/.cache/jeff/engine/engine.log; its last lines:\nwarning: something\nTraceback (most recent call last):\nManifestError: bad"
+   }
+  },
+  {
+   "kind": "exited",
+   "status": 143,
+   "log_path": "/home/ada/.cache/jeff/engine/engine.log",
+   "log": "line 1\nline 2\nline 3\nline 4\nline 5\nline 6\nline 7\nline 8\nline 9\nline 10\nline 11\nline 12\nline 13\nline 14\nline 15\nline 16\nline 17\nline 18\nline 19\nline 20\nline 21\nline 22\nline 23\nline 24\nline 25\n",
+   "error": {
+    "type": "EngineError",
+    "message": "The Jeff engine exited while starting, with status 143. Its log is /home/ada/.cache/jeff/engine/engine.log; its last lines:\nline 6\nline 7\nline 8\nline 9\nline 10\nline 11\nline 12\nline 13\nline 14\nline 15\nline 16\nline 17\nline 18\nline 19\nline 20\nline 21\nline 22\nline 23\nline 24\nline 25"
+   }
+  },
+  {
+   "kind": "exited",
+   "status": 2,
+   "log_path": "/home/ada/.cache/jeff/engine/engine.log",
+   "log": "",
+   "error": {
+    "type": "EngineError",
+    "message": "The Jeff engine exited while starting, with status 2. Its log, /home/ada/.cache/jeff/engine/engine.log, is empty"
+   }
+  },
+  {
+   "kind": "start_timeout",
+   "socket_path": "/home/ada/.cache/jeff/engine/engine.sock",
+   "start_timeout_ms": 1800000,
+   "log_path": "/home/ada/.cache/jeff/engine/engine.log",
+   "log": "Fetching 11 files: 9%\n",
+   "error": {
+    "type": "EngineError",
+    "message": "The Jeff engine did not answer on /home/ada/.cache/jeff/engine/engine.sock within 1800000 ms, so it was stopped. Its log is /home/ada/.cache/jeff/engine/engine.log; its last lines:\nFetching 11 files: 9%"
+   }
+  },
+  {
+   "kind": "start_timeout",
+   "socket_path": "/home/ada/.cache/jeff/engine/engine.sock",
+   "start_timeout_ms": 250,
+   "log_path": "/home/ada/.cache/jeff/engine/engine.log",
+   "log": "",
+   "error": {
+    "type": "EngineError",
+    "message": "The Jeff engine did not answer on /home/ada/.cache/jeff/engine/engine.sock within 250 ms, so it was stopped. Its log, /home/ada/.cache/jeff/engine/engine.log, is empty"
+   }
+  },
+  {
+   "kind": "lock_timeout",
+   "start_timeout_ms": 1800000,
+   "lock_path": "/home/ada/.cache/jeff/engine/engine.lock",
+   "pid": 4242,
+   "log_path": "/home/ada/.cache/jeff/engine/engine.log",
+   "error": {
+    "type": "EngineError",
+    "message": "Another program has been starting the Jeff engine for longer than 1800000 ms (the lock /home/ada/.cache/jeff/engine/engine.lock, held by process 4242). Its log is /home/ada/.cache/jeff/engine/engine.log"
+   }
+  },
+  {
+   "kind": "not_loadable",
+   "socket_path": "/home/ada/.cache/jeff/engine/engine.sock",
+   "missing": [
+    "jeff.support.triage"
+   ],
+   "engine_error": {
+    "type": "UnknownFunction",
+    "message": "not available to serve from this engine: jeff.support.triage"
+   },
+   "error": {
+    "type": "NotInstalled",
+    "message": "The Jeff engine already running at /home/ada/.cache/jeff/engine/engine.sock does not serve jeff.support.triage, and refused to load them: UnknownFunction: not available to serve from this engine: jeff.support.triage. Start an engine yourself with every adapter you need (jeff runtime serve) and give its socket instead of the adapters; the shared engine stops by itself 5 minutes after the last program using it closes"
+   }
+  },
+  {
+   "kind": "not_loadable",
+   "socket_path": "/home/ada/.cache/jeff/engine/engine.sock",
+   "missing": [
+    "jeff.support.triage",
+    "jeff.safety.spam"
+   ],
+   "engine_error": {
+    "type": "UnknownFunction",
+    "message": "not available to serve from this engine: jeff.safety.spam, jeff.support.triage"
+   },
+   "error": {
+    "type": "NotInstalled",
+    "message": "The Jeff engine already running at /home/ada/.cache/jeff/engine/engine.sock does not serve jeff.support.triage, jeff.safety.spam, and refused to load them: UnknownFunction: not available to serve from this engine: jeff.safety.spam, jeff.support.triage. Start an engine yourself with every adapter you need (jeff runtime serve) and give its socket instead of the adapters; the shared engine stops by itself 5 minutes after the last program using it closes"
+   }
+  },
+  {
+   "kind": "proprietary",
+   "adapter_id": "acme.legal.nda",
+   "error": {
+    "type": "ProprietaryWeights",
+    "message": "acme.legal.nda is proprietary: its weights download only through JeffHub with a licence, so local mode cannot start an engine for it. Start an engine yourself (jeff runtime serve --path acme.legal.nda=<folder>) and give its socket instead of the adapters"
+   }
+  },
+  {
+   "kind": "home_missing",
+   "error": {
+    "type": "EngineError",
+    "message": "HOME is not set, so local mode cannot find the folder for the Jeff engine (the user's cache folder)"
+   }
+  },
+  {
+   "kind": "different_bases",
+   "bases": [
+    "jeff-base@v1.5",
+    "jeff-base@v1.4"
+   ],
+   "error": {
+    "type": "ManifestError",
+    "message": "The adapters are trained on different bases (jeff-base@v1.4, jeff-base@v1.5); load one base at a time"
+   }
+  },
+  {
+   "kind": "not_own_group",
+   "log_path": "/home/ada/.cache/jeff/engine/engine.log",
+   "log": "./uvx: 1: set: can't access tty; job control turned off\n",
+   "error": {
+    "type": "EngineError",
+    "message": "The Jeff engine could not be started in a process group of its own, so it was stopped. Its log is /home/ada/.cache/jeff/engine/engine.log; its last lines:\n./uvx: 1: set: can't access tty; job control turned off"
+   }
+  },
+  {
+   "kind": "not_own_group",
+   "log_path": "/home/ada/.cache/jeff/engine/engine.log",
+   "log": "",
+   "error": {
+    "type": "EngineError",
+    "message": "The Jeff engine could not be started in a process group of its own, so it was stopped. Its log, /home/ada/.cache/jeff/engine/engine.log, is empty"
+   }
+  }
+ ],
+ "shell_starts": [
+  {
+   "os": "macos",
+   "setsid": null,
+   "uvx_argv": [
+    "/opt/homebrew/bin/uvx",
+    "--from",
+    "jeff-runtime[mac]==1.4.1",
+    "jeff",
+    "runtime",
+    "serve",
+    "--socket",
+    "/s/engine.sock"
+   ],
+   "argv": [
+    "/bin/bash",
+    "-c",
+    "set -m; \"$0\" \"$@\" </dev/null >>engine.log 2>&1 & pid=$!; set +m; i=0; until kill -0 -$pid 2>/dev/null; do kill -0 $pid 2>/dev/null || break; i=$((i+1)); if [ $i -ge 50 ]; then kill -TERM $pid; exit 125; fi; sleep 0.1; done; trap \"kill -TERM -$pid\" TERM; wait $pid",
+    "/opt/homebrew/bin/uvx",
+    "--from",
+    "jeff-runtime[mac]==1.4.1",
+    "jeff",
+    "runtime",
+    "serve",
+    "--socket",
+    "/s/engine.sock"
+   ]
+  },
+  {
+   "os": "linux",
+   "setsid": "/usr/bin/setsid",
+   "uvx_argv": [
+    "/home/ada/.local/bin/uvx",
+    "--from",
+    "jeff-runtime[cuda]==1.4.1",
+    "jeff",
+    "runtime",
+    "serve",
+    "--socket",
+    "/s/engine.sock"
+   ],
+   "argv": [
+    "/bin/sh",
+    "-c",
+    "\"$0\" \"$@\" </dev/null >>engine.log 2>&1 & pid=$!; i=0; until kill -0 -$pid 2>/dev/null; do kill -0 $pid 2>/dev/null || break; i=$((i+1)); if [ $i -ge 50 ]; then kill -TERM $pid; exit 125; fi; sleep 0.1; done; trap \"kill -TERM -$pid\" TERM; wait $pid",
+    "/usr/bin/setsid",
+    "/home/ada/.local/bin/uvx",
+    "--from",
+    "jeff-runtime[cuda]==1.4.1",
+    "jeff",
+    "runtime",
+    "serve",
+    "--socket",
+    "/s/engine.sock"
+   ]
+  }
+ ],
+ "setsid": [
+  {
+   "name": "on PATH",
+   "path": "/opt/bin:/usr/bin",
+   "executables": [
+    "/opt/bin/setsid",
+    "/usr/bin/setsid"
+   ],
+   "found": "/opt/bin/setsid"
+  },
+  {
+   "name": "relative PATH entries are skipped",
+   "path": "bin:.:/usr/bin",
+   "executables": [
+    "bin/setsid",
+    "./setsid",
+    "/usr/bin/setsid"
+   ],
+   "found": "/usr/bin/setsid"
+  },
+  {
+   "name": "/usr/bin when PATH has none",
+   "path": "/opt/bin",
+   "executables": [
+    "/usr/bin/setsid",
+    "/bin/setsid"
+   ],
+   "found": "/usr/bin/setsid"
+  },
+  {
+   "name": "/bin last",
+   "path": "",
+   "executables": [
+    "/bin/setsid"
+   ],
+   "found": "/bin/setsid"
+  },
+  {
+   "name": "nowhere",
+   "path": "/usr/local/bin:/usr/bin",
+   "executables": [],
+   "error": {
+    "type": "RuntimeMissing",
+    "message": "Local mode needs the setsid command to start the Jeff engine in a session of its own, and setsid is not on PATH, nor at /usr/bin/setsid or /bin/setsid. Install util-linux (for example: apt-get install util-linux, or dnf install util-linux). Or start an engine yourself (jeff runtime serve) and give its socket instead of the adapters"
+   }
+  }
+ ]
+}

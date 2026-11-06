@@ -14,7 +14,7 @@ static Task<JsonNode?> ChooseReply(CodeCall run, CancellationToken cancellationT
     return Task.FromResult<JsonNode?>(reply);
 }
 
-await using var jeff = await JeffClient.LocalAsync("/tmp/jeff.sock", new LocalOptions { Timeout = TimeSpan.FromSeconds(30) });
+await using var jeff = await JeffClient.LocalAsync(new[] { "spam", "guard" });
 
 var result = await jeff.RunGraphAsync(
     "graphs-message-check.yaml",

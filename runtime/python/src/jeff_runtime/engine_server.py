@@ -105,6 +105,8 @@ class EngineServer:
         self._stop = asyncio.Event()
         self._server: asyncio.Server | None = None
         self._connections: set[asyncio.StreamWriter] = set()
+        # Set whenever a client connects or disconnects: wait_unused() watches it.
+        self._connections_changed = asyncio.Event()
         self._reply_tasks: set[asyncio.Task[None]] = set()
         # (adapters_version, sorted installed list), read once here (before any client can connect, so nothing
         # else can be touching the engine concurrently yet) and from then on only ever rewritten by the GPU
@@ -183,6 +185,22 @@ class EngineServer:
         assert broken is not None
         return broken
 
+    async def wait_unused(self, seconds: float) -> None:
+        """Returns once no client has been connected for `seconds` in a row, counted from this call and from each time
+        the last client disconnects (`jeff runtime serve --exit-when-unused-s`, which local mode in the Node, Rust, C#
+        and Java SDKs passes so that an engine it started stops once no program uses it; contract/local-engine.md).
+        Every connection counts, whatever it sends."""
+        while True:
+            self._connections_changed.clear()
+            if self._connections:
+                await self._connections_changed.wait()
+                continue
+            try:
+                await asyncio.wait_for(self._connections_changed.wait(), timeout=seconds)
+            except TimeoutError:
+                if not self._connections:
+                    return
+
     def _fail(self, id_: int, error: JeffError) -> dict[str, Any]:
         """A failure reply carrying, in its error details, the adapters version current as it is built, so the
         client can tell whether its list of installed adapters is out of date."""
@@ -217,6 +235,7 @@ class EngineServer:
         loop = asyncio.get_running_loop()
         tasks: set[asyncio.Task[None]] = set()
         self._connections.add(writer)
+        self._connections_changed.set()
         try:
             try:
                 greeting = await read_frame_async(reader)
@@ -257,6 +276,7 @@ class EngineServer:
                 task.add_done_callback(tasks.discard)
         finally:
             self._connections.discard(writer)
+            self._connections_changed.set()
             for task in tasks:
                 task.cancel()
             writer.close()

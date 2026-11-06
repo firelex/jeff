@@ -13,7 +13,6 @@ import { useEffect, useId, useState, type ReactNode } from 'react';
 import { Link } from 'react-router';
 import { isCodeLanguage, onCodeLanguageChange, readStoredCodeLanguage, storeCodeLanguage } from '../../lib/code-language';
 import { CODE_MODE_NAMES, CODE_MODE_PRICES, CODE_MODES, DEFAULT_CODE_MODE, onCodeModeChange, readStoredCodeMode, storeCodeMode, type CodeMode } from '../../lib/code-mode';
-import { engineServe } from '../../lib/engine-socket';
 import type { ExampleBlock, ExampleField } from '../../lib/example-block';
 import { SDK_CODE_NAMES, SDK_LABELS, type SdkLanguage } from '../../lib/sdk-languages';
 import { CodeBlock } from './CodeBlock';
@@ -129,14 +128,16 @@ export function ModeChoice({ mode, canLocal, onSelect, reasonId }: { mode: CodeM
 
 const NOTE_CODE = 'bg-white/10 px-1 font-mono text-xs text-white';
 
+const NOTE_LINK = 'text-screen-text underline underline-offset-2 hover:text-white';
+
 // Under the local code: what it needs on the reader's machine. Python runs the adapter in its own process; every
-// other SDK attaches to a Jeff engine serving the adapter on the engine socket (lib/engine-socket.ts).
-function LocalNote({ language, adapter }: { language: SdkLanguage; adapter: string }) {
+// other SDK finds the Jeff engine running for this user or starts it, which needs uv (contract/local-engine.md).
+function LocalNote({ language }: { language: SdkLanguage }) {
   return (
     <p className="mx-1.5 mb-1.5 bg-screen px-4 pb-3 text-xs leading-5 text-screen-text">
       {language === 'python'
         ? <>Runs the adapter in this process, with the engine package <code className={NOTE_CODE}>jeff-runtime</code> installed; the first call downloads the open adapter and base model from Hugging Face.</>
-        : <>Attaches to a Jeff engine on your machine. Start it first: <code className={`${NOTE_CODE} [overflow-wrap:anywhere]`}>{engineServe(adapter)}</code></>}
+        : <>Uses the Jeff engine running on your machine, or starts it, which needs <a href="https://docs.astral.sh/uv/" className={NOTE_LINK}>uv</a>; the first start downloads the engine and base model (about 2 GB, once). <Link to="/docs/sdk/connect#section-on-your-machine-free" className={NOTE_LINK}>Connect</Link> says more.</>}
     </p>
   );
 }
@@ -233,7 +234,7 @@ export function CallCode({ code, curl, local, name, runNote }: {
             className=""
             panel={{ id: `${id}-panel`, labelledBy: `${id}-tab-${language}` }}
           />
-          {shownMode === 'local' && language !== 'curl' && <LocalNote language={language} adapter={local!.adapter} />}
+          {shownMode === 'local' && language !== 'curl' && <LocalNote language={language} />}
           {shownMode === 'local' && runNote !== undefined && (
             <p className="mx-1.5 mb-1.5 bg-screen px-4 pb-3 text-xs leading-5 text-screen-dim">{runNote}</p>
           )}
