@@ -1,5 +1,10 @@
 <p align="center">
-  <a href="https://jeffhub.ai"><img src="assets/jeff-logo.png" width="200" alt="Jeff"></a>
+  <a href="https://jeffhub.ai">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="assets/jeff-logo-dark.svg">
+      <img src="assets/jeff-logo-light.svg" width="320" alt="Jeff">
+    </picture>
+  </a>
 </p>
 
 <h1 align="center">Jeff</h1>
@@ -23,15 +28,23 @@ machine, or call it through the hosted API at jeffhub.ai.
 
 ### Install
 
-Python 3.13 or later and [uv](https://docs.astral.sh/uv/). From a checkout of this repository:
+Python 3.13 or later:
 
 ```bash
-uv sync
+pip install jeff-sdk jeff-runtime          # the SDK, and the engine that runs the model in your own process
+pip install "jeff-runtime[mac]"            # on an Apple silicon Mac; use "jeff-runtime[cuda]" on an NVIDIA GPU
 ```
 
-This installs the SDK (`jeff`) and the engine (`jeff-runtime`), which runs the model in your own process. The
-packages are not on PyPI yet. On an NVIDIA GPU, local mode needs extra settings: see
-[Connect](https://jeffhub.ai/docs/sdk/connect) and [Install](https://jeffhub.ai/docs/sdk/install).
+Only calling the hosted API? `pip install jeff-sdk` is enough. The other SDKs:
+
+| Language | Install |
+|---|---|
+| Node | `npm install jeff-sdk` |
+| Rust | `cargo add jeff-sdk` |
+| C# | `dotnet add package Jeff.Sdk` |
+| Java | `ai.jeffhub:jeff-sdk:1.4.0` (Maven Central) |
+
+More in [Install](https://jeffhub.ai/docs/sdk/install) and [Connect](https://jeffhub.ai/docs/sdk/connect).
 
 ### One decision on your machine
 

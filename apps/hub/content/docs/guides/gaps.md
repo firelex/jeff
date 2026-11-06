@@ -5,14 +5,13 @@ title: Roadmap
 
 What Jeff has today, and what comes next. This is a working list, not a promise, and it has no dates.
 
-## At launch
+## Released
 
-| Area | Today | At launch |
-| - | - | - |
-| Accounts and API keys | There is no sign-up yet | Jeff accounts with their own API keys: $1 a month for the API; running the open adapters on your own machine stays free |
-| Python packages | `jeff-sdk` and `jeff-runtime` are not on PyPI yet | Both published on PyPI |
-| Node package | `jeff-sdk` is not on npm yet | Published on npm |
-| Source code | Not public yet | Public in [github.com/firelex/jeff](https://github.com/firelex/jeff) |
+Since 5 November 2026: Jeff accounts with their own API keys ($1 a month for the API; running the open adapters on
+your own machine stays free); the SDKs on PyPI (`jeff-sdk`, `jeff-runtime`), npm (`jeff-sdk`), crates.io (`jeff-sdk`),
+NuGet (`Jeff.Sdk`) and Maven Central (`ai.jeffhub:jeff-sdk`); the source code in
+[github.com/firelex/jeff](https://github.com/firelex/jeff); and the base and every open adapter's weights on
+[Hugging Face](https://huggingface.co/mstrasser).
 
 ## Requests
 

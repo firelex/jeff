@@ -61,6 +61,17 @@ With a System 1 model, a decision about unstructured text is a function in your 
 - **Ship it.** Call a function by its versioned ID, so the function you tested is the one that runs (see
   [Pinning a version](/docs/guides/decide#section-pinning-a-version)).
 
+## Why the site looks like a Commodore 64
+
+Home computers such as the Commodore 64 brought programming to millions of people. Programming then meant the
+automated processing of structured data: numbers, records and fields that a program could compare and count.
+Unstructured data, such as an email, a contract clause or a support chat, stayed with people, because no program could
+read it.
+
+System 1 models can do for unstructured data what those computers did for structured data. A decision about text
+becomes a function you call, as cheap and fast as any other function in your program, on your own machine. That
+is the new programming vocabulary Jeff is built around, and the reason for the retro design.
+
 ## An example
 
 [Spam and phishing detection](/catalogue/jeff.safety.spam) reads a message and says whether it is
