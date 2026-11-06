@@ -1,10 +1,6 @@
 <p align="center">
-  <a href="https://jeffhub.ai">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="assets/jeff-logo-dark.svg">
-      <img src="assets/jeff-logo-light.svg" width="320" alt="Jeff">
-    </picture>
-  </a>
+  <a href="https://jeffhub.ai"><img src="assets/jeff-logo-light.svg#gh-light-mode-only" width="320" alt="Jeff"></a>
+  <a href="https://jeffhub.ai"><img src="assets/jeff-logo-dark.svg#gh-dark-mode-only" width="320" alt="Jeff"></a>
 </p>
 
 <h1 align="center">Jeff</h1>
@@ -31,11 +27,12 @@ machine, or call it through the hosted API at jeffhub.ai.
 Python 3.13 or later:
 
 ```bash
-pip install jeff-sdk jeff-runtime          # the SDK, and the engine that runs the model in your own process
-pip install "jeff-runtime[mac]"            # on an Apple silicon Mac; use "jeff-runtime[cuda]" on an NVIDIA GPU
+pip install jeff-sdk                       # the SDK: enough to call the hosted API
+pip install "jeff-runtime[cuda]"           # the engine, to run the models on your own NVIDIA GPU
+pip install "jeff-runtime[mac]"            # the engine, to run the models on your own Apple silicon Mac
 ```
 
-Only calling the hosted API? `pip install jeff-sdk` is enough. The other SDKs:
+The other SDKs:
 
 | Language | Install |
 |---|---|
